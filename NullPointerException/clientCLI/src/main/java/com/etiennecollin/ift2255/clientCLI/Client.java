@@ -1,4 +1,8 @@
 
+/*
+ * Copyright (c) 2023. Etienne Collin #20237904, Nicholas Cooper, Gilles Dumas, Charlotte Locas
+ */
+
 package com.etiennecollin.ift2255.clientCLI;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;

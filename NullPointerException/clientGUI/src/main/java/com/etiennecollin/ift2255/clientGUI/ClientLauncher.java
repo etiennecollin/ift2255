@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023. Etienne Collin #20237904, Nicholas Cooper, Gilles Dumas, Charlotte Locas
+ */
+
 package com.etiennecollin.ift2255.clientGUI;
 
 import javafx.application.Application;

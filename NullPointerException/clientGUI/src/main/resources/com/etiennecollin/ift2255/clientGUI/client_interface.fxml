@@ -9,6 +9,10 @@
 <?import javafx.scene.text.*?>
 
 
+<!--
+  ~ Copyright (c) 2023. Etienne Collin #20237904, Nicholas Cooper, Gilles Dumas, Charlotte Locas
+  -->
+
 <BorderPane fx:id="borderPane" onMouseDragged="#onBorderPaneDragged" onMousePressed="#onBorderPanePressed" xmlns:fx="http://javafx.com/fxml" stylesheets="@MainWindowStyle.css" fx:controller="com.etiennecollin.ift2255.clientGUI.ClientController">
     <center>
         <AnchorPane prefHeight="400.0" prefWidth="600.0">
