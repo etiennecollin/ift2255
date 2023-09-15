@@ -14,5 +14,15 @@ public class Client {
      */
     public static void main(String[] args) {
         System.out.println(prettify("Hello world!"));
+
+        boolean answer = prettyYesNo("Are you a nice person?");
+        if (answer) {
+            System.out.println(prettify("Nice"));
+        } else {
+            System.out.println(prettify("Bruh"));
+        }
+
+        String[] choices = {"Test1", "Test2", "Test3"};
+        System.out.println(choices[prettyMenu("Make a choice", choices)]);
     }
 }
