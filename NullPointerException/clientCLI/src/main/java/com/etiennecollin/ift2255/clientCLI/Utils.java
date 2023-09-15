@@ -4,6 +4,7 @@
 
 package com.etiennecollin.ift2255.clientCLI;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -11,6 +12,9 @@ import java.util.Scanner;
  * It includes methods for handling user input, formatting strings, and creating menus.
  */
 public class Utils {
+    // Prevents closing the System.in stream
+    private static final Scanner scanner = new Scanner(System.in);
+
     /**
      * Displays a prompt to the user and expects a yes/no response.
      * It keeps prompting until a valid response is given.
@@ -20,7 +24,6 @@ public class Utils {
      * @return `true` if the user answers "yes" (case-insensitive), `false` if the user answers "no" (case-insensitive).
      */
     protected static boolean prettyYesNo(String prompt) {
-        Scanner scanner = new Scanner(System.in);
 
         // Instantiate the variables used to store the answer and its parsed version
         String answer;
@@ -43,7 +46,6 @@ public class Utils {
                 continue;
             }
 
-            scanner.close();
             return answerParsed;
         }
     }
@@ -69,8 +71,6 @@ public class Utils {
      * @return The index of the selected choice (0-based index).
      */
     protected static int prettyMenu(String prompt, String[] choices) {
-        Scanner scanner = new Scanner(System.in);
-
         // Instantiate the variables used to store the answer and its parsed version
         String answer;
         int answerParsed;
@@ -106,7 +106,6 @@ public class Utils {
                 continue;
             }
 
-            scanner.close();
             return answerParsed;
         }
     }
