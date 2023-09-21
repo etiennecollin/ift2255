@@ -17,6 +17,10 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <junit.version>5.9.2</junit.version>
+    <classNumber>ift2255</classNumber>
+    <mainClassName>Main</mainClassName>
+    <fullPath>${project.groupId}.${classNumber}.${project.artifactId}</fullPath>
+    <fullPathMain>${fullPath}.${mainClassName}</fullPathMain>
   </properties>
 
   <dependencies>
@@ -55,22 +59,43 @@
           <target>20</target>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-maven-plugin</artifactId>
         <version>0.0.8</version>
         <executions>
           <execution>
-            <!-- Default configuration for running with: mvn clean javafx:run -->
             <id>default-cli</id>
             <configuration>
-              <mainClass>com.etiennecollin.ift2255.clientGUI/com.etiennecollin.ift2255.clientGUI.ClientLauncher</mainClass>
+              <mainClass>${fullPathMain}</mainClass>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>
               <noManPages>true</noManPages>
               <stripDebug>true</stripDebug>
               <noHeaderFiles>true</noHeaderFiles>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>${fullPathMain}</mainClass>
+                </transformer>
+              </transformers>
             </configuration>
           </execution>
         </executions>
