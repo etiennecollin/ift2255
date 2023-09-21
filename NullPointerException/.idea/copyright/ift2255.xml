@@ -1,6 +1,6 @@
 <component name="CopyrightManager">
   <copyright>
-    <option name="notice" value="Copyright (c) &amp;#36;originalComment.match(&quot;Copyright \(c\) (\d+)&quot;, 1, &quot;-&quot;, &quot;&amp;#36;today.year&quot;)&amp;#36;today.year. Etienne Collin #20237904, Nicholas Cooper, Gilles Dumas, Charlotte Locas" />
+    <option name="notice" value="Copyright (c) &amp;#36;originalComment.match(&quot;Copyright \(c\) (\d+)&quot;, 1, &quot;-&quot;, &quot;&amp;#36;today.year&quot;)&amp;#36;today.year. Etienne Collin #20237904, Nicholas Cooper #20241729, Charlotte Locas #20211755" />
     <option name="myName" value="ift2255" />
   </copyright>
 </component>
