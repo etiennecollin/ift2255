@@ -17,7 +17,7 @@ public class Client {
      * @param args The command-line arguments.
      */
     public static void main(String[] args) {
-        System.out.println(prettify("Bienvenu sur la plateforme Unishop"));
+        System.out.println(prettify("Bienvenue sur la plateforme Unishop"));
 
         String[] menuConnexion = {"Créer un compte", "Se connecter"};
 
