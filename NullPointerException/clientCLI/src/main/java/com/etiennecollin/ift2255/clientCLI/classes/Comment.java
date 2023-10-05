@@ -4,7 +4,11 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes;
 
+import java.util.Objects;
+import java.util.UUID;
+
 public class Comment {
+    private final UUID id;
     private String content;
     private String title;
     private Buyer author;
@@ -15,6 +19,24 @@ public class Comment {
         this.setTitle(title);
         this.setAuthor(author);
         this.setLikes(0);
+        this.id = UUID.randomUUID();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return Objects.equals(getId(), comment.getId());
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" + "title='" + title + '\'' + ", content='" + content + '\'' + ", author=" + author + ", likes=" + likes + '}';
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public String getContent() {
