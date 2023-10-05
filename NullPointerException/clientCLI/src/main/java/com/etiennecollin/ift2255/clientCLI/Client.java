@@ -20,69 +20,44 @@ public class Client {
         System.out.println(prettify("Bienvenue sur la plateforme Unishop"));
 
         String[] menuConnexion = {"Créer un compte", "Se connecter"};
-
-        String[] menuAcheteur = {"Consulter le catalogue de produit", "Recherche de produit",
-                "Évaluer un produit", "Consulter le panier d'achat", "Passer une commande",
-                "Gérer une commande", "Confirmer la réception d'une commande",
-                "Signaler un problème avec un produit", "Retourner ou échanger une commande",
-                "Afficher les métriques de mes activités", "Trouver un revendeur", "se déconnecter"};
-
-        String[] menuRevendeur = {"Offrir un produit", "Modifier l'état d'une commande",
-                "Afficher les métriques de mes activités", "Gestion d'un problème",
-                "Confirmer la réception d'un retour", "se déconnecter"};
-
-
-
         String answer = menuConnexion[prettyMenu("Menu principal", menuConnexion)];
-        boolean validate = false; //Allow client to connect to principal menu
-
-        while(!validate){
-            switch(answer) {
-                case "Créer un compte":
-                    String choices[] = {"Acheteur", "Revendeur"};
-                    String accountType = choices[prettyMenu("Type de compte", choices)];
-
-                    if (accountType=="Acheteur")
-                        buyerForm();
-                    else if (accountType=="Revendeur")
-                        sellerForm();
-
-                    System.out.println(prettify("Inscription réussie"));
-
-                    //Direct client to connexion form
-                case "Se connecter": //TODO validate information
-                    System.out.println(prettify("--- Se connecter: ---"));
-                    do{
-                        validate = connexionForm();
-                        if(!validate)
-                            System.out.println(prettify("Le nom d'utilisateur ou le mot de passe est invalide"));
-                    }
-                    while(!validate);
-                    System.out.println(prettify("Connexion réussie"));
-                    break;
-
-                default:
-                    System.out.println("Choix invalide");
-            }
+        if (answer.equals(menuConnexion[0])) {
+            createAccount();
+        } else if (answer.equals(menuConnexion[1])) {
+            connexionForm();
         }
-
-        //TODO display the right menu
-
-
-
-       /* boolean answer = prettyYesNo("Are you a nice person?");
-        if (answer) {
-            System.out.println(prettify("Nice"));
-        } else {
-            System.out.println(prettify("Bruh"));
-        }*/
     }
 
-    private static boolean connexionForm(){
-        String username = prettyForm("Nom d'utilisateur: ");
-        String password = prettyForm("Password: ");
+    private static void createAccount() {
+        String[] choices = {"Acheteur", "Revendeur"};
+        String accountType = choices[prettyMenu("Type de compte", choices)];
+        if (accountType.equals(choices[0])) {
+            buyerCreationForm();
+        } else if (accountType.equals(choices[1])) {
+            sellerCreationForm();
+        }
 
-        return true; //TODO implementer la vérification
+        System.out.println(prettify("Inscription réussie"));
+    }
+
+    private static void connexionForm() {
+        System.out.println(prettify("Se connecter"));
+        while (true) {
+            String username = prettyPrompt("Nom d'utilisateur");
+            String password = prettyPrompt("Password");
+
+            if (!true) { // TODO add user info validation
+                System.out.println(prettify("Le nom d'utilisateur ou le mot de passe est invalide"));
+                continue;
+            }
+
+            break;
+        }
+        System.out.println(prettify("Connexion réussie"));
+
+        // TODO display the next menu
+        String[] menuAcheteur = {"Consulter le catalogue de produit", "Recherche de produit", "Évaluer un produit", "Consulter le panier d'achat", "Passer une commande", "Gérer une commande", "Confirmer la réception d'une commande", "Signaler un problème avec un produit", "Retourner ou échanger une commande", "Afficher les métriques de mes activités", "Trouver un revendeur", "se déconnecter"};
+        String[] menuRevendeur = {"Offrir un produit", "Modifier l'état d'une commande", "Afficher les métriques de mes activités", "Gestion d'un problème", "Confirmer la réception d'un retour", "se déconnecter"};
     }
 
     private static void buyerCreationForm() { // TODO return buyer
