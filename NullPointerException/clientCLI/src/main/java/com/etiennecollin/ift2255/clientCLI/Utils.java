@@ -61,6 +61,14 @@ public class Utils {
         return "| " + string;
     }
 
+    protected static String prettyForm(String prompt) {
+        String answer;
+
+        System.out.println(prettify(prompt));
+        answer = scanner.next().strip();
+        return answer;
+    }
+
     /**
      * Displays a menu with choices to the user and expects a numeric selection.
      * It keeps prompting until a valid selection is made.
