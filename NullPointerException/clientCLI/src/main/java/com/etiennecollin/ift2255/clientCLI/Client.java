@@ -5,6 +5,9 @@
 
 package com.etiennecollin.ift2255.clientCLI;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
 /**
@@ -16,17 +19,39 @@ public class Client {
      *
      * @param args The command-line arguments.
      */
+
+    //hardcoded for prototype
+    static String[] sellerMenu = {"Offer product", "Modify order status", "My activities", "Manage issues", "Confirm return reception", "Disconnect"};
+    static String[] buyerMenu = {"Catalog", "Search a product", "My cart", "My activities", "Find a seller", "My orders", "Disconnect"};
+    static ArrayList<String> shoppingCart = new ArrayList<>();
+    static ArrayList<String> likedProducts = new ArrayList<>();
+    static String[] productListDataBase = {"Computer", "Manual", "Utilities"};
+    static String[] addToCartMenu = new String[productListDataBase.length+1];
+    static ArrayList<String> sellersUsername = new ArrayList<>();
+    static ArrayList orderPlaced = new ArrayList<>();
+
     public static void main(String[] args) {
+
+       /* String[] buyerMenu = {"Product catalog", "Search product", "Review a product", "Cart", "Order", "Review previous orders", "Confirm order reception", "Signal product issue", "Return/Exchange", "My activities", "Find seller", "Disconnect"};*/
+        //for prototype
+        sellersUsername.add("sellerUsernameExample");
+
+        for(int i=0; i<productListDataBase.length; i++) {
+            addToCartMenu[i] = productListDataBase[i];
+        }
+        //last elm = back menu
+        addToCartMenu[addToCartMenu.length-1] = "Back";
+
+
         System.out.println(prettify("Welcome to UniShop"));
 
-        String[] choices = {"Login", "Register"};
-        String answer = choices[prettyMenu("Main menu", choices)];
-        if (answer.equals(choices[0])) {
-            connexionForm();
-        } else if (answer.equals(choices[1])) {
+        String[] loginMenu = {"Login", "Register"};
+        String answer = loginMenu[prettyMenu("Login menu", loginMenu)];
+        if (answer.equals(loginMenu[0])) {
+            loginForm();
+        } else if (answer.equals(loginMenu[1])) {
             createAccount();
         }
-    }
 
         String[] roleChoice = {"Buyer", "Seller"};
         String role = roleChoice[prettyMenu("Choose a menu to display", roleChoice)];
