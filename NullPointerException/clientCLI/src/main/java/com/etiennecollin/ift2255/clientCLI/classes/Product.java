@@ -44,6 +44,18 @@ public class Product {
         return Objects.equals(getId(), product.getId()) && Objects.equals(getSeller(), product.getSeller()) && Objects.equals(getTitle(), product.getTitle());
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public Seller getSeller() {
+        return seller;
+    }
+
+    public void setSeller(Seller seller) {
+        this.seller = seller;
+    }
+
     public String getTitle() {
         return title;
     }
