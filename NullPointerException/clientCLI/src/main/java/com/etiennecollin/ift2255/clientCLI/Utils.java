@@ -4,7 +4,6 @@
 
 package com.etiennecollin.ift2255.clientCLI;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -61,12 +60,16 @@ public class Utils {
         return "| " + string;
     }
 
-    protected static String prettyForm(String prompt) {
-        String answer;
-
-        System.out.println(prettify(prompt));
-        answer = scanner.next().strip();
-        return answer;
+    /**
+     * Displays a prompt with single question and returns the user answer.
+     *
+     * @param prompt The message to display as the prompt.
+     *
+     * @return The answer of the user.
+     */
+    protected static String prettyPrompt(String prompt) {
+        System.out.print(prettify(prompt) + ": ");
+        return scanner.next().strip();
     }
 
     /**

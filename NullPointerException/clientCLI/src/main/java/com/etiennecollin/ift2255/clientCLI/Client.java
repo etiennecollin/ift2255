@@ -85,24 +85,23 @@ public class Client {
         return true; //TODO implementer la vérification
     }
 
-
-    private static void buyerForm() { //TODO return buyer
-        String firstName = prettyForm("Prénom: ");
-        String lastName = prettyForm("Nom: ");
-        String username = prettyForm("Nom d'utilisateur: ");
-        String password = prettyForm("Password: ");
-        String email = prettyForm("Adresse courriel: ");
-        String phoneNumber = prettyForm("Numéro de téléphone: ");
-        String address = prettyForm("Adresse d'expédition: ");
+    private static void buyerCreationForm() { // TODO return buyer
+        String firstName = prettyPrompt("Prénom");
+        String lastName = prettyPrompt("Nom");
+        String username = prettyPrompt("Nom d'utilisateur");
+        String password = prettyPrompt("Password");
+        String email = prettyPrompt("Adresse courriel");
+        String phoneNumber = prettyPrompt("Numéro de téléphone");
+        String address = prettyPrompt("Adresse d'expédition");
     }
 
-    private static void sellerForm() { //TODO return seller
-        String firstName = prettyForm("Prénom: ");
-        String lastName = prettyForm("Nom: ");
-        String username = prettyForm("Nom d'utilisateur: ");
-        String password = prettyForm("Password: ");
-        String email = prettyForm("Adresse courriel: ");
-        String phoneNumber = prettyForm("Numéro de téléphone: ");
-        String product = prettyForm("Produit à offrir: "); //TODO create a product
+    private static void sellerCreationForm() { // TODO return seller
+        String firstName = prettyPrompt("Prénom");
+        String lastName = prettyPrompt("Nom");
+        String username = prettyPrompt("Nom d'utilisateur");
+        String password = prettyPrompt("Password");
+        String email = prettyPrompt("Adresse courriel");
+        String phoneNumber = prettyPrompt("Numéro de téléphone");
+        String product = prettyPrompt("Produit à offrir"); // TODO create a product
     }
 }
