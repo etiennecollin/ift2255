@@ -17,66 +17,66 @@ public class Client {
      * @param args The command-line arguments.
      */
     public static void main(String[] args) {
-        System.out.println(prettify("Bienvenue sur la plateforme Unishop"));
+        System.out.println(prettify("Welcome to UniShop"));
 
-        String[] menuConnexion = {"Créer un compte", "Se connecter"};
-        String answer = menuConnexion[prettyMenu("Menu principal", menuConnexion)];
-        if (answer.equals(menuConnexion[0])) {
-            createAccount();
-        } else if (answer.equals(menuConnexion[1])) {
+        String[] choices = {"Login", "Register"};
+        String answer = choices[prettyMenu("Main menu", choices)];
+        if (answer.equals(choices[0])) {
             connexionForm();
+        } else if (answer.equals(choices[1])) {
+            createAccount();
         }
     }
 
+    private static void connexionForm() {
+        System.out.println(prettify("Login menu"));
+        while (true) {
+            String username = prettyPrompt("Username");
+            String password = prettyPrompt("Password");
+
+            if (!true) { // TODO add user info validation
+                System.out.println(prettify("The username or password is incorrect"));
+                continue;
+            }
+
+            break;
+        }
+        System.out.println(prettify("Successfully logged in"));
+
+        // TODO display the next menu
+        String[] menuAcheteur = {"Product catalog", "Search product", "Review a product", "Cart", "Order", "Review previous orders", "Confirm order reception", "Signal product issue", "Return/Exchange", "My activities", "Find seller", "Disconnect"};
+        String[] menuRevendeur = {"Offer product", "Modify order status", "My activities", "Manage issues", "Confirm return reception", "Disconnect"};
+    }
+
     private static void createAccount() {
-        String[] choices = {"Acheteur", "Revendeur"};
-        String accountType = choices[prettyMenu("Type de compte", choices)];
+        String[] choices = {"Buyer", "Seller"};
+        String accountType = choices[prettyMenu("Select your account type", choices)];
         if (accountType.equals(choices[0])) {
             buyerCreationForm();
         } else if (accountType.equals(choices[1])) {
             sellerCreationForm();
         }
 
-        System.out.println(prettify("Inscription réussie"));
-    }
-
-    private static void connexionForm() {
-        System.out.println(prettify("Se connecter"));
-        while (true) {
-            String username = prettyPrompt("Nom d'utilisateur");
-            String password = prettyPrompt("Password");
-
-            if (!true) { // TODO add user info validation
-                System.out.println(prettify("Le nom d'utilisateur ou le mot de passe est invalide"));
-                continue;
-            }
-
-            break;
-        }
-        System.out.println(prettify("Connexion réussie"));
-
-        // TODO display the next menu
-        String[] menuAcheteur = {"Consulter le catalogue de produit", "Recherche de produit", "Évaluer un produit", "Consulter le panier d'achat", "Passer une commande", "Gérer une commande", "Confirmer la réception d'une commande", "Signaler un problème avec un produit", "Retourner ou échanger une commande", "Afficher les métriques de mes activités", "Trouver un revendeur", "se déconnecter"};
-        String[] menuRevendeur = {"Offrir un produit", "Modifier l'état d'une commande", "Afficher les métriques de mes activités", "Gestion d'un problème", "Confirmer la réception d'un retour", "se déconnecter"};
+        System.out.println(prettify("Successfully registered"));
     }
 
     private static void buyerCreationForm() { // TODO return buyer
-        String firstName = prettyPrompt("Prénom");
-        String lastName = prettyPrompt("Nom");
-        String username = prettyPrompt("Nom d'utilisateur");
+        String firstName = prettyPrompt("First name");
+        String lastName = prettyPrompt("Last name");
+        String username = prettyPrompt("Username");
         String password = prettyPrompt("Password");
-        String email = prettyPrompt("Adresse courriel");
-        String phoneNumber = prettyPrompt("Numéro de téléphone");
-        String address = prettyPrompt("Adresse d'expédition");
+        String email = prettyPrompt("Email");
+        String phoneNumber = prettyPrompt("Phone number");
+        String address = prettyPrompt("Shipping address");
     }
 
     private static void sellerCreationForm() { // TODO return seller
-        String firstName = prettyPrompt("Prénom");
-        String lastName = prettyPrompt("Nom");
-        String username = prettyPrompt("Nom d'utilisateur");
+        String firstName = prettyPrompt("First name");
+        String lastName = prettyPrompt("Last name");
+        String username = prettyPrompt("Username");
         String password = prettyPrompt("Password");
-        String email = prettyPrompt("Adresse courriel");
-        String phoneNumber = prettyPrompt("Numéro de téléphone");
-        String product = prettyPrompt("Produit à offrir"); // TODO create a product
+        String email = prettyPrompt("Email");
+        String phoneNumber = prettyPrompt("Phone number");
+        String product = prettyPrompt("Offered product"); // TODO create a product with createProduct()
     }
 }
