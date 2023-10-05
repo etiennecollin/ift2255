@@ -4,13 +4,13 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes;
 
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.UUID;
 
-public class Seller extends User{
+public class Seller extends User {
+    private final ArrayList<Product> productsSold;
     private String name; // Unique
-    private String email;
-    private int phone;
-    private String address;
 
     public Seller(String name, String email, int phone, String address) {
         this.setName(name);
@@ -33,29 +33,5 @@ public class Seller extends User{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getPhone() {
-        return phone;
-    }
-
-    public void setPhone(int phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 }

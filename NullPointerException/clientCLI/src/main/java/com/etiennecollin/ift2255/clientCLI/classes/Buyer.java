@@ -7,15 +7,18 @@ package com.etiennecollin.ift2255.clientCLI.classes;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Buyer extends User{
+public class Buyer extends User {
     private String lastName;
     private String firstName;
     private String username; // Unique
-    private String email;
-    private int phone;
-    private String address;
     private ArrayList<Product> productsLiked;
     private ArrayList<Comment> commentsLiked;
+
+    public Buyer(String lastName, String firstName, String username) {
+        this.setLastName(lastName);
+        this.setFirstName(firstName);
+        this.setUsername(username);
+    }
 
     public ArrayList<Product> getProductsLiked() {
         return productsLiked;
@@ -27,6 +30,10 @@ public class Buyer extends User{
 
     public boolean doesLike(Comment comment) {
         return commentsLiked.contains(comment);
+    }
+
+    public ArrayList<Comment> getCommentsLiked() {
+        return commentsLiked;
     }
 
     public void toggleLike(Product product) {
@@ -61,30 +68,6 @@ public class Buyer extends User{
         this.firstName = firstName;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getPhone() {
-        return phone;
-    }
-
-    public void setPhone(int phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -97,12 +80,7 @@ public class Buyer extends User{
         return username;
     }
 
-    public void setUsername(String username, ArrayList<Buyer> buyers) {
-        for (Buyer buyer : buyers) {
-            if (buyer == this) {
-                throw new IllegalArgumentException("This username is already taken.");
-            }
-        }
+    public void setUsername(String username) {
         this.username = username;
     }
 }
