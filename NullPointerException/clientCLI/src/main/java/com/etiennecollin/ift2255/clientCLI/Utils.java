@@ -4,6 +4,7 @@
 
 package com.etiennecollin.ift2255.clientCLI;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -94,6 +95,8 @@ public class Utils {
             i++;
         }
 
+
+
         // Repeat until input is valid
         while (true) {
             // Print menu and prompt
@@ -113,6 +116,49 @@ public class Utils {
 
             // Check that answer corresponds to a choice
             if (answerParsed < 0 || answerParsed >= choices.length) {
+                System.out.println(prettify("Invalid input"));
+                continue;
+            }
+
+            return answerParsed;
+        }
+    }
+
+    //for ArrayLists
+    protected static int prettyMenu(String prompt, ArrayList<String> choices) {
+        // Instantiate the variables used to store the answer and its parsed version
+        String answer;
+        int answerParsed;
+
+        // Generate the menu containing all choices
+        String menu = "";
+        int i = 0;
+        for (String choice : choices) {
+            menu = menu.concat(prettify(i + ") " + choice + "\n"));
+            i++;
+        }
+
+
+
+        // Repeat until input is valid
+        while (true) {
+            // Print menu and prompt
+            System.out.println("------------");
+            System.out.println(prettify(prompt) + ": ");
+            System.out.print(menu);
+            System.out.print(prettify("Selection: "));
+            answer = scanner.next().strip();
+
+            // Parse answer
+            try {
+                answerParsed = Integer.parseInt(answer);
+            } catch (NumberFormatException e) {
+                System.out.println(prettify("Invalid input"));
+                continue;
+            }
+
+            // Check that answer corresponds to a choice
+            if (answerParsed < 0 || answerParsed >= choices.size()) {
                 System.out.println(prettify("Invalid input"));
                 continue;
             }
