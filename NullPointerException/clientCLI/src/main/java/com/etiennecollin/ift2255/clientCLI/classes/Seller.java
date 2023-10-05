@@ -17,6 +17,25 @@ public class Seller extends User {
         this.setEmail(email);
         this.setPhone(phone);
         this.setAddress(address);
+        this.productsSold = new ArrayList<>();
+    }
+
+    public ArrayList<Product> getProductsSold() {
+        return productsSold;
+    }
+
+    public void removeProductSold(Product product) throws IllegalArgumentException {
+        if (!productsSold.contains(product)) {
+            throw new IllegalArgumentException("This product is not sold by this vendor");
+        }
+        productsSold.remove(product);
+    }
+
+    public void addProductSold(Product product) throws IllegalArgumentException {
+        if (productsSold.contains(product)) {
+            throw new IllegalArgumentException("This product is already sold by this vendor");
+        }
+        productsSold.add(product);
     }
 
     @Override
@@ -24,7 +43,7 @@ public class Seller extends User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Seller seller = (Seller) o;
-        return Objects.equals(getName(), seller.getName());
+        return Objects.equals(getName(), seller.getName()) && Objects.equals(getId(), seller.getId());
     }
 
     public String getName() {
