@@ -4,4 +4,6 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes;
 
-public class Order {}
+public class Order {
+    // TODO: Implement
+}

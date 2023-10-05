@@ -4,4 +4,6 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes;
 
-public class Transaction {}
+public class Transaction {
+    // TODO: Implement
+}
