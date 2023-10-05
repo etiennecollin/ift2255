@@ -6,8 +6,10 @@ package com.etiennecollin.ift2255.clientCLI.classes;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Product {
+    private final UUID id;
     private int price;
     private Category category;
     private String title; // Unique
@@ -23,6 +25,7 @@ public class Product {
         this.setLikes(0);
         this.setComments(new ArrayList<>());
         this.setRating(new Rating());
+        this.id = UUID.randomUUID();
     }
 
     public int getPrice() {
@@ -34,16 +37,11 @@ public class Product {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(getTitle());
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return getTitle().equals(product.getTitle());
+        return Objects.equals(getId(), product.getId()) && Objects.equals(getSeller(), product.getSeller()) && Objects.equals(getTitle(), product.getTitle());
     }
 
     public String getTitle() {
@@ -60,14 +58,6 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
-    }
-
-    public Seller getSeller() {
-        return seller;
-    }
-
-    public void setSeller(Seller seller) {
-        this.seller = seller;
     }
 
     public int getLikes() {
