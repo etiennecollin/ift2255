@@ -73,7 +73,7 @@ public class Buyer extends User {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
         Buyer buyer = (Buyer) o;
-        return Objects.equals(getUsername(), buyer.getUsername());
+        return Objects.equals(getUsername(), buyer.getUsername()) && Objects.equals(getId(), buyer.getId());
     }
 
     public String getUsername() {
