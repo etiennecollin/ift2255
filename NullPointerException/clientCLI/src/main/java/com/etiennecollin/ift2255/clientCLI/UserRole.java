@@ -8,5 +8,5 @@ package com.etiennecollin.ift2255.clientCLI;
  * Temporary for prototype.
  */
 public enum UserRole {
-    Buyer, Seller;
+    Buyer, Seller
 }

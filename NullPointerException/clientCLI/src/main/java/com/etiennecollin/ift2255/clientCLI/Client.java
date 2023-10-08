@@ -106,7 +106,7 @@ public class Client {
                 case 3 -> displayActivities();
                 case 4 -> findSeller();
                 case 5 -> {
-                // displayOrders();
+                    // displayOrders();
                 }
                 case 6 -> updateBuyerInfo();
                 case 7 -> disconnect = true;
