@@ -15,7 +15,7 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 public class Client {
     // Hardcoded for prototype
     static String[] sellerMenu = {"Offer product", "Modify order status", "Manage issues", "Update account information", "Log out"};
-    static String[] buyerMenu = {"Catalog", "Search a product", "My cart", "My activities", "Find a seller", "My orders", "Log out"};
+    static String[] buyerMenu = {"Catalog", "Search a product", "My cart", "My activities", "Find a seller", "My orders", "Update account information", "Log out"};
     static ArrayList<String> shoppingCart = new ArrayList<>();
     static ArrayList<String> likedProducts = new ArrayList<>();
     static String[] categories = {"Books and manuals", "Learning ressources", "Stationery", "Hardware", "Office equipment"};
@@ -108,7 +108,8 @@ public class Client {
                 case 5 -> {
                 // displayOrders();
                 }
-                case 6 -> disconnect = true;
+                case 6 -> updateBuyerInfo();
+                case 7 -> disconnect = true;
             }
         } while (!disconnect);
         System.out.println(prettify("You have successfully logged out"));
@@ -248,6 +249,25 @@ public class Client {
             }
         }
         displaySellers();
+    }
+
+    public static void updateBuyerInfo() {
+        String[] updateInfoMenu = new String[]{"First name", "Last name", "Password", "Email", "Phone number", "Shipping address", "Main menu"};
+        while (true) {
+            int menuIdx = prettyMenuInt("Select the information you'd like to change", updateInfoMenu);
+
+            switch (menuIdx) {
+                case 0 -> prettyPrompt("Set a new first name");
+                case 1 -> prettyPrompt("Set a new last name");
+                case 2 -> prettyPrompt("Set a new password");
+                case 3 -> prettyPrompt("Set a new email address");
+                case 4 -> prettyPrompt("Set a new phone number");
+                case 5 -> prettyPrompt("Set a new shipping address");
+                case 6 -> {
+                    return;
+                }
+            }
+        }
     }
 
     public static void addProduct() {
