@@ -35,7 +35,7 @@ public class Utils {
             // Print prompt
             System.out.println("------------");
             System.out.print(prettify(prompt) + " (y/n): ");
-            answer = scanner.next().strip();
+            answer = scanner.nextLine().strip();
 
             // Parse answer
             if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
@@ -71,7 +71,7 @@ public class Utils {
      */
     protected static String prettyPrompt(String prompt) {
         System.out.print(prettify(prompt) + ": ");
-        return scanner.next().strip();
+        return scanner.nextLine().strip();
     }
 
     /**
@@ -86,7 +86,7 @@ public class Utils {
     protected static String prettyPromptValidated(String prompt, Function<String, Boolean> validator) {
         while (true) {
             System.out.print(prettify(prompt) + ": ");
-            String answer = scanner.next().strip();
+            String answer = scanner.nextLine().strip();
             if (validator.apply(answer)) {
                 return answer;
             }
@@ -107,7 +107,7 @@ public class Utils {
         while (true) {
             System.out.print(prettify(prompt) + ": ");
             try {
-                return Integer.parseInt(scanner.next().strip());
+                return Integer.parseInt(scanner.nextLine().strip());
             } catch (NumberFormatException ignored) {
                 System.out.println("Please enter a whole number with no thousands symbol.");
             }
@@ -129,7 +129,7 @@ public class Utils {
         while (true) {
             System.out.print(prettify(prompt) + ": ");
             try {
-                return Integer.parseInt(scanner.next().strip().replace(".", ""));
+                return Integer.parseInt(scanner.nextLine().strip().replace(".", ""));
             } catch (NumberFormatException ignored) {
                 System.out.println("Please enter a number with no thousands symbol.");
             }
@@ -145,8 +145,6 @@ public class Utils {
      *
      * @return The index of the selected choice (0-based index).
      */
-
-
     protected static int prettyMenuInt(String prompt, ArrayList<String> choices) {
         return prettyMenuInt(prompt, choices.toArray(new String[0]));
     }
@@ -180,7 +178,7 @@ public class Utils {
             System.out.println(prettify(prompt) + ": ");
             System.out.print(menu);
             System.out.print(prettify("Selection: "));
-            answer = scanner.next().strip();
+            answer = scanner.nextLine().strip();
 
             // Parse answer
             try {
@@ -254,13 +252,12 @@ public class Utils {
      *
      * @return The int associated with the selected choice.
      */
-
-    protected static int prettyMenu2DArray(String prompt, ArrayList<ArrayList<String>> choices){
+    protected static int prettyMenu2DArray(String prompt, ArrayList<ArrayList<String>> choices) {
 
         System.out.println("------------");
         System.out.println(prettify(prompt));
 
-        for(int i=0; i<choices.size(); i++) {
+        for (int i = 0; i < choices.size(); i++) {
             System.out.println(prettify("Order " + (i) + ": "));
             for (int j = 0; j < choices.get(i).size(); j++) {
                 System.out.println(prettify(choices.get(i).get(j)));
@@ -271,11 +268,11 @@ public class Utils {
         Scanner scan = new Scanner(System.in);
         int answer = scan.nextInt();
 
-        //repeat until input is valid
-        while(answer<0 || answer>choices.size()-1){
+        // repeat until input is valid
+        while (answer < 0 || answer > choices.size() - 1) {
             System.out.println(prettify("Invalid input"));
             System.out.print(prettify("Selection: "));
-            answer = scan.nextInt(); //answer correction
+            answer = scan.nextInt(); // answer correction
             continue;
         }
 
