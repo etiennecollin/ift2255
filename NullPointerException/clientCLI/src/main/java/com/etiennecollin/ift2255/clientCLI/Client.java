@@ -56,8 +56,8 @@ public class Client {
             } else if (answer == 1) {
                 userRole = createAccount();
             } else {
-                System.out.println("Quitting UniShop");
-                return;
+                quit();
+                break;
             }
 
             if (userRole == UserRole.Buyer) {

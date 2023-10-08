@@ -288,4 +288,9 @@ public class Utils {
             return answerParsed;
         }
     }
+
+    protected static void quit() {
+        System.out.println(prettify("Quitting UniShop"));
+        scanner.close();
+    }
 }
