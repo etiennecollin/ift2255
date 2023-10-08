@@ -20,9 +20,9 @@ public class Client {
     static ArrayList<String> likedProducts = new ArrayList<>();
     static String[] categories = {"Books and manuals", "Learning ressources", "Stationery", "Hardware", "Office equipment"};
     static String[] productListDataBase = {"Computer", "Manual", "Utilities"};
-    static String[] addToCartMenu = new String[productListDataBase.length+1];
+    static String[] addToCartMenu = new String[productListDataBase.length + 1];
     static ArrayList<String> sellersUsername = new ArrayList<>();
-    static ArrayList orderPlaced = new ArrayList<>();
+    static ArrayList<ArrayList<String>> ordersPlaced = new ArrayList<>();
 
     /**
      * The main method of the `Client` class, which is the entry point for the CLI application.
@@ -31,16 +31,15 @@ public class Client {
      */
     public static void main(String[] args) {
 
-       /* String[] buyerMenu = {"Product catalog", "Search product", "Review a product", "Cart", "Order", "Review previous orders", "Confirm order reception", "Signal product issue", "Return/Exchange", "My activities", "Find seller", "Disconnect"};*/
-        //for prototype
+        /* String[] buyerMenu = {"Product catalog", "Search product", "Review a product", "Cart", "Order", "Review previous orders", "Confirm order reception", "Signal product issue", "Return/Exchange", "My activities", "Find seller", "Disconnect"};*/
+        // for prototype
         sellersUsername.add("sellerUsernameExample");
 
-        for(int i=0; i<productListDataBase.length; i++) {
-            addToCartMenu[i] = productListDataBase[i];
-        }
-        //last elm = back menu
-        addToCartMenu[addToCartMenu.length-1] = "Back";
+        // Make productListDataBase = addToCartMenu
+        System.arraycopy(productListDataBase, 0, addToCartMenu, 0, productListDataBase.length);
 
+        // last elm = back menu
+        addToCartMenu[addToCartMenu.length - 1] = "Back";
 
         System.out.println(prettify("Welcome to UniShop"));
 
@@ -56,12 +55,11 @@ public class Client {
 
         if (userRole == UserRole.Buyer) {
             buyerMenu();
-        }
-        else if (userRole == UserRole.Seller) {
+        } else if (userRole == UserRole.Seller) {
             sellerMenu();
         }
-
     }
+
     private static UserRole loginForm() {
         System.out.println(prettify("Login menu"));
         while (true) {
@@ -77,6 +75,7 @@ public class Client {
         System.out.println(prettify("Successfully logged in"));
         return UserRole.Buyer;
     }
+
     private static UserRole createAccount() {
         UserRole role = prettyMenu("Choose a menu to display", UserRole.class);
 
@@ -88,53 +87,23 @@ public class Client {
 
         return role;
     }
-    private static void buyerCreationForm() { // TODO return buyer
-        String firstName = prettyPrompt("First name");
-        String lastName = prettyPrompt("Last name");
-        String username = prettyPrompt("Username");
-        String password = prettyPrompt("Password");
-        String email = prettyPrompt("Email");
-        String phoneNumber = prettyPrompt("Phone number");
-        String address = prettyPrompt("Shipping address");
-
-        System.out.println(prettify("Successfully registered"));
-    }
-    private static void sellerCreationForm() { // TODO return seller
-        String username = prettyPrompt("Username");
-        String password = prettyPrompt("Password");
-        String email = prettyPrompt("Email");
-        String phoneNumber = prettyPrompt("Phone number");
-        String address = prettyPrompt("Shipping address");
-
-        System.out.println(prettify("Successfully registered"));
-    }
 
     public static void buyerMenu() {
         boolean disconnect = false;
         do {
             int buyerAnswer = prettyMenuInt("Main menu", buyerMenu);
-            switch(buyerAnswer) {
-                case 0:
-                    displayCatalog();
-                    break;
-                case 1:
-                    searchProduct();
-                    break;
-                case 2:
-                    displayCart();
-                    break;
-                case 3:
-                    displayActivities();
-                    break;
-                case 4:
-                    findSeller();
-                    break;
-                case 5:
-                    //displayOrders();
-                case 6:
-                    disconnect = true;
+            switch (buyerAnswer) {
+                case 0 -> displayCatalog();
+                case 1 -> searchProduct();
+                case 2 -> displayCart();
+                case 3 -> displayActivities();
+                case 4 -> findSeller();
+                case 5 -> {
+                // displayOrders();
+                }
+                case 6 -> disconnect = true;
             }
-        } while(!disconnect);
+        } while (!disconnect);
         System.out.println(prettify("You have been successfully disconnected"));
     }
 
@@ -150,106 +119,128 @@ public class Client {
                 case 3 -> updateSellerInfo();
                 case 4 -> disconnect = true;
             }
-        } while(!disconnect);
+        } while (!disconnect);
 
         System.out.println(prettify("You have been successfully disconnected"));
     }
 
-    private static void displayCatalog(){
-        String[] catChoice = {"Books and manuals", "Learning ressources", "Stationery", "Hardware", "Office equipment", "Main menu"};
-        int choice=0;
+    private static void buyerCreationForm() { // TODO return buyer
+        String firstName = prettyPrompt("First name");
+        String lastName = prettyPrompt("Last name");
+        String username = prettyPrompt("Username");
+        String password = prettyPrompt("Password");
+        String email = prettyPrompt("Email");
+        String phoneNumber = prettyPrompt("Phone number");
+        String address = prettyPrompt("Shipping address");
 
-        while(choice!=5){ //5 is the option for Main Menu
-            choice = prettyMenuInt("Categories", catChoice);
-            //for prototype only
+        System.out.println(prettify("Successfully registered"));
+    }
+
+    private static void sellerCreationForm() { // TODO return seller
+        String username = prettyPrompt("Username");
+        String password = prettyPrompt("Password");
+        String email = prettyPrompt("Email");
+        String phoneNumber = prettyPrompt("Phone number");
+        String address = prettyPrompt("Shipping address");
+
+        System.out.println(prettify("Successfully registered"));
+    }
+
+    private static void displayCatalog() {
+        String[] catChoice = {"Books and manuals", "Learning ressources", "Stationery", "Hardware", "Office equipment", "Main menu"};
+        while (true) { // 5 is the option for Main Menu
+            // for prototype only
+            int choice = prettyMenuInt("Categories", catChoice);
+            if (choice == catChoice.length - 1) break;
 
             int addToCart = prettyMenuInt("Add to cart", addToCartMenu);
 
-            if(addToCart==(addToCartMenu.length-1)){ //back option
-                continue;
-            } else {
+            if (addToCart != (addToCartMenu.length - 1)) {
                 shoppingCart.add(addToCartMenu[addToCart]);
                 System.out.println(prettify("Item successfully added to cart."));
                 boolean answer = prettyYesNo("Keep browsing product?");
-                if(!answer)
-                    choice = 5;         //5 goes back to main menu
+                if (!answer) break;         // 5 goes back to main menu
             }
         }
     }
-    private static void searchProduct(){
+
+    private static void searchProduct() {
         ArrayList<String> searchResult = new ArrayList<>();
         String keyWord = prettyPrompt("Search");
 
-        //search for result
-        for (String item: productListDataBase) {
+        // search for result
+        for (String item : productListDataBase) {
             int index = item.indexOf(keyWord);
-            if (!(index==-1)){
+            if (!(index == -1)) {
                 searchResult.add(item);
             }
         }
         searchResult.add("Main menu");
-        //display result
+        // display result
         int choice = prettyMenuInt("Resultats for \"" + keyWord + "\"", searchResult);
 
-        if(!(choice==searchResult.size()-1)){
-            String productMenu[] = {"Like the product", "Add to cart", "Main Menu"};
+        if (!(choice == searchResult.size() - 1)) {
+            String[] productMenu = {"Like the product", "Add to cart", "Main Menu"};
             int answer = prettyMenuInt(searchResult.get(choice), productMenu);
 
-            switch(answer){
-                case 0:
+            switch (answer) {
+                case 0 -> {
                     likedProducts.add(searchResult.get(choice));
                     System.out.println(prettify("Item successfully liked"));
-                    break;
-                case 1:
+                }
+                case 1 -> {
                     shoppingCart.add(searchResult.get(choice));
                     System.out.println(prettify("Item successfully added to cart."));
-                    break;
-                case 2:
-                    break;
+                }
             }
         }
     }
-    //For prototype only
+
+    public static void displayCart() {
+        System.out.println(prettify("My cart: "));
+        if (shoppingCart.isEmpty()) {
+            System.out.println(prettify("Empty cart"));
+        } else {
+            for (String item : shoppingCart) {
+                System.out.println(prettify(item));
+            }
+        }
+        // Fictional amount for prototype only.
+        System.out.println(prettify("Total: 1000$"));
+        boolean placeOrder = prettyYesNo("Place an order?");
+        if (placeOrder) {
+            ordersPlaced.add(shoppingCart);
+            System.out.println("Your order has been placed successfully");
+        }
+    }
+
+    // General metrics
+    public static void displayActivities() {
+        System.out.println(prettify("My activities:"));
+        System.out.println(prettify("Total orders: " + ordersPlaced.size()));
+        System.out.println(prettify("Total likes: " + likedProducts.size()));
+    }
+
+    // For prototype only
     private static void findSeller() {
         String[] searchBy = {"Name", "Address", "Article category"};
         int search = prettyMenuInt("Search by", searchBy);
 
-        switch(search){
-            case 0: //Name
+        switch (search) {
+            case 0 -> { // Name
                 String name = prettyPrompt("Search by name");
                 /*nameSearch(name);*/
-                break;
-            case 1: //Address
+            }
+            case 1 -> { // Address
                 String address = prettyPrompt("Search by address");
                 /*addressSearch(address);*/
-                break;
-            case 2: //Article category
+            }
+            case 2 -> { // Article category
                 String[] catChoice = {"Books and manuals", "Learning ressources", "Stationery", "Hardware", "Office equipment", "Main menu"};
                 int cat = prettyMenuInt("Categories", catChoice);
-                break;
-        }
-        displaySellers();
-    }
-    public static void displaySellers(){
-        for(String seller : sellersUsername)
-            System.out.println(prettify(seller));
-    }
-    public static void displayCart(){
-        System.out.println(prettify("My cart: "));
-        if(shoppingCart.isEmpty())
-            System.out.println(prettify("Empty cart"));
-        else {
-            for(String item : shoppingCart) {
-                System.out.println(prettify(item));
             }
         }
-        //Fictional amount for prototype only.
-        System.out.println(prettify("Total: 1000$"));
-        boolean placeOrder = prettyYesNo("Place an order?");
-        if(placeOrder){
-            orderPlaced.add(shoppingCart);
-            System.out.println("Your order has been placed successfully");
-        }
+        displaySellers();
     }
 
     public static void addProduct() {
@@ -259,7 +250,7 @@ public class Client {
         String brandName = prettyPrompt("Brand name");
         String modelName = prettyPrompt("Model name");
         int quantity = prettyPromptInt("Quantity");
-        float price = prettyPromptFloat("Price");
+        float price = prettyPromptCurrency("Price");
 
         System.out.println("Product " + title + " added!");
     }
@@ -277,8 +268,8 @@ public class Client {
             return;
         }
 
-        String shippingCompany = prettyPromptValidated("Shipping company", (s) -> !s.equals(""));
-        String trackingId = prettyPromptValidated("Tracking ID", (s) -> !s.equals(""));
+        String shippingCompany = prettyPromptValidated("Shipping company", (s) -> !s.isEmpty());
+        String trackingId = prettyPromptValidated("Tracking ID", (s) -> !s.isEmpty());
 
         System.out.println("Order status updated!");
     }
@@ -312,17 +303,17 @@ public class Client {
                 case 1 -> prettyPrompt("Set a new email address");
                 case 2 -> prettyPrompt("Set a new phone number");
                 case 3 -> prettyPrompt("Set a new shipping address");
-                case 4 -> { return; }
+                case 4 -> {
+                    return;
+                }
             }
         }
     }
 
-    //General metrics
-    public static void displayActivities(){
-        System.out.println(prettify("My activities:"));
-        System.out.println(prettify("Total orders: " + orderPlaced.size()));
-        System.out.println(prettify("Total likes: " + likedProducts.size()));
+    public static void displaySellers() {
+        for (String seller : sellersUsername) {
+            System.out.println(prettify(seller));
+        }
     }
-
 }
 
