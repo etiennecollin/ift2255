@@ -250,32 +250,42 @@ public class Utils {
      * @param prompt  The message to display as the prompt.
      * @param choices An ArrayList of ArrayLists of strings representing the menu choices.
      *
-     * @return The int associated with the selected choice.
+     * @return The index associated with the selected choice in choices.
      */
     protected static int prettyMenu2DArray(String prompt, ArrayList<ArrayList<String>> choices) {
+        // Instantiate the variables used to store the answer and its parsed version
+        String answer;
+        int answerParsed;
 
-        System.out.println("------------");
-        System.out.println(prettify(prompt));
+        while (true) {
+            System.out.println("------------");
+            System.out.println(prettify(prompt));
 
-        for (int i = 0; i < choices.size(); i++) {
-            System.out.println(prettify("Order " + (i) + ": "));
-            for (int j = 0; j < choices.get(i).size(); j++) {
-                System.out.println(prettify(choices.get(i).get(j)));
+            for (int i = 0; i < choices.size(); i++) {
+                System.out.println(prettify("Order " + (i) + ": "));
+                for (int j = 0; j < choices.get(i).size(); j++) {
+                    System.out.println(prettify(choices.get(i).get(j)));
+                }
             }
-        }
 
-        System.out.print(prettify("Selection: "));
-        Scanner scan = new Scanner(System.in);
-        int answer = scan.nextInt();
-
-        // repeat until input is valid
-        while (answer < 0 || answer > choices.size() - 1) {
-            System.out.println(prettify("Invalid input"));
             System.out.print(prettify("Selection: "));
-            answer = scan.nextInt(); // answer correction
-            continue;
-        }
+            answer = scanner.nextLine().strip();
 
-        return answer;
+            // Parse answer
+            try {
+                answerParsed = Integer.parseInt(answer);
+            } catch (NumberFormatException e) {
+                System.out.println(prettify("Invalid input"));
+                continue;
+            }
+
+            if (answerParsed < 0 || answerParsed >= choices.size()) {
+                System.out.println(prettify("Invalid input"));
+                System.out.print(prettify("Selection: "));
+                continue;
+            }
+
+            return answerParsed;
+        }
     }
 }
