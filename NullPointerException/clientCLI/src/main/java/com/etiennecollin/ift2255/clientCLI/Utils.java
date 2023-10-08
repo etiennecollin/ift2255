@@ -145,6 +145,8 @@ public class Utils {
      *
      * @return The index of the selected choice (0-based index).
      */
+
+
     protected static int prettyMenuInt(String prompt, ArrayList<String> choices) {
         return prettyMenuInt(prompt, choices.toArray(new String[0]));
     }
@@ -241,5 +243,42 @@ public class Utils {
      */
     protected static String prettyMenu(String prompt, ArrayList<String> choices) {
         return choices.get(prettyMenuInt(prompt, choices.toArray(new String[0])));
+    }
+
+    /**
+     * Displays a menu with choices to the user and expects a numeric selection.
+     * It keeps prompting until a valid selection is made.
+     *
+     * @param prompt  The message to display as the prompt.
+     * @param choices An ArrayList of ArrayLists of strings representing the menu choices.
+     *
+     * @return The int associated with the selected choice.
+     */
+
+    protected static int prettyMenu2DArray(String prompt, ArrayList<ArrayList<String>> choices){
+
+        System.out.println("------------");
+        System.out.println(prettify(prompt));
+
+        for(int i=0; i<choices.size(); i++) {
+            System.out.println(prettify("Order " + (i) + ": "));
+            for (int j = 0; j < choices.get(i).size(); j++) {
+                System.out.println(prettify(choices.get(i).get(j)));
+            }
+        }
+
+        System.out.print(prettify("Selection: "));
+        Scanner scan = new Scanner(System.in);
+        int answer = scan.nextInt();
+
+        //repeat until input is valid
+        while(answer<0 || answer>choices.size()-1){
+            System.out.println(prettify("Invalid input"));
+            System.out.print(prettify("Selection: "));
+            answer = scan.nextInt(); //answer correction
+            continue;
+        }
+
+        return answer;
     }
 }

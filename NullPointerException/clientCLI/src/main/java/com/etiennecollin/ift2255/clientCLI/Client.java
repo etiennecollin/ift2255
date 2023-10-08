@@ -105,15 +105,14 @@ public class Client {
                 case 2 -> displayCart();
                 case 3 -> displayActivities();
                 case 4 -> findSeller();
-                case 5 -> {
-                    // displayOrders();
-                }
+                case 5 -> displayOrders();
                 case 6 -> updateBuyerInfo();
                 case 7 -> disconnect = true;
             }
         } while (!disconnect);
         System.out.println(prettify("You have successfully logged out"));
     }
+
 
     public static void sellerMenu() {
         boolean disconnect = false;
@@ -342,5 +341,39 @@ public class Client {
             System.out.println(prettify(seller));
         }
     }
+
+    public static void displayOrders() {
+        System.out.println(prettify("Your orders: "));
+        for(int i=0; i<ordersPlaced.size(); i++){
+            System.out.println(prettify("Order "+ (i+1) + ": "));
+            for(int j=0; j<ordersPlaced.get(i).size(); j++){
+                System.out.println(prettify(ordersPlaced.get(i).get(j)));
+            }
+        }
+
+        int answer = prettyMenuInt("Order menu",new String[] {"Confirm an order", "Signal an issue", "Back"});
+        switch (answer) {
+            case 0 -> {
+                if(ordersPlaced.isEmpty())
+                    System.out.println("No placed orders");
+                else {
+                    int orderToConfirm = prettyMenu2DArray("What order do you want to confirm?", ordersPlaced);
+                    System.out.println("Order " + orderToConfirm + " is successfully confirmed");
+                }
+            }
+            case 1 -> {
+                if(ordersPlaced.isEmpty())
+                    System.out.println("No placed orders");
+                else {
+                    int orderToSignal = prettyMenu2DArray("What order do you want to signal?", ordersPlaced);
+                    System.out.println("Order " + orderToSignal + " is successfully signaled");
+                }
+            }
+        }
+    }
+
+
 }
+
+
 
