@@ -13,13 +13,7 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.*;
  * The `Client` class serves as the main entry point for the client command-line interface (CLI).
  */
 public class Client {
-    /**
-     * The main method of the `Client` class, which is the entry point for the CLI application.
-     *
-     * @param args The command-line arguments.
-     */
-
-    //hardcoded for prototype
+    // Hardcoded for prototype
     static String[] sellerMenu = {"Offer product", "Modify order status", "Manage issues", "Update account information", "Disconnect"};
     static String[] buyerMenu = {"Catalog", "Search a product", "My cart", "My activities", "Find a seller", "My orders", "Disconnect"};
     static ArrayList<String> shoppingCart = new ArrayList<>();
@@ -30,6 +24,11 @@ public class Client {
     static ArrayList<String> sellersUsername = new ArrayList<>();
     static ArrayList orderPlaced = new ArrayList<>();
 
+    /**
+     * The main method of the `Client` class, which is the entry point for the CLI application.
+     *
+     * @param args The command-line arguments.
+     */
     public static void main(String[] args) {
 
        /* String[] buyerMenu = {"Product catalog", "Search product", "Review a product", "Cart", "Order", "Review previous orders", "Confirm order reception", "Signal product issue", "Return/Exchange", "My activities", "Find seller", "Disconnect"};*/
