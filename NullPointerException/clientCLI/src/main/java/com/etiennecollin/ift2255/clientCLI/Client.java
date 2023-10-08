@@ -42,6 +42,9 @@ public class Client {
         addToCartMenu[addToCartMenu.length - 1] = "Back";
 
         System.out.println(prettify("Welcome to UniShop"));
+        System.out.println(prettify("For this prototype, here are the users available for login:"));
+        System.out.println(prettify("Buyer: username=buyer, password=hunter2"));
+        System.out.println(prettify("Seller: username=seller, password=1234"));
 
         while (true) {
             String[] loginMenu = {"Login", "Register", "Quit"};
