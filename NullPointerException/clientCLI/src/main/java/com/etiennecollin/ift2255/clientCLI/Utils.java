@@ -100,14 +100,16 @@ public class Utils {
     }
 
     protected static float prettyPromptFloat(String prompt) {
+    protected static int prettyPromptCurrency(String prompt) {
         while (true) {
             System.out.print(prettify(prompt) + ": ");
             try {
-                return Float.parseFloat(scanner.next().strip());
+                return Integer.parseInt(scanner.next().strip().replace(".", ""));
             } catch (NumberFormatException ignored) {
                 System.out.println("Please enter a number with no thousands symbol.");
             }
         }
+    }
 
     }
 
