@@ -14,8 +14,8 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.*;
  */
 public class Client {
     // Hardcoded for prototype
-    static String[] sellerMenu = {"Offer product", "Modify order status", "Manage issues", "Update account information", "Disconnect"};
-    static String[] buyerMenu = {"Catalog", "Search a product", "My cart", "My activities", "Find a seller", "My orders", "Disconnect"};
+    static String[] sellerMenu = {"Offer product", "Modify order status", "Manage issues", "Update account information", "Log out"};
+    static String[] buyerMenu = {"Catalog", "Search a product", "My cart", "My activities", "Find a seller", "My orders", "Log out"};
     static ArrayList<String> shoppingCart = new ArrayList<>();
     static ArrayList<String> likedProducts = new ArrayList<>();
     static String[] categories = {"Books and manuals", "Learning ressources", "Stationery", "Hardware", "Office equipment"};
@@ -43,37 +43,44 @@ public class Client {
 
         System.out.println(prettify("Welcome to UniShop"));
 
-        String[] loginMenu = {"Login", "Register"};
-        String answer = prettyMenu("Login menu", loginMenu);
+        while (true) {
+            String[] loginMenu = {"Login", "Register", "Quit"};
+            int answer = prettyMenuInt("Login menu", loginMenu);
 
-        UserRole userRole;
-        if (answer.equals(loginMenu[0])) {
-            userRole = loginForm();
-        } else {
-            userRole = createAccount();
-        }
+            UserRole userRole;
+            if (answer == 0) {
+                userRole = loginForm();
+            } else if (answer == 1) {
+                userRole = createAccount();
+            } else {
+                System.out.println("Quitting UniShop");
+                return;
+            }
 
-        if (userRole == UserRole.Buyer) {
-            buyerMenu();
-        } else if (userRole == UserRole.Seller) {
-            sellerMenu();
+            if (userRole == UserRole.Buyer) {
+                buyerMenu();
+            } else if (userRole == UserRole.Seller) {
+                sellerMenu();
+            }
         }
     }
 
     private static UserRole loginForm() {
         System.out.println(prettify("Login menu"));
-        while (true) {
-            String username = prettyPrompt("Username");
-            String password = prettyPrompt("Password");
 
-            if (!true) { // TODO add user info validation
-                System.out.println(prettify("The username or password is incorrect"));
-                continue;
-            }
-            break;
+        String username = prettyPrompt("Username");
+        String password = prettyPrompt("Password");
+
+        if (username.equals("buyer") && password.equals("hunter2")) {
+            System.out.println(prettify("Successfully logged in"));
+            return UserRole.Buyer;
+        } else if (username.equals("seller") && password.equals("1234")) {
+            System.out.println(prettify("Successfully logged in"));
+            return UserRole.Seller;
+        } else {
+            System.out.println(prettify("The username or password is incorrect"));
+            return null;
         }
-        System.out.println(prettify("Successfully logged in"));
-        return UserRole.Buyer;
     }
 
     private static UserRole createAccount() {
@@ -104,7 +111,7 @@ public class Client {
                 case 6 -> disconnect = true;
             }
         } while (!disconnect);
-        System.out.println(prettify("You have been successfully disconnected"));
+        System.out.println(prettify("You have successfully logged out"));
     }
 
     public static void sellerMenu() {
@@ -121,7 +128,7 @@ public class Client {
             }
         } while (!disconnect);
 
-        System.out.println(prettify("You have been successfully disconnected"));
+        System.out.println(prettify("You have successfully logged out"));
     }
 
     private static void buyerCreationForm() { // TODO return buyer
