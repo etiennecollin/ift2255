@@ -36,7 +36,7 @@
 
 [Lien vers le repository sur GitHub](https://github.com/etiennecollin/ift2255/)
 
-[Lien vers la release sur GitHub](https://github.com/etiennecollin/ift2255/releases/latest)
+[Lien vers la release sur GitHub](https://github.com/etiennecollin/ift2255/releases/tag/v0.1.0)
 
 | Nom                     | Matricule | Courriel                             | Temps |
 | :---------------------- | :-------: | :----------------------------------- | :---: |
@@ -96,7 +96,7 @@ Voici la solution pour la **diagramme de cas d'utilisation UML**.
 
 ![Diagramme UML](assets/case_diagram.svg)
 
-> Source disponible sur la [release GitHub](https://github.com/etiennecollin/ift2255/releases/latest)
+> Source disponible sur la [release GitHub](https://github.com/etiennecollin/ift2255/releases/tag/v0.1.0)
 
 ### Tâche 3
 
@@ -558,7 +558,7 @@ Voici la solution pour les **exigences non-fonctionnelles.**
 
 Voici la solution pour la **tâche bonus.**
 
--   Voir la [release sur GitHub](https://github.com/etiennecollin/ift2255/releases/latest)
+-   Voir la [release sur GitHub](https://github.com/etiennecollin/ift2255/releases/tag/v0.1.0)
 
 ### GitHub Insights
 
