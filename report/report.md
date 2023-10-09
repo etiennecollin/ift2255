@@ -11,24 +11,21 @@
 
 ---
 
-## Table des contenus
+## Table des matières
 
-- [Table des contenus](#table-des-contenus)
+- [Table des matières](#table-des-matières)
 - [Information générale](#information-générale)
 - [Distribution des tâches](#distribution-des-tâches)
-    - [Tâche 1](#tâche-1)
-        - [Glossaire](#glossaire)
-    - [Tâche 2](#tâche-2)
-    - [Tâche 3](#tâche-3)
-        - [Cas d’utilisation](#cas-dutilisation)
-    - [Tâche 4](#tâche-4)
-        - [Risques](#risques)
-    - [Tâche 5](#tâche-5)
-        - [Exigences non-fonctionnelles](#exigences-non-fonctionnelles)
-    - [Tâche bonus](#tâche-bonus)
-    - [GitHub Insights](#github-insights)
-        - [Pulse:](#pulse)
-        - [Contributors](#contributors)
+- [Hypothèses](#hypothèses)
+- [Tâche 1 - Glossaire](#tâche-1---glossaire)
+- [Tâche 2 - Diagramme UML](#tâche-2---diagramme-uml)
+- [Tâche 3 - Cas d’utilisation](#tâche-3---cas-dutilisation)
+- [Tâche 4 - Risques](#tâche-4---risques)
+- [Tâche 5 - Exigences non-fonctionnelles](#tâche-5---exigences-non-fonctionnelles)
+- [Tâche bonus](#tâche-bonus)
+- [GitHub Insights](#github-insights)
+    - [Pulse:](#pulse)
+    - [Contributors](#contributors)
 
 ## Information générale
 
@@ -59,11 +56,18 @@
 | exigence non-fonctionnelle | 80      | 0         | 20       | 0     |
 |         cas d'utilisations | 30      | 42        | 14       | 14    |
 
-### Tâche 1
+## Hypothèses
+
+Voici quelques hypothèses, des choses qu'UniShop assume pour le bon fonctionnement de sa plateforme:
+-   Les utilisateurs peuvent accéder à l'ordinateur sur lequel UniShop est exécuté
+-   Les utilisateurs ont accès à internet
+-   On suppose que les acheteurs vont marquer leurs commandes comme livrées
+-   On suppose que les acheteurs et vendeurs sont honnêtes et intègres
+
+
+## Tâche 1 - Glossaire
 
 Voici la solution pour le **glossaire.**
-
-#### Glossaire
 
 -   Adresse d’expédition:
     -   Adresse physique de l’acheteur à laquelle la commande de l’acheteur sera envoyée. Contient: numéro, rue, unité (optionnelle), ville, province, pays, code postale.
@@ -78,9 +82,7 @@ Voici la solution pour le **glossaire.**
 -   Recommandation de produits:
     -   Suggestions de produits basées sur les préférences et les activités passées des acheteurs, visant à améliorer leur expérience et les guider dans leurs futurs achats.
 -   Catalogue de produits:
-
     -   Les produits disponibles sur Unishop sont organisés en différentes catégories correspondant aux besoins des étudiants.
-
 -   Passer une commande:
     -   Processus englobant toute action menant à l’achat d’un produit, allant de la fourniture des informations de paiement et des informations du profil à l’adresse de livraison.
 -   Évaluation de produits:
@@ -90,7 +92,7 @@ Voici la solution pour le **glossaire.**
 -   Inventaire:
     -   Liste mise à jour des produits disponibles d’un revendeur pour la vente sur Unishop.
 
-### Tâche 2
+## Tâche 2 - Diagramme UML
 
 Voici la solution pour la **diagramme de cas d'utilisation UML**.
 
@@ -98,11 +100,9 @@ Voici la solution pour la **diagramme de cas d'utilisation UML**.
 
 > Source disponible sur la [release GitHub](https://github.com/etiennecollin/ift2255/releases/tag/v0.1.0)
 
-### Tâche 3
+## Tâche 3 - Cas d’utilisation
 
 Voici la solution pour les **cas d'utilisation**.
-
-#### Cas d’utilisation
 
 -   Consulter le catalogue de produits:
     -   But:
@@ -214,8 +214,8 @@ Voici la solution pour les **cas d'utilisation**.
         -   4. L’acheteur sélectionne la commande qu’il veut évaluer
         -   5. L’acheteur clique sur la mention “Évaluer le produit”
         -   6. L’acheteur évalue le produit
-            -   6.1 - L’acheteur entre une note sur 5 dans la section indiquée
-            -   6.2 - L’acheteur écrit un commentaire sur le produit dans la section indiquée
+            -   6.1 L’acheteur entre une note sur 5 dans la section indiquée
+            -   6.2 L’acheteur écrit un commentaire sur le produit dans la section indiquée
         -   7. L’acheteur clique sur le bouton “Évaluer”
         -   8. Le système valide la note et le commentaire
         -   9. Le système enregistre l’évaluation et l’affiche dans la section approprié sous le produit évalué
@@ -240,7 +240,6 @@ Voici la solution pour les **cas d'utilisation**.
         -   5. L’inventaire du revendeur est mis-à-jour et un identifiant unique est généré pour la commande.
     -   Scénario alternatifs:
         -   1a. L'acheteur décide de modifier la quantité d'un produit dans son panier.
-
             -   1. L'acheteur accède à son panier.
             -   2. L'acheteur modifie la quantité du produit sélectionné.
             -   3. Le système met à jour le montant total à payer en fonction de la nouvelle quantité.
@@ -340,9 +339,9 @@ Voici la solution pour les **cas d'utilisation**.
         -   4. L’acheteur sélectionne l’option d’état de commande “livré”.
     -   Scénario alternatif:
         -   3a. L’acheteur n’a pas passé une commande.
-            3a.1 Le système dit à l’acheteur qu’il n’y a pas de commande à afficher.
+            -   3a.1 Le système dit à l’acheteur qu’il n’y a pas de commande à afficher.
         -   4a. L’acheteur a sélectionné une commande dont l’état n’est pas “en livraison”.
-            4a.1 L’option de marquer que la commande “livré” n’est pas affichée.
+            -   4a.1 L’option de marquer que la commande “livré” n’est pas affichée.
     -   Postconditions:
         -   La commande est marquée “livré” pour l’acheteur et le revendeur.
 
@@ -365,7 +364,9 @@ Voici la solution pour les **cas d'utilisation**.
         -   5. Le système valide les données et crée le compte
         -   6. Le système envoie le revendeur au dashboard de revendeur
     -   Scénarios alternatifs:
-        -   5.a Le nom de l’entreprise existe déjà dans le système - 5.a.1. Le système affiche un message au revendeur qu’il faut choisir un autre nom - 5.a.2 Le système renvoie le revendeur à l’étape 4
+        -   5.a Le nom de l’entreprise existe déjà dans le système
+            -   5.a.1 Le système affiche un message au revendeur qu’il faut choisir un autre nom
+            -   5.a.2 Le système renvoie le revendeur à l’étape 4
         -   5.b Le système refuse le format de l’adresse, adresse courriel, ou numéro de téléphone
             -   5.b.1 Le système affiche un message qui explique lequel n’été pas valide
             -   5.b.2 Le système renvoie le revendeur à l’étape 4
@@ -479,11 +480,9 @@ Voici la solution pour les **cas d'utilisation**.
     -   Postconditions:
         -   Le problème signalé est résolu et clos.
 
-### Tâche 4
+## Tâche 4 - Risques
 
 Voici la solution pour les **risques**.
-
-#### Risques
 
 -   La plateforme n’a pas une bonne adhésion:
     -   Manque de produits
@@ -504,34 +503,30 @@ Voici la solution pour les **risques**.
     -   Les vendeurs peuvent liker des commentaires
     -   Les vendeurs peuvent écrire des commentaires
 
-### Tâche 5
+## Tâche 5 - Exigences non-fonctionnelles
 
 Voici la solution pour les **exigences non-fonctionnelles.**
 
-#### Exigences non-fonctionnelles
-
--   Exigence
-    -   Description
 -   Protection de données personnelles
     -   Stockage chiffré de mots de passe
--   Transactions simples et sécurisées
--   Proposer un service après vente en ligne efficace qui deal avec les vendeurs directement
--   Prix de shipping pas trop élevé
--   Shipping rapide et avec un tracking
+-   Transactions simples à effectuer et sécurisées
+-   Proposer un service après vente en ligne efficace qui sert de lien entre les acheteurs et les vendeurs
+-   Frais de livraison pas trop élevé
+-   Offrir des options de livraison rapides et avec un tracking
 -   Différentes méthodes de paiements (paypal, crédit, carte-cadeau…)
 
-### Tâche bonus
+## Tâche bonus
 
 Voici la solution pour la **tâche bonus.**
 
 -   Voir la [release sur GitHub](https://github.com/etiennecollin/ift2255/releases/tag/v0.1.0)
 
-### GitHub Insights
+## GitHub Insights
 
-#### Pulse:
+### Pulse:
 
 ![Pulse](assets/pulse.png)
 
-#### Contributors
+### Contributors
 
 ![Contributors](assets/contributors.png)

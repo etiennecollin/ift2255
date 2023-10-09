@@ -2963,40 +2963,22 @@ aside > *:last-child {
 </div>
 </div>
 <hr>
-<h2 id="table-des-contenus">Table des contenus</h2>
+<h2 id="table-des-matières">Table des matières</h2>
 <ul>
-<li><a href="#table-des-contenus">Table des contenus</a></li>
+<li><a href="#table-des-mati%C3%A8res">Table des matières</a></li>
 <li><a href="#information-g%C3%A9n%C3%A9rale">Information générale</a></li>
-<li><a href="#distribution-des-t%C3%A2ches">Distribution des tâches</a>
-<ul>
-<li><a href="#t%C3%A2che-1">Tâche 1</a>
-<ul>
-<li><a href="#glossaire">Glossaire</a></li>
-</ul>
-</li>
-<li><a href="#t%C3%A2che-2">Tâche 2</a></li>
-<li><a href="#t%C3%A2che-3">Tâche 3</a>
-<ul>
-<li><a href="#cas-dutilisation">Cas d’utilisation</a></li>
-</ul>
-</li>
-<li><a href="#t%C3%A2che-4">Tâche 4</a>
-<ul>
-<li><a href="#risques">Risques</a></li>
-</ul>
-</li>
-<li><a href="#t%C3%A2che-5">Tâche 5</a>
-<ul>
-<li><a href="#exigences-non-fonctionnelles">Exigences non-fonctionnelles</a></li>
-</ul>
-</li>
+<li><a href="#distribution-des-t%C3%A2ches">Distribution des tâches</a></li>
+<li><a href="#hypoth%C3%A8ses">Hypothèses</a></li>
+<li><a href="#t%C3%A2che-1---glossaire">Tâche 1 - Glossaire</a></li>
+<li><a href="#t%C3%A2che-2---diagramme-uml">Tâche 2 - Diagramme UML</a></li>
+<li><a href="#t%C3%A2che-3---cas-dutilisation">Tâche 3 - Cas d’utilisation</a></li>
+<li><a href="#t%C3%A2che-4---risques">Tâche 4 - Risques</a></li>
+<li><a href="#t%C3%A2che-5---exigences-non-fonctionnelles">Tâche 5 - Exigences non-fonctionnelles</a></li>
 <li><a href="#t%C3%A2che-bonus">Tâche bonus</a></li>
 <li><a href="#github-insights">GitHub Insights</a>
 <ul>
 <li><a href="#pulse">Pulse:</a></li>
 <li><a href="#contributors">Contributors</a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -3104,86 +3086,81 @@ aside > *:last-child {
 </tr>
 </tbody>
 </table>
-<h3 id="tâche-1">Tâche 1</h3>
-<p>Voici la solution pour le <strong>glossaire.</strong></p>
-<h4 id="glossaire">Glossaire</h4>
+<h2 id="hypothèses">Hypothèses</h2>
+<p>Voici quelques hypothèses, des choses qu'UniShop assume pour le bon fonctionnement de sa plateforme:</p>
 <ul>
-<li>
-<p>Adresse d’expédition:</p>
+<li>Les utilisateurs peuvent accéder à l'ordinateur sur lequel UniShop est exécuté</li>
+<li>Les utilisateurs ont accès à internet</li>
+<li>On suppose que les acheteurs vont marquer leurs commandes comme livrées</li>
+<li>On suppose que les acheteurs et vendeurs sont honnêtes et intègres</li>
+</ul>
+<h2 id="tâche-1---glossaire">Tâche 1 - Glossaire</h2>
+<p>Voici la solution pour le <strong>glossaire.</strong></p>
+<ul>
+<li>Adresse d’expédition:
 <ul>
 <li>Adresse physique de l’acheteur à laquelle la commande de l’acheteur sera envoyée. Contient: numéro, rue, unité (optionnelle), ville, province, pays, code postale.</li>
 </ul>
 </li>
-<li>
-<p>Panier d’achat:</p>
+<li>Panier d’achat:
 <ul>
 <li>Une liste modifiable de produits avec quantités que l’acheteur à l’intention de commander. L’utilisateur n’est pas obligé d’acheter ces produits.</li>
 </ul>
 </li>
-<li>
-<p>Acheteur:</p>
+<li>Acheteur:
 <ul>
 <li>Étudiant qui achète des produits depuis la plateforme.</li>
 </ul>
 </li>
-<li>
-<p>Vendeur/Revendeur:</p>
+<li>Vendeur/Revendeur:
 <ul>
 <li>Étudiant, particulier ou entreprise disposant d’au moins d’un produit à vendre sur la plateforme</li>
 </ul>
 </li>
-<li>
-<p>Profil:</p>
+<li>Profil:
 <ul>
 <li>Informations fournies par l’utilisateur tel que: nom (unique), adresse, adresse courriel, téléphone.</li>
 </ul>
 </li>
-<li>
-<p>Recommandation de produits:</p>
+<li>Recommandation de produits:
 <ul>
 <li>Suggestions de produits basées sur les préférences et les activités passées des acheteurs, visant à améliorer leur expérience et les guider dans leurs futurs achats.</li>
 </ul>
 </li>
-<li>
-<p>Catalogue de produits:</p>
+<li>Catalogue de produits:
 <ul>
 <li>Les produits disponibles sur Unishop sont organisés en différentes catégories correspondant aux besoins des étudiants.</li>
 </ul>
 </li>
-<li>
-<p>Passer une commande:</p>
+<li>Passer une commande:
 <ul>
 <li>Processus englobant toute action menant à l’achat d’un produit, allant de la fourniture des informations de paiement et des informations du profil à l’adresse de livraison.</li>
 </ul>
 </li>
-<li>
-<p>Évaluation de produits:</p>
+<li>Évaluation de produits:
 <ul>
 <li>Avis laissé par un acheteur sur un produit acheté.</li>
 </ul>
 </li>
-<li>
-<p>Retour ou échange de commande:</p>
+<li>Retour ou échange de commande:
 <ul>
 <li>Retour ou échange d’un produit dans les 30 jours suivant l’achat par l’acheteur.</li>
 </ul>
 </li>
-<li>
-<p>Inventaire:</p>
+<li>Inventaire:
 <ul>
 <li>Liste mise à jour des produits disponibles d’un revendeur pour la vente sur Unishop.</li>
 </ul>
 </li>
 </ul>
-<h3 id="tâche-2">Tâche 2</h3>
+<h2 id="tâche-2---diagramme-uml">Tâche 2 - Diagramme UML</h2>
 <p>Voici la solution pour la <strong>diagramme de cas d'utilisation UML</strong>.</p>
 <p><img src="file:////Users/etiennecollin/github/ift2255/report/assets/case_diagram.svg" alt="Diagramme UML"></p>
 <blockquote>
 <p>Source disponible sur la <a href="https://github.com/etiennecollin/ift2255/releases/tag/v0.1.0">release GitHub</a></p>
 </blockquote>
-<h3 id="tâche-3">Tâche 3</h3>
+<h2 id="tâche-3---cas-dutilisation">Tâche 3 - Cas d’utilisation</h2>
 <p>Voici la solution pour les <strong>cas d'utilisation</strong>.</p>
-<h4 id="cas-dutilisation">Cas d’utilisation</h4>
 <ul>
 <li>
 <p>Consulter le catalogue de produits:</p>
@@ -3512,8 +3489,8 @@ aside > *:last-child {
 <li>L’acheteur évalue le produit</li>
 </ol>
 <ul>
-<li>6.1 - L’acheteur entre une note sur 5 dans la section indiquée</li>
-<li>6.2 - L’acheteur écrit un commentaire sur le produit dans la section indiquée</li>
+<li>6.1 L’acheteur entre une note sur 5 dans la section indiquée</li>
+<li>6.2 L’acheteur écrit un commentaire sur le produit dans la section indiquée</li>
 </ul>
 </li>
 <li>
@@ -3595,8 +3572,7 @@ aside > *:last-child {
 </li>
 <li>Scénario alternatifs:
 <ul>
-<li>
-<p>1a. L'acheteur décide de modifier la quantité d'un produit dans son panier.</p>
+<li>1a. L'acheteur décide de modifier la quantité d'un produit dans son panier.
 <ul>
 <li>
 <ol>
@@ -3615,8 +3591,7 @@ aside > *:last-child {
 </li>
 </ul>
 </li>
-<li>
-<p>1b. L'acheteur décide d'annuler la commande.</p>
+<li>1b. L'acheteur décide d'annuler la commande.
 <ul>
 <li>
 <ol>
@@ -3635,8 +3610,7 @@ aside > *:last-child {
 </li>
 </ul>
 </li>
-<li>
-<p>1c. L'acheteur souhaite utiliser une adresse de livraison différente de celle enregistrée dans son profil.</p>
+<li>1c. L'acheteur souhaite utiliser une adresse de livraison différente de celle enregistrée dans son profil.
 <ul>
 <li>
 <ol>
@@ -3660,8 +3634,7 @@ aside > *:last-child {
 </li>
 </ul>
 </li>
-<li>
-<p>3a. Le système détecte un problème avec les informations de paiement.</p>
+<li>3a. Le système détecte un problème avec les informations de paiement.
 <ul>
 <li>
 <ol>
@@ -3685,8 +3658,7 @@ aside > *:last-child {
 </li>
 </ul>
 </li>
-<li>
-<p>4a. L'acheteur ne peut pas confirmer la commande en raison d'un problème technique.</p>
+<li>4a. L'acheteur ne peut pas confirmer la commande en raison d'un problème technique.
 <ul>
 <li>
 <ol>
@@ -3920,9 +3892,15 @@ aside > *:last-child {
 <li>Scénario alternatif:
 <ul>
 <li>3a. L’acheteur n’a pas passé une commande.
-3a.1 Le système dit à l’acheteur qu’il n’y a pas de commande à afficher.</li>
+<ul>
+<li>3a.1 Le système dit à l’acheteur qu’il n’y a pas de commande à afficher.</li>
+</ul>
+</li>
 <li>4a. L’acheteur a sélectionné une commande dont l’état n’est pas “en livraison”.
-4a.1 L’option de marquer que la commande “livré” n’est pas affichée.</li>
+<ul>
+<li>4a.1 L’option de marquer que la commande “livré” n’est pas affichée.</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>Postconditions:
@@ -3992,7 +3970,12 @@ aside > *:last-child {
 </li>
 <li>Scénarios alternatifs:
 <ul>
-<li>5.a Le nom de l’entreprise existe déjà dans le système - 5.a.1. Le système affiche un message au revendeur qu’il faut choisir un autre nom - 5.a.2 Le système renvoie le revendeur à l’étape 4</li>
+<li>5.a Le nom de l’entreprise existe déjà dans le système
+<ul>
+<li>5.a.1 Le système affiche un message au revendeur qu’il faut choisir un autre nom</li>
+<li>5.a.2 Le système renvoie le revendeur à l’étape 4</li>
+</ul>
+</li>
 <li>5.b Le système refuse le format de l’adresse, adresse courriel, ou numéro de téléphone
 <ul>
 <li>5.b.1 Le système affiche un message qui explique lequel n’été pas valide</li>
@@ -4368,9 +4351,8 @@ aside > *:last-child {
 </ul>
 </li>
 </ul>
-<h3 id="tâche-4">Tâche 4</h3>
+<h2 id="tâche-4---risques">Tâche 4 - Risques</h2>
 <p>Voici la solution pour les <strong>risques</strong>.</p>
-<h4 id="risques">Risques</h4>
 <ul>
 <li>La plateforme n’a pas une bonne adhésion:
 <ul>
@@ -4409,35 +4391,29 @@ aside > *:last-child {
 </ul>
 </li>
 </ul>
-<h3 id="tâche-5">Tâche 5</h3>
+<h2 id="tâche-5---exigences-non-fonctionnelles">Tâche 5 - Exigences non-fonctionnelles</h2>
 <p>Voici la solution pour les <strong>exigences non-fonctionnelles.</strong></p>
-<h4 id="exigences-non-fonctionnelles">Exigences non-fonctionnelles</h4>
 <ul>
-<li>Exigence
-<ul>
-<li>Description</li>
-</ul>
-</li>
 <li>Protection de données personnelles
 <ul>
 <li>Stockage chiffré de mots de passe</li>
 </ul>
 </li>
-<li>Transactions simples et sécurisées</li>
-<li>Proposer un service après vente en ligne efficace qui deal avec les vendeurs directement</li>
-<li>Prix de shipping pas trop élevé</li>
-<li>Shipping rapide et avec un tracking</li>
+<li>Transactions simples à effectuer et sécurisées</li>
+<li>Proposer un service après vente en ligne efficace qui sert de lien entre les acheteurs et les vendeurs</li>
+<li>Frais de livraison pas trop élevé</li>
+<li>Offrir des options de livraison rapides et avec un tracking</li>
 <li>Différentes méthodes de paiements (paypal, crédit, carte-cadeau…)</li>
 </ul>
-<h3 id="tâche-bonus">Tâche bonus</h3>
+<h2 id="tâche-bonus">Tâche bonus</h2>
 <p>Voici la solution pour la <strong>tâche bonus.</strong></p>
 <ul>
 <li>Voir la <a href="https://github.com/etiennecollin/ift2255/releases/tag/v0.1.0">release sur GitHub</a></li>
 </ul>
-<h3 id="github-insights">GitHub Insights</h3>
-<h4 id="pulse">Pulse:</h4>
+<h2 id="github-insights">GitHub Insights</h2>
+<h3 id="pulse">Pulse:</h3>
 <p><img src="file:////Users/etiennecollin/github/ift2255/report/assets/pulse.png" alt="Pulse"></p>
-<h4 id="contributors">Contributors</h4>
+<h3 id="contributors">Contributors</h3>
 <p><img src="file:////Users/etiennecollin/github/ift2255/report/assets/contributors.png" alt="Contributors"></p>
 </div>
         </div>
