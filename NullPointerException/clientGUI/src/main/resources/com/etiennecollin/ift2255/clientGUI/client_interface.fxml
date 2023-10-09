@@ -10,7 +10,7 @@
 
 
 <!--
-  ~ Copyright (c) 2023. Etienne Collin #20237904, Nicholas Cooper #20241729, Charlotte Locas #20211755
+  ~ Copyright (c) 2023. Etienne Collin #20237904, Nicholas Cooper #20241729, Aboubakre Walid Diongue #20198446, Charlotte Locas #20211755
   -->
 
 <BorderPane fx:id="borderPane" onMouseDragged="#onBorderPaneDragged" onMousePressed="#onBorderPanePressed" xmlns:fx="http://javafx.com/fxml" stylesheets="@MainWindowStyle.css" fx:controller="com.etiennecollin.ift2255.clientGUI.ClientController">
