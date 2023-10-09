@@ -3109,67 +3109,67 @@ aside > *:last-child {
 <h4 id="glossaire">Glossaire</h4>
 <ul>
 <li>
-<p>Adresse d’expédition</p>
+<p>Adresse d’expédition:</p>
 <ul>
 <li>Adresse physique de l’acheteur à laquelle la commande de l’acheteur sera envoyée. Contient: numéro, rue, unité (optionnelle), ville, province, pays, code postale.</li>
 </ul>
 </li>
 <li>
-<p>Panier d’achat</p>
+<p>Panier d’achat:</p>
 <ul>
 <li>Une liste modifiable de produits avec quantités que l’acheteur à l’intention de commander. L’utilisateur n’est pas obligé d’acheter ces produits.</li>
 </ul>
 </li>
 <li>
-<p>Acheteur</p>
+<p>Acheteur:</p>
 <ul>
 <li>Étudiant qui achète des produits depuis la plateforme.</li>
 </ul>
 </li>
 <li>
-<p>Vendeur/Revendeur</p>
+<p>Vendeur/Revendeur:</p>
 <ul>
 <li>Étudiant, particulier ou entreprise disposant d’au moins d’un produit à vendre sur la plateforme</li>
 </ul>
 </li>
 <li>
-<p>Profil</p>
+<p>Profil:</p>
 <ul>
 <li>Informations fournies par l’utilisateur tel que: nom (unique), adresse, adresse courriel, téléphone.</li>
 </ul>
 </li>
 <li>
-<p>Recommandation de produits</p>
+<p>Recommandation de produits:</p>
 <ul>
 <li>Suggestions de produits basées sur les préférences et les activités passées des acheteurs, visant à améliorer leur expérience et les guider dans leurs futurs achats.</li>
 </ul>
 </li>
 <li>
-<p>Catalogue de produits</p>
+<p>Catalogue de produits:</p>
 <ul>
 <li>Les produits disponibles sur Unishop sont organisés en différentes catégories correspondant aux besoins des étudiants.</li>
 </ul>
 </li>
 <li>
-<p>Passer une commande</p>
+<p>Passer une commande:</p>
 <ul>
 <li>Processus englobant toute action menant à l’achat d’un produit, allant de la fourniture des informations de paiement et des informations du profil à l’adresse de livraison.</li>
 </ul>
 </li>
 <li>
-<p>Évaluation de produits</p>
+<p>Évaluation de produits:</p>
 <ul>
 <li>Avis laissé par un acheteur sur un produit acheté.</li>
 </ul>
 </li>
 <li>
-<p>Retour ou échange de commande</p>
+<p>Retour ou échange de commande:</p>
 <ul>
 <li>Retour ou échange d’un produit dans les 30 jours suivant l’achat par l’acheteur.</li>
 </ul>
 </li>
 <li>
-<p>Inventaire</p>
+<p>Inventaire:</p>
 <ul>
 <li>Liste mise à jour des produits disponibles d’un revendeur pour la vente sur Unishop.</li>
 </ul>
@@ -3186,7 +3186,7 @@ aside > *:last-child {
 <h4 id="cas-dutilisation">Cas d’utilisation</h4>
 <ul>
 <li>
-<p>Consulter le catalogue de produits</p>
+<p>Consulter le catalogue de produits:</p>
 <ul>
 <li>But:
 <ul>
@@ -3201,15 +3201,26 @@ aside > *:last-child {
 </li>
 <li>Acteurs:
 <ul>
-<li>Acheteurs</li>
-<li>Revendeurs</li>
+<li>Acheteurs (acteurs principaux)</li>
+<li>Revendeurs (acteurs principaux)</li>
 </ul>
 </li>
 <li>Scénario principal:
 <ul>
-<li>1.L’utilisateur sélectionne le catalogue</li>
-<li>2.Le système fait une requête et va chercher la liste des produits</li>
-<li>3.L’utilisateur choisit le tri pour le catalogue:
+<li>
+<ol>
+<li>L’utilisateur sélectionne le catalogue</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>Le système fait une requête et va chercher la liste des produits</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>L’utilisateur choisit le tri pour le catalogue:</li>
+</ol>
 <ul>
 <li>Défaut: Alphabétique ascendant</li>
 <li>Alphabétique descendant</li>
@@ -3219,8 +3230,15 @@ aside > *:last-child {
 <li>Nombre de commentaires</li>
 </ul>
 </li>
-<li>4.Le système met à jour le tri de la liste des produits</li>
-<li>5.L’utilisateur choisit le filtre pour le catalogue:
+<li>
+<ol start="4">
+<li>Le système met à jour le tri de la liste des produits</li>
+</ol>
+</li>
+<li>
+<ol start="5">
+<li>L’utilisateur choisit le filtre pour le catalogue:</li>
+</ol>
 <ul>
 <li>Défaut: Aucun</li>
 <li>Livres et manuels</li>
@@ -3230,7 +3248,11 @@ aside > *:last-child {
 <li>Équipement de bureau</li>
 </ul>
 </li>
-<li>6.Le système met à jour le filtre de la liste des produits</li>
+<li>
+<ol start="6">
+<li>Le système met à jour le filtre de la liste des produits</li>
+</ol>
+</li>
 </ul>
 </li>
 <li>Scénarios alternatifs: NA</li>
@@ -3238,7 +3260,7 @@ aside > *:last-child {
 </ul>
 </li>
 <li>
-<p>Liker un commentaire sur un produit</p>
+<p>Liker un commentaire sur un produit:</p>
 <ul>
 <li>But:
 <ul>
@@ -3258,14 +3280,37 @@ aside > *:last-child {
 </li>
 <li>Scénario principal:
 <ul>
-<li>1.L’acheteur se connecte à son compte d’acheteur</li>
-<li>2.L’acheteur consulte le catalogue</li>
-<li>3.L’acheteur sélectionne un produit</li>
-<li>4.L’acheteur sélectionne un commentaire sur le produit</li>
-<li>5.L’acheteur clique sur le bouton “like”</li>
-<li>6.Le système met à jour le nombre de likes sur le commentaire
+<li>
+<ol>
+<li>L’acheteur se connecte à son compte d’acheteur</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>L’acheteur consulte le catalogue</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>L’acheteur sélectionne un produit</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>L’acheteur sélectionne un commentaire sur le produit</li>
+</ol>
+</li>
+<li>
+<ol start="5">
+<li>L’acheteur clique sur le bouton “like”</li>
+</ol>
+</li>
+<li>
+<ol start="6">
+<li>Le système met à jour le nombre de likes sur le commentaire</li>
+</ol>
 <ul>
-<li>7.1Le système vérifie si le commentaire avait déjà été liké par l’acheteur
+<li>7.1 Le système vérifie si le commentaire avait déjà été liké par l’acheteur
 <ul>
 <li>Si oui, le like n’est pas considéré par le système</li>
 <li>Si non, le like est ajouté</li>
@@ -3276,11 +3321,15 @@ aside > *:last-child {
 </ul>
 </li>
 <li>Scénario alternatif: NA</li>
-<li>Postconditions: Le like du client sera considéré dans le nombre de likes du commentaire affiché</li>
+<li>Postconditions:
+<ul>
+<li>Le like du client sera considéré dans le nombre de likes du commentaire affiché</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>
-<p>Liker un produit</p>
+<p>Liker un produit:</p>
 <ul>
 <li>But:
 <ul>
@@ -3295,18 +3344,37 @@ aside > *:last-child {
 </li>
 <li>Acteurs:
 <ul>
-<li>Les acheteurs</li>
+<li>Les acheteurs (acteurs principaux)</li>
 </ul>
 </li>
 <li>Scénario principal:
 <ul>
-<li>1.L’acheteur se connecte à son compte d’acheteur</li>
-<li>2.L’acheteur consulte le catalogue</li>
-<li>3.L’acheteur sélectionne un produit</li>
-<li>4.L’acheteur clique sur le bouton “like”</li>
-<li>5.Le système met à jour le nombre de likes sur le produit
+<li>
+<ol>
+<li>L’acheteur se connecte à son compte d’acheteur</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>L’acheteur consulte le catalogue</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>L’acheteur sélectionne un produit</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>L’acheteur clique sur le bouton “like”</li>
+</ol>
+</li>
+<li>
+<ol start="5">
+<li>Le système met à jour le nombre de likes sur le produit</li>
+</ol>
 <ul>
-<li>5.1Le système vérifie si le produit avait déjà été liké par l’acheteur
+<li>5.1 Le système vérifie si le produit avait déjà été liké par l’acheteur
 <ul>
 <li>Si oui, le like n’est pas considéré par le système.</li>
 <li>Si non, le like est ajouté</li>
@@ -3317,7 +3385,11 @@ aside > *:last-child {
 </ul>
 </li>
 <li>Scénario alternatif: NA</li>
-<li>Postconditions: Le like du client sera considéré dans le nombre de likes du produit affiché</li>
+<li>Postconditions:
+<ul>
+<li>Le like du client sera considéré dans le nombre de likes du produit affiché</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>
@@ -3340,18 +3412,45 @@ aside > *:last-child {
 </li>
 <li>Scénario principal
 <ul>
-<li>1.L’utilisateur ouvre la plateforme Unishop</li>
-<li>2.L’utilisateur se connecte à son compte</li>
-<li>3.L’utilisateur sélectionne l’option de recherche</li>
-<li>4.L’utilisateur tape une information sur le produit</li>
-<li>5.L’utilisateur envoie sa recherche</li>
-<li>6.Le système reçoit la requête et la traite
+<li>
+<ol>
+<li>L’utilisateur ouvre la plateforme Unishop</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>L’utilisateur se connecte à son compte</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>L’utilisateur sélectionne l’option de recherche</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>L’utilisateur tape une information sur le produit</li>
+</ol>
+</li>
+<li>
+<ol start="5">
+<li>L’utilisateur envoie sa recherche</li>
+</ol>
+</li>
+<li>
+<ol start="6">
+<li>Le système reçoit la requête et la traite</li>
+</ol>
 <ul>
-<li>6.1Le système “fuzzy search” l’entièreté du catalogue en utilisant les informations disponibles sur les produits (numéro de produit, nom de produit, description, tags?, commentaires)</li>
-<li>6.2Le système prend la liste de produits trouvés et la retourne à l’utilisateur avec la même interface que le catalogue (voir cas d’utilisation du catalogue).</li>
+<li>6.1 Le système “fuzzy search” l’entièreté du catalogue en utilisant les informations disponibles sur les produits (numéro de produit, nom de produit, description, tags?, commentaires)</li>
+<li>6.2 Le système prend la liste de produits trouvés et la retourne à l’utilisateur avec la même interface que le catalogue (voir cas d’utilisation du catalogue).</li>
 </ul>
 </li>
-<li>7.L’utilisateur parcourt le catalogue affiché</li>
+<li>
+<ol start="7">
+<li>L’utilisateur parcourt le catalogue affiché</li>
+</ol>
+</li>
 </ul>
 </li>
 <li>Scénarios alternatifs
@@ -3363,184 +3462,329 @@ aside > *:last-child {
 </ul>
 </li>
 <li>
-<p>Évaluation des produits</p>
+<p>Évaluation des produits:</p>
 <ul>
-<li>
-<p>But:</p>
+<li>But:
 <ul>
 <li>Permettre à l’acheteur de noter et d’évaluer le produit qu’il a acheté</li>
 </ul>
 </li>
-<li>
-<p>Préconditions:</p>
+<li>Préconditions:
 <ul>
 <li>L’acheteur doit avoir un compte acheteur valide sur la plateforme Unishop</li>
 <li>L’acheteur doit avoir fait l’achat du produit à évaluer</li>
 </ul>
 </li>
-<li>
-<p>Acteurs:</p>
+<li>Acteurs:
 <ul>
 <li>Les acheteurs sont les acteurs principaux</li>
 </ul>
 </li>
-<li>
-<p>Scénario principal</p>
+<li>Scénario principal
 <ul>
-<li>1.L’acheteur ouvre la plateforme Unishop</li>
-<li>2.L’acheteur se connecte à son compte d’acheteur</li>
-<li>3.L’acheteur clique sur l’onglet “Mes commandes”</li>
-<li>4.L’acheteur sélectionne la commande qu’il veut évaluer</li>
-<li>5.L’acheteur clique sur la mention “Évaluer le produit”</li>
-<li>6.L’acheteur évalue le produit
+<li>
+<ol>
+<li>L’acheteur ouvre la plateforme Unishop</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>L’acheteur se connecte à son compte d’acheteur</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>L’acheteur clique sur l’onglet “Mes commandes”</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>L’acheteur sélectionne la commande qu’il veut évaluer</li>
+</ol>
+</li>
+<li>
+<ol start="5">
+<li>L’acheteur clique sur la mention “Évaluer le produit”</li>
+</ol>
+</li>
+<li>
+<ol start="6">
+<li>L’acheteur évalue le produit</li>
+</ol>
 <ul>
 <li>6.1 - L’acheteur entre une note sur 5 dans la section indiquée</li>
 <li>6.2 - L’acheteur écrit un commentaire sur le produit dans la section indiquée</li>
 </ul>
 </li>
-<li>7.L’acheteur clique sur le bouton “Évaluer”</li>
-<li>8.Le système valide la note et le commentaire</li>
-<li>9.Le système enregistre l’évaluation et l’affiche dans la section approprié sous le produit évalué</li>
-</ul>
+<li>
+<ol start="7">
+<li>L’acheteur clique sur le bouton “Évaluer”</li>
+</ol>
 </li>
 <li>
-<p>Scénarios alternatifs</p>
+<ol start="8">
+<li>Le système valide la note et le commentaire</li>
+</ol>
+</li>
+<li>
+<ol start="9">
+<li>Le système enregistre l’évaluation et l’affiche dans la section approprié sous le produit évalué</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>Scénarios alternatifs
 <ul>
 <li>6.1a Si l’acheteur n’entre pas de note, le système affiche un message d’erreur lui demandant d’entrer une note sur 5</li>
 <li>6.2a Si l’acheteur n’entre pas de commentaire, le système affiche un message d’erreur lui demandant d’écrire un commentaire</li>
 </ul>
 </li>
-<li>
-<p>Postconditions: L’évaluation du client sera affiché dans la section commentaire sous l’article évalué</p>
+<li>Postconditions:
+<ul>
+<li>L’évaluation du client sera affiché dans la section commentaire sous l’article évalué</li>
+</ul>
 </li>
 </ul>
 </li>
 <li>
-<p>Passer une commande</p>
+<p>Passer une commande:</p>
 <ul>
-<li>
-<p>But:</p>
+<li>But:
 <ul>
 <li>Permettre à un acheteur de procéder à l’achat des produits.</li>
 </ul>
 </li>
-<li>
-<p>Préconditions:</p>
+<li>Préconditions:
 <ul>
 <li>L’acheteur à des produits dans son panier.</li>
 </ul>
 </li>
-<li>
-<p>Acteurs:</p>
+<li>Acteurs:
 <ul>
 <li>L’acheteur est l’acteur principal.</li>
 </ul>
 </li>
-<li>
-<p>Scénario principal:</p>
+<li>Scénario principal:
 <ul>
-<li>1.L’acheteur accède à son panier et sélectionne les produits à acheter.</li>
-<li>2.L’acheteur confirme les produits dans son panier.</li>
-<li>3.L’acheteur fournit les informations de paiement et de livraison.</li>
-<li>4.L’acheteur confirme la commande</li>
-<li>5.L’inventaire du revendeur est mis-à-jour et un identifiant unique est généré pour la commande.</li>
-</ul>
+<li>
+<ol>
+<li>L’acheteur accède à son panier et sélectionne les produits à acheter.</li>
+</ol>
 </li>
 <li>
-<p>Scénario alternatifs :</p>
+<ol start="2">
+<li>L’acheteur confirme les produits dans son panier.</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>L’acheteur fournit les informations de paiement et de livraison.</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>L’acheteur confirme la commande</li>
+</ol>
+</li>
+<li>
+<ol start="5">
+<li>L’inventaire du revendeur est mis-à-jour et un identifiant unique est généré pour la commande.</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>Scénario alternatifs:
 <ul>
 <li>
 <p>1a. L'acheteur décide de modifier la quantité d'un produit dans son panier.</p>
 <ul>
-<li>1.L'acheteur accède à son panier.</li>
-<li>2.L'acheteur modifie la quantité du produit sélectionné.</li>
-<li>3.Le système met à jour le montant total à payer en fonction de la nouvelle quantité.</li>
+<li>
+<ol>
+<li>L'acheteur accède à son panier.</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>L'acheteur modifie la quantité du produit sélectionné.</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>Le système met à jour le montant total à payer en fonction de la nouvelle quantité.</li>
+</ol>
+</li>
 </ul>
 </li>
 <li>
 <p>1b. L'acheteur décide d'annuler la commande.</p>
 <ul>
-<li>1.L'acheteur accède à son panier.</li>
-<li>2.L'acheteur sélectionne l'option &quot;Annuler la commande&quot;.</li>
-<li>3.Le système annule la commande et remet les produits dans l'inventaire du revendeur.</li>
+<li>
+<ol>
+<li>L'acheteur accède à son panier.</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>L'acheteur sélectionne l'option &quot;Annuler la commande&quot;.</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>Le système annule la commande et remet les produits dans l'inventaire du revendeur.</li>
+</ol>
+</li>
 </ul>
 </li>
 <li>
 <p>1c. L'acheteur souhaite utiliser une adresse de livraison différente de celle enregistrée dans son profil.</p>
 <ul>
-<li>1.L'acheteur accède à son panier.</li>
-<li>2.L'acheteur sélectionne l'option &quot;Utiliser une autre adresse de livraison&quot;.</li>
-<li>3.L'acheteur fournit les nouvelles informations de livraison.</li>
-<li>4.Le système utilise les nouvelles informations pour la livraison et met à jour la commande.</li>
+<li>
+<ol>
+<li>L'acheteur accède à son panier.</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>L'acheteur sélectionne l'option &quot;Utiliser une autre adresse de livraison&quot;.</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>L'acheteur fournit les nouvelles informations de livraison.</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>Le système utilise les nouvelles informations pour la livraison et met à jour la commande.</li>
+</ol>
+</li>
 </ul>
 </li>
 <li>
 <p>3a. Le système détecte un problème avec les informations de paiement.</p>
 <ul>
-<li>1.Le système vérifie les informations de paiement fournies par l'acheteur.</li>
-<li>2.Le système informe l'acheteur qu'il y a un problème avec les informations de paiement.</li>
-<li>3.L'acheteur fournit des informations de paiement correctes.</li>
-<li>4.Le système reprend le processus de commande.</li>
+<li>
+<ol>
+<li>Le système vérifie les informations de paiement fournies par l'acheteur.</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>Le système informe l'acheteur qu'il y a un problème avec les informations de paiement.</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>L'acheteur fournit des informations de paiement correctes.</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>Le système reprend le processus de commande.</li>
+</ol>
+</li>
 </ul>
 </li>
 <li>
-<p>4a.L'acheteur ne peut pas confirmer la commande en raison d'un problème technique.</p>
+<p>4a. L'acheteur ne peut pas confirmer la commande en raison d'un problème technique.</p>
 <ul>
-<li>1.Le système rencontre un problème technique lors de la confirmation de la commande.</li>
-<li>2.Le système informe l'acheteur du problème et lui demande de réessayer plus tard.</li>
-<li>3.L'acheteur réessaie de confirmer la commande ultérieurement.</li>
-</ul>
-</li>
-</ul>
+<li>
+<ol>
+<li>Le système rencontre un problème technique lors de la confirmation de la commande.</li>
+</ol>
 </li>
 <li>
-<p>Postconditions: L’acheteur reçoit un identifiant unique lui permettant de suivre sa commande.</p>
+<ol start="2">
+<li>Le système informe l'acheteur du problème et lui demande de réessayer plus tard.</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>L'acheteur réessaie de confirmer la commande ultérieurement.</li>
+</ol>
 </li>
 </ul>
 </li>
-<li>
-<p>Signaler un problème avec un produit</p>
+</ul>
+</li>
+<li>Postconditions:
 <ul>
-<li>
-<p>But: Signaler un problème avec un produit au revendeur</p>
+<li>L’acheteur reçoit un identifiant unique lui permettant de suivre sa commande.</li>
+</ul>
+</li>
+</ul>
 </li>
 <li>
-<p>Préconditions:</p>
+<p>Signaler un problème avec un produit:</p>
+<ul>
+<li>But:
+<ul>
+<li>Signaler un problème avec un produit au revendeur</li>
+</ul>
+</li>
+<li>Préconditions:
 <ul>
 <li>Posséder un compte d’acheteur valide</li>
 <li>L’acheteur doit avoir fait une commande avec UniShop il y a moins de 30 jours</li>
 </ul>
 </li>
-<li>
-<p>Acteurs:</p>
+<li>Acteurs:
 <ul>
 <li>Les acheteurs et les revendeurs sont les acteurs principaux</li>
 </ul>
 </li>
-<li>
-<p>Scénario principal</p>
+<li>Scénario principal
 <ul>
-<li>1.L’acheteur se connecte à son compte d’acheteur sur la plateforme</li>
-<li>2.L’acheteur clique sur l’onglet “Mes commandes”</li>
-<li>3.L’acheteur sélectionne le produit qu’il veut signaler</li>
-<li>4.L’acheteur clique sur l’option “Signaler un problème”</li>
-<li>5.L’acheteur sélectionne la raison du signalement dans la barre de défilement (ex: commande non reçue)</li>
-<li>6.L’acheteur décrit plus spécifiquement la raison de son retour dans la section indiquée</li>
-<li>7.L’acheteur clique sur le bouton “Envoyer”</li>
-</ul>
+<li>
+<ol>
+<li>L’acheteur se connecte à son compte d’acheteur sur la plateforme</li>
+</ol>
 </li>
 <li>
-<p>Scénario alternatif</p>
+<ol start="2">
+<li>L’acheteur clique sur l’onglet “Mes commandes”</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>L’acheteur sélectionne le produit qu’il veut signaler</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>L’acheteur clique sur l’option “Signaler un problème”</li>
+</ol>
+</li>
+<li>
+<ol start="5">
+<li>L’acheteur sélectionne la raison du signalement dans la barre de défilement (ex: commande non reçue)</li>
+</ol>
+</li>
+<li>
+<ol start="6">
+<li>L’acheteur décrit plus spécifiquement la raison de son retour dans la section indiquée</li>
+</ol>
+</li>
+<li>
+<ol start="7">
+<li>L’acheteur clique sur le bouton “Envoyer”</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>Scénario alternatif
 <ul>
 <li>4a Le client sélectionne un produit acheté il y a plus de 30 jours</li>
 <li>4a.1 Le système envoie un message indiquant qu’il est impossible de signaler un produit acheté il y a plus de 30 jours. Le système ne permet pas le signalement</li>
 <li>5a Si l’acheteur ne sélectionne aucune raison dans la barre de défilement, le système envoie un message demandant au client de choisir la raison du signalement.</li>
 <li>5a.1 L’acheteur sélectionne une raison pour compléter le signalement</li>
-<li>6a.L’acheteur peut choisir de ne pas écrire de message au revendeur</li>
+<li>6a. L’acheteur peut choisir de ne pas écrire de message au revendeur</li>
 </ul>
 </li>
-<li>
-<p>Postconditions: Un message est transmis dans la boîte de réception du revendeur contenant les détails du signalement et l’invitant à prendre action.</p>
+<li>Postconditions:
+<ul>
+<li>Un message est transmis dans la boîte de réception du revendeur contenant les détails du signalement et l’invitant à prendre action.</li>
+</ul>
 </li>
 </ul>
 </li>
@@ -3562,28 +3806,55 @@ aside > *:last-child {
 <li>Les futurs acheteurs sont les acteurs principaux.</li>
 </ul>
 </li>
-<li>Scénario principal
+<li>Scénario principal:
 <ul>
-<li>1.L’acheteur ouvre la plateforme Unishop</li>
-<li>2.Le client sélectionne l’option Créer un compte d’acheteur</li>
-<li>3.L’acheteur navigue à la page d’inscription</li>
-<li>4.L’acheteur sélectionne l’option de créer un compte d’acheteur</li>
-<li>5.L’acheteur saisit ses informations
+<li>
+<ol>
+<li>L’acheteur ouvre la plateforme Unishop</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>Le client sélectionne l’option Créer un compte d’acheteur</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>L’acheteur navigue à la page d’inscription</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>L’acheteur sélectionne l’option de créer un compte d’acheteur</li>
+</ol>
+</li>
+<li>
+<ol start="5">
+<li>L’acheteur saisit ses informations</li>
+</ol>
 <ul>
 <li>5.1 L’acheteur entre son nom dans la section indiquée</li>
 <li>5.2 L’acheteur entre son prénom dans la section indiquée</li>
-<li>5.3L’acheteur entre un nom d’utilisateur unique dans la section indiquée</li>
-<li>5.4L’acheteur entre son adresse courriel dans la section indiquée</li>
-<li>5.5L’acheteur entre son numéro de téléphone dans la section indiquée</li>
-<li>5.6L’acheteur entre son adresse d’expédition dans la section indiquée</li>
-<li>5.7L’acheteur clique sur le bouton “s’inscrire”</li>
+<li>5.3 L’acheteur entre un nom d’utilisateur unique dans la section indiquée</li>
+<li>5.4 L’acheteur entre son adresse courriel dans la section indiquée</li>
+<li>5.5 L’acheteur entre son numéro de téléphone dans la section indiquée</li>
+<li>5.6 L’acheteur entre son adresse d’expédition dans la section indiquée</li>
+<li>5.7 L’acheteur clique sur le bouton “s’inscrire”</li>
 </ul>
 </li>
-<li>6.Le système valide les données et crée le compte</li>
-<li>7.Le système envoie l’acheteur au tableau de bord</li>
+<li>
+<ol start="6">
+<li>Le système valide les données et crée le compte</li>
+</ol>
+</li>
+<li>
+<ol start="7">
+<li>Le système envoie l’acheteur au tableau de bord</li>
+</ol>
+</li>
 </ul>
 </li>
-<li>Scénarios alternatifs
+<li>Scénarios alternatifs:
 <ul>
 <li>5.3a Si l’acheteur entre un nom d’utilisateur déjà utilisé par un autre membre, le système l’informe que ce nom d’utilisateur est déjà utilisé et d’en inscrire un autre</li>
 <li>5.4a Si l’adresse courriel est déjà utilisé, le système lui indique qu’il y a déjà un compte créé à cette adresse courriel</li>
@@ -3594,73 +3865,112 @@ aside > *:last-child {
 <li>5.5a.1 Le client corrige l’erreur pour compléter son inscription</li>
 <li>5.6a Si l’adresse d’expédition n’existe pas, le système lui demande d’entrer une adresse d’expédition valide.</li>
 <li>5.6a.1 Le client corrige l’erreur pour compléter son inscription</li>
-<li>Postconditions: Le compte d’acheteur sera enregistré dans le système</li>
+</ul>
+</li>
+<li>Postconditions:
+<ul>
+<li>Le compte d’acheteur sera enregistré dans le système</li>
 </ul>
 </li>
 </ul>
 </li>
 <li>
-<p>Confirmer la réception d’une commande</p>
+<p>Confirmer la réception d’une commande:</p>
 <ul>
-<li>But: Permettre à un acheteur de marquer qu’une commande a été livrée.</li>
+<li>But:
+<ul>
+<li>Permettre à un acheteur de marquer qu’une commande a été livrée.</li>
+</ul>
+</li>
 <li>Préconditions:
 <ul>
 <li>L’acheteur a un compte d’acheteur sur la plateforme.</li>
 <li>L’acheteur a fait une commande.</li>
 </ul>
 </li>
-<li>Acteurs: L’acheteur est l’acteur principal.</li>
+<li>Acteurs:
+<ul>
+<li>L’acheteur est l’acteur principal.</li>
+</ul>
+</li>
 <li>Scénario principal:
 <ul>
-<li>1.L’acheteur se connecte à son compte UniShop.</li>
-<li>2.L’acheteur sélectionne l’option “Mes commandes”.</li>
-<li>3.L’acheteur sélectionne une commande qui est à l’état “en livraison”.</li>
-<li>4.L’acheteur sélectionne l’option d’état de commande “livré”.
-Scénario alternatif:</li>
+<li>
+<ol>
+<li>L’acheteur se connecte à son compte UniShop.</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>L’acheteur sélectionne l’option “Mes commandes”.</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>L’acheteur sélectionne une commande qui est à l’état “en livraison”.</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>L’acheteur sélectionne l’option d’état de commande “livré”.</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>Scénario alternatif:
+<ul>
 <li>3a. L’acheteur n’a pas passé une commande.
 3a.1 Le système dit à l’acheteur qu’il n’y a pas de commande à afficher.</li>
 <li>4a. L’acheteur a sélectionné une commande dont l’état n’est pas “en livraison”.
 4a.1 L’option de marquer que la commande “livré” n’est pas affichée.</li>
 </ul>
 </li>
-<li>Postconditions: La commande est marquée “livré” pour l’acheteur et le revendeur.</li>
+<li>Postconditions:
+<ul>
+<li>La commande est marquée “livré” pour l’acheteur et le revendeur.</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>
-<p>S’inscrire comme revendeur</p>
+<p>S’inscrire comme revendeur:</p>
 <ul>
-<li>
-<p>But:</p>
+<li>But:
 <ul>
 <li>Créer un nouveau compte de revendeur</li>
 </ul>
 </li>
-<li>
-<p>Préconditions:</p>
+<li>Préconditions:
 <ul>
 <li>Avoir accès à UniShop et posséder au moins 1 article à vendre.</li>
 </ul>
 </li>
-<li>
-<p>Acteurs:</p>
+<li>Acteurs:
 <ul>
 <li>Le revendeur est l'acteur principal.</li>
 </ul>
 </li>
-<li>
-<p>Scénario principal</p>
+<li>Scénario principal:
 <ul>
 <li>
-<p>1.Le revendeur accède au site web</p>
+<ol>
+<li>Le revendeur accède au site web</li>
+</ol>
 </li>
 <li>
-<p>2.Le revendeur navigue à la page d’inscription</p>
+<ol start="2">
+<li>Le revendeur navigue à la page d’inscription</li>
+</ol>
 </li>
 <li>
-<p>3.Le revendeur sélectionne l’option de créer un compte de revendeur</p>
+<ol start="3">
+<li>Le revendeur sélectionne l’option de créer un compte de revendeur</li>
+</ol>
 </li>
 <li>
-<p>4.Le revendeur saisit ses informations</p>
+<ol start="4">
+<li>Le revendeur saisit ses informations</li>
+</ol>
 <ul>
 <li>4.1 Le revendeur saisit le nom de son entreprise</li>
 <li>4.2 Le revendeur saisit l’adresse de son entreprise</li>
@@ -3669,17 +3979,20 @@ Scénario alternatif:</li>
 </ul>
 </li>
 <li>
-<p>5.Le système valide les données et crée le compte</p>
+<ol start="5">
+<li>Le système valide les données et crée le compte</li>
+</ol>
 </li>
 <li>
-<p>6.Le système envoie le revendeur au dashboard de revendeur</p>
+<ol start="6">
+<li>Le système envoie le revendeur au dashboard de revendeur</li>
+</ol>
 </li>
 </ul>
 </li>
-<li>
-<p>Scénarios alternatifs</p>
+<li>Scénarios alternatifs:
 <ul>
-<li>5.a. Le nom de l’entreprise existe déjà dans le système - 5.a.1. Le système affiche un message au revendeur qu’il faut choisir un autre nom - 5.a.2 Le système renvoie le revendeur à l’étape 4</li>
+<li>5.a Le nom de l’entreprise existe déjà dans le système - 5.a.1. Le système affiche un message au revendeur qu’il faut choisir un autre nom - 5.a.2 Le système renvoie le revendeur à l’étape 4</li>
 <li>5.b Le système refuse le format de l’adresse, adresse courriel, ou numéro de téléphone
 <ul>
 <li>5.b.1 Le système affiche un message qui explique lequel n’été pas valide</li>
@@ -3688,46 +4001,52 @@ Scénario alternatif:</li>
 </li>
 </ul>
 </li>
-<li>
-<p>Postconditions - Un nouveau compte de revendeur existe dans le système</p>
+<li>Postconditions
+<ul>
+<li>Un nouveau compte de revendeur existe dans le système</li>
+</ul>
 </li>
 </ul>
 </li>
 <li>
-<p>Modifier les information d’un compte</p>
+<p>Modifier les information d’un compte:</p>
 <ul>
-<li>
-<p>But:</p>
+<li>But:
 <ul>
 <li>Modifier une ou plusieurs information d’un compte (acheteur ou revendeur)</li>
 </ul>
 </li>
-<li>
-<p>Préconditions:</p>
+<li>Préconditions:
 <ul>
 <li>Détenir un compte d’acheteur ou de revendeur valide de la plateforme Unishop</li>
 </ul>
 </li>
-<li>
-<p>Acteurs:</p>
+<li>Acteurs:
 <ul>
 <li>L’acheteur ou le revendeur est l’acteur principal. Il n’y a pas d’acteur secondaire.</li>
 </ul>
 </li>
-<li>
-<p>Scénario principal</p>
+<li>Scénario principal:
 <ul>
 <li>
-<p>1.Le client accède à la plateforme Unishop</p>
+<ol>
+<li>Le client accède à la plateforme Unishop</li>
+</ol>
 </li>
 <li>
-<p>2.Le client se connecte à son compte</p>
+<ol start="2">
+<li>Le client se connecte à son compte</li>
+</ol>
 </li>
 <li>
-<p>3.Le client accède à la section “Modifier les informations de mon compte”</p>
+<ol start="3">
+<li>Le client accède à la section “Modifier les informations de mon compte”</li>
+</ol>
 </li>
 <li>
-<p>4.Le client corrige les éléments dans les boîtes appropriées</p>
+<ol start="4">
+<li>Le client corrige les éléments dans les boîtes appropriées</li>
+</ol>
 <ul>
 <li>4.1 Le client peut modifier son adresse courriel</li>
 <li>4.2 Le client peut modifier son numéro de téléphone</li>
@@ -3736,18 +4055,23 @@ Scénario alternatif:</li>
 </ul>
 </li>
 <li>
-<p>5.Le client clique sur “enregistrer”</p>
+<ol start="5">
+<li>Le client clique sur “enregistrer”</li>
+</ol>
 </li>
 <li>
-<p>6.Le système valide les données</p>
+<ol start="6">
+<li>Le système valide les données</li>
+</ol>
 </li>
 <li>
-<p>7.Le système remplace les anciennes données par les nouvelles données</p>
+<ol start="7">
+<li>Le système remplace les anciennes données par les nouvelles données</li>
+</ol>
 </li>
 </ul>
 </li>
-<li>
-<p>Scénarios alternatifs</p>
+<li>Scénarios alternatifs:
 <ul>
 <li>4.1a Si la nouvelle adresse courriel ne correspond pas au format accepté, le système lui demande d’entrer une adresse courriel valide.</li>
 <li>4.1a.1 Le client corrige l’erreur pour valider la nouvelle adresse courriel</li>
@@ -3759,8 +4083,7 @@ Scénario alternatif:</li>
 <li>4.3a.1 Le client corrige l’erreur pour valider sa nouvelle adresse</li>
 </ul>
 </li>
-<li>
-<p>Postconditions:</p>
+<li>Postconditions:
 <ul>
 <li>Le compte du client est mis à jours dans le système</li>
 </ul>
@@ -3768,49 +4091,80 @@ Scénario alternatif:</li>
 </ul>
 </li>
 <li>
-<p>Offrir un produit en tant que revendeur</p>
+<p>Offrir un produit en tant que revendeur:</p>
 <ul>
-<li>
-<p>But</p>
+<li>But:
 <ul>
 <li>Permettre à un revendeur de proposer un nouveau produit sur UniShop.</li>
 </ul>
 </li>
-<li>
-<p>Préconditions:</p>
+<li>Préconditions:
 <ul>
 <li>Le revendeur dispose au moins d’un produit et est connecté sur UniShop.</li>
 </ul>
 </li>
-<li>
-<p>Acteurs:</p>
+<li>Acteurs:
 <ul>
 <li>Le revendeur est l’acteur principal.</li>
 </ul>
 </li>
-<li>
-<p>Scénario principal</p>
+<li>Scénario principal
 <ul>
-<li>1.Le revendeur accède à la fonction d’offre de produit sur UniShop.</li>
-<li>2.Le revendeur remplit le formulaire d’offre de produit en spécifiant le titre, la catégorie, la description, la marque, le modèle, la quantité initiale et le prix.</li>
-<li>3.Le revendeur met des images et vidéos du produit.</li>
-<li>4.Le revendeur soumet l’offre du produit.</li>
+<li>
+<ol>
+<li>Le revendeur accède à la fonction d’offre de produit sur UniShop.</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>Le revendeur remplit le formulaire d’offre de produit en spécifiant le titre, la catégorie, la description, la marque, le modèle, la quantité initiale et le prix.</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>Le revendeur met des images et vidéos du produit.</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>Le revendeur soumet l’offre du produit.</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>Scénarios alternatifs:
+<ul>
+<li>
+<ol>
+<li>Le revendeur souhaite modifier les détails du produit.</li>
+</ol>
+<ul>
+<li>
+<ol>
+<li>Le revendeur accède à la liste de ses produits.</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>Le revendeur sélectionne le produit à modifier.</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>Le revendeur modifie les informations du produit.</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>Le revendeur soumet les nouvelles informations du produit.</li>
+</ol>
+</li>
 </ul>
 </li>
 <li>
-<p>Scénarios alternatifs :</p>
-<ul>
-<li>
-<p>1.Le revendeur souhaite modifier les détails du produit.</p>
-<ul>
-<li>1.Le revendeur accède à la liste de ses produits.</li>
-<li>2.Le revendeur sélectionne le produit à modifier.</li>
-<li>3.Le revendeur modifie les informations du produit.</li>
-<li>4.Le revendeur soumet les nouvelles informations du produit.</li>
-</ul>
-</li>
-<li>
-<p>2.Le système détecte une erreur dans les informations du produit.</p>
+<ol start="2">
+<li>Le système détecte une erreur dans les informations du produit.</li>
+</ol>
 <ul>
 <li>Le système vérifie les informations fournies par le revendeur.</li>
 <li>Le système détecte une erreur dans les détails du produit.</li>
@@ -3821,92 +4175,165 @@ Scénario alternatif:</li>
 </li>
 </ul>
 </li>
-<li>
-<p>Postconditions: Le produit est ajouté à la liste des produits disponibles.</p>
+<li>Postconditions:
+<ul>
+<li>Le produit est ajouté à la liste des produits disponibles.</li>
+</ul>
 </li>
 </ul>
 </li>
 <li>
-<p>Changer l’état d’une commande</p>
+<p>Changer l’état d’une commande:</p>
 <ul>
-<li>
-<p>But: Permettre au revendeur de tenir l’acheteur informé de l’état de sa commande - Préconditions: - Le revendeur doit avoir un compte de revendeur valide - Le revendeur doit avoir vendu au moins un article à un acheteur</p>
-</li>
-<li>
-<p>Acteurs: Le revendeur est un acteur principal et l’acheteur est l’acteur secondaire</p>
-</li>
-<li>
-<p>Scénario principal</p>
+<li>But:
 <ul>
-<li>1.Le revendeur se connecte à son compte de revendeur sur UniShop</li>
-<li>2.Le revendeur sélectionne l’onglet “Changer l’état d’une commande”</li>
-<li>3.Le revendeur sélectionne la commande à mettre à jours</li>
-<li>4.Le revendeur sélectionne le menu déroulant et choisit l’option appropriée</li>
-<li>5.Le revendeur clique sur “Enregistrer”</li>
+<li>Permettre au revendeur de tenir l’acheteur informé de l’état de sa commande - Préconditions: - Le revendeur doit avoir un compte de revendeur valide - Le revendeur doit avoir vendu au moins un article à un acheteur</li>
 </ul>
 </li>
+<li>Acteurs:
+<ul>
+<li>Le revendeur est un acteur principal et l’acheteur est l’acteur secondaire</li>
+</ul>
+</li>
+<li>Scénario principal:
+<ul>
 <li>
-<p>Scénarios alternatifs</p>
+<ol>
+<li>Le revendeur se connecte à son compte de revendeur sur UniShop</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>Le revendeur sélectionne l’onglet “Changer l’état d’une commande”</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>Le revendeur sélectionne la commande à mettre à jours</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>Le revendeur sélectionne le menu déroulant et choisit l’option appropriée</li>
+</ol>
+</li>
+<li>
+<ol start="5">
+<li>Le revendeur clique sur “Enregistrer”</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>Scénarios alternatifs:
 <ul>
 <li>4.a Si le revendeur choisit l’option «en livraison», le revendeur doit transmettre à l’acheteur le nom de la compagnie d’expédition et le numéro de suivi dans la section indiquée</li>
 <li>4.a.1 Si le revendeur laisse cette section vide, le système lui indique d’inscrire le nom de la compagnie et/ou le numéro de suivis pour poursuivre le changement d’état</li>
 </ul>
 </li>
-<li>
-<p>Postconditions: Le changement est mis à jours dans le système et est visible pour l’acheteur.</p>
+<li>Postconditions:
+<ul>
+<li>Le changement est mis à jours dans le système et est visible pour l’acheteur.</li>
+</ul>
 </li>
 </ul>
 </li>
 <li>
-<p>Gestion de problèmes</p>
+<p>Gestion de problèmes:</p>
 <ul>
-<li>
-<p>But:</p>
+<li>But:
 <ul>
 <li>Permettre à un revendeur de gérer les problèmes concernant leurs produits.</li>
 </ul>
 </li>
-<li>
-<p>Préconditions:</p>
+<li>Préconditions:
 <ul>
 <li>Être un revendeur sur UniShop et avoir des problèmes signalés par les acheteurs.</li>
 </ul>
 </li>
-<li>
-<p>Acteurs:</p>
+<li>Acteurs:
 <ul>
 <li>Le revendeur est un acteur (principal).</li>
 </ul>
 </li>
-<li>
-<p>Scénario principal:</p>
+<li>Scénario principal:
 <ul>
-<li>1.Le revendeur accède à la liste des problèmes signalés.</li>
-<li>2.Le revendeur sélectionne un problème à résoudre.</li>
-<li>3.Le revendeur propose une solution pour résoudre le problème.</li>
-<li>4.L’acheteur accepte la solution proposée par le revendeur.</li>
-<li>5.Le revendeur met en ouvre la solution acceptée.</li>
-</ul>
+<li>
+<ol>
+<li>Le revendeur accède à la liste des problèmes signalés.</li>
+</ol>
 </li>
 <li>
-<p>Scénarios alternatifs:</p>
+<ol start="2">
+<li>Le revendeur sélectionne un problème à résoudre.</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>Le revendeur propose une solution pour résoudre le problème.</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>L’acheteur accepte la solution proposée par le revendeur.</li>
+</ol>
+</li>
+<li>
+<ol start="5">
+<li>Le revendeur met en ouvre la solution acceptée.</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>Scénarios alternatifs:
 <ul>
 <li>
-<p>3a.Le revendeur propose une solution, mais l'acheteur n'est pas d'accord.</p>
+<p>3a Le revendeur propose une solution, mais l'acheteur n'est pas d'accord.</p>
 <ul>
-<li>1.L'acheteur n'est pas satisfait de la solution proposée par le revendeur.</li>
-<li>2.L'acheteur refuse la solution.</li>
-<li>3.Le revendeur propose une alternative ou une nouvelle solution.</li>
-<li>4.L'acheteur accepte la nouvelle solution proposée.</li>
+<li>
+<ol>
+<li>L'acheteur n'est pas satisfait de la solution proposée par le revendeur.</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>L'acheteur refuse la solution.</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>Le revendeur propose une alternative ou une nouvelle solution.</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>L'acheteur accepte la nouvelle solution proposée.</li>
+</ol>
+</li>
 </ul>
 </li>
 <li>
 <p>3b. Le revendeur ne parvient pas à proposer une solution satisfaisante.</p>
 <ul>
-<li>1.Le revendeur a du mal à proposer une solution adéquate.</li>
-<li>2.Le revendeur demande l'intervention d'un responsable ou d'un service dédié.</li>
-<li>3.Un responsable ou un service spécialisé propose une solution.</li>
-<li>4.L'acheteur accepte la solution proposée par le responsable ou le service spécialisé.</li>
+<li>
+<ol>
+<li>Le revendeur a du mal à proposer une solution adéquate.</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>Le revendeur demande l'intervention d'un responsable ou d'un service dédié.</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>Un responsable ou un service spécialisé propose une solution.</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>L'acheteur accepte la solution proposée par le responsable ou le service spécialisé.</li>
+</ol>
+</li>
 </ul>
 </li>
 <li>
@@ -3914,15 +4341,29 @@ Scénario alternatif:</li>
 <li>L'acheteur change d'avis concernant la solution acceptée.</li>
 </ol>
 <ul>
-<li>1.L'acheteur accepte une solution, puis change d'avis.</li>
-<li>2.L'acheteur communique avec le revendeur pour expliquer son changement d'avis.</li>
-<li>3.Le revendeur propose une alternative qui satisfait l'acheteur.</li>
-</ul>
-</li>
-</ul>
+<li>
+<ol>
+<li>L'acheteur accepte une solution, puis change d'avis.</li>
+</ol>
 </li>
 <li>
-<p>Postconditions: Le problème signalé est résolu et clos.</p>
+<ol start="2">
+<li>L'acheteur communique avec le revendeur pour expliquer son changement d'avis.</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>Le revendeur propose une alternative qui satisfait l'acheteur.</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Postconditions:
+<ul>
+<li>Le problème signalé est résolu et clos.</li>
+</ul>
 </li>
 </ul>
 </li>
