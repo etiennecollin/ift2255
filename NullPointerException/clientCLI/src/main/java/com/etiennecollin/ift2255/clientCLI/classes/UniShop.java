@@ -9,15 +9,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class UniShop {
-    private final User currentUser;
+    private User currentUser;
     private HashMap<Buyer, String> buyerList;
     private HashMap<Seller, String> sellerList;
-    private ArrayList<Product> catalog;
+    private ArrayList<Tuple<Product, Integer>> catalog;
 
-    public UniShop(User currentUser, String userListFilePath) {
-        this.currentUser = currentUser;
-        this.loadUserList(userListFilePath);
-        sellerList.forEach((seller, password) -> catalog.addAll(seller.getProductsSold()));
+    public UniShop() {
+        this.buyerList = new HashMap<>();
+        this.sellerList = new HashMap<>();
+        updateCatalog();
+    }
+
+    public void updateCatalog() {
+        this.catalog = new ArrayList<>();
+        sellerList.forEach((seller, password) -> this.catalog.addAll(seller.getProductsSold()));
     }
 
     /**
@@ -25,7 +30,7 @@ public class UniShop {
      *
      * @param path The file path from which user data needs to be loaded.
      */
-    private void loadUserList(String path) {
+    public void loadUserList(String path) {
         try (FileInputStream file = new FileInputStream(path)) {
             try (ObjectInputStream input = new ObjectInputStream(file)) {
                 this.buyerList = (HashMap<Buyer, String>) input.readObject();
@@ -36,7 +41,7 @@ public class UniShop {
         }
     }
 
-    public ArrayList<Product> getCatalog() {
+    public ArrayList<Tuple<Product, Integer>> getCatalog() {
         return catalog;
     }
 
@@ -68,6 +73,10 @@ public class UniShop {
         return currentUser;
     }
 
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
+
     public void addUser(Buyer buyer, String password) {
         if (buyerList.containsKey(buyer)) {
             throw new IllegalArgumentException("This buyer already exists");
@@ -80,19 +89,21 @@ public class UniShop {
             throw new IllegalArgumentException("This seller already exists");
         }
         this.sellerList.put(seller, password);
+        updateCatalog();
     }
 
-    public void removeUser(Buyer buyer, String password) {
+    public void removeUser(Buyer buyer) {
         if (!buyerList.containsKey(buyer)) {
             throw new IllegalArgumentException("This buyer does not exist");
         }
         this.buyerList.remove(buyer);
     }
 
-    public void removeUser(Seller seller, String password) {
+    public void removeUser(Seller seller) {
         if (!sellerList.containsKey(seller)) {
             throw new IllegalArgumentException("This seller does not exist");
         }
         this.sellerList.remove(seller);
+        updateCatalog();
     }
 }
