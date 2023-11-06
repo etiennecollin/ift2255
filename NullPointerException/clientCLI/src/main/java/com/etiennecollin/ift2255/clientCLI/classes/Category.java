@@ -5,5 +5,5 @@
 package com.etiennecollin.ift2255.clientCLI.classes;
 
 public enum Category {
-    Test1, Test2, Test3
+    LivresManuels, RessourcesApprentissage, ArticlesPapeterie, MaterielInformatique, EquipementBureau
 }
