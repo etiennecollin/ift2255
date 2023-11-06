@@ -4,20 +4,28 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes;
 
+import java.util.ArrayList;
+import java.util.Objects;
 import java.util.UUID;
 
 public class User {
     private final UUID id;
+    private final ArrayList<Ticket> tickets;
     private String email;
     private int phone;
     private String address;
 
     public User() {
         this.id = UUID.randomUUID();
+        this.tickets = new ArrayList<>();
     }
 
-    public UUID getId() {
-        return id;
+    public ArrayList<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void addTicket(Ticket ticket) {
+        this.tickets.add(ticket);
     }
 
     public String getEmail() {
@@ -42,5 +50,9 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public UUID getId() {
+        return id;
     }
 }
