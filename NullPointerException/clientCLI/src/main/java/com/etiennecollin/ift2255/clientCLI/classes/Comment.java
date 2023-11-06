@@ -13,20 +13,10 @@ public class Comment {
     private String content;
     private String title;
     private Buyer author;
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
     private Product product;
     private int likes;
     private int reports;
     private boolean arePointsGiven;
-
     public Comment(String content, String title, Buyer author, Product product) {
         this.setContent(content);
         this.setTitle(title);
@@ -37,12 +27,6 @@ public class Comment {
         this.id = UUID.randomUUID();
     }
 
-    public void delete() {
-        setLikes(0);
-        setReports(0);
-        updateAuthorPoints();
-    }
-
     private void updateAuthorPoints() {
         if ((this.reports > 0 || this.likes == 0) && this.arePointsGiven) {
             this.arePointsGiven = false;
@@ -51,6 +35,20 @@ public class Comment {
             this.arePointsGiven = true;
             this.author.addFidelityPoints(POINTS_PER_REVIEW);
         }
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public void delete() {
+        setLikes(0);
+        setReports(0);
+        updateAuthorPoints();
     }
 
     public boolean arePointsGiven() {
