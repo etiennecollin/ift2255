@@ -5,19 +5,147 @@
 package com.etiennecollin.ift2255.clientCLI.classes;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Objects;
 
 public class Buyer extends User {
+    private final Cart cart;
+    private final ArrayList<Product> productsLiked;
+    private final ArrayList<Comment> commentsLiked;
+    private final ArrayList<Comment> commentsWritten;
+    private final ArrayList<Order> orders;
     private String lastName;
     private String firstName;
     private String username; // Unique
-    private ArrayList<Product> productsLiked;
-    private ArrayList<Comment> commentsLiked;
+    private int fidelityPoints = 0;
 
     public Buyer(String lastName, String firstName, String username) {
         this.setLastName(lastName);
         this.setFirstName(firstName);
         this.setUsername(username);
+        this.cart = new Cart();
+        this.productsLiked = new ArrayList<>();
+        this.commentsLiked = new ArrayList<>();
+        this.commentsWritten = new ArrayList<>();
+        this.orders = new ArrayList<>();
+    }
+
+    public void createTicket(Order order, String description) {
+        if (!this.orders.contains(order)) {
+            throw new IllegalArgumentException("This order does not belong to the current user");
+        }
+
+        // Check if order can still be reported
+        Calendar currentDate = Calendar.getInstance();
+        currentDate.add(Calendar.DAY_OF_MONTH, -365);
+        if (!order.getOrderDate().after(currentDate)) {
+            throw new IllegalArgumentException("This order can no longer be reported");
+        }
+
+        for (Tuple<Product, Integer> match : order.getProducts()) {
+            Product product = match.first;
+            new Ticket(description, product, this, product.getSeller());
+        }
+    }
+
+    public void createTicket(Order order, Product product, String description) {
+        if (!this.orders.contains(order)) {
+            throw new IllegalArgumentException("This order does not belong to the current user");
+        }
+
+        // Check if order can still be reported
+        Calendar currentDate = Calendar.getInstance();
+        currentDate.add(Calendar.DAY_OF_MONTH, -365);
+        if (!order.getOrderDate().after(currentDate)) {
+            throw new IllegalArgumentException("This order can no longer be reported");
+        }
+
+        // Check if product is in order
+        boolean isFound = false;
+        for (Tuple<Product, Integer> match : order.getProducts()) {
+            if (match.first == product) {
+                isFound = true;
+                break;
+            }
+        }
+
+        if (!isFound) {
+            throw new IllegalArgumentException("This product is not in this order");
+        }
+
+        new Ticket(description, product, this, product.getSeller());
+    }
+
+    public ArrayList<Comment> getCommentsWritten() {
+        return commentsWritten;
+    }
+
+    public void addCommentWritten(Comment comment) {
+        this.commentsWritten.add(comment);
+    }
+
+    public void removeCommentWritten(Comment comment) {
+        if (!this.commentsWritten.remove(comment)) {
+            throw new IllegalArgumentException("This comment does not belong to the current user");
+        }
+        comment.delete();
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public ArrayList<Order> getOrders() {
+        return orders;
+    }
+
+    public void addOrder(Order order) {
+        this.orders.add(order);
+        addFidelityPoints(order.getFidelityPoints());
+    }
+
+    public void addFidelityPoints(int fidelityPoints) {
+        this.fidelityPoints += fidelityPoints;
+    }
+
+    public void returnOrder(Order order) {
+        if (!this.orders.remove(order)) {
+            throw new IllegalArgumentException("This order does not belong to the current user");
+        }
+        removeFidelityPoints(order.getFidelityPoints());
+    }
+
+    public void removeFidelityPoints(int fidelityPoints) {
+        this.fidelityPoints -= fidelityPoints;
+    }
+
+    public void exchangeOrder(Order order) {
+        if (!this.orders.remove(order)) {
+            throw new IllegalArgumentException("This order does not belong to the current user");
+        }
+        removeFidelityPoints(order.getFidelityPoints());
+    }
+
+    public void cancelOrder(Order order) {
+        if (!this.orders.remove(order)) {
+            throw new IllegalArgumentException("This order does not belong to the current user");
+        }
+        removeFidelityPoints(order.getFidelityPoints());
+    }
+
+    public void orderDelivered(Order order) {
+        if (!this.orders.contains(order)) {
+            throw new IllegalArgumentException("This order does not belong to the current user");
+        }
+        order.setDelivered();
+    }
+
+    public int getFidelityPoints() {
+        return fidelityPoints;
+    }
+
+    public void setFidelityPoints(int fidelityPoints) {
+        this.fidelityPoints = fidelityPoints;
     }
 
     public ArrayList<Product> getProductsLiked() {
@@ -73,7 +201,7 @@ public class Buyer extends User {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
         Buyer buyer = (Buyer) o;
-        return Objects.equals(getUsername(), buyer.getUsername()) && Objects.equals(getId(), buyer.getId());
+        return Objects.equals(getUsername(), buyer.getUsername()) || Objects.equals(getId(), buyer.getId());
     }
 
     public String getUsername() {
