@@ -17,15 +17,25 @@ public class Product {
     private Seller seller;
     private ArrayList<Comment> comments;
     private Rating rating;
+    private int fidelityPoints;
 
-    public Product(int price, String title, Category category) {
+    public Product(int price, String title, Category category, int fidelityPoints) {
         this.setPrice(price);
         this.setTitle(title);
         this.setCategory(category);
+        this.setFidelityPoints(fidelityPoints);
         this.setLikes(0);
         this.setComments(new ArrayList<>());
         this.setRating(new Rating());
         this.id = UUID.randomUUID();
+    }
+
+    public int getFidelityPoints() {
+        return fidelityPoints;
+    }
+
+    public void setFidelityPoints(int fidelityPoints) {
+        this.fidelityPoints = fidelityPoints;
     }
 
     public int getPrice() {
@@ -86,6 +96,17 @@ public class Product {
 
     public void setComments(ArrayList<Comment> comments) {
         this.comments = comments;
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
+    }
+
+    public void removeComment(Comment comment) {
+        if (comment.arePointsGiven()) {
+            comment.getAuthor().removeFidelityPoints(Comment.POINTS_PER_REVIEW);
+        }
+        this.comments.remove(comment);
     }
 
     public Rating getRating() {
