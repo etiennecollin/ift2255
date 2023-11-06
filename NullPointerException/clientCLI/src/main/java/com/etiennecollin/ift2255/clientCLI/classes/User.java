@@ -52,6 +52,11 @@ public class User {
         this.address = address;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
+
     public UUID getId() {
         return id;
     }
