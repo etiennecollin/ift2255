@@ -8,18 +8,53 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Comment {
+    public static final int POINTS_PER_REVIEW = 10;
     private final UUID id;
     private String content;
     private String title;
     private Buyer author;
-    private int likes;
 
-    public Comment(String content, String title, Buyer author) {
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    private Product product;
+    private int likes;
+    private int reports;
+    private boolean arePointsGiven;
+
+    public Comment(String content, String title, Buyer author, Product product) {
         this.setContent(content);
         this.setTitle(title);
         this.setAuthor(author);
+        this.setProduct(product);
         this.setLikes(0);
+        this.arePointsGiven = false;
         this.id = UUID.randomUUID();
+    }
+
+    public void delete() {
+        setLikes(0);
+        setReports(0);
+        updateAuthorPoints();
+    }
+
+    private void updateAuthorPoints() {
+        if ((this.reports > 0 || this.likes == 0) && this.arePointsGiven) {
+            this.arePointsGiven = false;
+            this.author.removeFidelityPoints(POINTS_PER_REVIEW);
+        } else if (this.reports == 0 && this.likes > 0 && !this.arePointsGiven) {
+            this.arePointsGiven = true;
+            this.author.addFidelityPoints(POINTS_PER_REVIEW);
+        }
+    }
+
+    public boolean arePointsGiven() {
+        return arePointsGiven;
     }
 
     @Override
@@ -69,5 +104,15 @@ public class Comment {
 
     public void setLikes(int likes) {
         this.likes = likes;
+        updateAuthorPoints();
+    }
+
+    public int getReports() {
+        return reports;
+    }
+
+    public void setReports(int reports) {
+        this.reports = reports;
+        updateAuthorPoints();
     }
 }
