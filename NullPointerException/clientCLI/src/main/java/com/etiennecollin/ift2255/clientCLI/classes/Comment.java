@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Etienne Collin #20237904, Nicholas Cooper #20241729, Charlotte Locas #20211755
+ * Copyright (c) 2023. Etienne Collin #20237904, Nicholas Cooper #20241729, Aboubakre Walid Diongue #20198446, Charlotte Locas #20211755
  */
 
 package com.etiennecollin.ift2255.clientCLI.classes;
@@ -17,6 +17,7 @@ public class Comment {
     private int likes;
     private int reports;
     private boolean arePointsGiven;
+
     public Comment(String content, String title, Buyer author, Product product) {
         this.setContent(content);
         this.setTitle(title);
