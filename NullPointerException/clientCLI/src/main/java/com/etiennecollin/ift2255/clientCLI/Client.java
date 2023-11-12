@@ -5,6 +5,8 @@
 
 package com.etiennecollin.ift2255.clientCLI;
 
+import com.etiennecollin.ift2255.clientCLI.classes.Category;
+
 import java.util.ArrayList;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
@@ -47,7 +49,7 @@ public class Client {
 
         while (true) {
             String[] loginMenu = {"Login", "Register", "Quit"};
-            int answer = prettyMenuInt("Welcome to UniShop", loginMenu);
+            int answer = prettyMenu("Welcome to UniShop", loginMenu);
 
             UserRole userRole;
             if (answer == 0) {
@@ -100,7 +102,7 @@ public class Client {
     public static void buyerMenu() {
         boolean disconnect = false;
         do {
-            int buyerAnswer = prettyMenuInt("Main menu", buyerMenu);
+            int buyerAnswer = prettyMenu("Main menu", buyerMenu);
             switch (buyerAnswer) {
                 case 0 -> displayCatalog();
                 case 1 -> searchProduct();
@@ -119,7 +121,7 @@ public class Client {
         boolean disconnect = false;
 
         do {
-            int answer = prettyMenuInt("Main menu", sellerMenu);
+            int answer = prettyMenu("Main menu", sellerMenu);
             switch (answer) {
                 case 0 -> addProduct();
                 case 1 -> changeOrderStatus();
@@ -158,10 +160,10 @@ public class Client {
         String[] catChoice = {"Books and manuals", "Learning ressources", "Stationery", "Hardware", "Office equipment", "Main menu"};
         while (true) { // 5 is the option for Main Menu
             // for prototype only
-            int choice = prettyMenuInt("Categories", catChoice);
+            int choice = prettyMenu("Categories", catChoice);
             if (choice == catChoice.length - 1) break;
 
-            int addToCart = prettyMenuInt("Add to cart", addToCartMenu);
+            int addToCart = prettyMenu("Add to cart", addToCartMenu);
 
             if (addToCart != (addToCartMenu.length - 1)) {
                 shoppingCart.add(addToCartMenu[addToCart]);
@@ -185,11 +187,11 @@ public class Client {
         }
         searchResult.add("Main menu");
         // display result
-        int choice = prettyMenuInt("Resultats for \"" + keyWord + "\"", searchResult);
+        int choice = prettyMenu("Resultats for \"" + keyWord + "\"", searchResult);
 
         if (!(choice == searchResult.size() - 1)) {
             String[] productMenu = {"Like the product", "Add to cart", "Main Menu"};
-            int answer = prettyMenuInt(searchResult.get(choice), productMenu);
+            int answer = prettyMenu(searchResult.get(choice), productMenu);
 
             switch (answer) {
                 case 0 -> {
@@ -232,7 +234,7 @@ public class Client {
     // For prototype only
     private static void findSeller() {
         String[] searchBy = {"Name", "Address", "Article category"};
-        int search = prettyMenuInt("Search by", searchBy);
+        int search = prettyMenu("Search by", searchBy);
 
         switch (search) {
             case 0 -> { // Name
@@ -245,7 +247,7 @@ public class Client {
             }
             case 2 -> { // Article category
                 String[] catChoice = {"Books and manuals", "Learning ressources", "Stationery", "Hardware", "Office equipment", "Main menu"};
-                int cat = prettyMenuInt("Categories", catChoice);
+                int cat = prettyMenu("Categories", catChoice);
             }
         }
         displaySellers();
@@ -260,13 +262,13 @@ public class Client {
             }
         }
 
-        int answer = prettyMenuInt("Order menu", new String[]{"Confirm an order", "Signal an issue", "Back"});
+        int answer = prettyMenu("Order menu", new String[]{"Confirm an order", "Signal an issue", "Back"});
         switch (answer) {
             case 0 -> {
                 if (ordersPlaced.isEmpty()) {
                     System.out.println("No placed orders");
                 } else {
-                    int orderToConfirm = prettyMenu2DArray("What order do you want to confirm?", ordersPlaced);
+                    int orderToConfirm = Utils.prettyMenu("What order do you want to confirm?", ordersPlaced, "Order");
                     System.out.println("Order " + orderToConfirm + " is successfully confirmed");
                 }
             }
@@ -274,7 +276,7 @@ public class Client {
                 if (ordersPlaced.isEmpty()) {
                     System.out.println("No placed orders");
                 } else {
-                    int orderToSignal = prettyMenu2DArray("What order do you want to signal?", ordersPlaced);
+                    int orderToSignal = Utils.prettyMenu("What order do you want to signal?", ordersPlaced, "Order");
                     System.out.println("Order " + orderToSignal + " is successfully signaled");
                 }
             }
@@ -284,7 +286,7 @@ public class Client {
     public static void updateBuyerInfo() {
         String[] updateInfoMenu = new String[]{"First name", "Last name", "Password", "Email", "Phone number", "Shipping address", "Main menu"};
         while (true) {
-            int menuIdx = prettyMenuInt("Select the information you'd like to change", updateInfoMenu);
+            int menuIdx = prettyMenu("Select the information you'd like to change", updateInfoMenu);
 
             switch (menuIdx) {
                 case 0 -> prettyPrompt("Set a new first name");
@@ -302,7 +304,7 @@ public class Client {
 
     public static void addProduct() {
         String title = prettyPrompt("Title");
-        String category = prettyMenu("Category", categories);
+        Category category = prettyMenu("Category", Category.class);
         String description = prettyPrompt("Description");
         String brandName = prettyPrompt("Brand name");
         String modelName = prettyPrompt("Model name");
@@ -314,13 +316,13 @@ public class Client {
 
     public static void changeOrderStatus() {
         String[] orderMenu = new String[]{"#123 - Pending Seller", "Main menu"};
-        int orderIdx = prettyMenuInt("Select the order to update", orderMenu);
+        int orderIdx = prettyMenu("Select the order to update", orderMenu);
         if (orderIdx == orderMenu.length - 1) { // last index returns to main menu
             return;
         }
 
         String[] orderStatusMenu = new String[]{"In transit", "Main menu"};
-        int statusIdx = prettyMenuInt("Select new status", orderStatusMenu);
+        int statusIdx = prettyMenu("Select new status", orderStatusMenu);
         if (statusIdx == orderStatusMenu.length - 1) { // last index returns to main menu
             return;
         }
@@ -334,7 +336,7 @@ public class Client {
     public static void manageProblems() {
         String[] problemList = new String[]{"#123 - Order not received", "Main menu"};
 
-        int problemIdx = prettyMenuInt("Select a problem", problemList);
+        int problemIdx = prettyMenu("Select a problem", problemList);
         if (problemIdx == problemList.length - 1) {
             return;
         }
@@ -343,7 +345,7 @@ public class Client {
         System.out.println("I put in an order 5 minutes ago and I still have not received it!!!");
 
         String[] solutionTypes = new String[]{"Refund", "Replace", "Repair"};
-        String solution = prettyMenu("Select a solution", solutionTypes);
+        int solution = prettyMenu("Select a solution", solutionTypes);
         String description = prettyPrompt("Provide solution details to the buyer");
         // set new problem status
 
@@ -353,7 +355,7 @@ public class Client {
     public static void updateSellerInfo() {
         String[] updateInfoMenu = new String[]{"Password", "Email", "Phone number", "Shipping address", "Main menu"};
         while (true) {
-            int menuIdx = prettyMenuInt("Select the information you'd like to change", updateInfoMenu);
+            int menuIdx = prettyMenu("Select the information you'd like to change", updateInfoMenu);
 
             switch (menuIdx) {
                 case 0 -> prettyPrompt("Set a new password");

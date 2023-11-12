@@ -5,6 +5,7 @@
 package com.etiennecollin.ift2255.clientCLI;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.function.Function;
 
@@ -70,6 +71,7 @@ public class Utils {
      * @return The answer of the user.
      */
     protected static String prettyPrompt(String prompt) {
+        System.out.println("------------");
         System.out.print(prettify(prompt) + ": ");
         return scanner.nextLine().strip();
     }
@@ -85,6 +87,7 @@ public class Utils {
      */
     protected static String prettyPromptValidated(String prompt, Function<String, Boolean> validator) {
         while (true) {
+            System.out.println("------------");
             System.out.print(prettify(prompt) + ": ");
             String answer = scanner.nextLine().strip();
             if (validator.apply(answer)) {
@@ -105,6 +108,7 @@ public class Utils {
      */
     protected static int prettyPromptInt(String prompt) {
         while (true) {
+            System.out.println("------------");
             System.out.print(prettify(prompt) + ": ");
             try {
                 return Integer.parseInt(scanner.nextLine().strip());
@@ -127,6 +131,7 @@ public class Utils {
      */
     protected static int prettyPromptCurrency(String prompt) {
         while (true) {
+            System.out.println("------------");
             System.out.print(prettify(prompt) + ": ");
             try {
                 return Integer.parseInt(scanner.nextLine().strip().replace(".", ""));
@@ -141,12 +146,12 @@ public class Utils {
      * It keeps prompting until a valid selection is made.
      *
      * @param prompt  The message to display as the prompt.
-     * @param choices An ArrayList of strings representing the menu choices.
+     * @param choices An array of strings representing the menu choices.
      *
      * @return The index of the selected choice (0-based index).
      */
-    protected static int prettyMenuInt(String prompt, ArrayList<String> choices) {
-        return prettyMenuInt(prompt, choices.toArray(new String[0]));
+    protected static int prettyMenu(String prompt, String[] choices) {
+        return prettyMenu(prompt, new ArrayList<>(Arrays.asList(choices)));
     }
 
     /**
@@ -158,16 +163,16 @@ public class Utils {
      *
      * @return The index of the selected choice (0-based index).
      */
-    protected static int prettyMenuInt(String prompt, String[] choices) {
+    protected static int prettyMenu(String prompt, ArrayList<String> choices) {
         // Instantiate the variables used to store the answer and its parsed version
         String answer;
         int answerParsed;
 
         // Generate the menu containing all choices
-        String menu = "";
+        StringBuilder menu = new StringBuilder();
         int i = 0;
         for (String choice : choices) {
-            menu = menu.concat(prettify(i + ") " + choice + "\n"));
+            menu.append(prettify(i + ") " + choice + "\n"));
             i++;
         }
 
@@ -189,26 +194,13 @@ public class Utils {
             }
 
             // Check that answer corresponds to a choice
-            if (answerParsed < 0 || answerParsed >= choices.length) {
+            if (answerParsed < 0 || answerParsed >= choices.size()) {
                 System.out.println(prettify("Invalid input"));
                 continue;
             }
 
             return answerParsed;
         }
-    }
-
-    /**
-     * Displays a menu with choices to the user and expects a numeric selection.
-     * It keeps prompting until a valid selection is made.
-     *
-     * @param prompt  The message to display as the prompt.
-     * @param choices An array of strings representing the menu choices.
-     *
-     * @return The String associated with the selected choice.
-     */
-    protected static String prettyMenu(String prompt, String[] choices) {
-        return choices[prettyMenuInt(prompt, choices)];
     }
 
     /**
@@ -227,20 +219,7 @@ public class Utils {
             enumNames.add(c.name());
         }
 
-        return Enum.valueOf(enumClass, prettyMenu(prompt, enumNames));
-    }
-
-    /**
-     * Displays a menu with choices to the user and expects a numeric selection.
-     * It keeps prompting until a valid selection is made.
-     *
-     * @param prompt  The message to display as the prompt.
-     * @param choices An ArrayList of strings representing the menu choices.
-     *
-     * @return The String associated with the selected choice.
-     */
-    protected static String prettyMenu(String prompt, ArrayList<String> choices) {
-        return choices.get(prettyMenuInt(prompt, choices.toArray(new String[0])));
+        return enumConstants[prettyMenu(prompt, enumNames)];
     }
 
     /**
@@ -249,25 +228,28 @@ public class Utils {
      *
      * @param prompt  The message to display as the prompt.
      * @param choices An ArrayList of ArrayLists of strings representing the menu choices.
+     * @param prefix  What each ArrayList contained in the main one represents.
+     *                This prefix will be printed with an index.
      *
      * @return The index associated with the selected choice in choices.
      */
-    protected static int prettyMenu2DArray(String prompt, ArrayList<ArrayList<String>> choices) {
+    protected static int prettyMenu(String prompt, ArrayList<ArrayList<String>> choices, String prefix) {
         // Instantiate the variables used to store the answer and its parsed version
         String answer;
         int answerParsed;
 
+        StringBuilder menu = new StringBuilder();
+        for (int i = 0; i < choices.size(); i++) {
+            menu.append(prettify(prefix + " " + i + ":\n"));
+            for (String choice : choices.get(i)) {
+                menu.append(prettify("  " + choice + "\n"));
+            }
+        }
+
         while (true) {
             System.out.println("------------");
-            System.out.println(prettify(prompt));
-
-            for (int i = 0; i < choices.size(); i++) {
-                System.out.println(prettify("Order " + (i) + ": "));
-                for (int j = 0; j < choices.get(i).size(); j++) {
-                    System.out.println(prettify(choices.get(i).get(j)));
-                }
-            }
-
+            System.out.println(prettify(prompt) + ": ");
+            System.out.print(menu);
             System.out.print(prettify("Selection: "));
             answer = scanner.nextLine().strip();
 
@@ -281,7 +263,6 @@ public class Utils {
 
             if (answerParsed < 0 || answerParsed >= choices.size()) {
                 System.out.println(prettify("Invalid input"));
-                System.out.print(prettify("Selection: "));
                 continue;
             }
 
