@@ -372,6 +372,13 @@ public class Client {
             System.out.println(prettify(seller));
         }
     }
+
+    /**
+     * Temporary for prototype.
+     */
+    public enum UserRole {
+        Buyer, Seller
+    }
 }
 
 
