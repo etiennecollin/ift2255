@@ -119,6 +119,9 @@ public abstract class Product {
     }
 
     public void setLikes(int likes) {
+        if (likes < 0) {
+            throw new IllegalArgumentException("Cannot have a negative number of likes");
+        }
         this.likes = likes;
     }
 
