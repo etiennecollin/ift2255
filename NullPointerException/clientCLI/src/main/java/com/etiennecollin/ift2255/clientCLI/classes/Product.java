@@ -13,14 +13,16 @@ public class Product {
     private int price;
     private Category category;
     private String title; // Unique
+    private String description;
     private int likes;
     private Seller seller;
     private ArrayList<Comment> comments;
     private Rating rating;
     private int fidelityPoints;
 
-    public Product(int price, String title, Category category, int fidelityPoints) {
+    public Product(int price, String title, String description, Category category, int fidelityPoints) {
         this.setPrice(price);
+        this.setDescription(description);
         this.setTitle(title);
         this.setCategory(category);
         this.setFidelityPoints(fidelityPoints);
@@ -29,6 +31,8 @@ public class Product {
         this.setRating(new Rating());
         this.id = UUID.randomUUID();
     }
+
+    private void setDescription(String description) {this.description = description;}
 
     public int getFidelityPoints() {
         return fidelityPoints;
