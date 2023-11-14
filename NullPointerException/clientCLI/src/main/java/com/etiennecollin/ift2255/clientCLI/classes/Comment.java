@@ -4,6 +4,8 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes;
 
+import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
+
 import java.util.Objects;
 import java.util.UUID;
 

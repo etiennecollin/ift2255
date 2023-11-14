@@ -2,32 +2,64 @@
  * Copyright (c) 2023. Etienne Collin #20237904, Nicholas Cooper #20241729, Aboubakre Walid Diongue #20198446, Charlotte Locas #20211755
  */
 
-package com.etiennecollin.ift2255.clientCLI.classes;
+package com.etiennecollin.ift2255.clientCLI.classes.products;
+
+import com.etiennecollin.ift2255.clientCLI.classes.Comment;
+import com.etiennecollin.ift2255.clientCLI.classes.Rating;
+import com.etiennecollin.ift2255.clientCLI.classes.Seller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Product {
+public abstract class Product {
     private final UUID id;
+    private final Calendar commercializationDate;
+    private final ProductCategory productCategory;
     private int price;
-    private Category category;
+    private int quantity;
     private String title; // Unique
+    private String description;
     private int likes;
     private Seller seller;
     private ArrayList<Comment> comments;
     private Rating rating;
     private int fidelityPoints;
 
-    public Product(int price, String title, Category category, int fidelityPoints) {
+    public Product(int price, int quantity, String title, String description, ProductCategory productCategory, int fidelityPoints) {
         this.setPrice(price);
+        this.setQuantity(quantity);
         this.setTitle(title);
-        this.setCategory(category);
+        this.setDescription(description);
+        this.productCategory = productCategory;
         this.setFidelityPoints(fidelityPoints);
+
+        this.commercializationDate = Calendar.getInstance();
         this.setLikes(0);
         this.setComments(new ArrayList<>());
         this.setRating(new Rating());
         this.id = UUID.randomUUID();
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Calendar getCommercializationDate() {
+        return commercializationDate;
     }
 
     public int getFidelityPoints() {
@@ -74,12 +106,8 @@ public class Product {
         this.title = title;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
+    public ProductCategory getCategory() {
+        return productCategory;
     }
 
     public int getLikes() {

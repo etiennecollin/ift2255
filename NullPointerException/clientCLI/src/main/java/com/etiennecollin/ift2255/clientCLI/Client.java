@@ -5,7 +5,7 @@
 
 package com.etiennecollin.ift2255.clientCLI;
 
-import com.etiennecollin.ift2255.clientCLI.classes.Category;
+import com.etiennecollin.ift2255.clientCLI.classes.products.ProductCategory;
 
 import java.util.ArrayList;
 
@@ -304,7 +304,7 @@ public class Client {
 
     public static void addProduct() {
         String title = prettyPrompt("Title");
-        Category category = prettyMenu("Category", Category.class);
+        ProductCategory productCategory = prettyMenu("Category", ProductCategory.class);
         String description = prettyPrompt("Description");
         String brandName = prettyPrompt("Brand name");
         String modelName = prettyPrompt("Model name");
