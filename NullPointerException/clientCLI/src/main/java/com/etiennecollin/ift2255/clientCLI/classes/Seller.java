@@ -13,7 +13,8 @@ public class Seller extends User {
     private final ArrayList<Product> productsSold;
     private String name; // Unique
 
-    public Seller(String name, String email, int phone, String address) {
+    public Seller(String name, String email, int phone, String address, String password) {
+        super(password);
         this.setName(name);
         this.setEmail(email);
         this.setPhone(phone);

@@ -12,9 +12,9 @@ import java.util.HashMap;
 
 public class UniShop {
     private User currentUser;
-    private HashMap<String, Tuple<Buyer, String>> buyerList;
-    private HashMap<String, Tuple<Seller, String>> sellerList;
-    private ArrayList<Tuple<Product, Integer>> catalog;
+    private HashMap<String, Buyer> buyerList;
+    private HashMap<String, Seller> sellerList;
+    private ArrayList<Product> catalog;
 
     public UniShop() {
         this.buyerList = new HashMap<>();
@@ -24,26 +24,27 @@ public class UniShop {
 
     public void updateCatalog() {
         this.catalog = new ArrayList<>();
-        sellerList.forEach((seller, tuple) -> this.catalog.addAll(tuple.first.getProductsSold()));
+        sellerList.forEach((sellerName, seller) -> this.catalog.addAll(seller.getProductsSold()));
     }
 
     /**
-     * Loads user data from the specified file path.
-     *
-     * @param path The file path from which user data needs to be loaded.
+      Loads user data from the specified file path.
+
+      @param path The file path from which user data needs to be loaded.
      */
+    @SuppressWarnings("unchecked")
     public void loadUserList(String path) {
         try (FileInputStream file = new FileInputStream(path)) {
             try (ObjectInputStream input = new ObjectInputStream(file)) {
-                this.buyerList = (HashMap<String, Tuple<Buyer, String>>) input.readObject();
-                this.sellerList = (HashMap<String, Tuple<Seller, String>>) input.readObject();
+                this.buyerList = (HashMap<String, Buyer>) input.readObject();
+                this.sellerList = (HashMap<String, Seller>) input.readObject();
             }
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException("Could not load the user list");
         }
     }
 
-    public ArrayList<Tuple<Product, Integer>> getCatalog() {
+    public ArrayList<Product> getCatalog() {
         return catalog;
     }
 
@@ -63,11 +64,11 @@ public class UniShop {
         }
     }
 
-    public HashMap<String, Tuple<Buyer, String>> getBuyerList() {
+    public HashMap<String, Buyer> getBuyerList() {
         return buyerList;
     }
 
-    public HashMap<String, Tuple<Seller, String>> getSellerList() {
+    public HashMap<String, Seller> getSellerList() {
         return sellerList;
     }
 
@@ -79,18 +80,18 @@ public class UniShop {
         this.currentUser = currentUser;
     }
 
-    public void addUser(Buyer buyer, String password) {
+    public void addUser(Buyer buyer) {
         if (buyerList.containsKey(buyer.getUsername())) {
             throw new IllegalArgumentException("This buyer already exists");
         }
-        this.buyerList.put(buyer.getUsername(), new Tuple<>(buyer, password));
+        this.buyerList.put(buyer.getUsername(), buyer);
     }
 
-    public void addUser(Seller seller, String password) {
+    public void addUser(Seller seller) {
         if (sellerList.containsKey(seller.getName())) {
             throw new IllegalArgumentException("This seller already exists");
         }
-        this.sellerList.put(seller.getName(), new Tuple<>(seller, password));
+        this.sellerList.put(seller.getName(), seller);
         updateCatalog();
     }
 
@@ -110,30 +111,31 @@ public class UniShop {
     }
 
     public void loginBuyer(String username, String password) {
-        Tuple<Buyer, String> tuple = buyerList.get(username);
+        Buyer buyer = buyerList.get(username);
 
-        if (tuple == null) {
+        // Check that a buyer is found
+        if (buyer == null) {
             throw new IllegalArgumentException("Incorrect username");
         }
 
-        if (!tuple.second.equals(password)) {
+        if (buyer.getPassword() != password.hashCode()) {
             throw new IllegalArgumentException("Incorrect password");
         }
 
-        this.setCurrentUser(tuple.first);
+        this.setCurrentUser(buyer);
     }
 
     public void loginSeller(String name, String password) {
-        Tuple<Seller, String> tuple = sellerList.get(name);
+        Seller seller = sellerList.get(name);
 
-        if (tuple == null) {
+        if (seller == null) {
             throw new IllegalArgumentException("Incorrect name");
         }
 
-        if (!tuple.second.equals(password)) {
+        if (seller.getPassword() != password.hashCode()) {
             throw new IllegalArgumentException("Incorrect password");
         }
 
-        this.setCurrentUser(tuple.first);
+        this.setCurrentUser(seller);
     }
 }

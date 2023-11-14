@@ -14,10 +14,28 @@ public class User {
     private String email;
     private int phone;
     private String address;
+    private int password;
 
-    public User() {
+    public User(String password) {
+        this.password = password.hashCode();
         this.id = UUID.randomUUID();
         this.tickets = new ArrayList<>();
+    }
+
+    public void updatePassword(String oldPassword, String newPassword) {
+        if (oldPassword.hashCode() != this.getPassword()) {
+            throw new IllegalArgumentException("Invalid match with current password");
+        }
+
+        this.setPassword(newPassword);
+    }
+
+    public int getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password.hashCode();
     }
 
     public ArrayList<Ticket> getTickets() {
