@@ -6,8 +6,8 @@ package com.etiennecollin.ift2255.clientCLI.classes;
 
 import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Objects;
 
 public class Buyer extends User {
@@ -38,9 +38,7 @@ public class Buyer extends User {
         }
 
         // Check if order can still be reported
-        Calendar currentDate = Calendar.getInstance();
-        currentDate.add(Calendar.DAY_OF_MONTH, -365);
-        if (!order.getOrderDate().after(currentDate)) {
+        if (LocalDate.now().isAfter(order.getOrderDate().plusYears(1))) {
             throw new IllegalArgumentException("This order can no longer be reported");
         }
 
@@ -56,9 +54,7 @@ public class Buyer extends User {
         }
 
         // Check if order can still be reported
-        Calendar currentDate = Calendar.getInstance();
-        currentDate.add(Calendar.DAY_OF_MONTH, -365);
-        if (!order.getOrderDate().after(currentDate)) {
+        if (LocalDate.now().isAfter(order.getOrderDate().plusYears(1))) {
             throw new IllegalArgumentException("This order can no longer be reported");
         }
 

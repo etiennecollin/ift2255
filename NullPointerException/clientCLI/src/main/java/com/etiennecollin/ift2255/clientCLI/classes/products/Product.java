@@ -8,14 +8,14 @@ import com.etiennecollin.ift2255.clientCLI.classes.Comment;
 import com.etiennecollin.ift2255.clientCLI.classes.Rating;
 import com.etiennecollin.ift2255.clientCLI.classes.Seller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Objects;
 import java.util.UUID;
 
 public abstract class Product {
     private final UUID id;
-    private final Calendar commercializationDate;
+    private final LocalDate commercializationDate;
     private final ProductCategory productCategory;
     private int price;
     private int quantity;
@@ -35,11 +35,15 @@ public abstract class Product {
         this.productCategory = productCategory;
         this.setFidelityPoints(fidelityPoints);
 
-        this.commercializationDate = Calendar.getInstance();
+        this.commercializationDate = LocalDate.now();
         this.setLikes(0);
         this.setComments(new ArrayList<>());
         this.setRating(new Rating());
         this.id = UUID.randomUUID();
+    }
+
+    public ProductCategory getProductCategory() {
+        return productCategory;
     }
 
     public int getQuantity() {
@@ -58,7 +62,7 @@ public abstract class Product {
         this.description = description;
     }
 
-    public Calendar getCommercializationDate() {
+    public LocalDate getCommercializationDate() {
         return commercializationDate;
     }
 

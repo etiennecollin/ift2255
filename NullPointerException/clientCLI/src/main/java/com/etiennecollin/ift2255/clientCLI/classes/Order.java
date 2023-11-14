@@ -6,15 +6,15 @@ package com.etiennecollin.ift2255.clientCLI.classes;
 
 import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Objects;
 import java.util.UUID;
 
 public class Order {
     private static final int PRODUCTION_TIME_DAYS = 3;
     private final UUID id;
-    private final Calendar orderDate;
+    private final LocalDate orderDate;
     private int cost;
     private int fidelityPoints;
     private ArrayList<Tuple<Product, Integer>> products;
@@ -27,7 +27,7 @@ public class Order {
     private int creditCardExp;
     private int creditCardSecretDigits;
     private OrderState state;
-    private Calendar deliveryDate;
+    private LocalDate deliveryDate;
 
     public Order(int cost, int fidelityPoints, ArrayList<Tuple<Product, Integer>> products, String email, int phone, String address, String billingAddress, String creditCardName, int creditCardNumber, int creditCardExp, int creditCardSecretDigits) {
         this.cost = cost;
@@ -42,10 +42,9 @@ public class Order {
         this.creditCardExp = creditCardExp;
         this.creditCardSecretDigits = creditCardSecretDigits;
         this.state = OrderState.InProduction;
-        this.orderDate = Calendar.getInstance();
+        this.orderDate = LocalDate.now();
         // Calculate the date 7 days from now
-        this.deliveryDate = Calendar.getInstance();
-        this.deliveryDate.add(Calendar.DAY_OF_MONTH, 7);
+        this.deliveryDate = LocalDate.now().plusDays(7);
         this.id = UUID.randomUUID();
     }
 
@@ -57,17 +56,14 @@ public class Order {
         this.products = products;
     }
 
-    public Calendar getOrderDate() {
+    public LocalDate getOrderDate() {
         return orderDate;
     }
 
     public OrderState getState() {
         // Check if product production is done
-        Calendar currentDate = Calendar.getInstance();
-        currentDate.add(Calendar.DAY_OF_MONTH, -PRODUCTION_TIME_DAYS);
-
         // If so, set status to "in transit"
-        if (orderDate.after(currentDate)) {
+        if (LocalDate.now().isAfter(orderDate.plusDays(PRODUCTION_TIME_DAYS))) {
             this.setInTransit();
         }
         return state;
@@ -77,11 +73,11 @@ public class Order {
         this.state = OrderState.InTransit;
     }
 
-    public Calendar getDeliveryDate() {
+    public LocalDate getDeliveryDate() {
         return deliveryDate;
     }
 
-    public void setDeliveryDate(Calendar deliveryDate) {
+    public void setDeliveryDate(LocalDate deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
 

@@ -6,13 +6,13 @@ package com.etiennecollin.ift2255.clientCLI.classes;
 
 import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 public class Ticket {
     private static final int MAX_RETURN_DELAY_DAYS = 30;
     private final Buyer buyer;
     private final Seller seller;
-    private Calendar returnTrackingNumberEmissionDate;
+    private LocalDate returnTrackingNumberEmissionDate;
     private Product product;
     private String problemDescription;
     private String suggestedSolution;
@@ -50,10 +50,7 @@ public class Ticket {
 
     public TicketState getState() {
         // Check if product production is done
-        Calendar currentDate = Calendar.getInstance();
-        currentDate.add(Calendar.DAY_OF_MONTH, -MAX_RETURN_DELAY_DAYS);
-
-        if (!returnTrackingNumberEmissionDate.after(currentDate) && !returnDeliveryConfirmed) {
+        if (!LocalDate.now().isAfter(returnTrackingNumberEmissionDate.plusDays(MAX_RETURN_DELAY_DAYS)) && !returnDeliveryConfirmed) {
             cancelTicket();
         }
 
@@ -65,8 +62,8 @@ public class Ticket {
     }
 
     public void emitReturnTrackingNumber(int trackingNumber) {
-        returnTrackingNumberEmissionDate = Calendar.getInstance();
-        returnTrackingNumber = trackingNumber;
+        this.returnTrackingNumberEmissionDate = LocalDate.now();
+        this.returnTrackingNumber = trackingNumber;
     }
 
     public void closeTicket() {
