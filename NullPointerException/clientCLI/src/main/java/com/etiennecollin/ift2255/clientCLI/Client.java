@@ -5,6 +5,7 @@
 
 package com.etiennecollin.ift2255.clientCLI;
 
+import com.etiennecollin.ift2255.clientCLI.classes.UniShop;
 import com.etiennecollin.ift2255.clientCLI.classes.products.ProductCategory;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.*;
  * The `Client` class serves as the main entry point for the client command-line interface (CLI).
  */
 public class Client {
+    public static final String savePath = "~/.unishop.data";
     // Hardcoded for prototype
     static String[] sellerMenu = {"Offer product", "Modify order status", "Manage issues", "Update account information", "Log out"};
     static String[] buyerMenu = {"Catalog", "Search a product", "My cart", "My activities", "Find a seller", "My orders", "Update account information", "Log out"};
@@ -57,7 +59,8 @@ public class Client {
             } else if (answer == 1) {
                 userRole = createAccount();
             } else {
-                quit();
+                UniShop unishop = new UniShop();
+                quit(unishop);
                 break;
             }
 

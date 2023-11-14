@@ -4,6 +4,8 @@
 
 package com.etiennecollin.ift2255.clientCLI;
 
+import com.etiennecollin.ift2255.clientCLI.classes.UniShop;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -270,7 +272,9 @@ public class Utils {
         }
     }
 
-    protected static void quit() {
+    protected static void quit(UniShop unishop) {
+        System.out.println(prettify("Saving app state..."));
+        unishop.saveUserList(Client.savePath);
         System.out.println(prettify("Quitting UniShop"));
         scanner.close();
     }
