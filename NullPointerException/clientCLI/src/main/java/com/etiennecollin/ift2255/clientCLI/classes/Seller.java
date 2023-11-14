@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Seller extends User {
-    private final ArrayList<Tuple<Product, Integer>> productsSold;
+    private final ArrayList<Product> productsSold;
     private String name; // Unique
 
     public Seller(String name, String email, int phone, String address) {
@@ -21,13 +21,13 @@ public class Seller extends User {
         this.productsSold = new ArrayList<>();
     }
 
-    public ArrayList<Tuple<Product, Integer>> getProductsSold() {
+    public ArrayList<Product> getProductsSold() {
         return productsSold;
     }
 
     public void removeProductSold(Product product) throws IllegalArgumentException {
-        for (Tuple<Product, Integer> match : productsSold) {
-            if (match.first == product) {
+        for (Product match : productsSold) {
+            if (match == product) {
                 productsSold.remove(match);
                 return;
             }
@@ -35,13 +35,13 @@ public class Seller extends User {
         throw new IllegalArgumentException("This product is not sold by this vendor");
     }
 
-    public void addProductSold(Product product, int quantity) throws IllegalArgumentException {
-        for (Tuple<Product, Integer> match : productsSold) {
-            if (match.first == product) {
+    public void addProductSold(Product product) throws IllegalArgumentException {
+        for (Product match : productsSold) {
+            if (match == product) {
                 throw new IllegalArgumentException("This product is already sold by this vendor");
             }
         }
-        productsSold.add(new Tuple<>(product, quantity));
+        productsSold.add(product);
     }
 
     @Override
