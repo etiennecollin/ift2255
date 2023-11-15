@@ -7,13 +7,15 @@ package com.etiennecollin.ift2255.clientCLI.classes;
 import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Ticket {
     private static final int MAX_RETURN_DELAY_DAYS = 30;
     private final Buyer buyer;
     private final Seller seller;
     private LocalDate returnTrackingNumberEmissionDate;
-    private Product product;
+    private ArrayList<Product> products;
+    private Order order;
     private String problemDescription;
     private String suggestedSolution;
     private String replacementProductDescription;
@@ -21,9 +23,9 @@ public class Ticket {
     private boolean replacementDeliveryConfirmed;
     private int returnTrackingNumber;
     private TicketState state;
-
-    public Ticket(String problemDescription, Product product, Buyer buyer, Seller seller) {
-        this.product = product;
+    public Ticket(String problemDescription, Order order, ArrayList<Product> products, Buyer buyer, Seller seller) {
+        this.products = products;
+        this.order = order;
         this.buyer = buyer;
         this.seller = seller;
         this.problemDescription = problemDescription;
@@ -40,6 +42,18 @@ public class Ticket {
         this.state = TicketState.Open;
     }
 
+    public LocalDate getReturnTrackingNumberEmissionDate() {
+        return returnTrackingNumberEmissionDate;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
     public void confirmReturnReceival() {
         this.returnDeliveryConfirmed = true;
     }
@@ -49,7 +63,6 @@ public class Ticket {
     }
 
     public TicketState getState() {
-        // Check if product production is done
         if (!LocalDate.now().isAfter(returnTrackingNumberEmissionDate.plusDays(MAX_RETURN_DELAY_DAYS)) && !returnDeliveryConfirmed) {
             cancelTicket();
         }
@@ -70,12 +83,12 @@ public class Ticket {
         this.state = TicketState.Closed;
     }
 
-    public Product getProduct() {
-        return product;
+    public ArrayList<Product> getProducts() {
+        return products;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProducts(ArrayList<Product> products) {
+        this.products = products;
     }
 
     public Buyer getBuyer() {
