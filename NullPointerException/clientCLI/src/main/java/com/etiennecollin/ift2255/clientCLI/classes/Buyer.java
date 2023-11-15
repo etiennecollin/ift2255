@@ -33,47 +33,6 @@ public class Buyer extends User {
         this.orders = new ArrayList<>();
     }
 
-    public void createTicket(Order order, String description) {
-        if (!this.orders.contains(order)) {
-            throw new IllegalArgumentException("This order does not belong to the current user");
-        }
-
-        // Check if order can still be reported
-        if (LocalDate.now().isAfter(order.getOrderDate().plusYears(1))) {
-            throw new IllegalArgumentException("This order can no longer be reported");
-        }
-
-        for (Tuple<Product, Integer> match : order.getProducts()) {
-            Product product = match.first;
-            new Ticket(description, product, this, product.getSeller());
-        }
-    }
-
-    public void createTicket(Order order, Product product, String description) {
-        if (!this.orders.contains(order)) {
-            throw new IllegalArgumentException("This order does not belong to the current user");
-        }
-
-        // Check if order can still be reported
-        if (LocalDate.now().isAfter(order.getOrderDate().plusYears(1))) {
-            throw new IllegalArgumentException("This order can no longer be reported");
-        }
-
-        // Check if product is in order
-        boolean isFound = false;
-        for (Tuple<Product, Integer> match : order.getProducts()) {
-            if (match.first == product) {
-                isFound = true;
-                break;
-            }
-        }
-
-        if (!isFound) {
-            throw new IllegalArgumentException("This product is not in this order");
-        }
-
-        new Ticket(description, product, this, product.getSeller());
-    }
 
     public ArrayList<Comment> getCommentsWritten() {
         return commentsWritten;

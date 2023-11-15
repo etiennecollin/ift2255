@@ -8,6 +8,7 @@ import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -27,9 +28,7 @@ public class Order {
     private int creditCardExp;
     private int creditCardSecretDigits;
     private OrderState state;
-    private LocalDate deliveryDate;
-    private String shippingCompany;
-    private int trackingNumber;
+    private ShippingInfo shippingInfo;
 
     public Order(int cost, int fidelityPoints, ArrayList<Tuple<Product, Integer>> products, String email, int phone, String address, String billingAddress, String creditCardName, int creditCardNumber, int creditCardExp, int creditCardSecretDigits, Buyer buyer) {
         this.cost = cost;
@@ -50,6 +49,39 @@ public class Order {
         this.id = UUID.randomUUID();
     }
 
+    public void createTicket(String description, ArrayList<Product> products) {
+        // Check if order can still be reported
+        if (LocalDate.now().isAfter(this.getOrderDate().plusYears(1))) {
+            throw new IllegalArgumentException("This order can no longer be reported");
+        }
+
+        // Check if products are in order
+        for (Tuple<Product, Integer> tuple : this.getProducts()) {
+            if (!products.contains(tuple.first)) {
+                throw new IllegalArgumentException("Some products are not part of this order");
+            }
+        }
+
+        // "Sort" products by seller
+        HashMap<Seller, ArrayList<Product>> hashmap = new HashMap<>();
+        for (Product product : products) {
+            ArrayList<Product> newValue = hashmap.getOrDefault(product.getSeller(), new ArrayList<>());
+            newValue.add(product);
+            hashmap.put(product.getSeller(), newValue);
+        }
+
+        // Create ticket per seller and add it to buyer and seller
+        hashmap.forEach((seller, value) -> {
+            Ticket ticket = new Ticket(description, this, value, this.buyer, seller);
+            this.buyer.addTicket(ticket);
+            seller.addTicket(ticket);
+        });
+    }
+
+    public LocalDate getOrderDate() {
+        return orderDate;
+    }
+
     public ArrayList<Tuple<Product, Integer>> getProducts() {
         return products;
     }
@@ -58,22 +90,46 @@ public class Order {
         this.products = products;
     }
 
-    public LocalDate getOrderDate() {
-        return orderDate;
+    public void createTicket(String description) {
+        // Check if order can still be reported
+        if (LocalDate.now().isAfter(this.getOrderDate().plusYears(1))) {
+            throw new IllegalArgumentException("This order can no longer be reported");
+        }
+
+        // "Sort" products by seller
+        HashMap<Seller, ArrayList<Product>> hashmap = new HashMap<>();
+        for (Tuple<Product, Integer> tuple : this.products) {
+            Product product = tuple.first;
+            ArrayList<Product> newValue = hashmap.getOrDefault(product.getSeller(), new ArrayList<>());
+            newValue.add(product);
+            hashmap.put(product.getSeller(), newValue);
+        }
+
+        // Create ticket per seller and add it to buyer and seller
+        hashmap.forEach((seller, value) -> {
+            Ticket ticket = new Ticket(description, this, value, this.buyer, seller);
+            this.buyer.addTicket(ticket);
+            seller.addTicket(ticket);
+        });
+    }
+
+    public ShippingInfo getShipping() {
+        return shippingInfo;
+    }
+
+    public void setShipping(ShippingInfo shippingInfo) {
+        this.shippingInfo = shippingInfo;
     }
 
     public OrderState getState() {
         return state;
     }
 
-    public void setInTransit(String shippingCompany, int trackingNumber) {
-        setShippingCompany(shippingCompany);
-        setTrackingNumber(trackingNumber);
-
+    public void setInTransit(String shippingCompany, int trackingNumber, LocalDate expectedDeliveryDate) {
+        this.shippingInfo = new ShippingInfo(shippingCompany, trackingNumber, expectedDeliveryDate);
         String title = "Order " + getId() + " shipped!";
-        String description = "Shipped by: " + getShippingCompany() + "\nTracking number: " + getTrackingNumber();
-        Notification notification = new Notification(title, description);
-        getBuyer().addNotification(notification);
+        String description = "Shipped by: " + shippingCompany + "\nTracking number: " + trackingNumber;
+        getBuyer().addNotification(new Notification(title, description));
         this.state = OrderState.InTransit;
     }
 
@@ -81,32 +137,8 @@ public class Order {
         return id;
     }
 
-    public String getShippingCompany() {
-        return shippingCompany;
-    }
-
-    public void setShippingCompany(String shippingCompany) {
-        this.shippingCompany = shippingCompany;
-    }
-
-    public int getTrackingNumber() {
-        return trackingNumber;
-    }
-
-    public void setTrackingNumber(int trackingNumber) {
-        this.trackingNumber = trackingNumber;
-    }
-
     public Buyer getBuyer() {
         return buyer;
-    }
-
-    public LocalDate getDeliveryDate() {
-        return deliveryDate;
-    }
-
-    public void setDeliveryDate(LocalDate deliveryDate) {
-        this.deliveryDate = deliveryDate;
     }
 
     public void setInProduction() {
