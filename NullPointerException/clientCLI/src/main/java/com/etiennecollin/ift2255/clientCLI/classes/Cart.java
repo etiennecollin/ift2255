@@ -7,8 +7,7 @@ package com.etiennecollin.ift2255.clientCLI.classes;
 import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.UUID;
+import java.util.HashMap;
 
 public class Cart {
     private final Buyer buyer;
@@ -16,11 +15,11 @@ public class Cart {
     /**
      * Total value of cart in cents.
      */
-    private int totalPrice;
+    private int totalCost;
     private int totalFidelityPoints;
 
     public Cart(Buyer buyer) {
-        this.totalPrice = 0;
+        this.totalCost = 0;
         this.totalFidelityPoints = 0;
         this.buyer = buyer;
     }
@@ -30,24 +29,37 @@ public class Cart {
     }
 
     public void addProduct(Product product, int quantity) {
+        // Check if product already is in cart
+        boolean isAlreadyInCart = false;
         for (Tuple<Product, Integer> tuple : this.products) {
             if (tuple.first == product) {
-                totalPrice += product.getPrice();
-                totalFidelityPoints += product.getBonusFidelityPoints() + product.getPrice() / 100;
                 tuple.second += quantity;
-                return;
+                isAlreadyInCart = true;
+                break;
             }
         }
-        this.products.add(new Tuple<>(product, quantity));
+
+        totalCost += product.getCost() * quantity;
+        totalFidelityPoints += (product.getBonusFidelityPoints() + product.getCost() / 100) * quantity;
+
+        if (!isAlreadyInCart) {
+            this.products.add(new Tuple<>(product, quantity));
+        }
     }
 
     public void subtractProduct(Product product, int quantity) throws IllegalArgumentException {
         for (int i = 0; i < this.products.size(); i++) {
             Tuple<Product, Integer> tuple = this.products.get(i);
+            // Check if product is in cart
             if (tuple.first == product) {
-                totalPrice -= product.getPrice();
-                totalFidelityPoints -= product.getBonusFidelityPoints() + product.getPrice() / 100;
-                if (tuple.second <= quantity) {
+                if (quantity > tuple.second) {
+                    throw new IllegalArgumentException("Cannot remove more products than are present in the cart");
+                }
+
+                totalCost -= product.getCost() * quantity;
+                totalFidelityPoints -= (product.getBonusFidelityPoints() + product.getCost() / 100) * quantity;
+
+                if (tuple.second == quantity) {
                     this.products.remove(i);
                 } else {
                     tuple.second -= quantity;
@@ -62,7 +74,7 @@ public class Cart {
         for (int i = 0; i < this.products.size(); i++) {
             Tuple<Product, Integer> tuple = this.products.get(i);
             if (tuple.first == product) {
-                totalPrice -= product.getPrice() * tuple.second;
+                totalCost -= product.getCost() * tuple.second;
                 totalFidelityPoints -= product.getBonusFidelityPoints() * tuple.second;
                 this.products.remove(i);
                 break;
@@ -71,28 +83,38 @@ public class Cart {
         throw new IllegalArgumentException("Product not in cart.");
     }
 
-    public Order createOrder(String email, int phone, String address, String billingAddress, String creditCardName, int creditCardNumber, int creditCardExp, int creditCardSecretDigits) {
-        Order order = new Order(this.getTotalPrice(), this.getTotalFidelityPoints(), this.getProducts(), email, phone, address, billingAddress, creditCardName, creditCardNumber, creditCardExp, creditCardSecretDigits, this.buyer);
-        this.buyer.addOrder(order);
+    public void createOrder(String email, int phone, String address, String billingAddress, String creditCardName, int creditCardNumber, int creditCardExp, int creditCardSecretDigits) {
 
-        // Add order to sellers soldOrders
-        // Make sure we do not add the order more than once to a seller
-        HashSet<UUID> seenSellers = new HashSet<>();
+        // "Sort" products by seller
+        HashMap<Seller, ArrayList<Tuple<Product, Integer>>> hashmap = new HashMap<>();
         for (Tuple<Product, Integer> tuple : products) {
-            Seller seller = tuple.first.getSeller();
-            UUID sellerId = seller.getId();
-            if (!seenSellers.contains(sellerId)) {
-                seller.addOrderSold(order);
-                seenSellers.add(sellerId);
-            }
+            ArrayList<Tuple<Product, Integer>> newValue = hashmap.getOrDefault(tuple.first.getSeller(), new ArrayList<>());
+            newValue.add(tuple);
+            hashmap.put(tuple.first.getSeller(), newValue);
         }
 
-        emptyCart();
-        return order;
+        // For each seller and tuples of Product/Quantity in the hashmap
+        hashmap.forEach((seller, tuples) -> {
+            int subTotalCost = 0;
+            int subTotalFidelityPoints = 0;
+
+            // Compute the cost and fidelity points of this sub-order
+            for (Tuple<Product, Integer> tuple : tuples) {
+                Product product = tuple.first;
+                Integer quantity = tuple.second;
+                subTotalCost += product.getCost() * quantity;
+                subTotalFidelityPoints += (product.getCost() / 100 + product.getBonusFidelityPoints()) * quantity;
+            }
+
+            // Create the sub-order
+            Order order = new Order(subTotalCost, subTotalFidelityPoints, tuples, email, phone, address, billingAddress, creditCardName, creditCardNumber, creditCardExp, creditCardSecretDigits, this.buyer, seller);
+            this.buyer.addOrder(order);
+            seller.addOrderSold(order);
+        });
     }
 
-    public int getTotalPrice() {
-        return totalPrice;
+    public int getTotalCost() {
+        return totalCost;
     }
 
     public int getTotalFidelityPoints() {
@@ -106,6 +128,6 @@ public class Cart {
     public void emptyCart() {
         this.products.clear();
         this.totalFidelityPoints = 0;
-        this.totalPrice = 0;
+        this.totalCost = 0;
     }
 }

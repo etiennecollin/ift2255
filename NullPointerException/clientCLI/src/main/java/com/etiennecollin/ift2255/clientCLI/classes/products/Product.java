@@ -18,7 +18,7 @@ public abstract class Product {
     private final UUID id;
     private final LocalDate commercializationDate;
     private final ProductCategory productCategory;
-    private int price;
+    private int cost;
     private int quantity;
     private String title; // Unique
     private String description;
@@ -28,8 +28,8 @@ public abstract class Product {
     private Rating rating;
     private int bonusFidelityPoints;
 
-    public Product(int price, int quantity, String title, String description, ProductCategory productCategory) {
-        this.setPrice(price);
+    public Product(int cost, int quantity, String title, String description, ProductCategory productCategory) {
+        this.setCost(cost);
         this.setQuantity(quantity);
         this.setTitle(title);
         this.setDescription(description);
@@ -43,16 +43,16 @@ public abstract class Product {
         this.id = UUID.randomUUID();
     }
 
-    public int getPrice() {
-        return price;
+    public int getCost() {
+        return cost;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 
-    public Product(int price, int quantity, String title, String description, ProductCategory productCategory, int bonusFidelityPoints) {
-        this.setPrice(price);
+    public Product(int cost, int quantity, String title, String description, ProductCategory productCategory, int bonusFidelityPoints) {
+        this.setCost(cost);
         this.setQuantity(quantity);
         this.setTitle(title);
         this.setDescription(description);
@@ -99,9 +99,9 @@ public abstract class Product {
             throw new IllegalArgumentException("Cannot give less than 0 bonus points for a product");
         }
 
-        int newPointsPerDollar = (1 + bonusFidelityPoints) / (this.getPrice() / 100);
+        int newPointsPerDollar = (1 + bonusFidelityPoints) / (this.getCost() / 100);
         if (newPointsPerDollar > MAX_PTS_PER_DOLLAR) {
-            this.bonusFidelityPoints = (MAX_PTS_PER_DOLLAR * this.getPrice()) / 100 - 1;
+            this.bonusFidelityPoints = (MAX_PTS_PER_DOLLAR * this.getCost()) / 100 - 1;
             throw new IllegalArgumentException("Products cannot provide more than " + MAX_PTS_PER_DOLLAR + " bonus points per dollar spent. Bonus points were clamped to match this maximum.");
         } else {
             this.bonusFidelityPoints = bonusFidelityPoints;

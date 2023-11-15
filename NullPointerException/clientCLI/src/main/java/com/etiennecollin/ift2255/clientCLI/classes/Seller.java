@@ -80,7 +80,7 @@ public class Seller extends User {
                 // Verify that product in order was sold by this seller
                 if (product.getSeller().equals(this)) {
                     // Update revenue
-                    revenue += product.getPrice() * tuple.second;
+                    revenue += product.getCost() * tuple.second;
                     // Update number of products sold
                     productsSold += tuple.second;
                 }
