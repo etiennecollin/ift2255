@@ -14,6 +14,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public abstract class Product {
+    private final static int MAX_PTS_PER_DOLLAR = 20;
     private final UUID id;
     private final LocalDate commercializationDate;
     private final ProductCategory productCategory;
@@ -25,15 +26,38 @@ public abstract class Product {
     private Seller seller;
     private ArrayList<Comment> comments;
     private Rating rating;
-    private int fidelityPoints;
+    private int bonusFidelityPoints;
 
-    public Product(int price, int quantity, String title, String description, ProductCategory productCategory, int fidelityPoints) {
+    public Product(int price, int quantity, String title, String description, ProductCategory productCategory) {
         this.setPrice(price);
         this.setQuantity(quantity);
         this.setTitle(title);
         this.setDescription(description);
         this.productCategory = productCategory;
-        this.setFidelityPoints(fidelityPoints);
+        this.setBonusFidelityPoints(0);
+
+        this.commercializationDate = LocalDate.now();
+        this.setLikes(0);
+        this.setComments(new ArrayList<>());
+        this.setRating(new Rating());
+        this.id = UUID.randomUUID();
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public Product(int price, int quantity, String title, String description, ProductCategory productCategory, int bonusFidelityPoints) {
+        this.setPrice(price);
+        this.setQuantity(quantity);
+        this.setTitle(title);
+        this.setDescription(description);
+        this.productCategory = productCategory;
+        this.setBonusFidelityPoints(bonusFidelityPoints);
 
         this.commercializationDate = LocalDate.now();
         this.setLikes(0);
@@ -66,20 +90,22 @@ public abstract class Product {
         return commercializationDate;
     }
 
-    public int getFidelityPoints() {
-        return fidelityPoints;
+    public int getBonusFidelityPoints() {
+        return bonusFidelityPoints;
     }
 
-    public void setFidelityPoints(int fidelityPoints) {
-        this.fidelityPoints = fidelityPoints;
-    }
+    public void setBonusFidelityPoints(int bonusFidelityPoints) {
+        if (bonusFidelityPoints < 0) {
+            throw new IllegalArgumentException("Cannot give less than 0 bonus points for a product");
+        }
 
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
+        int newPointsPerDollar = (1 + bonusFidelityPoints) / (this.getPrice() / 100);
+        if (newPointsPerDollar > MAX_PTS_PER_DOLLAR) {
+            this.bonusFidelityPoints = (MAX_PTS_PER_DOLLAR * this.getPrice()) / 100 - 1;
+            throw new IllegalArgumentException("Products cannot provide more than " + MAX_PTS_PER_DOLLAR + " bonus points per dollar spent. Bonus points were clamped to match this maximum.");
+        } else {
+            this.bonusFidelityPoints = bonusFidelityPoints;
+        }
     }
 
     @Override

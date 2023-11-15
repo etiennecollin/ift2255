@@ -25,7 +25,7 @@ public class Cart {
         for (Tuple<Product, Integer> tuple : this.products) {
             if (tuple.first == product) {
                 totalPrice += product.getPrice();
-                totalFidelityPoints += product.getFidelityPoints();
+                totalFidelityPoints += product.getBonusFidelityPoints() + product.getPrice()/100;
                 tuple.second += quantity;
                 return;
             }
@@ -38,7 +38,7 @@ public class Cart {
             Tuple<Product, Integer> tuple = this.products.get(i);
             if (tuple.first == product) {
                 totalPrice -= product.getPrice();
-                totalFidelityPoints -= product.getFidelityPoints();
+                totalFidelityPoints -= product.getBonusFidelityPoints()/100;
                 if (tuple.second <= quantity) {
                     this.products.remove(i);
                 } else {
@@ -55,7 +55,7 @@ public class Cart {
             Tuple<Product, Integer> tuple = this.products.get(i);
             if (tuple.first == product) {
                 totalPrice -= product.getPrice() * tuple.second;
-                totalFidelityPoints -= product.getFidelityPoints() * tuple.second;
+                totalFidelityPoints -= product.getBonusFidelityPoints() * tuple.second;
                 this.products.remove(i);
                 break;
             }
