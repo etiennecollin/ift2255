@@ -86,8 +86,12 @@ public class Seller extends User {
                 }
             }
         }
-        // TODO add averageProductRating
-        return new SellerMetrics(revenue, productsSold, this.productsOffered.size());
+        int totalProductRating = 0;
+        for (Product product : productsOffered) {
+            totalProductRating += product.getRating().getRating();
+        }
+        int averageProductRating = totalProductRating / productsOffered.size();
+        return new SellerMetrics(revenue, productsSold, this.productsOffered.size(), averageProductRating);
     }
 
     @Override
