@@ -10,16 +10,15 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Buyer extends User {
-    private final Cart cart;
     private final ArrayList<Product> productsLiked;
     private final ArrayList<Comment> commentsLiked;
     private final ArrayList<Comment> commentsWritten;
     private final ArrayList<Order> orders;
+    private Cart cart;
     private String lastName;
     private String firstName;
     private String username; // Unique
     private int fidelityPoints = 0;
-
     public Buyer(String lastName, String firstName, String username, String password) {
         super(password);
         this.setLastName(lastName);
@@ -49,6 +48,29 @@ public class Buyer extends User {
 
     public Cart getCart() {
         return cart;
+    }
+
+    public void setCart(Cart cart) {
+        if (!cart.getBuyer().equals(this)) {
+            throw new IllegalArgumentException("This cart does not belong to this buyer");
+        }
+        this.cart = cart;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        Buyer buyer = (Buyer) o;
+        return Objects.equals(getUsername(), buyer.getUsername()) || Objects.equals(getId(), buyer.getId());
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public ArrayList<Order> getOrders() {
@@ -150,21 +172,5 @@ public class Buyer extends User {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
-        Buyer buyer = (Buyer) o;
-        return Objects.equals(getUsername(), buyer.getUsername()) || Objects.equals(getId(), buyer.getId());
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 }
