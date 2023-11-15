@@ -26,7 +26,7 @@ public class Buyer extends User {
         this.setLastName(lastName);
         this.setFirstName(firstName);
         this.setUsername(username);
-        this.cart = new Cart();
+        this.cart = new Cart(this);
         this.productsLiked = new ArrayList<>();
         this.commentsLiked = new ArrayList<>();
         this.commentsWritten = new ArrayList<>();

@@ -7,8 +7,11 @@ package com.etiennecollin.ift2255.clientCLI.classes;
 import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.UUID;
 
 public class Cart {
+    private final Buyer buyer;
     private ArrayList<Tuple<Product, Integer>> products;
     /**
      * Total value of cart in cents.
@@ -16,9 +19,14 @@ public class Cart {
     private int totalPrice;
     private int totalFidelityPoints;
 
-    public Cart() {
+    public Cart(Buyer buyer) {
         this.totalPrice = 0;
         this.totalFidelityPoints = 0;
+        this.buyer = buyer;
+    }
+
+    public Buyer getBuyer() {
+        return buyer;
     }
 
     public void addProduct(Product product, int quantity) {
@@ -64,7 +72,21 @@ public class Cart {
     }
 
     public Order createOrder(String email, int phone, String address, String billingAddress, String creditCardName, int creditCardNumber, int creditCardExp, int creditCardSecretDigits) {
-        Order order = new Order(this.getTotalPrice(), this.getTotalFidelityPoints(), this.getProducts(), email, phone, address, billingAddress, creditCardName, creditCardNumber, creditCardExp, creditCardSecretDigits);
+        Order order = new Order(this.getTotalPrice(), this.getTotalFidelityPoints(), this.getProducts(), email, phone, address, billingAddress, creditCardName, creditCardNumber, creditCardExp, creditCardSecretDigits, this.buyer);
+        this.buyer.addOrder(order);
+
+        // Add order to sellers soldOrders
+        // Make sure we do not add the order more than once to a seller
+        HashSet<UUID> seenSellers = new HashSet<>();
+        for (Tuple<Product, Integer> tuple : products) {
+            Seller seller = tuple.first.getSeller();
+            UUID sellerId = seller.getId();
+            if (!seenSellers.contains(sellerId)) {
+                seller.addOrderSold(order);
+                seenSellers.add(sellerId);
+            }
+        }
+
         emptyCart();
         return order;
     }

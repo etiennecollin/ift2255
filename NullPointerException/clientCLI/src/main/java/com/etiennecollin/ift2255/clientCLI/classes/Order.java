@@ -12,9 +12,9 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Order {
-    private static final int PRODUCTION_TIME_DAYS = 3;
     private final UUID id;
     private final LocalDate orderDate;
+    private final Buyer buyer;
     private int cost;
     private int fidelityPoints;
     private ArrayList<Tuple<Product, Integer>> products;
@@ -28,8 +28,10 @@ public class Order {
     private int creditCardSecretDigits;
     private OrderState state;
     private LocalDate deliveryDate;
+    private String shippingCompany;
+    private int trackingNumber;
 
-    public Order(int cost, int fidelityPoints, ArrayList<Tuple<Product, Integer>> products, String email, int phone, String address, String billingAddress, String creditCardName, int creditCardNumber, int creditCardExp, int creditCardSecretDigits) {
+    public Order(int cost, int fidelityPoints, ArrayList<Tuple<Product, Integer>> products, String email, int phone, String address, String billingAddress, String creditCardName, int creditCardNumber, int creditCardExp, int creditCardSecretDigits, Buyer buyer) {
         this.cost = cost;
         this.fidelityPoints = fidelityPoints;
         this.products = products;
@@ -41,10 +43,10 @@ public class Order {
         this.creditCardNumber = creditCardNumber;
         this.creditCardExp = creditCardExp;
         this.creditCardSecretDigits = creditCardSecretDigits;
+        this.buyer = buyer;
+
         this.state = OrderState.InProduction;
         this.orderDate = LocalDate.now();
-        // Calculate the date 7 days from now
-        this.deliveryDate = LocalDate.now().plusDays(7);
         this.id = UUID.randomUUID();
     }
 
@@ -61,16 +63,42 @@ public class Order {
     }
 
     public OrderState getState() {
-        // Check if product production is done
-        // If so, set status to "in transit"
-        if (LocalDate.now().isAfter(orderDate.plusDays(PRODUCTION_TIME_DAYS))) {
-            this.setInTransit();
-        }
         return state;
     }
 
-    public void setInTransit() {
+    public void setInTransit(String shippingCompany, int trackingNumber) {
+        setShippingCompany(shippingCompany);
+        setTrackingNumber(trackingNumber);
+
+        String title = "Order " + getId() + " shipped!";
+        String description = "Shipped by: " + getShippingCompany() + "\nTracking number: " + getTrackingNumber();
+        Notification notification = new Notification(title, description);
+        getBuyer().addNotification(notification);
         this.state = OrderState.InTransit;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getShippingCompany() {
+        return shippingCompany;
+    }
+
+    public void setShippingCompany(String shippingCompany) {
+        this.shippingCompany = shippingCompany;
+    }
+
+    public int getTrackingNumber() {
+        return trackingNumber;
+    }
+
+    public void setTrackingNumber(int trackingNumber) {
+        this.trackingNumber = trackingNumber;
+    }
+
+    public Buyer getBuyer() {
+        return buyer;
     }
 
     public LocalDate getDeliveryDate() {
@@ -151,10 +179,6 @@ public class Order {
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
         return Objects.equals(getId(), order.getId());
-    }
-
-    public UUID getId() {
-        return id;
     }
 
     public String getEmail() {

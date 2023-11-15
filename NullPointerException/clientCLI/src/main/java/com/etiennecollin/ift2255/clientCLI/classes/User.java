@@ -11,6 +11,7 @@ import java.util.UUID;
 public class User {
     private final UUID id;
     private final ArrayList<Ticket> tickets;
+    private final ArrayList<Notification> notifications;
     private String email;
     private int phone;
     private String address;
@@ -20,6 +21,19 @@ public class User {
         this.password = password.hashCode();
         this.id = UUID.randomUUID();
         this.tickets = new ArrayList<>();
+        this.notifications = new ArrayList<>();
+    }
+
+    public ArrayList<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void addNotification(Notification notification) {
+        this.notifications.add(notification);
+    }
+
+    public void removeNotification(Notification notification) {
+        this.notifications.remove(notification);
     }
 
     public void updatePassword(String oldPassword, String newPassword) {
