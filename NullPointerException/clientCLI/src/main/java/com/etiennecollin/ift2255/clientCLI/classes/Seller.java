@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Seller extends User {
-    private final ArrayList<Product> productsSold;
+    private final ArrayList<Product> productsOffered;
+    private final ArrayList<Order> ordersSold;
     private String name; // Unique
 
     public Seller(String name, String email, int phone, String address, String password) {
@@ -19,30 +20,74 @@ public class Seller extends User {
         this.setEmail(email);
         this.setPhone(phone);
         this.setAddress(address);
-        this.productsSold = new ArrayList<>();
+        this.productsOffered = new ArrayList<>();
+        this.ordersSold = new ArrayList<>();
     }
 
-    public ArrayList<Product> getProductsSold() {
-        return productsSold;
+    public ArrayList<Order> getOrdersSold() {
+        return ordersSold;
     }
 
-    public void removeProductSold(Product product) throws IllegalArgumentException {
-        for (Product match : productsSold) {
+    public ArrayList<Product> getProductsOffered() {
+        return productsOffered;
+    }
+
+    public void removeProductOffered(Product product) throws IllegalArgumentException {
+        for (Product match : productsOffered) {
             if (match == product) {
-                productsSold.remove(match);
+                productsOffered.remove(match);
                 return;
             }
         }
         throw new IllegalArgumentException("This product is not sold by this vendor");
     }
 
-    public void addProductSold(Product product) throws IllegalArgumentException {
-        for (Product match : productsSold) {
+    public void addProductOffered(Product product) throws IllegalArgumentException {
+        for (Product match : productsOffered) {
             if (match == product) {
                 throw new IllegalArgumentException("This product is already sold by this vendor");
             }
         }
-        productsSold.add(product);
+        productsOffered.add(product);
+    }
+
+    public void removeOrderSold(Order order) throws IllegalArgumentException {
+        for (Order match : ordersSold) {
+            if (match == order) {
+                ordersSold.remove(match);
+                return;
+            }
+        }
+        throw new IllegalArgumentException("This order was not sold by this vendor");
+    }
+
+    public void addOrderSold(Order order) throws IllegalArgumentException {
+        for (Order match : ordersSold) {
+            if (match == order) {
+                throw new IllegalArgumentException("This order was already sold by this vendor");
+            }
+        }
+        ordersSold.add(order);
+    }
+
+    public SellerMetrics getMetrics() {
+        // Compute revenue and number of products sold.
+        int revenue = 0;
+        int productsSold = 0;
+        for (Order order : ordersSold) {
+            for (Tuple<Product, Integer> tuple : order.getProducts()) {
+                Product product = tuple.first;
+                // Verify that product in order was sold by this seller
+                if (product.getSeller().equals(this)) {
+                    // Update revenue
+                    revenue += product.getPrice() * tuple.second;
+                    // Update number of products sold
+                    productsSold += tuple.second;
+                }
+            }
+        }
+        // TODO add averageProductRating
+        return new SellerMetrics(revenue, productsSold, this.productsOffered.size());
     }
 
     @Override

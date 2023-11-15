@@ -24,7 +24,7 @@ public class UniShop {
 
     public void updateCatalog() {
         this.catalog = new ArrayList<>();
-        sellerList.forEach((sellerName, seller) -> this.catalog.addAll(seller.getProductsSold()));
+        sellerList.forEach((sellerName, seller) -> this.catalog.addAll(seller.getProductsOffered()));
     }
 
     /**
