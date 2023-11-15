@@ -16,6 +16,7 @@ public class Order {
     private final UUID id;
     private final LocalDate orderDate;
     private final Buyer buyer;
+    private final Seller seller;
     private int cost;
     private int fidelityPoints;
     private ArrayList<Tuple<Product, Integer>> products;
@@ -30,7 +31,7 @@ public class Order {
     private OrderState state;
     private ShippingInfo shippingInfo;
 
-    public Order(int cost, int fidelityPoints, ArrayList<Tuple<Product, Integer>> products, String email, int phone, String address, String billingAddress, String creditCardName, int creditCardNumber, int creditCardExp, int creditCardSecretDigits, Buyer buyer) {
+    public Order(int cost, int fidelityPoints, ArrayList<Tuple<Product, Integer>> products, String email, int phone, String address, String billingAddress, String creditCardName, int creditCardNumber, int creditCardExp, int creditCardSecretDigits, Buyer buyer, Seller seller) {
         this.cost = cost;
         this.fidelityPoints = fidelityPoints;
         this.products = products;
@@ -43,10 +44,19 @@ public class Order {
         this.creditCardExp = creditCardExp;
         this.creditCardSecretDigits = creditCardSecretDigits;
         this.buyer = buyer;
+        this.seller = seller;
 
         this.state = OrderState.InProduction;
         this.orderDate = LocalDate.now();
         this.id = UUID.randomUUID();
+    }
+
+    public ShippingInfo getShippingInfo() {
+        return shippingInfo;
+    }
+
+    public Seller getSeller() {
+        return seller;
     }
 
     public void createTicket(String description, ArrayList<Product> products) {
