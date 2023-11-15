@@ -6,7 +6,6 @@ package com.etiennecollin.ift2255.clientCLI.classes;
 
 import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -32,7 +31,6 @@ public class Buyer extends User {
         this.commentsWritten = new ArrayList<>();
         this.orders = new ArrayList<>();
     }
-
 
     public ArrayList<Comment> getCommentsWritten() {
         return commentsWritten;

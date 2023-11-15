@@ -23,6 +23,7 @@ public class Ticket {
     private boolean replacementDeliveryConfirmed;
     private int returnTrackingNumber;
     private TicketState state;
+
     public Ticket(String problemDescription, Order order, ArrayList<Product> products, Buyer buyer, Seller seller) {
         this.products = products;
         this.order = order;

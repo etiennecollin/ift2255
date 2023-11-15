@@ -28,9 +28,9 @@ public class UniShop {
     }
 
     /**
-      Loads user data from the specified file path.
-
-      @param path The file path from which user data needs to be loaded.
+     * Loads user data from the specified file path.
+     *
+     * @param path The file path from which user data needs to be loaded.
      */
     @SuppressWarnings("unchecked")
     public void loadUserList(String path) {
