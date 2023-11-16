@@ -120,6 +120,21 @@ public class Utils {
         }
     }
 
+    protected static boolean prettyPromptBool(String prompt) {
+        while (true) {
+            System.out.println("------------");
+            System.out.print(prettify(prompt) + "? ");
+            String answer = scanner.nextLine().strip();
+            if (answer.equalsIgnoreCase("yes") || answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("true") || answer.equalsIgnoreCase("1")) {
+                return true;
+            } else if (answer.equalsIgnoreCase("no") || answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("false") || answer.equalsIgnoreCase("0")) {
+                return false;
+            } else {
+                System.out.println("Please enter a valid answer (yes/y/true/1 or no/n/false/0)");
+            }
+        }
+    }
+
     /**
      * Displays a formatted prompt to the console and retrieves a currency amount input from the user.
      * The input is expected to be in the format of a number representing a currency value (e.g., 1000 for $10.00).
@@ -277,5 +292,11 @@ public class Utils {
         unishop.saveUserList(Client.savePath);
         System.out.println(prettify("Quitting UniShop"));
         scanner.close();
+    }
+
+    public static void clearConsole() {
+        for (int i = 0; i < 100; i++) {
+            System.out.println();
+        }
     }
 }
