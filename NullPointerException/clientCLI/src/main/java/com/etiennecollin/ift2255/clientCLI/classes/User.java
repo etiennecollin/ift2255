@@ -13,12 +13,15 @@ public class User {
     private final ArrayList<Ticket> tickets;
     private final ArrayList<Notification> notifications;
     private String email;
-    private int phone;
+    private int phoneNumber;
     private String address;
     private int password;
 
-    public User(String password) {
+    public User(String email, String password, int phoneNumber, String address) {
+        this.email = email;
         this.password = password.hashCode();
+        this.phoneNumber = phoneNumber;
+        this.address = address;
         this.id = UUID.randomUUID();
         this.tickets = new ArrayList<>();
         this.notifications = new ArrayList<>();
@@ -68,12 +71,12 @@ public class User {
         this.email = email;
     }
 
-    public int getPhone() {
-        return phone;
+    public int getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone(int phone) {
-        this.phone = phone;
+    public void setPhoneNumber(int phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getAddress() {

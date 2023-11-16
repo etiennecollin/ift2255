@@ -15,12 +15,9 @@ public class Seller extends User {
     private final ArrayList<Buyer> followedBy;
     private String name; // Unique
 
-    public Seller(String name, String email, int phone, String address, String password) {
-        super(password);
+    public Seller(String name, String email, int phoneNumber, String address, String password) {
+        super(email, password, phoneNumber, address);
         this.setName(name);
-        this.setEmail(email);
-        this.setPhone(phone);
-        this.setAddress(address);
         this.productsOffered = new ArrayList<>();
         this.ordersSold = new ArrayList<>();
         this.followedBy = new ArrayList<>();

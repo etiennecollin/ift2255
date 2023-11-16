@@ -23,10 +23,10 @@ public class Buyer extends User {
     private String username; // Unique
     private int fidelityPoints = 0;
 
-    public Buyer(String lastName, String firstName, String username, String password) {
-        super(password);
-        this.setLastName(lastName);
+    public Buyer(String firstName, String lastName, String username, String email, int phoneNumber, String address, String password) {
+        super(email, password, phoneNumber, address);
         this.setFirstName(firstName);
+        this.setLastName(lastName);
         this.setUsername(username);
         this.cart = new Cart(this);
         this.productsLiked = new ArrayList<>();
