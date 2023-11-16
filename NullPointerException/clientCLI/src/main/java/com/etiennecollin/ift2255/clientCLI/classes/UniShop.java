@@ -89,6 +89,7 @@ public class UniShop {
 
     public void addUser(Seller seller) {
         if (sellerList.containsKey(seller.getName())) {
+        if (sellerList.containsKey(seller.getUsername())) {
             throw new IllegalArgumentException("This seller already exists");
         }
         this.sellerList.put(seller.getName(), seller);

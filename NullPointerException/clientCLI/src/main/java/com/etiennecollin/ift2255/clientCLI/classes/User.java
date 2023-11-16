@@ -17,8 +17,11 @@ public class User {
     private String address;
     private int password;
 
-    public User(String password) {
+    public User(String password, String email, int phone, String address) {
         this.password = password.hashCode();
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
         this.id = UUID.randomUUID();
         this.tickets = new ArrayList<>();
         this.notifications = new ArrayList<>();

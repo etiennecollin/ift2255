@@ -5,10 +5,14 @@
 
 package com.etiennecollin.ift2255.clientCLI;
 
+import com.etiennecollin.ift2255.clientCLI.classes.Buyer;
+import com.etiennecollin.ift2255.clientCLI.classes.Seller;
 import com.etiennecollin.ift2255.clientCLI.classes.UniShop;
+import com.etiennecollin.ift2255.clientCLI.classes.User;
 import com.etiennecollin.ift2255.clientCLI.classes.products.ProductCategory;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
@@ -49,57 +53,70 @@ public class Client {
         System.out.println(prettify("Buyer: username=buyer, password=hunter2"));
         System.out.println(prettify("Seller: username=seller, password=1234"));
 
+
+        UniShop unishop = new UniShop();
         while (true) {
             String[] loginMenu = {"Login", "Register", "Quit"};
             int answer = prettyMenu("Welcome to UniShop", loginMenu);
 
-            UserRole userRole;
             if (answer == 0) {
-                userRole = loginForm();
+                unishop = loginForm(unishop);
             } else if (answer == 1) {
-                userRole = createAccount();
+                unishop = createAccount(unishop);
             } else {
-                UniShop unishop = new UniShop();
                 quit(unishop);
                 break;
             }
 
-            if (userRole == UserRole.Buyer) {
+            User user = unishop.getCurrentUser();
+
+            if (user instanceof Buyer) {
                 buyerMenu();
-            } else if (userRole == UserRole.Seller) {
+            } else if (user instanceof Seller) {
                 sellerMenu();
             }
         }
     }
 
-    private static UserRole loginForm() {
+    private static UniShop loginForm(UniShop unishop) {
+        //UserRole ur = null;
+        //UniShop unishop = new UniShop();
+
         System.out.println(prettify("Login menu"));
+
+        String[] roleMenu = {"Buyer", "Seller"};
+        int answer = prettyMenu("Login as a: ", roleMenu);
 
         String username = prettyPrompt("Username");
         String password = prettyPrompt("Password");
 
-        if (username.equals("buyer") && password.equals("hunter2")) {
-            System.out.println(prettify("Successfully logged in"));
-            return UserRole.Buyer;
-        } else if (username.equals("seller") && password.equals("1234")) {
-            System.out.println(prettify("Successfully logged in"));
-            return UserRole.Seller;
-        } else {
-            System.out.println(prettify("The username or password is incorrect"));
-            return null;
+        if(answer == 0) {
+           // ur = UserRole.Buyer;
+            unishop.loginBuyer(username, password);
         }
+        else if(answer == 1){
+           // ur = UserRole.Seller;
+            unishop.loginSeller(username, password);
+        }
+        return unishop;
     }
 
-    private static UserRole createAccount() {
-        UserRole role = prettyMenu("Choose a menu to display", UserRole.class);
+    private static UniShop createAccount(UniShop unishop) {
+        UserRole role = prettyMenu("What type of account would you like to create?", UserRole.class);
+        User user = null;
 
         if (role == UserRole.Buyer) {
-            buyerCreationForm();
+            user = buyerCreationForm();
+            System.out.println("hello:)");
+            unishop.addUser((Buyer) user);
+            System.out.println("Hello again :) ");
         } else if (role == UserRole.Seller) {
-            sellerCreationForm();
+            user = sellerCreationForm();
+            unishop.addUser((Seller) user);
         }
 
-        return role;
+        unishop.setCurrentUser(user);
+        return unishop;
     }
 
     public static void buyerMenu() {
@@ -137,26 +154,35 @@ public class Client {
         System.out.println(prettify("You have successfully logged out"));
     }
 
-    private static void buyerCreationForm() { // TODO return buyer
+    private static Buyer buyerCreationForm() { // TODO return buyer
         String firstName = prettyPrompt("First name");
         String lastName = prettyPrompt("Last name");
-        String username = prettyPrompt("Username");
+        String userName = prettyPrompt("Username");
         String password = prettyPrompt("Password");
         String email = prettyPrompt("Email");
-        String phoneNumber = prettyPrompt("Phone number");
+        int phone = Integer.parseInt(prettyPrompt("Phone number"));
         String address = prettyPrompt("Shipping address");
 
+        Buyer buyer = new Buyer(lastName, firstName, userName, password, phone, email, address);
         System.out.println(prettify("Successfully registered"));
+
+        return buyer;
     }
 
-    private static void sellerCreationForm() { // TODO return seller
-        String username = prettyPrompt("Username");
+    private static Seller sellerCreationForm() { // TODO return seller
+        String firstName = prettyPrompt("First name");
+        String lastName = prettyPrompt("Last name");
+        String userName = prettyPrompt("Username");
         String password = prettyPrompt("Password");
         String email = prettyPrompt("Email");
-        String phoneNumber = prettyPrompt("Phone number");
+        int phone = Integer.parseInt(prettyPrompt("Phone number"));
         String address = prettyPrompt("Shipping address");
 
+        Seller seller = new Seller(lastName, firstName, userName, email, phone, address, password);
+
         System.out.println(prettify("Successfully registered"));
+
+        return seller;
     }
 
     private static void displayCatalog() {

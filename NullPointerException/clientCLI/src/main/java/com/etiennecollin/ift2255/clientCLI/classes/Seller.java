@@ -12,14 +12,16 @@ import java.util.Objects;
 public class Seller extends User {
     private final ArrayList<Product> productsOffered;
     private final ArrayList<Order> ordersSold;
-    private String name; // Unique
+    private String username; // Unique
+    private String lastName;
+    private String firstName;
 
-    public Seller(String name, String email, int phone, String address, String password) {
-        super(password);
-        this.setName(name);
-        this.setEmail(email);
-        this.setPhone(phone);
-        this.setAddress(address);
+    public Seller(String lastName, String firstName, String username, String email, int phone, String address, String password) {
+        super(password, email, phone, address);
+        this.setUsername(username);
+        //this.setEmail(email);
+        //this.setPhone(phone);
+        //this.setAddress(address);
         this.productsOffered = new ArrayList<>();
         this.ordersSold = new ArrayList<>();
     }
@@ -99,14 +101,14 @@ public class Seller extends User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Seller seller = (Seller) o;
-        return Objects.equals(getName(), seller.getName()) || Objects.equals(getId(), seller.getId());
+        return Objects.equals(getUsername(), seller.getUsername()) || Objects.equals(getId(), seller.getId());
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
