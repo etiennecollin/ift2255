@@ -6,10 +6,11 @@ package com.etiennecollin.ift2255.clientCLI.classes;
 
 import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Cart {
+public class Cart implements Serializable {
     private final Buyer buyer;
     private ArrayList<Tuple<Product, Integer>> products;
     /**

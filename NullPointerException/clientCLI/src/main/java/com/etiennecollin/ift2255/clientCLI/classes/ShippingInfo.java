@@ -4,9 +4,10 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class ShippingInfo {
+public class ShippingInfo implements Serializable {
     private LocalDate deliveryDate;
     private String shippingCompany;
     private int trackingNumber;

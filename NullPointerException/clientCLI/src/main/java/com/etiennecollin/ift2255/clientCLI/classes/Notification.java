@@ -4,10 +4,11 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Notification {
+public class Notification implements Serializable {
     private final UUID id;
     private String title;
     private String content;

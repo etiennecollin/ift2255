@@ -6,10 +6,11 @@ package com.etiennecollin.ift2255.clientCLI.classes;
 
 import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Ticket {
+public class Ticket implements Serializable {
     private static final int MAX_RETURN_DELAY_DAYS = 30;
     private final Buyer buyer;
     private final Seller seller;

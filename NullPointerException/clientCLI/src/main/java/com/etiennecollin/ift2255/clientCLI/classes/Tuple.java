@@ -4,7 +4,9 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes;
 
-public class Tuple<A, B> {
+import java.io.Serializable;
+
+public class Tuple<A, B> implements Serializable {
     public A first;
     public B second;
 

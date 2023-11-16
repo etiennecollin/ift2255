@@ -16,7 +16,7 @@ public class Seller extends User {
     private final ArrayList<Buyer> followedBy;
     private String name; // Unique
 
-    public Seller(String name, String email, int phoneNumber, String address, String password) {
+    public Seller(String name, String email, String phoneNumber, String address, String password) {
         super(email, password, phoneNumber, address);
         this.setName(name);
         this.productsOffered = new ArrayList<>();

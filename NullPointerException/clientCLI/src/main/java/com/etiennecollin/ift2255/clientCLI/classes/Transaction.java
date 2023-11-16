@@ -4,6 +4,8 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes;
 
-public class Transaction {
+import java.io.Serializable;
+
+public class Transaction implements Serializable {
     // TODO: Implement
 }

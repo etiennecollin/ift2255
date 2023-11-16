@@ -6,13 +6,14 @@ package com.etiennecollin.ift2255.clientCLI.classes.products;
 
 import com.etiennecollin.ift2255.clientCLI.classes.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.UUID;
 
-public abstract class Product {
+public abstract class Product implements Serializable {
     private final static int MAX_PTS_PER_DOLLAR = 20;
     private final UUID id;
     private final LocalDate commercializationDate;

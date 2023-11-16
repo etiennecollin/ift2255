@@ -6,12 +6,13 @@ package com.etiennecollin.ift2255.clientCLI.classes;
 
 import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Order {
+public class Order implements Serializable {
     private final UUID id;
     private final LocalDate orderDate;
     private final Buyer buyer;

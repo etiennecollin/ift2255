@@ -4,20 +4,21 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
-public class User {
+public class User implements Serializable {
     private final UUID id;
     private final ArrayList<Ticket> tickets;
     private final ArrayList<Notification> notifications;
     private String email;
-    private int phoneNumber;
+    private String phoneNumber;
     private String address;
     private int password;
 
-    public User(String email, String password, int phoneNumber, String address) {
+    public User(String email, String password, String phoneNumber, String address) {
         this.email = email;
         this.password = password.hashCode();
         this.phoneNumber = phoneNumber;
@@ -71,11 +72,11 @@ public class User {
         this.email = email;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

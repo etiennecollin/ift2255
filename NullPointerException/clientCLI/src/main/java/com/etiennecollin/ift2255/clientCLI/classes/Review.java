@@ -6,11 +6,12 @@ package com.etiennecollin.ift2255.clientCLI.classes;
 
 import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Review {
+public class Review implements Serializable {
     public static final int POINTS_PER_REVIEW = 10;
     private final UUID id;
     private final LocalDate creationDate;

@@ -4,9 +4,10 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes;
 
+import java.io.Serializable;
 import java.util.NoSuchElementException;
 
-public class Rating {
+public class Rating implements Serializable {
     /**
      * Rating encoded as a percentage with no decimal places.
      */
