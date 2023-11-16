@@ -131,6 +131,7 @@ public class Client {
     }
 
     public static void buyerMenu(UniShop unishop) {
+        loop:
         while (true) {
             int buyerAnswer = prettyMenu("Main menu", buyerMenu);
             switch (buyerAnswer) {
@@ -141,27 +142,29 @@ public class Client {
                 case 4 -> findSeller();
                 case 5 -> displayOrders();
                 case 6 -> updateBuyerInfo();
-                case 7 -> logout(unishop);
+                case 7 -> {
+                    logout(unishop);
+                    break loop;
+                }
             }
-            break;
         }
     }
 
     public static void sellerMenu(UniShop unishop) {
-        boolean disconnect = false;
-
-        do {
+        loop:
+        while (true) {
             int answer = prettyMenu("Main menu", sellerMenu);
             switch (answer) {
                 case 0 -> addProduct();
                 case 1 -> changeOrderStatus();
                 case 2 -> manageProblems();
                 case 3 -> updateSellerInfo();
-                case 4 -> disconnect = true;
+                case 4 -> {
+                    logout(unishop);
+                    break loop;
+                }
             }
-        } while (!disconnect);
-
-        System.out.println(prettify("You have successfully logged out"));
+        }
     }
 
     private static Buyer buyerCreationForm() {
