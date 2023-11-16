@@ -88,11 +88,10 @@ public class UniShop {
     }
 
     public void addUser(Seller seller) {
-        if (sellerList.containsKey(seller.getName())) {
         if (sellerList.containsKey(seller.getUsername())) {
             throw new IllegalArgumentException("This seller already exists");
         }
-        this.sellerList.put(seller.getName(), seller);
+        this.sellerList.put(seller.getUsername(), seller);
         updateCatalog();
     }
 
@@ -104,10 +103,10 @@ public class UniShop {
     }
 
     public void removeUser(Seller seller) {
-        if (!sellerList.containsKey(seller.getName())) {
+        if (!sellerList.containsKey(seller.getUsername())) {
             throw new IllegalArgumentException("This seller does not exist");
         }
-        this.sellerList.remove(seller.getName());
+        this.sellerList.remove(seller.getUsername());
         updateCatalog();
     }
 

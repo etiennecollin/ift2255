@@ -19,13 +19,11 @@ public class Buyer extends User {
     private String firstName;
     private String username; // Unique
     private int fidelityPoints = 0;
-    public Buyer(String lastName, String firstName, String username, String password) {
-        super(password);
-=======
 
     public Buyer(String lastName, String firstName, String username, String password,
                  int phoneNumber, String email, String address) {
         super(password, email, phoneNumber, address);
+
         this.setLastName(lastName);
         this.setFirstName(firstName);
         this.setUsername(username);
