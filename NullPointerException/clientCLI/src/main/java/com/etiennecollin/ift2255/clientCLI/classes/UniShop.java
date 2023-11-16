@@ -8,6 +8,7 @@ import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class UniShop {
@@ -54,10 +55,18 @@ public class UniShop {
      * @param path The file path to which user data needs to be saved.
      */
     public void saveUserList(String path) {
-        try (FileOutputStream file = new FileOutputStream(path)) {
-            try (ObjectOutputStream output = new ObjectOutputStream(file)) {
+        File file = new File(path);
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException("Could not create the save file");
+        }
+
+        try (FileOutputStream outputFile = new FileOutputStream(file, false)) {
+            try (ObjectOutputStream output = new ObjectOutputStream(outputFile)) {
                 output.writeObject(getBuyerList());
                 output.writeObject(getSellerList());
+                output.flush();
             }
         } catch (IOException e) {
             throw new RuntimeException("Could not save the user list");
