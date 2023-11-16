@@ -146,4 +146,8 @@ public class UniShop {
 
         this.setCurrentUser(seller);
     }
+
+    public boolean isPasswordValid(String password) {
+        return this.currentUser.getPassword() == password.hashCode();
+    }
 }
