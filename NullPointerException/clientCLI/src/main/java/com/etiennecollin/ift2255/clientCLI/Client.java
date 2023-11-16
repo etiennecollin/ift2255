@@ -91,11 +91,9 @@ public class Client {
         String password = prettyPrompt("Password");
 
         if(answer == 0) {
-           // ur = UserRole.Buyer;
             unishop.loginBuyer(username, password);
         }
         else if(answer == 1){
-           // ur = UserRole.Seller;
             unishop.loginSeller(username, password);
         }
         return unishop;
