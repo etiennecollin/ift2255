@@ -17,6 +17,7 @@ public class Order {
     private final Buyer buyer;
     private final Seller seller;
     private int cost;
+    private int totalNumberProducts;
     private int fidelityPoints;
     private ArrayList<Tuple<Product, Integer>> products;
     private String email;
@@ -29,7 +30,6 @@ public class Order {
     private int creditCardSecretDigits;
     private OrderState state;
     private ShippingInfo shippingInfo;
-
     public Order(int cost, int fidelityPoints, ArrayList<Tuple<Product, Integer>> products, String email, int phone, String address, String billingAddress, String creditCardName, int creditCardNumber, int creditCardExp, int creditCardSecretDigits, Buyer buyer, Seller seller) {
         this.cost = cost;
         this.fidelityPoints = fidelityPoints;
@@ -45,9 +45,21 @@ public class Order {
         this.buyer = buyer;
         this.seller = seller;
 
+        for (Tuple<Product, Integer> tuple : products) {
+            totalNumberProducts += tuple.second;
+        }
+
         this.state = OrderState.InProduction;
         this.orderDate = LocalDate.now();
         this.id = UUID.randomUUID();
+    }
+
+    public int getTotalNumberProducts() {
+        return totalNumberProducts;
+    }
+
+    public void setTotalNumberProducts(int totalNumberProducts) {
+        this.totalNumberProducts = totalNumberProducts;
     }
 
     public ShippingInfo getShippingInfo() {

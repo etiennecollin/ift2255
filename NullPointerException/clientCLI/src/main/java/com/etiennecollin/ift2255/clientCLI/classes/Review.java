@@ -6,12 +6,14 @@ package com.etiennecollin.ift2255.clientCLI.classes;
 
 import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
 public class Review {
     public static final int POINTS_PER_REVIEW = 10;
     private final UUID id;
+    private final LocalDate creationDate;
     private String content;
     private String title;
     private Buyer author;
@@ -28,6 +30,7 @@ public class Review {
         this.setProduct(product);
         this.setRating(rating);
         this.setLikes(0);
+        this.creationDate = LocalDate.now();
         this.arePointsGiven = false;
         this.id = UUID.randomUUID();
     }
@@ -40,6 +43,10 @@ public class Review {
             this.arePointsGiven = true;
             this.author.addFidelityPoints(POINTS_PER_REVIEW);
         }
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
     }
 
     public int getRating() {

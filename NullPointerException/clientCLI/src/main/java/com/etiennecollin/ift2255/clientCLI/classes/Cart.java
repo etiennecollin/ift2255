@@ -16,11 +16,13 @@ public class Cart {
      * Total value of cart in cents.
      */
     private int totalCost;
+    private int totalNumberProducts;
     private int totalFidelityPoints;
 
     public Cart(Buyer buyer) {
         this.totalCost = 0;
         this.totalFidelityPoints = 0;
+        this.totalNumberProducts = 0;
         this.buyer = buyer;
     }
 
@@ -39,6 +41,7 @@ public class Cart {
             }
         }
 
+        totalNumberProducts += quantity;
         totalCost += product.getCost() * quantity;
         totalFidelityPoints += (product.getBonusFidelityPoints() + product.getCost() / 100) * quantity;
 
@@ -56,6 +59,7 @@ public class Cart {
                     throw new IllegalArgumentException("Cannot remove more products than are present in the cart");
                 }
 
+                totalNumberProducts -= quantity;
                 totalCost -= product.getCost() * quantity;
                 totalFidelityPoints -= (product.getBonusFidelityPoints() + product.getCost() / 100) * quantity;
 
@@ -74,6 +78,7 @@ public class Cart {
         for (int i = 0; i < this.products.size(); i++) {
             Tuple<Product, Integer> tuple = this.products.get(i);
             if (tuple.first == product) {
+                totalNumberProducts -= tuple.second;
                 totalCost -= product.getCost() * tuple.second;
                 totalFidelityPoints -= product.getBonusFidelityPoints() * tuple.second;
                 this.products.remove(i);
