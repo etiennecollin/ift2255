@@ -92,10 +92,16 @@ public class Cart {
 
         // "Sort" products by seller
         HashMap<Seller, ArrayList<Tuple<Product, Integer>>> hashmap = new HashMap<>();
-        for (Tuple<Product, Integer> tuple : products) {
+        for (Tuple<Product, Integer> tuple : this.products) {
             ArrayList<Tuple<Product, Integer>> newValue = hashmap.getOrDefault(tuple.first.getSeller(), new ArrayList<>());
             newValue.add(tuple);
             hashmap.put(tuple.first.getSeller(), newValue);
+
+            // Update product quantity
+            if (tuple.second > tuple.first.getQuantity()) {
+                throw new RuntimeException("Cannot buy more of a product than is available");
+            }
+            tuple.first.setQuantity(tuple.first.getQuantity() - tuple.second);
         }
 
         // For each seller and tuples of Product/Quantity in the hashmap
@@ -106,7 +112,7 @@ public class Cart {
             // Compute the cost and fidelity points of this sub-order
             for (Tuple<Product, Integer> tuple : tuples) {
                 Product product = tuple.first;
-                Integer quantity = tuple.second;
+                int quantity = tuple.second;
                 subTotalCost += product.getCost() * quantity;
                 subTotalFidelityPoints += (product.getCost() / 100 + product.getBonusFidelityPoints()) * quantity;
             }
