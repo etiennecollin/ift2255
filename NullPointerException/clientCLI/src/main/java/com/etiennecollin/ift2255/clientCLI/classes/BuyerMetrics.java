@@ -4,5 +4,5 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes;
 
-public record BuyerMetrics(int numberOfOrders, int numberOfArticlesBought, int numberOfLikesReceived,
-                           int averageEvaluation, int numberOfEvaluations) {}
+public record BuyerMetrics(int numberOfOrders, int numberOfProductsBought, int numberOfFollowers, int averageReview,
+                           int numberOfReviews) {}

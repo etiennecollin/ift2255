@@ -14,7 +14,7 @@ public class Ticket {
     private final Buyer buyer;
     private final Seller seller;
     private LocalDate returnTrackingNumberEmissionDate;
-    private ArrayList<Product> products;
+    private ArrayList<Tuple<Product, Integer>> products;
     private Order order;
     private String problemDescription;
     private String suggestedSolution;
@@ -24,7 +24,7 @@ public class Ticket {
     private int returnTrackingNumber;
     private TicketState state;
 
-    public Ticket(String problemDescription, Order order, ArrayList<Product> products, Buyer buyer, Seller seller) {
+    public Ticket(String problemDescription, Order order, ArrayList<Tuple<Product, Integer>> products, Buyer buyer, Seller seller) {
         this.products = products;
         this.order = order;
         this.buyer = buyer;
@@ -84,11 +84,11 @@ public class Ticket {
         this.state = TicketState.Closed;
     }
 
-    public ArrayList<Product> getProducts() {
+    public ArrayList<Tuple<Product, Integer>> getProducts() {
         return products;
     }
 
-    public void setProducts(ArrayList<Product> products) {
+    public void setProducts(ArrayList<Tuple<Product, Integer>> products) {
         this.products = products;
     }
 
@@ -98,22 +98,6 @@ public class Ticket {
 
     public Seller getSeller() {
         return seller;
-    }
-
-    public String getProblemDescription() {
-        return problemDescription;
-    }
-
-    public void setProblemDescription(String problemDescription) {
-        this.problemDescription = problemDescription;
-    }
-
-    public String getSuggestedSolution() {
-        return suggestedSolution;
-    }
-
-    public void setSuggestedSolution(String suggestedSolution) {
-        this.suggestedSolution = suggestedSolution;
     }
 
     public String getReplacementProductDescription() {
@@ -138,5 +122,26 @@ public class Ticket {
 
     public void setReplacementDeliveryConfirmed(boolean replacementDeliveryConfirmed) {
         this.replacementDeliveryConfirmed = replacementDeliveryConfirmed;
+    }
+
+    public String getProblemDescription() {
+        return problemDescription;
+    }
+
+    public void setProblemDescription(String problemDescription) {
+        this.problemDescription = problemDescription;
+    }
+
+    public String getSuggestedSolution() {
+        return suggestedSolution;
+    }
+
+    public void setSuggestedSolution(String suggestedSolution) {
+        this.suggestedSolution = suggestedSolution;
+
+        String title = "New solution for one of your tickets";
+        String content = "Ticket: " + this.getProblemDescription() + "\nSolution suggested: " + this.getSuggestedSolution();
+        Notification notification = new Notification(title, content);
+        this.buyer.addNotification(notification);
     }
 }

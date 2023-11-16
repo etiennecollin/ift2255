@@ -12,18 +12,19 @@ import java.util.Objects;
 public class Seller extends User {
     private final ArrayList<Product> productsOffered;
     private final ArrayList<Order> ordersSold;
-    private String username; // Unique
-    private String lastName;
-    private String firstName;
+    private final ArrayList<Buyer> followedBy;
+    private String name; // Unique
 
-    public Seller(String lastName, String firstName, String username, String email, int phone, String address, String password) {
-        super(password, email, phone, address);
-        this.setUsername(username);
-        //this.setEmail(email);
-        //this.setPhone(phone);
-        //this.setAddress(address);
+    public Seller(String name, String email, int phoneNumber, String address, String password) {
+        super(email, password, phoneNumber, address);
+        this.setName(name);
         this.productsOffered = new ArrayList<>();
         this.ordersSold = new ArrayList<>();
+        this.followedBy = new ArrayList<>();
+    }
+
+    public ArrayList<Buyer> getFollowedBy() {
+        return followedBy;
     }
 
     public ArrayList<Order> getOrdersSold() {
@@ -51,6 +52,30 @@ public class Seller extends User {
             }
         }
         productsOffered.add(product);
+
+        // Send notification to buyers who follow this seller
+        String title = "New product added by followed seller";
+        String content = "Seller: " + this.getName() + "\nNew Product: " + product.getTitle() + "\nPrice: " + product.getCost();
+        Notification notification = new Notification(title, content);
+        for (Buyer buyer : followedBy) {
+            buyer.addNotification(notification);
+        }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void toggleFollowedBy(Buyer buyer) {
+        if (followedBy.contains(buyer)) {
+            followedBy.remove(buyer);
+        } else {
+            followedBy.add(buyer);
+        }
     }
 
     public void removeOrderSold(Order order) throws IllegalArgumentException {
@@ -102,13 +127,5 @@ public class Seller extends User {
         if (o == null || getClass() != o.getClass()) return false;
         Seller seller = (Seller) o;
         return Objects.equals(getUsername(), seller.getUsername()) || Objects.equals(getId(), seller.getId());
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 }
