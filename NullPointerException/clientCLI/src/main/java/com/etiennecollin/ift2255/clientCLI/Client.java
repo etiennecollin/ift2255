@@ -5,10 +5,7 @@
 
 package com.etiennecollin.ift2255.clientCLI;
 
-import com.etiennecollin.ift2255.clientCLI.classes.Buyer;
-import com.etiennecollin.ift2255.clientCLI.classes.Seller;
-import com.etiennecollin.ift2255.clientCLI.classes.UniShop;
-import com.etiennecollin.ift2255.clientCLI.classes.User;
+import com.etiennecollin.ift2255.clientCLI.classes.*;
 import com.etiennecollin.ift2255.clientCLI.classes.products.ProductCategory;
 
 import java.io.File;
@@ -84,9 +81,9 @@ public class Client {
 
             User user = unishop.getCurrentUser();
             if (user instanceof Buyer) {
-                buyerMenu();
+                buyerMenu(unishop);
             } else if (user instanceof Seller) {
-                sellerMenu();
+                sellerMenu(unishop);
             }
         }
     }
@@ -113,9 +110,7 @@ public class Client {
 
         if (role == UserRole.Buyer) {
             user = buyerCreationForm();
-            System.out.println("hello:)");
             unishop.addUser((Buyer) user);
-            System.out.println("Hello again :) ");
         } else if (role == UserRole.Seller) {
             user = sellerCreationForm();
             unishop.addUser((Seller) user);
@@ -125,14 +120,14 @@ public class Client {
         return unishop;
     }
 
-    public static void buyerMenu() {
+    public static void buyerMenu(UniShop unishop) {
         boolean disconnect = false;
         do {
             int buyerAnswer = prettyMenu("Main menu", buyerMenu);
             switch (buyerAnswer) {
                 case 0 -> displayCatalog();
                 case 1 -> searchProduct();
-                case 2 -> displayCart();
+                case 2 -> displayCart(unishop);
                 case 3 -> displayActivities();
                 case 4 -> findSeller();
                 case 5 -> displayOrders();
@@ -143,7 +138,7 @@ public class Client {
         System.out.println(prettify("You have successfully logged out"));
     }
 
-    public static void sellerMenu() {
+    public static void sellerMenu(UniShop unishop) {
         boolean disconnect = false;
 
         do {
@@ -239,7 +234,7 @@ public class Client {
         }
     }
 
-    public static void displayCart() {
+    public static void displayCart(UniShop unishop) {
         System.out.println(prettify("My cart: "));
         if (shoppingCart.isEmpty()) {
             System.out.println(prettify("Empty cart"));
@@ -252,9 +247,38 @@ public class Client {
         System.out.println(prettify("Total: 1000$"));
         boolean placeOrder = prettyYesNo("Place an order?");
         if (placeOrder) {
+            paymentForm(unishop);
             ordersPlaced.add(shoppingCart);
             System.out.println("Your order has been placed successfully");
         }
+    }
+
+    private static void paymentForm(UniShop unishop) {
+
+        Buyer buyer = (Buyer) unishop.getCurrentUser();
+        Cart cart = buyer.getCart();
+
+        System.out.println(prettify("Paiement form"));
+        String shippingAddress = prettyPrompt("Shipping address");
+
+        if(buyer.getFidelityPoints()>0){
+            boolean answer = prettyYesNo("You have " + buyer.getFidelityPoints() +
+                    " fidelity points. Do you want to use them?");
+            if(answer){
+                //cart.setCost(cart.getCost() - buyer.getFidelityPoints()*0.02)//TODO : setter pour cart cost
+                buyer.setFidelityPoints(0);
+                prettify("Your new total is: " + cart.getCost());
+            }
+        }
+
+        String creditCardName = prettyPrompt("Credit card name");
+        int creditCardNumber = Integer.parseInt(prettyPrompt("Credit card number"));
+        int expirationDate = Integer.parseInt(prettyPrompt("Expiration date MMYY"));
+        int cvc = Integer.parseInt(prettyPrompt("CVC"));
+
+
+        buyer.getCart().createOrder(buyer.getEmail(), Integer.parseInt(buyer.getPhoneNumber()), shippingAddress,
+                buyer.getAddress(), creditCardName, creditCardNumber, expirationDate, cvc);
     }
 
     // General metrics
