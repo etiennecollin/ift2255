@@ -20,38 +20,16 @@ public class Utils {
     private static final Scanner scanner = new Scanner(System.in);
 
     /**
-     * Displays a prompt to the user and expects a yes/no response.
-     * It keeps prompting until a valid response is given.
+     * Displays a prompt with single question and returns the user answer.
      *
      * @param prompt The message to display as the prompt.
      *
-     * @return `true` if the user answers "yes" (case-insensitive), `false` if the user answers "no" (case-insensitive).
+     * @return The answer of the user.
      */
-    protected static boolean prettyYesNo(String prompt) {
-
-        // Instantiate the variables used to store the answer and its parsed version
-        String answer;
-        boolean answerParsed;
-
-        // Repeat until input is valid
-        while (true) {
-            // Print prompt
-            System.out.println("------------");
-            System.out.print(prettify(prompt) + " (y/n): ");
-            answer = scanner.nextLine().strip();
-
-            // Parse answer
-            if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
-                answerParsed = true;
-            } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
-                answerParsed = false;
-            } else {
-                System.out.println(prettify("Invalid input"));
-                continue;
-            }
-
-            return answerParsed;
-        }
+    protected static String prettyPrompt(String prompt) {
+        System.out.println("------------");
+        System.out.print(prettify(prompt) + ": ");
+        return scanner.nextLine().strip();
     }
 
     /**
@@ -63,19 +41,6 @@ public class Utils {
      */
     protected static String prettify(String string) {
         return "| " + string;
-    }
-
-    /**
-     * Displays a prompt with single question and returns the user answer.
-     *
-     * @param prompt The message to display as the prompt.
-     *
-     * @return The answer of the user.
-     */
-    protected static String prettyPrompt(String prompt) {
-        System.out.println("------------");
-        System.out.print(prettify(prompt) + ": ");
-        return scanner.nextLine().strip();
     }
 
     /**
@@ -120,10 +85,18 @@ public class Utils {
         }
     }
 
+    /**
+     * Displays a prompt to the user and expects a yes/no response.
+     * It keeps prompting until a valid response is given.
+     *
+     * @param prompt The message to display as the prompt.
+     *
+     * @return `true` if the user answers "yes/y/true/1" (case-insensitive), `false` if the user answers "no/n/false/0" (case-insensitive).
+     */
     protected static boolean prettyPromptBool(String prompt) {
         while (true) {
             System.out.println("------------");
-            System.out.print(prettify(prompt) + "? ");
+            System.out.print(prettify(prompt) + " (y/n): ");
             String answer = scanner.nextLine().strip();
             if (answer.equalsIgnoreCase("yes") || answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("true") || answer.equalsIgnoreCase("1")) {
                 return true;
@@ -294,7 +267,12 @@ public class Utils {
         scanner.close();
     }
 
-    public static void clearConsole() {
+    protected static void logout(UniShop uniShop) {
+        System.out.println(prettify("Logging-out..."));
+        uniShop.setCurrentUser(null);
+    }
+
+    protected static void clearConsole() {
         for (int i = 0; i < 100; i++) {
             System.out.println();
         }

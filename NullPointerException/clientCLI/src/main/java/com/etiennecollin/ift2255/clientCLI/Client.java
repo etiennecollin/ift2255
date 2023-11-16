@@ -59,9 +59,6 @@ public class Client {
             } else if (answer == 2) {
                 quit(unishop);
                 break;
-            } else {
-                System.out.println(prettify("Invalid input, please try again"));
-                continue;
             }
 
             User user = unishop.getCurrentUser();
@@ -90,11 +87,10 @@ public class Client {
                     String password = prettyPrompt("Password");
                     unishop.loginSeller(username, password);
                 }
-                System.out.println(prettify("Successfully created account"));
                 break;
             } catch (IllegalArgumentException e) {
                 System.out.println(prettify(e.getMessage()));
-                boolean tryAgain = prettyPromptBool("Try again");
+                boolean tryAgain = prettyPromptBool("Try again?");
                 if (!tryAgain) {
                     break;
                 }
@@ -119,21 +115,23 @@ public class Client {
                     user = sellerCreationForm();
                     unishop.addUser((Seller) user);
                 }
+
                 unishop.setCurrentUser(user);
+                System.out.println(prettify("Successfully created account"));
                 break;
             } catch (IllegalArgumentException e) {
                 System.out.println(prettify(e.getMessage()));
-                boolean tryAgain = prettyPromptBool("Try again");
+                boolean tryAgain = prettyPromptBool("Try again?");
                 if (!tryAgain) {
                     break;
                 }
             }
         }
+        clearConsole();
     }
 
     public static void buyerMenu(UniShop unishop) {
-        boolean disconnect = false;
-        do {
+        while (true) {
             int buyerAnswer = prettyMenu("Main menu", buyerMenu);
             switch (buyerAnswer) {
                 case 0 -> displayCatalog();
@@ -143,10 +141,10 @@ public class Client {
                 case 4 -> findSeller();
                 case 5 -> displayOrders();
                 case 6 -> updateBuyerInfo();
-                case 7 -> disconnect = true;
+                case 7 -> logout(unishop);
             }
-        } while (!disconnect);
-        System.out.println(prettify("You have successfully logged out"));
+            break;
+        }
     }
 
     public static void sellerMenu(UniShop unishop) {
@@ -202,7 +200,7 @@ public class Client {
             if (addToCart != (addToCartMenu.length - 1)) {
                 shoppingCart.add(addToCartMenu[addToCart]);
                 System.out.println(prettify("Item successfully added to cart."));
-                boolean answer = prettyYesNo("Keep browsing product?");
+                boolean answer = prettyPromptBool("Keep browsing product?");
                 if (!answer) break;         // 5 goes back to main menu
             }
         }
@@ -251,7 +249,7 @@ public class Client {
         }
         // Fictional amount for prototype only.
         System.out.println(prettify("Total: 1000$"));
-        boolean placeOrder = prettyYesNo("Place an order?");
+        boolean placeOrder = prettyPromptBool("Place an order?");
         if (placeOrder) {
             paymentForm(unishop);
             ordersPlaced.add(shoppingCart);
@@ -413,7 +411,7 @@ public class Client {
         String shippingAddress = prettyPrompt("Shipping address");
 
         if (buyer.getFidelityPoints() > 0) {
-            boolean answer = prettyYesNo("You have " + buyer.getFidelityPoints() + " fidelity points. Do you want to use them?");
+            boolean answer = prettyPromptBool("You have " + buyer.getFidelityPoints() + " fidelity points. Do you want to use them?");
             if (answer) {
                 // cart.setCost(cart.getCost() - buyer.getFidelityPoints()*0.02)//TODO : setter pour cart cost
                 buyer.setFidelityPoints(0);
