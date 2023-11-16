@@ -8,7 +8,6 @@ import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class UniShop {
@@ -89,14 +88,14 @@ public class UniShop {
         this.currentUser = currentUser;
     }
 
-    public void addUser(Buyer buyer) {
+    public void addUser(Buyer buyer) throws IllegalArgumentException {
         if (buyerList.containsKey(buyer.getUsername())) {
             throw new IllegalArgumentException("This buyer already exists");
         }
         this.buyerList.put(buyer.getUsername(), buyer);
     }
 
-    public void addUser(Seller seller) {
+    public void addUser(Seller seller) throws IllegalArgumentException {
         if (sellerList.containsKey(seller.getName())) {
             throw new IllegalArgumentException("This seller already exists");
         }
@@ -119,7 +118,7 @@ public class UniShop {
         updateCatalog();
     }
 
-    public void loginBuyer(String username, String password) {
+    public void loginBuyer(String username, String password) throws IllegalArgumentException {
         Buyer buyer = buyerList.get(username);
 
         // Check that a buyer is found
@@ -134,7 +133,7 @@ public class UniShop {
         this.setCurrentUser(buyer);
     }
 
-    public void loginSeller(String name, String password) {
+    public void loginSeller(String name, String password) throws IllegalArgumentException {
         Seller seller = sellerList.get(name);
 
         if (seller == null) {
