@@ -105,10 +105,10 @@ public class Seller extends User {
         for (Order order : ordersSold) {
             if (order.getOrderDate().isAfter(dateCutOff)) {
                 recentRevenue += order.getCost();
-                numberRecentProductsSold += order.getTotalNumberProducts();
+                numberRecentProductsSold += order.getNumberOfProducts();
             }
             totalRevenue += order.getCost();
-            numberTotalProductsSold += order.getTotalNumberProducts();
+            numberTotalProductsSold += order.getNumberOfProducts();
         }
 
         // Compute average ratings

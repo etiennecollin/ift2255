@@ -95,7 +95,7 @@ public class Buyer extends User {
 
     public void addOrder(Order order) {
         this.orders.add(order);
-        addFidelityPoints(order.getFidelityPoints());
+        addFidelityPoints(order.getNumberOfFidelityPoints());
     }
 
     public void addFidelityPoints(int fidelityPoints) {
@@ -106,7 +106,7 @@ public class Buyer extends User {
         if (!this.orders.remove(order)) {
             throw new IllegalArgumentException("This order does not belong to the current user");
         }
-        removeFidelityPoints(order.getFidelityPoints());
+        removeFidelityPoints(order.getNumberOfFidelityPoints());
     }
 
     public void removeFidelityPoints(int fidelityPoints) {
@@ -117,14 +117,14 @@ public class Buyer extends User {
         if (!this.orders.remove(order)) {
             throw new IllegalArgumentException("This order does not belong to the current user");
         }
-        removeFidelityPoints(order.getFidelityPoints());
+        removeFidelityPoints(order.getNumberOfFidelityPoints());
     }
 
     public void cancelOrder(Order order) {
         if (!this.orders.remove(order)) {
             throw new IllegalArgumentException("This order does not belong to the current user");
         }
-        removeFidelityPoints(order.getFidelityPoints());
+        removeFidelityPoints(order.getNumberOfFidelityPoints());
     }
 
     public void orderDelivered(Order order) {
@@ -254,10 +254,10 @@ public class Buyer extends User {
         int numberTotalOrders = 0;
         for (Order order : orders) {
             if (order.getOrderDate().isAfter(dateCutOff)) {
-                numberRecentProductsBought += order.getTotalNumberProducts();
+                numberRecentProductsBought += order.getNumberOfProducts();
                 numberRecentOrders++;
             }
-            numberTotalProductsBought += order.getTotalNumberProducts();
+            numberTotalProductsBought += order.getNumberOfProducts();
             numberTotalOrders++;
         }
 
