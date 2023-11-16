@@ -45,21 +45,6 @@ public class Client {
      * @param args The command-line arguments.
      */
     public static void main(String[] args) {
-
-        /* String[] buyerMenu = {"Product catalog", "Search product", "Review a product", "Cart", "Order", "Review previous orders", "Confirm order reception", "Signal product issue", "Return/Exchange", "My activities", "Find seller", "Disconnect"};*/
-        // for prototype
-        sellersUsername.add("sellerUsernameExample");
-
-        // Make productListDataBase = addToCartMenu
-        System.arraycopy(productListDataBase, 0, addToCartMenu, 0, productListDataBase.length);
-
-        // last elm = back menu
-        addToCartMenu[addToCartMenu.length - 1] = "Back";
-
-        System.out.println(prettify("For this prototype, here are the users available for login:"));
-        System.out.println(prettify("Buyer: username=buyer, password=hunter2"));
-        System.out.println(prettify("Seller: username=seller, password=1234"));
-
         UniShop unishop = new UniShop();
         unishop.loadUserList(savePath);
 
@@ -89,35 +74,61 @@ public class Client {
     }
 
     private static void loginForm(UniShop unishop) {
-        System.out.println(prettify("Login menu"));
+        while (true) {
+            clearConsole();
+            System.out.println(prettify("Login menu"));
+            String[] options = {"Buyer", "Seller"};
+            int answer = prettyMenu("Login as", options);
 
-        String[] roleMenu = {"Buyer", "Seller"};
-        int answer = prettyMenu("Login as a: ", roleMenu);
-
-        String username = prettyPrompt("Username");
-        String password = prettyPrompt("Password");
-
-        if (answer == 0) {
-            unishop.loginBuyer(username, password);
-        } else if (answer == 1) {
-            unishop.loginSeller(username, password);
+            try {
+                if (answer == 0) {
+                    String username = prettyPrompt("Username");
+                    String password = prettyPrompt("Password");
+                    unishop.loginBuyer(username, password);
+                } else if (answer == 1) {
+                    String username = prettyPrompt("Name");
+                    String password = prettyPrompt("Password");
+                    unishop.loginSeller(username, password);
+                }
+                System.out.println(prettify("Successfully created account"));
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println(prettify(e.getMessage()));
+                boolean tryAgain = prettyPromptBool("Try again");
+                if (!tryAgain) {
+                    break;
+                }
+            }
         }
+        clearConsole();
     }
 
-    private static UniShop createAccount(UniShop unishop) {
-        UserRole role = prettyMenu("What type of account would you like to create?", UserRole.class);
-        User user = null;
+    private static void createAccount(UniShop unishop) {
+        while (true) {
+            clearConsole();
+            System.out.println(prettify("Account creation menu"));
+            String[] options = {"Buyer", "Seller"};
+            int answer = prettyMenu("What type of account would you like to create?", options);
+            User user = null;
 
-        if (role == UserRole.Buyer) {
-            user = buyerCreationForm();
-            unishop.addUser((Buyer) user);
-        } else if (role == UserRole.Seller) {
-            user = sellerCreationForm();
-            unishop.addUser((Seller) user);
+            try {
+                if (answer == 0) {
+                    user = buyerCreationForm();
+                    unishop.addUser((Buyer) user);
+                } else if (answer == 1) {
+                    user = sellerCreationForm();
+                    unishop.addUser((Seller) user);
+                }
+                unishop.setCurrentUser(user);
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println(prettify(e.getMessage()));
+                boolean tryAgain = prettyPromptBool("Try again");
+                if (!tryAgain) {
+                    break;
+                }
+            }
         }
-
-        unishop.setCurrentUser(user);
-        return unishop;
     }
 
     public static void buyerMenu(UniShop unishop) {
@@ -155,7 +166,8 @@ public class Client {
         System.out.println(prettify("You have successfully logged out"));
     }
 
-    private static Buyer buyerCreationForm() { // TODO return buyer
+    private static Buyer buyerCreationForm() {
+        clearConsole();
         String firstName = prettyPrompt("First name");
         String lastName = prettyPrompt("Last name");
         String username = prettyPrompt("Username");
@@ -164,24 +176,18 @@ public class Client {
         String phoneNumber = prettyPrompt("Phone number");
         String address = prettyPrompt("Shipping address");
 
-        Buyer buyer = new Buyer(firstName, lastName, username, email, phoneNumber, address, password);
-        System.out.println(prettify("Successfully registered"));
-
-        return buyer;
+        return new Buyer(firstName, lastName, username, email, phoneNumber, address, password);
     }
 
-    private static Seller sellerCreationForm() { // TODO return seller
+    private static Seller sellerCreationForm() {
+        clearConsole();
         String name = prettyPrompt("Name");
         String email = prettyPrompt("Email");
         String password = prettyPrompt("Password");
         String phoneNumber = prettyPrompt("Phone number");
         String address = prettyPrompt("Shipping address");
 
-        Seller seller = new Seller(name, email, phoneNumber, address, password);
-
-        System.out.println(prettify("Successfully registered"));
-
-        return seller;
+        return new Seller(name, email, phoneNumber, address, password);
     }
 
     private static void displayCatalog() {
@@ -251,34 +257,6 @@ public class Client {
             ordersPlaced.add(shoppingCart);
             System.out.println("Your order has been placed successfully");
         }
-    }
-
-    private static void paymentForm(UniShop unishop) {
-
-        Buyer buyer = (Buyer) unishop.getCurrentUser();
-        Cart cart = buyer.getCart();
-
-        System.out.println(prettify("Paiement form"));
-        String shippingAddress = prettyPrompt("Shipping address");
-
-        if(buyer.getFidelityPoints()>0){
-            boolean answer = prettyYesNo("You have " + buyer.getFidelityPoints() +
-                    " fidelity points. Do you want to use them?");
-            if(answer){
-                //cart.setCost(cart.getCost() - buyer.getFidelityPoints()*0.02)//TODO : setter pour cart cost
-                buyer.setFidelityPoints(0);
-                prettify("Your new total is: " + cart.getCost());
-            }
-        }
-
-        String creditCardName = prettyPrompt("Credit card name");
-        int creditCardNumber = Integer.parseInt(prettyPrompt("Credit card number"));
-        int expirationDate = Integer.parseInt(prettyPrompt("Expiration date MMYY"));
-        int cvc = Integer.parseInt(prettyPrompt("CVC"));
-
-
-        buyer.getCart().createOrder(buyer.getEmail(), Integer.parseInt(buyer.getPhoneNumber()), shippingAddress,
-                buyer.getAddress(), creditCardName, creditCardNumber, expirationDate, cvc);
     }
 
     // General metrics
@@ -424,6 +402,31 @@ public class Client {
                 }
             }
         }
+    }
+
+    private static void paymentForm(UniShop unishop) {
+
+        Buyer buyer = (Buyer) unishop.getCurrentUser();
+        Cart cart = buyer.getCart();
+
+        System.out.println(prettify("Paiement form"));
+        String shippingAddress = prettyPrompt("Shipping address");
+
+        if (buyer.getFidelityPoints() > 0) {
+            boolean answer = prettyYesNo("You have " + buyer.getFidelityPoints() + " fidelity points. Do you want to use them?");
+            if (answer) {
+                // cart.setCost(cart.getCost() - buyer.getFidelityPoints()*0.02)//TODO : setter pour cart cost
+                buyer.setFidelityPoints(0);
+                prettify("Your new total is: " + cart.getCost());
+            }
+        }
+
+        String creditCardName = prettyPrompt("Credit card name");
+        int creditCardNumber = Integer.parseInt(prettyPrompt("Credit card number"));
+        int expirationDate = Integer.parseInt(prettyPrompt("Expiration date MMYY"));
+        int cvc = Integer.parseInt(prettyPrompt("CVC"));
+
+        buyer.getCart().createOrder(buyer.getEmail(), Integer.parseInt(buyer.getPhoneNumber()), shippingAddress, buyer.getAddress(), creditCardName, creditCardNumber, expirationDate, cvc);
     }
 
     public static void displaySellers() {
