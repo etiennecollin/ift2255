@@ -126,6 +126,6 @@ public class Seller extends User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Seller seller = (Seller) o;
-        return Objects.equals(getUsername(), seller.getUsername()) || Objects.equals(getId(), seller.getId());
+        return Objects.equals(getName(), seller.getName()) || Objects.equals(getId(), seller.getId());
     }
 }
