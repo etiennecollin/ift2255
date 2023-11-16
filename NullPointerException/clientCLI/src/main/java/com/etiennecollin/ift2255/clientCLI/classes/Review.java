@@ -9,22 +9,24 @@ import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Comment {
+public class Review {
     public static final int POINTS_PER_REVIEW = 10;
     private final UUID id;
     private String content;
     private String title;
     private Buyer author;
     private Product product;
+    private int rating;
     private int likes;
     private int reports;
     private boolean arePointsGiven;
 
-    public Comment(String content, String title, Buyer author, Product product) {
+    public Review(String content, String title, Buyer author, Product product, int rating) {
         this.setContent(content);
         this.setTitle(title);
         this.setAuthor(author);
         this.setProduct(product);
+        this.setRating(rating);
         this.setLikes(0);
         this.arePointsGiven = false;
         this.id = UUID.randomUUID();
@@ -38,6 +40,17 @@ public class Comment {
             this.arePointsGiven = true;
             this.author.addFidelityPoints(POINTS_PER_REVIEW);
         }
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        if (rating < 0 || rating > 100) {
+            throw new IllegalArgumentException("Rating must be between 0 and 100 inclusively");
+        }
+        this.rating = rating;
     }
 
     public Product getProduct() {
@@ -62,8 +75,8 @@ public class Comment {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Comment comment = (Comment) o;
-        return Objects.equals(getId(), comment.getId());
+        Review review = (Review) o;
+        return Objects.equals(getId(), review.getId());
     }
 
     @Override

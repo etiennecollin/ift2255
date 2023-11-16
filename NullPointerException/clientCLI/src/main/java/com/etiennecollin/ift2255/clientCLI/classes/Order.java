@@ -8,7 +8,6 @@ import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -59,37 +58,37 @@ public class Order {
         return seller;
     }
 
-    public void createTicket(String description, ArrayList<Product> products) {
+    public void createTicket(String description, ArrayList<Tuple<Product, Integer>> products) {
         // Check if order can still be reported
         if (LocalDate.now().isAfter(this.getOrderDate().plusYears(1))) {
             throw new IllegalArgumentException("This order can no longer be reported");
         }
 
         // Check if products are in order
-        for (Tuple<Product, Integer> tuple : this.getProducts()) {
-            if (!products.contains(tuple.first)) {
+        for (Tuple<Product, Integer> tuple : products) {
+            if (!this.products.contains(tuple)) {
                 throw new IllegalArgumentException("Some products are not part of this order");
             }
         }
 
-        // "Sort" products by seller
-        HashMap<Seller, ArrayList<Product>> hashmap = new HashMap<>();
-        for (Product product : products) {
-            ArrayList<Product> newValue = hashmap.getOrDefault(product.getSeller(), new ArrayList<>());
-            newValue.add(product);
-            hashmap.put(product.getSeller(), newValue);
-        }
-
         // Create ticket per seller and add it to buyer and seller
-        hashmap.forEach((seller, value) -> {
-            Ticket ticket = new Ticket(description, this, value, this.buyer, seller);
-            this.buyer.addTicket(ticket);
-            seller.addTicket(ticket);
-        });
+        Ticket ticket = new Ticket(description, this, products, this.buyer, seller);
+        this.buyer.addTicket(ticket);
+        seller.addTicket(ticket);
+
+        // Also add notification to seller
+        String title = "New ticket opened on one of your orders";
+        String content = "Order: " + this.getId() + "\nBuyer: " + this.buyer.getFirstName() + " " + this.buyer.getLastName();
+        Notification notification = new Notification(title, content);
+        this.seller.addNotification(notification);
     }
 
     public LocalDate getOrderDate() {
         return orderDate;
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public ArrayList<Tuple<Product, Integer>> getProducts() {
@@ -106,21 +105,16 @@ public class Order {
             throw new IllegalArgumentException("This order can no longer be reported");
         }
 
-        // "Sort" products by seller
-        HashMap<Seller, ArrayList<Product>> hashmap = new HashMap<>();
-        for (Tuple<Product, Integer> tuple : this.products) {
-            Product product = tuple.first;
-            ArrayList<Product> newValue = hashmap.getOrDefault(product.getSeller(), new ArrayList<>());
-            newValue.add(product);
-            hashmap.put(product.getSeller(), newValue);
-        }
-
         // Create ticket per seller and add it to buyer and seller
-        hashmap.forEach((seller, value) -> {
-            Ticket ticket = new Ticket(description, this, value, this.buyer, seller);
-            this.buyer.addTicket(ticket);
-            seller.addTicket(ticket);
-        });
+        Ticket ticket = new Ticket(description, this, this.products, this.buyer, seller);
+        this.buyer.addTicket(ticket);
+        seller.addTicket(ticket);
+
+        // Also add notification to seller
+        String title = "New ticket opened on one of your orders";
+        String content = "Order: " + this.getId() + "\nBuyer: " + this.buyer.getFirstName() + " " + this.buyer.getLastName();
+        Notification notification = new Notification(title, content);
+        this.seller.addNotification(notification);
     }
 
     public ShippingInfo getShipping() {
@@ -137,14 +131,10 @@ public class Order {
 
     public void setInTransit(String shippingCompany, int trackingNumber, LocalDate expectedDeliveryDate) {
         this.shippingInfo = new ShippingInfo(shippingCompany, trackingNumber, expectedDeliveryDate);
-        String title = "Order " + getId() + " shipped!";
-        String description = "Shipped by: " + shippingCompany + "\nTracking number: " + trackingNumber;
+        String title = "Your order is now shipped";
+        String description = "Order: " + this.getId() + "\nShipped by: " + shippingCompany + "\nTracking number: " + trackingNumber;
         getBuyer().addNotification(new Notification(title, description));
         this.state = OrderState.InTransit;
-    }
-
-    public UUID getId() {
-        return id;
     }
 
     public Buyer getBuyer() {
@@ -153,9 +143,19 @@ public class Order {
 
     public void setInProduction() {
         this.state = OrderState.InProduction;
+
+        String title = "Your order is now in production";
+        String content = "Order: " + this.getId();
+        Notification notification = new Notification(title, content);
+        this.buyer.addNotification(notification);
     }
 
     public void setDelivered() {
+        String title = "Your order is now delivered";
+        String content = "Order: " + this.getId();
+        Notification notification = new Notification(title, content);
+        this.buyer.addNotification(notification);
+
         this.state = OrderState.Delivered;
     }
 

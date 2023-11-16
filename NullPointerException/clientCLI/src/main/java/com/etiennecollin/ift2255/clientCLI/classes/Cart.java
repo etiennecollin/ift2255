@@ -110,6 +110,11 @@ public class Cart {
             Order order = new Order(subTotalCost, subTotalFidelityPoints, tuples, email, phone, address, billingAddress, creditCardName, creditCardNumber, creditCardExp, creditCardSecretDigits, this.buyer, seller);
             this.buyer.addOrder(order);
             seller.addOrderSold(order);
+
+            // Send notification
+            String content = "Order " + order.getId() + " by " + order.getBuyer().getFirstName() + " " + order.getBuyer().getLastName() + " was received on " + order.getOrderDate() + ".";
+            Notification notification = new Notification("Order received", content);
+            seller.addNotification(notification);
         });
     }
 

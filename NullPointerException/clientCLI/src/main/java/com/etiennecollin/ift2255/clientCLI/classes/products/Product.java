@@ -4,12 +4,11 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes.products;
 
-import com.etiennecollin.ift2255.clientCLI.classes.Comment;
-import com.etiennecollin.ift2255.clientCLI.classes.Rating;
-import com.etiennecollin.ift2255.clientCLI.classes.Seller;
+import com.etiennecollin.ift2255.clientCLI.classes.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -18,15 +17,17 @@ public abstract class Product {
     private final UUID id;
     private final LocalDate commercializationDate;
     private final ProductCategory productCategory;
+    private final ArrayList<Buyer> followedBy;
+    private final Rating rating;
     private int cost;
     private int quantity;
     private String title; // Unique
     private String description;
     private int likes;
     private Seller seller;
-    private ArrayList<Comment> comments;
-    private Rating rating;
+    private ArrayList<Review> reviews;
     private int bonusFidelityPoints;
+    private int rebate;
 
     public Product(int cost, int quantity, String title, String description, ProductCategory productCategory) {
         this.setCost(cost);
@@ -37,10 +38,16 @@ public abstract class Product {
         this.setBonusFidelityPoints(0);
 
         this.commercializationDate = LocalDate.now();
+        this.rebate = 0;
         this.setLikes(0);
-        this.setComments(new ArrayList<>());
-        this.setRating(new Rating());
+        this.setReview(new ArrayList<>());
+        this.rating = new Rating();
+        this.followedBy = new ArrayList<>();
         this.id = UUID.randomUUID();
+    }
+
+    public void setReview(ArrayList<Review> reviews) {
+        this.reviews = reviews;
     }
 
     public int getCost() {
@@ -61,9 +68,57 @@ public abstract class Product {
 
         this.commercializationDate = LocalDate.now();
         this.setLikes(0);
-        this.setComments(new ArrayList<>());
-        this.setRating(new Rating());
+        this.setReview(new ArrayList<>());
+        this.rating = new Rating();
+        this.followedBy = new ArrayList<>();
         this.id = UUID.randomUUID();
+    }
+
+    public void toggleFollowedBy(Buyer buyer) {
+        if (followedBy.contains(buyer)) {
+            followedBy.remove(buyer);
+        } else {
+            followedBy.add(buyer);
+        }
+    }
+
+    public int getRebate() {
+        return rebate;
+    }
+
+    public void setRebate(int rebate) {
+        if (rebate < 0 || rebate > 100) {
+            throw new IllegalArgumentException("The rebate should be a percentage between 0% and 100%");
+        }
+
+        this.rebate = rebate;
+
+        // Send notification to buyers who follow this seller
+        String title = "New promotion added on a product sold by followed seller";
+        String content = "Seller: " + this.seller.getName() + "\nProduct: " + this.getTitle() + "\nPrice: " + this.getCost() + "\nPromotion: " + this.rebate + "%";
+        Notification notification = new Notification(title, content);
+
+        // Prevent sending duplicate of notifications
+        HashSet<Buyer> sendTo = new HashSet<>();
+        sendTo.addAll(this.seller.getFollowedBy()); // Send to buyers who follow the seller
+        sendTo.addAll(this.getFollowedBy()); // Send to buyers who follow the product
+        this.getFollowedBy().forEach(buyer -> sendTo.addAll(buyer.getFollowedBy())); // Send to buyers who follow a buyer who follows this product
+
+        for (Buyer buyer : sendTo) {
+            buyer.addNotification(notification);
+        }
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public ArrayList<Buyer> getFollowedBy() {
+        return followedBy;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public ProductCategory getProductCategory() {
@@ -128,14 +183,6 @@ public abstract class Product {
         this.seller = seller;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public ProductCategory getCategory() {
         return productCategory;
     }
@@ -151,30 +198,31 @@ public abstract class Product {
         this.likes = likes;
     }
 
-    public ArrayList<Comment> getComments() {
-        return comments;
+    public ArrayList<Review> getReviews() {
+        return reviews;
     }
 
-    public void setComments(ArrayList<Comment> comments) {
-        this.comments = comments;
+    public void addReview(Review review) {
+        this.reviews.add(review);
+        this.rating.addRating(review.getRating());
+        review.getAuthor().addReviewWritten(review);
+
+        String title = "New review on one of your products";
+        String content = "Product: " + this.getTitle() + "\nReview Title: " + review.getTitle() + "\nReview body: " + review.getContent();
+        Notification notification = new Notification(title, content);
+        this.seller.addNotification(notification);
     }
 
-    public void addComment(Comment comment) {
-        this.comments.add(comment);
-    }
-
-    public void removeComment(Comment comment) {
-        if (comment.arePointsGiven()) {
-            comment.getAuthor().removeFidelityPoints(Comment.POINTS_PER_REVIEW);
+    public void removeReview(Review review) {
+        if (review.arePointsGiven()) {
+            review.getAuthor().removeFidelityPoints(Review.POINTS_PER_REVIEW);
         }
-        this.comments.remove(comment);
+
+        this.reviews.remove(review);
+        this.rating.removeRating(review.getRating());
     }
 
     public Rating getRating() {
         return rating;
-    }
-
-    public void setRating(Rating rating) {
-        this.rating = rating;
     }
 }

@@ -11,14 +11,18 @@ import java.util.Objects;
 
 public class Buyer extends User {
     private final ArrayList<Product> productsLiked;
-    private final ArrayList<Comment> commentsLiked;
-    private final ArrayList<Comment> commentsWritten;
+    private final ArrayList<Review> commentsLiked;
+    private final ArrayList<Buyer> buyersLiked;
+    private final ArrayList<Seller> sellersLiked;
+    private final ArrayList<Review> reviewsWritten;
+    private final ArrayList<Buyer> followedBy;
     private final ArrayList<Order> orders;
     private Cart cart;
     private String lastName;
     private String firstName;
     private String username; // Unique
     private int fidelityPoints = 0;
+
     public Buyer(String lastName, String firstName, String username, String password) {
         super(password);
         this.setLastName(lastName);
@@ -27,23 +31,38 @@ public class Buyer extends User {
         this.cart = new Cart(this);
         this.productsLiked = new ArrayList<>();
         this.commentsLiked = new ArrayList<>();
-        this.commentsWritten = new ArrayList<>();
+        this.sellersLiked = new ArrayList<>();
+        this.buyersLiked = new ArrayList<>();
+        this.followedBy = new ArrayList<>();
+        this.reviewsWritten = new ArrayList<>();
         this.orders = new ArrayList<>();
     }
 
-    public ArrayList<Comment> getCommentsWritten() {
-        return commentsWritten;
+    public ArrayList<Buyer> getFollowedBy() {
+        return followedBy;
     }
 
-    public void addCommentWritten(Comment comment) {
-        this.commentsWritten.add(comment);
+    public ArrayList<Buyer> getBuyersLiked() {
+        return buyersLiked;
     }
 
-    public void removeCommentWritten(Comment comment) {
-        if (!this.commentsWritten.remove(comment)) {
+    public ArrayList<Seller> getSellersLiked() {
+        return sellersLiked;
+    }
+
+    public ArrayList<Review> getReviewsWritten() {
+        return reviewsWritten;
+    }
+
+    public void addReviewWritten(Review review) {
+        this.reviewsWritten.add(review);
+    }
+
+    public void removeReviewWritten(Review review) {
+        if (!this.reviewsWritten.remove(review)) {
             throw new IllegalArgumentException("This comment does not belong to the current user");
         }
-        comment.delete();
+        review.delete();
     }
 
     public Cart getCart() {
@@ -134,11 +153,19 @@ public class Buyer extends User {
         return productsLiked.contains(product);
     }
 
-    public boolean doesLike(Comment comment) {
-        return commentsLiked.contains(comment);
+    public boolean doesLike(Review review) {
+        return commentsLiked.contains(review);
     }
 
-    public ArrayList<Comment> getCommentsLiked() {
+    public boolean doesLike(Seller seller) {
+        return sellersLiked.contains(seller);
+    }
+
+    public boolean doesLike(Buyer buyer) {
+        return buyersLiked.contains(buyer);
+    }
+
+    public ArrayList<Review> getCommentsLiked() {
         return commentsLiked;
     }
 
@@ -148,29 +175,84 @@ public class Buyer extends User {
         } else {
             productsLiked.add(product);
         }
+        product.toggleFollowedBy(this);
     }
 
-    public void toggleLike(Comment comment) {
-        if (commentsLiked.contains(comment)) {
-            commentsLiked.remove(comment);
+    public void toggleLike(Buyer buyer) {
+        if (buyersLiked.contains(buyer)) {
+            buyersLiked.remove(buyer);
         } else {
-            commentsLiked.add(comment);
+            buyersLiked.add(buyer);
+
+            String title = "New follower";
+            String content = "You are now followed by: " + this.getFirstName() + " " + this.getLastName();
+            Notification notification = new Notification(title, content);
+            buyer.addNotification(notification);
         }
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+        buyer.toggleFollowedBy(this);
     }
 
     public String getFirstName() {
         return firstName;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void toggleFollowedBy(Buyer buyer) {
+        if (followedBy.contains(buyer)) {
+            followedBy.remove(buyer);
+        } else {
+            followedBy.add(buyer);
+        }
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public void toggleLike(Seller seller) {
+        if (sellersLiked.contains(seller)) {
+            sellersLiked.remove(seller);
+        } else {
+            sellersLiked.add(seller);
+
+            String title = "New follower";
+            String content = "You are now followed by: " + this.getFirstName() + " " + this.getLastName();
+            Notification notification = new Notification(title, content);
+            seller.addNotification(notification);
+        }
+        seller.toggleFollowedBy(this);
+    }
+
+    public void toggleLike(Review review) {
+        if (commentsLiked.contains(review)) {
+            commentsLiked.remove(review);
+        } else {
+            commentsLiked.add(review);
+        }
+    }
+
+    public BuyerMetrics getMetrics() {
+        // Compute revenue and number of products sold.
+        int numberOfProductsBought = 0;
+        for (Order order : orders) {
+            for (Tuple<Product, Integer> tuple : order.getProducts()) {
+                numberOfProductsBought += tuple.second;
+            }
+        }
+
+        int averageReview = 0;
+        for (Review review : reviewsWritten) {
+            averageReview += review.getRating();
+        }
+        averageReview = averageReview / reviewsWritten.size();
+
+        return new BuyerMetrics(this.orders.size(), numberOfProductsBought, this.followedBy.size(), averageReview, reviewsWritten.size());
     }
 }
