@@ -130,6 +130,7 @@ public class Client {
         clearConsole();
     }
 
+    // TODO complete
     public static void buyerMenu(UniShop unishop) {
         loop:
         while (true) {
@@ -150,6 +151,7 @@ public class Client {
         }
     }
 
+    // TODO complete
     public static void sellerMenu(UniShop unishop) {
         loop:
         while (true) {
@@ -191,6 +193,7 @@ public class Client {
         return new Seller(name, email, phoneNumber, address, password);
     }
 
+    // TODO
     private static void displayCatalog() {
         String[] catChoice = {"Books and manuals", "Learning ressources", "Stationery", "Hardware", "Office equipment", "Main menu"};
         while (true) { // 5 is the option for Main Menu
@@ -209,6 +212,7 @@ public class Client {
         }
     }
 
+    // TODO
     private static void searchProduct() {
         ArrayList<String> searchResult = new ArrayList<>();
         String keyWord = prettyPrompt("Search");
@@ -241,6 +245,7 @@ public class Client {
         }
     }
 
+    // TODO
     public static void displayCart(UniShop unishop) {
         System.out.println(prettify("My cart: "));
         if (shoppingCart.isEmpty()) {
@@ -261,6 +266,7 @@ public class Client {
     }
 
     // General metrics
+    // TODO
     public static void displayActivities() {
         System.out.println(prettify("My activities:"));
         System.out.println(prettify("Total orders: " + ordersPlaced.size()));
@@ -268,6 +274,7 @@ public class Client {
     }
 
     // For prototype only
+    // TODO
     private static void findSeller() {
         String[] searchBy = {"Name", "Address", "Article category"};
         int search = prettyMenu("Search by", searchBy);
@@ -289,6 +296,7 @@ public class Client {
         displaySellers();
     }
 
+    // TODO
     public static void displayOrders() {
         System.out.println(prettify("Your orders: "));
         for (int i = 0; i < ordersPlaced.size(); i++) {
@@ -319,6 +327,7 @@ public class Client {
         }
     }
 
+    // TODO
     public static void updateBuyerInfo() {
         String[] updateInfoMenu = new String[]{"First name", "Last name", "Password", "Email", "Phone number", "Shipping address", "Main menu"};
         while (true) {
@@ -338,6 +347,7 @@ public class Client {
         }
     }
 
+    // TODO
     public static void addProduct() {
         String title = prettyPrompt("Title");
         ProductCategory productCategory = prettyMenu("Category", ProductCategory.class);
@@ -350,6 +360,7 @@ public class Client {
         System.out.println("Product " + title + " added!");
     }
 
+    // TODO
     public static void changeOrderStatus() {
         String[] orderMenu = new String[]{"#123 - Pending Seller", "Main menu"};
         int orderIdx = prettyMenu("Select the order to update", orderMenu);
@@ -369,6 +380,7 @@ public class Client {
         System.out.println("Order status updated!");
     }
 
+    // TODO
     public static void manageProblems() {
         String[] problemList = new String[]{"#123 - Order not received", "Main menu"};
 
@@ -388,6 +400,7 @@ public class Client {
         System.out.println("Problem response sent!");
     }
 
+    // TODO
     public static void updateSellerInfo() {
         String[] updateInfoMenu = new String[]{"Password", "Email", "Phone number", "Shipping address", "Main menu"};
         while (true) {
@@ -405,8 +418,8 @@ public class Client {
         }
     }
 
+    // TODO
     private static void paymentForm(UniShop unishop) {
-
         Buyer buyer = (Buyer) unishop.getCurrentUser();
         Cart cart = buyer.getCart();
 
@@ -430,6 +443,7 @@ public class Client {
         buyer.getCart().createOrder(buyer.getEmail(), Integer.parseInt(buyer.getPhoneNumber()), shippingAddress, buyer.getAddress(), creditCardName, creditCardNumber, expirationDate, cvc);
     }
 
+    // TODO
     public static void displaySellers() {
         for (String seller : sellersUsername) {
             System.out.println(prettify(seller));
