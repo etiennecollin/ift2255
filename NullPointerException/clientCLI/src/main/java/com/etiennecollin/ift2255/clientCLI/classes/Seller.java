@@ -6,6 +6,7 @@ package com.etiennecollin.ift2255.clientCLI.classes;
 
 import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -29,10 +30,6 @@ public class Seller extends User {
 
     public ArrayList<Order> getOrdersSold() {
         return ordersSold;
-    }
-
-    public ArrayList<Product> getProductsOffered() {
-        return productsOffered;
     }
 
     public void removeProductOffered(Product product) throws IllegalArgumentException {
@@ -97,28 +94,42 @@ public class Seller extends User {
         ordersSold.add(order);
     }
 
-    public SellerMetrics getMetrics() {
-        // Compute revenue and number of products sold.
-        int revenue = 0;
-        int productsSold = 0;
+    public SellerMetrics getMetrics(int lastNMonths) {
+        LocalDate dateCutOff = LocalDate.now().minusMonths(lastNMonths);
+
+        // Compute recentRevenue and number of products sold.
+        int recentRevenue = 0;
+        int totalRevenue = 0;
+        int numberTotalProductsSold = 0;
+        int numberRecentProductsSold = 0;
         for (Order order : ordersSold) {
-            for (Tuple<Product, Integer> tuple : order.getProducts()) {
-                Product product = tuple.first;
-                // Verify that product in order was sold by this seller
-                if (product.getSeller().equals(this)) {
-                    // Update revenue
-                    revenue += product.getCost() * tuple.second;
-                    // Update number of products sold
-                    productsSold += tuple.second;
-                }
+            if (order.getOrderDate().isAfter(dateCutOff)) {
+                recentRevenue += order.getCost();
+                numberRecentProductsSold += order.getTotalNumberProducts();
+            }
+            totalRevenue += order.getCost();
+            numberTotalProductsSold += order.getTotalNumberProducts();
+        }
+
+        // Compute average ratings
+        int numberRecentRatings = 0;
+        int sumRecentRatings = 0;
+        int sumTotalRatings = 0;
+        for (Product product : productsOffered) {
+            sumTotalRatings += product.getRating().getRating();
+            if (product.getCommercializationDate().isAfter(dateCutOff)) {
+                sumRecentRatings += product.getRating().getRating();
+                numberRecentRatings++;
             }
         }
-        int totalProductRating = 0;
-        for (Product product : productsOffered) {
-            totalProductRating += product.getRating().getRating();
-        }
-        int averageProductRating = totalProductRating / productsOffered.size();
-        return new SellerMetrics(revenue, productsSold, this.productsOffered.size(), averageProductRating);
+        int averageRecentRatings = sumRecentRatings / numberRecentRatings;
+        int averageTotalRatings = sumTotalRatings / this.getProductsOffered().size();
+
+        return new SellerMetrics(recentRevenue, totalRevenue, numberRecentProductsSold, numberTotalProductsSold, this.productsOffered.size(), averageRecentRatings, averageTotalRatings);
+    }
+
+    public ArrayList<Product> getProductsOffered() {
+        return productsOffered;
     }
 
     @Override
