@@ -35,6 +35,7 @@ public class Client {
 
     static {
         try {
+            // Inspired by https://stackoverflow.com/a/3627527
             savePath = new File(Client.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile() + "/unishop_save.txt";
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
