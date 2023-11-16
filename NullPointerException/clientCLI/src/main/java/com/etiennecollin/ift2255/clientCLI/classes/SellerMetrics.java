@@ -4,5 +4,6 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes;
 
-public record SellerMetrics(int revenue, int numberOfArticlesSold, int numberOfArticlesOffered,
-                            int averageProductRating) {}
+public record SellerMetrics(int recentRevenue, int totalRevenue, int numberRecentProductsSold,
+                            int numberTotalProductsSold, int numberProductsOffered, int averageRecentProductRating,
+                            int averageTotalProductRating) {}

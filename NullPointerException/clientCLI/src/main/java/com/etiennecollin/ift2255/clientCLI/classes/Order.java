@@ -17,7 +17,8 @@ public class Order {
     private final Buyer buyer;
     private final Seller seller;
     private int cost;
-    private int fidelityPoints;
+    private int numberOfProducts;
+    private int numberOfFidelityPoints;
     private ArrayList<Tuple<Product, Integer>> products;
     private String email;
     private int phone;
@@ -30,9 +31,9 @@ public class Order {
     private OrderState state;
     private ShippingInfo shippingInfo;
 
-    public Order(int cost, int fidelityPoints, ArrayList<Tuple<Product, Integer>> products, String email, int phone, String address, String billingAddress, String creditCardName, int creditCardNumber, int creditCardExp, int creditCardSecretDigits, Buyer buyer, Seller seller) {
+    public Order(int cost, int numberOfFidelityPoints, ArrayList<Tuple<Product, Integer>> products, String email, int phone, String address, String billingAddress, String creditCardName, int creditCardNumber, int creditCardExp, int creditCardSecretDigits, Buyer buyer, Seller seller) {
         this.cost = cost;
-        this.fidelityPoints = fidelityPoints;
+        this.numberOfFidelityPoints = numberOfFidelityPoints;
         this.products = products;
         this.email = email;
         this.phone = phone;
@@ -45,9 +46,21 @@ public class Order {
         this.buyer = buyer;
         this.seller = seller;
 
+        for (Tuple<Product, Integer> tuple : products) {
+            numberOfProducts += tuple.second;
+        }
+
         this.state = OrderState.InProduction;
         this.orderDate = LocalDate.now();
         this.id = UUID.randomUUID();
+    }
+
+    public int getNumberOfProducts() {
+        return numberOfProducts;
+    }
+
+    public void setNumberOfProducts(int numberOfProducts) {
+        this.numberOfProducts = numberOfProducts;
     }
 
     public ShippingInfo getShippingInfo() {
@@ -167,12 +180,12 @@ public class Order {
         this.cost = cost;
     }
 
-    public int getFidelityPoints() {
-        return fidelityPoints;
+    public int getNumberOfFidelityPoints() {
+        return numberOfFidelityPoints;
     }
 
-    public void setFidelityPoints(int fidelityPoints) {
-        this.fidelityPoints = fidelityPoints;
+    public void setNumberOfFidelityPoints(int numberOfFidelityPoints) {
+        this.numberOfFidelityPoints = numberOfFidelityPoints;
     }
 
     public String getBillingAddress() {

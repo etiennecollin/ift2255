@@ -15,13 +15,19 @@ public class Cart {
     /**
      * Total value of cart in cents.
      */
-    private int totalCost;
-    private int totalFidelityPoints;
+    private int cost;
+    private int numberOfProducts;
+    private int numberOfFidelityPoints;
 
     public Cart(Buyer buyer) {
-        this.totalCost = 0;
-        this.totalFidelityPoints = 0;
+        this.cost = 0;
+        this.numberOfFidelityPoints = 0;
+        this.numberOfProducts = 0;
         this.buyer = buyer;
+    }
+
+    public int getNumberOfProducts() {
+        return numberOfProducts;
     }
 
     public Buyer getBuyer() {
@@ -39,8 +45,9 @@ public class Cart {
             }
         }
 
-        totalCost += product.getCost() * quantity;
-        totalFidelityPoints += (product.getBonusFidelityPoints() + product.getCost() / 100) * quantity;
+        numberOfProducts += quantity;
+        cost += product.getCost() * quantity;
+        numberOfFidelityPoints += (product.getBonusFidelityPoints() + product.getCost() / 100) * quantity;
 
         if (!isAlreadyInCart) {
             this.products.add(new Tuple<>(product, quantity));
@@ -56,8 +63,9 @@ public class Cart {
                     throw new IllegalArgumentException("Cannot remove more products than are present in the cart");
                 }
 
-                totalCost -= product.getCost() * quantity;
-                totalFidelityPoints -= (product.getBonusFidelityPoints() + product.getCost() / 100) * quantity;
+                numberOfProducts -= quantity;
+                cost -= product.getCost() * quantity;
+                numberOfFidelityPoints -= (product.getBonusFidelityPoints() + product.getCost() / 100) * quantity;
 
                 if (tuple.second == quantity) {
                     this.products.remove(i);
@@ -74,8 +82,9 @@ public class Cart {
         for (int i = 0; i < this.products.size(); i++) {
             Tuple<Product, Integer> tuple = this.products.get(i);
             if (tuple.first == product) {
-                totalCost -= product.getCost() * tuple.second;
-                totalFidelityPoints -= product.getBonusFidelityPoints() * tuple.second;
+                numberOfProducts -= tuple.second;
+                cost -= product.getCost() * tuple.second;
+                numberOfFidelityPoints -= product.getBonusFidelityPoints() * tuple.second;
                 this.products.remove(i);
                 break;
             }
@@ -84,13 +93,18 @@ public class Cart {
     }
 
     public void createOrder(String email, int phone, String address, String billingAddress, String creditCardName, int creditCardNumber, int creditCardExp, int creditCardSecretDigits) {
-
         // "Sort" products by seller
         HashMap<Seller, ArrayList<Tuple<Product, Integer>>> hashmap = new HashMap<>();
-        for (Tuple<Product, Integer> tuple : products) {
+        for (Tuple<Product, Integer> tuple : this.products) {
             ArrayList<Tuple<Product, Integer>> newValue = hashmap.getOrDefault(tuple.first.getSeller(), new ArrayList<>());
             newValue.add(tuple);
             hashmap.put(tuple.first.getSeller(), newValue);
+
+            // Update product quantity
+            if (tuple.second > tuple.first.getQuantity()) {
+                throw new RuntimeException("Cannot buy more of a product than is available");
+            }
+            tuple.first.setQuantity(tuple.first.getQuantity() - tuple.second);
         }
 
         // For each seller and tuples of Product/Quantity in the hashmap
@@ -101,7 +115,7 @@ public class Cart {
             // Compute the cost and fidelity points of this sub-order
             for (Tuple<Product, Integer> tuple : tuples) {
                 Product product = tuple.first;
-                Integer quantity = tuple.second;
+                int quantity = tuple.second;
                 subTotalCost += product.getCost() * quantity;
                 subTotalFidelityPoints += (product.getCost() / 100 + product.getBonusFidelityPoints()) * quantity;
             }
@@ -116,23 +130,25 @@ public class Cart {
             Notification notification = new Notification("Order received", content);
             seller.addNotification(notification);
         });
-    }
 
-    public int getTotalCost() {
-        return totalCost;
-    }
-
-    public int getTotalFidelityPoints() {
-        return totalFidelityPoints;
-    }
-
-    public ArrayList<Tuple<Product, Integer>> getProducts() {
-        return products;
+        emptyCart();
     }
 
     public void emptyCart() {
         this.products.clear();
-        this.totalFidelityPoints = 0;
-        this.totalCost = 0;
+        this.numberOfFidelityPoints = 0;
+        this.cost = 0;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public int getNumberOfFidelityPoints() {
+        return numberOfFidelityPoints;
+    }
+
+    public ArrayList<Tuple<Product, Integer>> getProducts() {
+        return products;
     }
 }

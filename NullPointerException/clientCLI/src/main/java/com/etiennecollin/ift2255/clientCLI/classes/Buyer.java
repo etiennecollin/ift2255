@@ -6,6 +6,7 @@ package com.etiennecollin.ift2255.clientCLI.classes;
 
 import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -36,10 +37,6 @@ public class Buyer extends User {
         this.followedBy = new ArrayList<>();
         this.reviewsWritten = new ArrayList<>();
         this.orders = new ArrayList<>();
-    }
-
-    public ArrayList<Buyer> getFollowedBy() {
-        return followedBy;
     }
 
     public ArrayList<Buyer> getBuyersLiked() {
@@ -98,7 +95,7 @@ public class Buyer extends User {
 
     public void addOrder(Order order) {
         this.orders.add(order);
-        addFidelityPoints(order.getFidelityPoints());
+        addFidelityPoints(order.getNumberOfFidelityPoints());
     }
 
     public void addFidelityPoints(int fidelityPoints) {
@@ -109,7 +106,7 @@ public class Buyer extends User {
         if (!this.orders.remove(order)) {
             throw new IllegalArgumentException("This order does not belong to the current user");
         }
-        removeFidelityPoints(order.getFidelityPoints());
+        removeFidelityPoints(order.getNumberOfFidelityPoints());
     }
 
     public void removeFidelityPoints(int fidelityPoints) {
@@ -120,14 +117,14 @@ public class Buyer extends User {
         if (!this.orders.remove(order)) {
             throw new IllegalArgumentException("This order does not belong to the current user");
         }
-        removeFidelityPoints(order.getFidelityPoints());
+        removeFidelityPoints(order.getNumberOfFidelityPoints());
     }
 
     public void cancelOrder(Order order) {
         if (!this.orders.remove(order)) {
             throw new IllegalArgumentException("This order does not belong to the current user");
         }
-        removeFidelityPoints(order.getFidelityPoints());
+        removeFidelityPoints(order.getNumberOfFidelityPoints());
     }
 
     public void orderDelivered(Order order) {
@@ -181,9 +178,18 @@ public class Buyer extends User {
     public void toggleLike(Buyer buyer) {
         if (buyersLiked.contains(buyer)) {
             buyersLiked.remove(buyer);
+
+            // Remove points
+            buyer.removeFidelityPoints(5);
+            this.removeFidelityPoints(5);
         } else {
             buyersLiked.add(buyer);
 
+            // Add points
+            buyer.addFidelityPoints(5);
+            this.addFidelityPoints(5);
+
+            // Send notification
             String title = "New follower";
             String content = "You are now followed by: " + this.getFirstName() + " " + this.getLastName();
             Notification notification = new Notification(title, content);
@@ -238,21 +244,41 @@ public class Buyer extends User {
         }
     }
 
-    public BuyerMetrics getMetrics() {
-        // Compute revenue and number of products sold.
-        int numberOfProductsBought = 0;
+    public BuyerMetrics getMetrics(int lastNMonths) {
+        LocalDate dateCutOff = LocalDate.now().minusMonths(lastNMonths);
+
+        // Compute recentRevenue and number of products sold.
+        int numberRecentProductsBought = 0;
+        int numberTotalProductsBought = 0;
+        int numberRecentOrders = 0;
+        int numberTotalOrders = 0;
         for (Order order : orders) {
-            for (Tuple<Product, Integer> tuple : order.getProducts()) {
-                numberOfProductsBought += tuple.second;
+            if (order.getOrderDate().isAfter(dateCutOff)) {
+                numberRecentProductsBought += order.getNumberOfProducts();
+                numberRecentOrders++;
             }
+            numberTotalProductsBought += order.getNumberOfProducts();
+            numberTotalOrders++;
         }
 
-        int averageReview = 0;
+        int averageRecentReviews = 0;
+        int averageTotalReviews = 0;
+        int numberRecentReviews = 0;
+        int numberTotalReviews = 0;
         for (Review review : reviewsWritten) {
-            averageReview += review.getRating();
+            if (review.getCreationDate().isAfter(dateCutOff)) {
+                averageRecentReviews += review.getRating();
+                numberRecentReviews++;
+            }
+            averageTotalReviews += review.getRating();
+            numberTotalReviews++;
         }
-        averageReview = averageReview / reviewsWritten.size();
+        averageRecentReviews = averageRecentReviews / numberRecentReviews;
+        averageTotalReviews = averageTotalReviews / numberTotalReviews;
+        return new BuyerMetrics(numberRecentOrders, numberTotalOrders, numberRecentProductsBought, numberTotalProductsBought, this.getFollowedBy().size(), averageRecentReviews, averageTotalReviews, numberRecentReviews, numberTotalReviews);
+    }
 
-        return new BuyerMetrics(this.orders.size(), numberOfProductsBought, this.followedBy.size(), averageReview, reviewsWritten.size());
+    public ArrayList<Buyer> getFollowedBy() {
+        return followedBy;
     }
 }
