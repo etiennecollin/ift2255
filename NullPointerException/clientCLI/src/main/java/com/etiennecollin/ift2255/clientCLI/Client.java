@@ -11,6 +11,8 @@ import com.etiennecollin.ift2255.clientCLI.classes.UniShop;
 import com.etiennecollin.ift2255.clientCLI.classes.User;
 import com.etiennecollin.ift2255.clientCLI.classes.products.ProductCategory;
 
+import java.io.File;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
@@ -19,7 +21,7 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.*;
  * The `Client` class serves as the main entry point for the client command-line interface (CLI).
  */
 public class Client {
-    public static final String savePath = "~/.unishop.data";
+    public static final String savePath;
     // Hardcoded for prototype
     static String[] sellerMenu = {"Offer product", "Modify order status", "Manage issues", "Update account information", "Log out"};
     static String[] buyerMenu = {"Catalog", "Search a product", "My cart", "My activities", "Find a seller", "My orders", "Update account information", "Log out"};
@@ -30,6 +32,14 @@ public class Client {
     static String[] addToCartMenu = new String[productListDataBase.length + 1];
     static ArrayList<String> sellersUsername = new ArrayList<>();
     static ArrayList<ArrayList<String>> ordersPlaced = new ArrayList<>();
+
+    static {
+        try {
+            savePath = new File(Client.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile() + "/unishop_save.txt";
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * The main method of the `Client` class, which is the entry point for the CLI application.
@@ -53,6 +63,8 @@ public class Client {
         System.out.println(prettify("Seller: username=seller, password=1234"));
 
         UniShop unishop = new UniShop();
+        unishop.loadUserList(savePath);
+
         while (true) {
             String[] loginMenu = {"Login", "Register", "Quit"};
             int answer = prettyMenu("Welcome to UniShop", loginMenu);

@@ -41,7 +41,7 @@ public class UniShop {
                 this.sellerList = (HashMap<String, Seller>) input.readObject();
             }
         } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException("Could not load the user list");
+            // throw new RuntimeException("Could not load the user list");
         }
     }
 
