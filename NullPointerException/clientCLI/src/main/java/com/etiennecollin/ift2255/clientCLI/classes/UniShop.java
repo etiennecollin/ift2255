@@ -51,6 +51,7 @@ public class UniShop {
         } catch (IOException | ClassNotFoundException e) {
             // throw new RuntimeException("Could not load the user list");
         }
+        updateCatalog();
     }
 
     public ArrayList<Product> getCatalog() {
