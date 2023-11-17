@@ -24,17 +24,17 @@ public enum ProductCategory {
         return options;
     }
 
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
     public ArrayList<String> getSubOptions() {
         ArrayList<String> options = new ArrayList<>();
         for (Enum<?> option : enumVar.getEnumConstants()) {
             options.add(option.toString());
         }
         return options;
-    }
-
-    @Override
-    public String toString() {
-        return this.name;
     }
 
     public Class<? extends Enum<?>> getEnum() {

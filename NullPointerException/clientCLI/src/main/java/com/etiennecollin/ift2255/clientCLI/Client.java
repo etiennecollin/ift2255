@@ -6,14 +6,11 @@
 package com.etiennecollin.ift2255.clientCLI;
 
 import com.etiennecollin.ift2255.clientCLI.classes.*;
-import com.etiennecollin.ift2255.clientCLI.classes.products.BookOrManual;
-import com.etiennecollin.ift2255.clientCLI.classes.products.BookOrManualGenre;
 import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 import com.etiennecollin.ift2255.clientCLI.classes.products.ProductCategory;
 
 import java.io.File;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 

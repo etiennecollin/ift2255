@@ -172,16 +172,16 @@ public abstract class Product implements Serializable {
     }
 
     @Override
-    public String toString() {
-        return title;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
         return Objects.equals(getId(), product.getId()) && Objects.equals(getSeller(), product.getSeller()) && Objects.equals(getTitle(), product.getTitle());
+    }
+
+    @Override
+    public String toString() {
+        return title;
     }
 
     public UUID getId() {
