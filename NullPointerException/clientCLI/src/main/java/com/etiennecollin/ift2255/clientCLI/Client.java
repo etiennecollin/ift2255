@@ -6,11 +6,16 @@
 package com.etiennecollin.ift2255.clientCLI;
 
 import com.etiennecollin.ift2255.clientCLI.classes.*;
+import com.etiennecollin.ift2255.clientCLI.classes.products.BookOrManual;
+import com.etiennecollin.ift2255.clientCLI.classes.products.BookOrManualGenre;
+import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 import com.etiennecollin.ift2255.clientCLI.classes.products.ProductCategory;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
@@ -19,6 +24,7 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.*;
  */
 public class Client {
     public static final String savePath;
+    public static final UniShop unishop = new UniShop();
     // Hardcoded for prototype
     static String[] sellerMenu = {"Offer product", "Modify order status", "Manage issues", "Update account information", "Log out"};
     static String[] buyerMenu = {"Catalog", "Search a product", "My cart", "My activities", "Find a seller", "My orders", "Update account information", "Log out"};
@@ -45,7 +51,6 @@ public class Client {
      * @param args The command-line arguments.
      */
     public static void main(String[] args) {
-        UniShop unishop = new UniShop();
         unishop.loadUserList(savePath);
 
         while (true) {
@@ -53,9 +58,9 @@ public class Client {
             int answer = prettyMenu("Welcome to UniShop", loginMenu);
 
             if (answer == 0) {
-                loginForm(unishop);
+                loginForm();
             } else if (answer == 1) {
-                createAccount(unishop);
+                createAccount();
             } else if (answer == 2) {
                 quit(unishop);
                 break;
@@ -63,14 +68,14 @@ public class Client {
 
             User user = unishop.getCurrentUser();
             if (user instanceof Buyer) {
-                buyerMenu(unishop);
+                buyerMenu();
             } else if (user instanceof Seller) {
-                sellerMenu(unishop);
+                sellerMenu();
             }
         }
     }
 
-    private static void loginForm(UniShop unishop) {
+    private static void loginForm() {
         while (true) {
             clearConsole();
             System.out.println(prettify("Login menu"));
@@ -91,15 +96,13 @@ public class Client {
             } catch (IllegalArgumentException e) {
                 System.out.println(prettify(e.getMessage()));
                 boolean tryAgain = prettyPromptBool("Try again?");
-                if (!tryAgain) {
-                    break;
-                }
+                if (!tryAgain) break;
             }
         }
         clearConsole();
     }
 
-    private static void createAccount(UniShop unishop) {
+    private static void createAccount() {
         while (true) {
             clearConsole();
             System.out.println(prettify("Account creation menu"));
@@ -122,16 +125,14 @@ public class Client {
             } catch (IllegalArgumentException e) {
                 System.out.println(prettify(e.getMessage()));
                 boolean tryAgain = prettyPromptBool("Try again?");
-                if (!tryAgain) {
-                    break;
-                }
+                if (!tryAgain) break;
             }
         }
         clearConsole();
     }
 
     // TODO complete
-    public static void buyerMenu(UniShop unishop) {
+    public static void buyerMenu() {
         loop:
         while (true) {
             int buyerAnswer = prettyMenu("Main menu", buyerMenu);
@@ -152,7 +153,7 @@ public class Client {
     }
 
     // TODO complete
-    public static void sellerMenu(UniShop unishop) {
+    public static void sellerMenu() {
         loop:
         while (true) {
             int answer = prettyMenu("Main menu", sellerMenu);
@@ -195,20 +196,37 @@ public class Client {
 
     // TODO
     private static void displayCatalog() {
-        String[] catChoice = {"Books and manuals", "Learning ressources", "Stationery", "Hardware", "Office equipment", "Main menu"};
-        while (true) { // 5 is the option for Main Menu
-            // for prototype only
-            int choice = prettyMenu("Categories", catChoice);
-            if (choice == catChoice.length - 1) break;
+        ArrayList<String> options = ProductCategory.getOptions();
+        options.add("Main menu");
 
-            int addToCart = prettyMenu("Add to cart", addToCartMenu);
+        while (true) {
+            // Select category
+            int choice = prettyMenu("Categories", options);
+            if (choice == options.size() - 1) break;
+            ProductCategory selectedCategory = ProductCategory.values()[choice];
 
-            if (addToCart != (addToCartMenu.length - 1)) {
-                shoppingCart.add(addToCartMenu[addToCart]);
-                System.out.println(prettify("Item successfully added to cart."));
-                boolean answer = prettyPromptBool("Keep browsing product?");
-                if (!answer) break;         // 5 goes back to main menu
-            }
+            // Select subcategory
+            ArrayList<String> subOptions = selectedCategory.getSubOptions();
+            subOptions.add("Main menu");
+
+            int subChoice = prettyMenu("Sub-Categories", subOptions);
+            if (subChoice == subOptions.size() - 1) break;
+            Enum<?> selectedSubCategory = selectedCategory.getEnum().getEnumConstants()[subChoice];
+
+            // Get products that match category/subcategory
+            ArrayList<Product> matchedProducts = unishop.getCatalog().stream().filter((product -> product.getCategory().equals(selectedCategory) && product.getSubCategory().equals(selectedSubCategory))).collect(Collectors.toCollection(ArrayList::new));
+
+            // Select one of these products
+            Product product = prettyMenuT("Select a product", matchedProducts);
+
+            // TODO instead of adding to cart, we should display the product page. From there we can add it to cart.
+            ((Buyer) unishop.getCurrentUser()).getCart().addProduct(product, 1);
+            // displayProductPage(product);
+
+            System.out.println(prettify("Item successfully added to cart"));
+
+            boolean tryAgain = prettyPromptBool("Keep browsing product?");
+            if (!tryAgain) break;
         }
     }
 
