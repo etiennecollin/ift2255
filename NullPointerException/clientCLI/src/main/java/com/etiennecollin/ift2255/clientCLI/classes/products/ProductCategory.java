@@ -4,6 +4,40 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes.products;
 
+import java.util.ArrayList;
+
 public enum ProductCategory {
-    BookOrManual, LearningResource, StationeryArticle, IT, OfficeEquipment
+    BookOrManual("Book or Manual", BookOrManualGenre.class), LearningResource("Learning Resource", LearningResourceType.class), StationeryArticle("Stationery Article", StationeryArticleCategory.class), IT("IT", ITCategory.class), OfficeEquipment("Office Equipment", OfficeEquipmentCategory.class);
+    private final Class<? extends Enum<?>> enumVar;
+    private final String name;
+
+    ProductCategory(String name, Class<? extends Enum<?>> enumVar) {
+        this.name = name;
+        this.enumVar = enumVar;
+    }
+
+    public static ArrayList<String> getOptions() {
+        ArrayList<String> options = new ArrayList<>();
+        for (ProductCategory option : ProductCategory.values()) {
+            options.add(option.toString());
+        }
+        return options;
+    }
+
+    public ArrayList<String> getSubOptions() {
+        ArrayList<String> options = new ArrayList<>();
+        for (Enum<?> option : enumVar.getEnumConstants()) {
+            options.add(option.toString());
+        }
+        return options;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
+    public Class<? extends Enum<?>> getEnum() {
+        return enumVar;
+    }
 }

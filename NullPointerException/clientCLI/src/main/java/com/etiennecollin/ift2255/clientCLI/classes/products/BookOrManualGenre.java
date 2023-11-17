@@ -5,5 +5,15 @@
 package com.etiennecollin.ift2255.clientCLI.classes.products;
 
 public enum BookOrManualGenre {
-    Novel, Documentary, Comic, Textbook, Other
+    Novel("Novel"), Documentary("Documentary"), Comic("Comic"), Textbook("Textbook"), Other("Other");
+    private final String name;
+
+    BookOrManualGenre(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

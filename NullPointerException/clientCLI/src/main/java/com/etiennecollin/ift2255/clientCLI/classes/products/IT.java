@@ -10,14 +10,12 @@ public class IT extends Product {
     private String brand;
     private String model;
     private LocalDate releaseDate;
-    private ITCategory subcategory;
 
-    public IT(int price, int quantity, String title, String description, int fidelityPoints, String brand, String model, LocalDate releaseDate, ITCategory subcategory) {
-        super(price, quantity, title, description, ProductCategory.IT, fidelityPoints);
+    public IT(int price, int quantity, String title, String description, int fidelityPoints, String brand, String model, LocalDate releaseDate, ITCategory subCategory) {
+        super(price, quantity, title, description, ProductCategory.IT, subCategory, fidelityPoints);
         this.brand = brand;
         this.model = model;
         this.releaseDate = releaseDate;
-        this.subcategory = subcategory;
     }
 
     public String getBrand() {
@@ -42,13 +40,5 @@ public class IT extends Product {
 
     public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
-    }
-
-    public ITCategory getSubcategory() {
-        return subcategory;
-    }
-
-    public void setSubcategory(ITCategory subcategory) {
-        this.subcategory = subcategory;
     }
 }

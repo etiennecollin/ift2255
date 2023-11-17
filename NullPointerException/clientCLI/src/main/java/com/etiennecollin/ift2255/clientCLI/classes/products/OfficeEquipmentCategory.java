@@ -5,5 +5,15 @@
 package com.etiennecollin.ift2255.clientCLI.classes.products;
 
 public enum OfficeEquipmentCategory {
-    Table, Chair, Lamp, Other
+    Table("Table"), Chair("Chair"), Lamp("Lamp"), Other("Other");
+    private final String name;
+
+    OfficeEquipmentCategory(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

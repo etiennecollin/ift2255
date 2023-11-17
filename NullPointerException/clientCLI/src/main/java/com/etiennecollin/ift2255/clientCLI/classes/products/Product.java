@@ -17,7 +17,8 @@ public abstract class Product implements Serializable {
     private final static int MAX_PTS_PER_DOLLAR = 20;
     private final UUID id;
     private final LocalDate commercializationDate;
-    private final ProductCategory productCategory;
+    private final ProductCategory category;
+    private final Enum<?> subCategory;
     private final ArrayList<Buyer> followedBy;
     private final Rating rating;
     private int cost;
@@ -30,12 +31,13 @@ public abstract class Product implements Serializable {
     private int bonusFidelityPoints;
     private int rebate;
 
-    public Product(int cost, int quantity, String title, String description, ProductCategory productCategory) {
+    public Product(int cost, int quantity, String title, String description, ProductCategory category, Enum<?> subCategory) {
         this.setCost(cost);
         this.setQuantity(quantity);
         this.setTitle(title);
         this.setDescription(description);
-        this.productCategory = productCategory;
+        this.category = category;
+        this.subCategory = subCategory;
         this.setBonusFidelityPoints(0);
 
         this.commercializationDate = LocalDate.now();
@@ -59,12 +61,13 @@ public abstract class Product implements Serializable {
         this.cost = cost;
     }
 
-    public Product(int cost, int quantity, String title, String description, ProductCategory productCategory, int bonusFidelityPoints) {
+    public Product(int cost, int quantity, String title, String description, ProductCategory category, Enum<?> subCategory, int bonusFidelityPoints) {
         this.setCost(cost);
         this.setQuantity(quantity);
         this.setTitle(title);
         this.setDescription(description);
-        this.productCategory = productCategory;
+        this.category = category;
+        this.subCategory = subCategory;
         this.setBonusFidelityPoints(bonusFidelityPoints);
 
         this.commercializationDate = LocalDate.now();
@@ -73,6 +76,10 @@ public abstract class Product implements Serializable {
         this.rating = new Rating();
         this.followedBy = new ArrayList<>();
         this.id = UUID.randomUUID();
+    }
+
+    public Enum<?> getSubCategory() {
+        return subCategory;
     }
 
     public void toggleFollowedBy(Buyer buyer) {
@@ -122,8 +129,8 @@ public abstract class Product implements Serializable {
         this.title = title;
     }
 
-    public ProductCategory getProductCategory() {
-        return productCategory;
+    public ProductCategory getCategory() {
+        return category;
     }
 
     public int getQuantity() {
@@ -155,13 +162,18 @@ public abstract class Product implements Serializable {
             throw new IllegalArgumentException("Cannot give less than 0 bonus points for a product");
         }
 
-        int newPointsPerDollar = (1 + bonusFidelityPoints) / (this.getCost() / 100);
+        float newPointsPerDollar = (float) (1 + bonusFidelityPoints) / ((float) this.getCost() / 100);
         if (newPointsPerDollar > MAX_PTS_PER_DOLLAR) {
             this.bonusFidelityPoints = (MAX_PTS_PER_DOLLAR * this.getCost()) / 100 - 1;
             throw new IllegalArgumentException("Products cannot provide more than " + MAX_PTS_PER_DOLLAR + " bonus points per dollar spent. Bonus points were clamped to match this maximum.");
         } else {
             this.bonusFidelityPoints = bonusFidelityPoints;
         }
+    }
+
+    @Override
+    public String toString() {
+        return title;
     }
 
     @Override
@@ -182,10 +194,6 @@ public abstract class Product implements Serializable {
 
     public void setSeller(Seller seller) {
         this.seller = seller;
-    }
-
-    public ProductCategory getCategory() {
-        return productCategory;
     }
 
     public int getLikes() {

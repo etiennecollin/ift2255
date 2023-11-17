@@ -10,17 +10,15 @@ public class BookOrManual extends Product {
     private int isbn;
     private String author;
     private String editor;
-    private BookOrManualGenre genre;
     private LocalDate releaseDate;
     private int editionNumber;
     private int volumeNumber;
 
-    public BookOrManual(int price, int quantity, String title, String description, ProductCategory productCategory, int fidelityPoints, int isbn, String author, String editor, BookOrManualGenre genre, LocalDate releaseDate, int editionNumber, int volumeNumber) {
-        super(price, quantity, title, description, ProductCategory.BookOrManual, fidelityPoints);
+    public BookOrManual(int price, int quantity, String title, String description, int fidelityPoints, int isbn, String author, String editor, BookOrManualGenre genre, LocalDate releaseDate, int editionNumber, int volumeNumber) {
+        super(price, quantity, title, description, ProductCategory.BookOrManual, genre, fidelityPoints);
         this.isbn = isbn;
         this.author = author;
         this.editor = editor;
-        this.genre = genre;
         this.releaseDate = releaseDate;
         this.editionNumber = editionNumber;
         this.volumeNumber = volumeNumber;
@@ -48,14 +46,6 @@ public class BookOrManual extends Product {
 
     public void setEditor(String editor) {
         this.editor = editor;
-    }
-
-    public BookOrManualGenre getGenre() {
-        return genre;
-    }
-
-    public void setGenre(BookOrManualGenre genre) {
-        this.genre = genre;
     }
 
     public LocalDate getReleaseDate() {

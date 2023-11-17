@@ -10,15 +10,13 @@ public class LearningResource extends Product {
     private int isbn;
     private String organisation;
     private LocalDate releaseDate;
-    private LearningResourceType type;
     private int editionNumber;
 
     public LearningResource(int price, int quantity, String title, String description, int fidelityPoints, int isbn, String organisation, LocalDate releaseDate, LearningResourceType type, int editionNumber) {
-        super(price, quantity, title, description, ProductCategory.LearningResource, fidelityPoints);
+        super(price, quantity, title, description, ProductCategory.LearningResource, type, fidelityPoints);
         this.isbn = isbn;
         this.organisation = organisation;
         this.releaseDate = releaseDate;
-        this.type = type;
         this.editionNumber = editionNumber;
     }
 
@@ -44,14 +42,6 @@ public class LearningResource extends Product {
 
     public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
-    }
-
-    public LearningResourceType getType() {
-        return type;
-    }
-
-    public void setType(LearningResourceType type) {
-        this.type = type;
     }
 
     public int getEditionNumber() {

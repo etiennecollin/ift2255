@@ -7,13 +7,11 @@ package com.etiennecollin.ift2255.clientCLI.classes.products;
 public class OfficeEquipment extends Product {
     private String brand;
     private String model;
-    private OfficeEquipmentCategory subcategory;
 
-    public OfficeEquipment(int price, int quantity, String title, String description, int fidelityPoints, String brand, String model, OfficeEquipmentCategory subcategory) {
-        super(price, quantity, title, description, ProductCategory.OfficeEquipment, fidelityPoints);
+    public OfficeEquipment(int price, int quantity, String title, String description, int fidelityPoints, String brand, String model, OfficeEquipmentCategory subCategory) {
+        super(price, quantity, title, description, ProductCategory.OfficeEquipment, subCategory, fidelityPoints);
         this.brand = brand;
         this.model = model;
-        this.subcategory = subcategory;
     }
 
     public String getBrand() {
@@ -30,13 +28,5 @@ public class OfficeEquipment extends Product {
 
     public void setModel(String model) {
         this.model = model;
-    }
-
-    public OfficeEquipmentCategory getSubcategory() {
-        return subcategory;
-    }
-
-    public void setSubcategory(OfficeEquipmentCategory subcategory) {
-        this.subcategory = subcategory;
     }
 }

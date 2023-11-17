@@ -5,5 +5,15 @@
 package com.etiennecollin.ift2255.clientCLI.classes.products;
 
 public enum ITCategory {
-    Computer, Mouse, Keyboard, ExternalHardDrive, Other
+    Computer("Computer"), Mouse("Mouse"), Keyboard("Keyboard"), ExternalHardDrive("External Hard Drive"), Other("Other");
+    private final String name;
+
+    ITCategory(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

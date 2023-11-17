@@ -5,5 +5,15 @@
 package com.etiennecollin.ift2255.clientCLI.classes.products;
 
 public enum LearningResourceType {
-    Printed, Electronic
+    Printed("Printed"), Electronic("Electronic");
+    private final String name;
+
+    LearningResourceType(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

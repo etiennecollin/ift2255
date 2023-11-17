@@ -5,5 +5,15 @@
 package com.etiennecollin.ift2255.clientCLI.classes.products;
 
 public enum StationeryArticleCategory {
-    Notebook, Pencil, Highlighter, Other
+    Notebook("Notebook"), Pencil("Pencil"), Highlighter("Highlighter"), Other("Other");
+    private final String name;
+
+    StationeryArticleCategory(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }
