@@ -4,9 +4,12 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes;
 
+import com.etiennecollin.ift2255.clientCLI.classes.products.BookOrManual;
+import com.etiennecollin.ift2255.clientCLI.classes.products.BookOrManualGenre;
 import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -22,9 +25,15 @@ public class UniShop {
         updateCatalog();
     }
 
+    //fake product to test   TO REMOVE
+    BookOrManual testBook = new BookOrManual(50, 1, "Test",
+            "Descrption", 0, 1234526, "Author", "Editor",
+            BookOrManualGenre.Comic, LocalDate.now(), 3, 3);
+
     public void updateCatalog() {
         this.catalog = new ArrayList<>();
         sellerList.forEach((sellerName, seller) -> this.catalog.addAll(seller.getProductsOffered()));
+        this.catalog.add(testBook); //TO REMOVE
     }
 
     /**
