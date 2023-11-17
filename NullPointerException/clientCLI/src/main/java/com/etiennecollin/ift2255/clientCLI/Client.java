@@ -27,9 +27,7 @@ public class Client {
     static String[] buyerMenu = {"Catalog", "Search a product", "My cart", "My activities", "Find a seller", "My orders", "Update account information", "Log out"};
     static ArrayList<String> shoppingCart = new ArrayList<>();
     static ArrayList<String> likedProducts = new ArrayList<>();
-    static String[] categories = {"Books and manuals", "Learning ressources", "Stationery", "Hardware", "Office equipment"};
     static String[] productListDataBase = {"Computer", "Manual", "Utilities"};
-    static String[] addToCartMenu = new String[productListDataBase.length + 1];
     static ArrayList<String> sellersUsername = new ArrayList<>();
     static ArrayList<ArrayList<String>> ordersPlaced = new ArrayList<>();
 
@@ -110,9 +108,11 @@ public class Client {
             try {
                 if (answer == 0) {
                     user = buyerCreationForm();
+                    if (user == null) break;
                     unishop.addUser((Buyer) user);
                 } else if (answer == 1) {
                     user = sellerCreationForm();
+                    if (user == null) break;
                     unishop.addUser((Seller) user);
                 }
 
@@ -169,63 +169,55 @@ public class Client {
 
     private static Buyer buyerCreationForm() {
         clearConsole();
-        String firstName = prettyPrompt("First name");
-        String lastName = prettyPrompt("Last name");
-        String username = prettyPrompt("Username");
-        String email = prettyPrompt("Email");
-        String password = prettyPrompt("Password");
-        String phoneNumber = prettyPrompt("Phone number");
-        String address = prettyPrompt("Shipping address");
 
-        return new Buyer(firstName, lastName, username, email, phoneNumber, address, password);
-
-        Buyer buyer = null;
-        while(buyer==null) {
+        while (true) {
             try {
-                String firstName = (prettyPrompt("First name")); validate(firstName);
-                String lastName = (prettyPrompt("Last name")); validate(lastName);
-                String userName = prettyPrompt("Username");
-                String email = prettyPrompt("Email"); validateEmail(email);
+                String firstName = (prettyPrompt("First name"));
+                validateName(firstName);
+                String lastName = (prettyPrompt("Last name"));
+                validateName(lastName);
+                String username = prettyPrompt("Username");
+                String email = prettyPrompt("Email");
+                validateEmail(email);
                 String password = prettyPrompt("Password");
-                String phoneNumber = prettyPrompt("Phone number"); validatePhone(phoneNumber);
+                String phoneNumber = prettyPrompt("Phone number");
+                validatePhone(phoneNumber);
                 String address = prettyPrompt("Shipping address");
 
-                buyer = new Buyer(firstName, lastName, userName, email, phoneNumber, address, password);
-
-            } catch (Exception e) {
+                return new Buyer(firstName, lastName, username, email, phoneNumber, address, password);
+            } catch (RuntimeException e) {
+                System.out.println(prettify(e.getMessage()));
                 boolean tryAgain = prettyPromptBool("Try again?");
                 if (!tryAgain) break;
             }
         }
-        return buyer;
+
+        return null;
     }
 
     private static Seller sellerCreationForm() {
         clearConsole();
-        String name = prettyPrompt("Name");
-        String email = prettyPrompt("Email");
-        String password = prettyPrompt("Password");
-        String phoneNumber = prettyPrompt("Phone number");
-        String address = prettyPrompt("Shipping address");
 
-        Seller seller = null;
-        while(seller==null){
-            try{
-                String name = prettyPrompt("Name"); validate(name);
-                String email = prettyPrompt("Email"); validateEmail(email);
+        while (true) {
+            try {
+                String name = prettyPrompt("Name");
+                validateName(name);
+                String email = prettyPrompt("Email");
+                validateEmail(email);
                 String password = prettyPrompt("Password");
-                String phoneNumber = prettyPrompt("Phone number"); validatePhone(phoneNumber);
+                String phoneNumber = prettyPrompt("Phone number");
+                validatePhone(phoneNumber);
                 String address = prettyPrompt("Shipping address");
 
-                seller = new Seller(name, email, phoneNumber, address, password);
-
-            } catch (Exception e) {
+                return new Seller(name, email, phoneNumber, address, password);
+            } catch (RuntimeException e) {
+                System.out.println(prettify(e.getMessage()));
                 boolean tryAgain = prettyPromptBool("Try again?");
                 if (!tryAgain) break;
             }
         }
-        return seller;
 
+        return null;
     }
 
     // TODO
@@ -470,6 +462,28 @@ public class Client {
         }
     }
 
+    public static void validateName(String s) throws RuntimeException {
+        if (!s.matches("[a-zA-Z]+[\\s-]?[a-zA-Z]*")) {
+            throw new RuntimeException("Your name should only contains letters");
+        }
+    }
+
+    // regex took from https://www.w3resource.com/javascript/form/email-validation.php
+    // accept format "username@domain.com"
+    public static void validateEmail(String s) throws RuntimeException {
+        if (!s.matches("/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\n" + "\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\n" + "\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:\n" + "(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])/")) {
+            throw new RuntimeException("Your email address has a wrong format.");
+        }
+    }
+
+    // regex took from https://www.baeldung.com/java-regex-validate-phone-numbers
+    // accept format xxx xxx xxxx  , xxx-xxx-xxxx and xxxxxxxxxx where x are digits
+    public static void validatePhone(String s) throws RuntimeException {
+        if (!s.matches("^(\\d{3}[- .]?){2}\\d{4}$")) {
+            throw new RuntimeException("Your phone number has a wrong format");
+        }
+    }
+
     // TODO
     private static void paymentForm(UniShop unishop) {
         Buyer buyer = (Buyer) unishop.getCurrentUser();
@@ -499,31 +513,6 @@ public class Client {
     public static void displaySellers() {
         for (String seller : sellersUsername) {
             System.out.println(prettify(seller));
-        }
-    }
-
-    public static void validate(String s) throws Exception {
-        if (!s.matches("[a-zA-Z]+")) {
-            System.out.println(prettify("Your name should only contains letters"));
-            throw new Exception();
-        }
-    }
-
-    //regex took from https://www.baeldung.com/java-regex-validate-phone-numbers
-    //accept format xxx xxx xxxx  , xxx-xxx-xxxx and xxxxxxxxxx where x are integers
-    public static void validatePhone(String s) throws Exception{
-        if (!s.matches("^(\\d{3}[- .]?){2}\\d{4}$")) {
-            System.out.println(prettify("Your phone number has a wrong format."));
-            throw new Exception();
-        }
-    }
-
-//regex took from https://www.baeldung.com/java-email-validation-regex
-//accept format "username@domain.com"
-    public static void validateEmail(String s) throws Exception{
-        if(!s.matches("^(.+)@(\\S+)$")){
-            System.out.println(prettify("Your email address has a wrong format."));
-            throw new Exception();
         }
     }
 }
