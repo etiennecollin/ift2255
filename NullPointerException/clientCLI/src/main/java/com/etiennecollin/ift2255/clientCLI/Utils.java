@@ -193,6 +193,45 @@ public class Utils {
         }
     }
 
+    protected static <T> T prettyMenuT(String prompt, ArrayList<T> choices) {
+        // Instantiate the variables used to store the answer and its parsed version
+        int index;
+
+        // Generate the menu containing all choices
+        StringBuilder menu = new StringBuilder();
+        int i = 0;
+        for (T choice : choices) {
+            menu.append(prettify(i + ") " + choice + "\n"));
+            i++;
+        }
+
+        // Repeat until input is valid
+        while (true) {
+            // Print menu and prompt
+            System.out.println("------------");
+            System.out.println(prettify(prompt) + ": ");
+            System.out.print(menu);
+            System.out.print(prettify("Selection: "));
+            String answer = scanner.nextLine().strip();
+
+            // Parse answer
+            try {
+                index = Integer.parseInt(answer);
+            } catch (NumberFormatException e) {
+                System.out.println(prettify("Invalid input"));
+                continue;
+            }
+
+            // Check that answer corresponds to a choice
+            if (index < 0 || index >= choices.size()) {
+                System.out.println(prettify("Invalid input"));
+                continue;
+            }
+
+            return choices.get(index);
+        }
+    }
+
     /**
      * Displays a menu with choices to the user and expects a numeric selection.
      * It keeps prompting until a valid selection is made.
