@@ -6,16 +6,12 @@
 package com.etiennecollin.ift2255.clientCLI;
 
 import com.etiennecollin.ift2255.clientCLI.classes.*;
-import com.etiennecollin.ift2255.clientCLI.classes.products.BookOrManual;
-import com.etiennecollin.ift2255.clientCLI.classes.products.BookOrManualGenre;
 import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 import com.etiennecollin.ift2255.clientCLI.classes.products.ProductCategory;
 
 import java.io.File;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
@@ -174,7 +170,6 @@ public class Client {
     private static Buyer buyerCreationForm() {
         clearConsole();
 
-
         while (true) {
 
             try {
@@ -226,7 +221,6 @@ public class Client {
         return null;
     }
 
-
     // TODO
     private static void displayCatalog(UniShop unishop) {
         ArrayList<String> options = ProductCategory.getOptions();
@@ -254,36 +248,35 @@ public class Client {
             matchedProductsString.add("Back to categories");
             matchedProductsString.add("Back to main menu");
 
-
             for (Product product : unishop.getCatalog()) {
                 if (product.getCategory().equals(selectedCategory) && product.getSubCategory().equals(selectedSubCategory)) {
                     matchedProducts.add(product);
                     matchedProductsString.add(product.getTitle());
-
                 }
             }
 
             int answer = prettyMenu("Select a product", matchedProductsString);
 
-            if (answer == 0) {continue;}
-            else if (answer == 1) {break;}
-            else if (answer>=2 && answer<matchedProductsString.size()){
-                Product product = matchedProducts.get(answer-2);
-                displayProduct(product); //match index
+            if (answer == 0) {
+                continue;
+            } else if (answer == 1) {
+                break;
+            } else if (answer >= 2 && answer < matchedProductsString.size()) {
+                Product product = matchedProducts.get(answer - 2);
+                displayProduct(product); // match index
 
                 boolean addToCart = prettyPromptBool("Add to cart?");
 
-                if(addToCart){
+                if (addToCart) {
                     int qte = prettyPromptInt("Quantity");
-                    if(qte>product.getQuantity())
+                    if (qte > product.getQuantity()) {
                         System.out.println(prettify("Not enough item in inventory"));
-                    else {
+                    } else {
                         buyer.getCart().addProduct(product, qte);
                         System.out.println(prettify("Item successfully added to cart"));
                     }
                 }
-            }
-            else {
+            } else {
                 System.out.println(prettify("Invalid input"));
             }
 
@@ -499,9 +492,9 @@ public class Client {
     // regex took from https://www.w3resource.com/javascript/form/email-validation.php
     // accept format "username@domain.com"
     public static void validateEmail(String s) throws RuntimeException {
-        //if (!s.matches("/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\n" + "\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\n" + "\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:\n" + "(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])/")) {
+        // if (!s.matches("/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\n" + "\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\n" + "\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:\n" + "(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])/")) {
 
-           // throw new RuntimeException("Your email address has a wrong format.");
+        // throw new RuntimeException("Your email address has a wrong format.");
         //}
     }
 
@@ -511,6 +504,16 @@ public class Client {
         if (!s.matches("^(\\d{3}[- .]?){2}\\d{4}$")) {
             throw new RuntimeException("Your phone number has a wrong format");
         }
+    }
+
+    public static void displayProduct(Product product) {
+        System.out.println(prettify("Title: " + product.getTitle()));
+        System.out.println(prettify("Description: ") + product.getDescription());
+        System.out.println(prettify("Price : ") + product.getCost());
+        System.out.println(prettify("Fidelity Points: ") + product.getBonusFidelityPoints());
+        System.out.println(prettify("Sold by: ") + product.getSeller());
+        System.out.println(prettify("Likes: ") + product.getLikes());
+        System.out.println(prettify("Reviews: ") + product.getReviews());
     }
 
     // TODO
@@ -608,16 +611,6 @@ public class Client {
     public static void displaySeller(Seller seller) {
         String[] options = {"test"};
         int index = prettyMenu("Seller " + seller.getName(), options);
-    }
-
-    public static void displayProduct(Product product){
-        System.out.println(prettify("Title: " + product.getTitle()));
-        System.out.println(prettify("Description: ") + product.getDescription());
-        System.out.println(prettify("Price : ") + product.getCost());
-        System.out.println(prettify("Fidelity Points: ") + product.getBonusFidelityPoints());
-        System.out.println(prettify("Sold by: ") + product.getSeller());
-        System.out.println(prettify("Likes: ") + product.getLikes());
-        System.out.println(prettify("Reviews: ") + product.getReviews());
     }
 }
 

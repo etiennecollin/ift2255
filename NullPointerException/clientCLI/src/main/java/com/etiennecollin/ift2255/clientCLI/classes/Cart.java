@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class Cart implements Serializable {
     private final Buyer buyer;
-    private ArrayList<Tuple<Product, Integer>> products;
+    private final ArrayList<Tuple<Product, Integer>> products;
     /**
      * Total value of cart in cents.
      */
@@ -24,7 +24,7 @@ public class Cart implements Serializable {
         this.cost = 0;
         this.numberOfFidelityPoints = 0;
         this.numberOfProducts = 0;
-        this.products = new ArrayList<Tuple<Product, Integer>>();
+        this.products = new ArrayList<>();
         this.buyer = buyer;
     }
 
