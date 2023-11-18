@@ -166,13 +166,16 @@ public class Buyer extends User {
         return commentsLiked;
     }
 
-    public void toggleLike(Product product) {
+    public boolean toggleLike(Product product) {
         if (productsLiked.contains(product)) {
             productsLiked.remove(product);
+            product.toggleFollowedBy(this);
+            return false;
         } else {
             productsLiked.add(product);
+            product.toggleFollowedBy(this);
+            return true;
         }
-        product.toggleFollowedBy(this);
     }
 
     public void toggleLike(Buyer buyer) {
