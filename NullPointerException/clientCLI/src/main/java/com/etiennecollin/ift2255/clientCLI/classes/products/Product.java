@@ -14,7 +14,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public abstract class Product implements Serializable {
-    private final static int MAX_PTS_PER_DOLLAR = 20;
+    private static final int MAX_PTS_PER_DOLLAR = 20;
     private final UUID id;
     private final LocalDate commercializationDate;
     private final ProductCategory category;
@@ -29,7 +29,7 @@ public abstract class Product implements Serializable {
     private Seller seller;
     private ArrayList<Review> reviews;
     private int bonusFidelityPoints;
-    private int rebate;
+    private int discount;
 
     public Product(int cost, int quantity, String title, String description, ProductCategory category, Enum<?> subCategory) {
         this.setCost(cost);
@@ -41,7 +41,7 @@ public abstract class Product implements Serializable {
         this.setBonusFidelityPoints(0);
 
         this.commercializationDate = LocalDate.now();
-        this.rebate = 0;
+        this.discount = 0;
         this.setLikes(0);
         this.setReview(new ArrayList<>());
         this.rating = new Rating();
@@ -78,6 +78,10 @@ public abstract class Product implements Serializable {
         this.id = UUID.randomUUID();
     }
 
+    public String getFormattedCost() {
+        return getCost() / 100 + "." + getCost() % 100 + "$";
+    }
+
     public Enum<?> getSubCategory() {
         return subCategory;
     }
@@ -90,27 +94,29 @@ public abstract class Product implements Serializable {
         }
     }
 
-    public int getRebate() {
-        return rebate;
+    public int getDiscount() {
+        return discount;
     }
 
-    public void setRebate(int rebate) {
-        if (rebate < 0 || rebate > 100) {
-            throw new IllegalArgumentException("The rebate should be a percentage between 0% and 100%");
+    public void setDiscount(int discount) {
+        if (discount < 0 || discount > 100) {
+            throw new IllegalArgumentException("The discount should be a percentage between 0% and 100%");
         }
 
-        this.rebate = rebate;
+        this.discount = discount;
 
         // Send notification to buyers who follow this seller
         String title = "New promotion added on a product sold by followed seller";
-        String content = "Seller: " + this.seller.getName() + "\nProduct: " + this.getTitle() + "\nPrice: " + this.getCost() + "\nPromotion: " + this.rebate + "%";
+        String content = "Seller: " + this.seller.getName() + "\nProduct: " + this.getTitle() + "\nPrice: " + this.getCost() + "\nPromotion: " + this.discount + "%";
         Notification notification = new Notification(title, content);
 
         // Prevent sending duplicate of notifications
         HashSet<Buyer> sendTo = new HashSet<>();
         sendTo.addAll(this.seller.getFollowedBy()); // Send to buyers who follow the seller
         sendTo.addAll(this.getFollowedBy()); // Send to buyers who follow the product
-        this.getFollowedBy().forEach(buyer -> sendTo.addAll(buyer.getFollowedBy())); // Send to buyers who follow a buyer who follows this product
+        this.getFollowedBy().forEach(buyer -> sendTo.addAll(buyer.getFollowedBy())); // Send to buyers who follow a
+        // buyer who
+        // follows this product
 
         for (Buyer buyer : sendTo) {
             buyer.addNotification(notification);
@@ -165,7 +171,7 @@ public abstract class Product implements Serializable {
         float newPointsPerDollar = (float) (1 + bonusFidelityPoints) / ((float) this.getCost() / 100);
         if (newPointsPerDollar > MAX_PTS_PER_DOLLAR) {
             this.bonusFidelityPoints = (MAX_PTS_PER_DOLLAR * this.getCost()) / 100 - 1;
-            throw new IllegalArgumentException("Products cannot provide more than " + MAX_PTS_PER_DOLLAR + " bonus points per dollar spent. Bonus points were clamped to match this maximum.");
+            throw new IllegalArgumentException("Products cannot provide more than " + MAX_PTS_PER_DOLLAR + " bonus points per dollar spent. Bonus points were clamped to match" + " this maximum.");
         } else {
             this.bonusFidelityPoints = bonusFidelityPoints;
         }

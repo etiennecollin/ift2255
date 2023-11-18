@@ -8,6 +8,7 @@ import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
@@ -22,19 +23,21 @@ public class Order implements Serializable {
     private int numberOfFidelityPoints;
     private ArrayList<Tuple<Product, Integer>> products;
     private String email;
-    private int phone;
+    private String phone;
     private String address;
     private String billingAddress;
     private String creditCardName;
-    private int creditCardNumber;
-    private int creditCardExp;
-    private int creditCardSecretDigits;
+    private String creditCardNumber;
+    private YearMonth creditCardExp;
+    private String creditCardSecretDigits;
     private OrderState state;
     private ShippingInfo shippingInfo;
+    private PayementMethod payementMethod;
 
-    public Order(int cost, int numberOfFidelityPoints, ArrayList<Tuple<Product, Integer>> products, String email, int phone, String address, String billingAddress, String creditCardName, int creditCardNumber, int creditCardExp, int creditCardSecretDigits, Buyer buyer, Seller seller) {
+    public Order(int cost, int numberOfFidelityPoints, PayementMethod payementMethod, ArrayList<Tuple<Product, Integer>> products, String email, String phone, String address, String billingAddress, String creditCardName, String creditCardNumber, YearMonth creditCardExp, String creditCardSecretDigits, Buyer buyer, Seller seller) {
         this.cost = cost;
         this.numberOfFidelityPoints = numberOfFidelityPoints;
+        this.payementMethod = payementMethod;
         this.products = products;
         this.email = email;
         this.phone = phone;
@@ -54,6 +57,14 @@ public class Order implements Serializable {
         this.state = OrderState.InProduction;
         this.orderDate = LocalDate.now();
         this.id = UUID.randomUUID();
+    }
+
+    public PayementMethod getPayementMethod() {
+        return payementMethod;
+    }
+
+    public void setPayementMethod(PayementMethod payementMethod) {
+        this.payementMethod = payementMethod;
     }
 
     public int getNumberOfProducts() {
@@ -205,27 +216,27 @@ public class Order implements Serializable {
         this.creditCardName = creditCardName;
     }
 
-    public int getCreditCardNumber() {
+    public String getCreditCardNumber() {
         return creditCardNumber;
     }
 
-    public void setCreditCardNumber(int creditCardNumber) {
+    public void setCreditCardNumber(String creditCardNumber) {
         this.creditCardNumber = creditCardNumber;
     }
 
-    public int getCreditCardExp() {
+    public YearMonth getCreditCardExp() {
         return creditCardExp;
     }
 
-    public void setCreditCardExp(int creditCardExp) {
+    public void setCreditCardExp(YearMonth creditCardExp) {
         this.creditCardExp = creditCardExp;
     }
 
-    public int getCreditCardSecretDigits() {
+    public String getCreditCardSecretDigits() {
         return creditCardSecretDigits;
     }
 
-    public void setCreditCardSecretDigits(int creditCardSecretDigits) {
+    public void setCreditCardSecretDigits(String creditCardSecretDigits) {
         this.creditCardSecretDigits = creditCardSecretDigits;
     }
 
@@ -245,11 +256,11 @@ public class Order implements Serializable {
         this.email = email;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

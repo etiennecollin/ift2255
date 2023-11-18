@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) 2023. Etienne Collin #20237904, Nicholas Cooper #20241729, Aboubakre Walid Diongue #20198446, Charlotte Locas #20211755
  */
@@ -11,6 +10,9 @@ import com.etiennecollin.ift2255.clientCLI.classes.products.ProductCategory;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
@@ -134,9 +136,9 @@ public class Client {
         while (true) {
             int buyerAnswer = prettyMenu("Main menu", buyerMenu);
             switch (buyerAnswer) {
-                case 0 -> displayCatalog(unishop);
+                case 0 -> displayCatalog();
                 case 1 -> searchProduct();
-                case 2 -> displayCart(unishop);
+                case 2 -> displayCart();
                 case 3 -> displayActivities();
                 case 4 -> findUser();
                 case 5 -> displayOrders();
@@ -221,8 +223,7 @@ public class Client {
         return null;
     }
 
-    // TODO
-    private static void displayCatalog(UniShop unishop) {
+    private static void displayCatalog() {
         ArrayList<String> options = ProductCategory.getOptions();
         options.add("Main menu");
 
@@ -257,28 +258,17 @@ public class Client {
 
             int answer = prettyMenu("Select a product", matchedProductsString);
 
+            // Check if we go back
             if (answer == 0) {
                 continue;
             } else if (answer == 1) {
                 break;
-            } else if (answer >= 2 && answer < matchedProductsString.size()) {
-                Product product = matchedProducts.get(answer - 2);
-                displayProduct(product); // match index
-
-                boolean addToCart = prettyPromptBool("Add to cart?");
-
-                if (addToCart) {
-                    int qte = prettyPromptInt("Quantity");
-                    if (qte > product.getQuantity()) {
-                        System.out.println(prettify("Not enough item in inventory"));
-                    } else {
-                        buyer.getCart().addProduct(product, qte);
-                        System.out.println(prettify("Item successfully added to cart"));
-                    }
-                }
-            } else {
-                System.out.println(prettify("Invalid input"));
             }
+
+            // Get product
+            Product product = matchedProducts.get(answer);
+            displayProduct(product);
+            displayBuyerProductActions(product);
 
             boolean tryAgain = prettyPromptBool("Keep browsing product?");
             if (!tryAgain) break;
@@ -289,74 +279,112 @@ public class Client {
     private static void searchProduct() {
         ArrayList<String> searchResult = new ArrayList<>();
         String keyWord = prettyPrompt("Search");
-
-        // search for result
-        for (String item : productListDataBase) {
-            int index = item.indexOf(keyWord);
-            if (!(index == -1)) {
-                searchResult.add(item);
-            }
-        }
-        searchResult.add("Main menu");
-        // display result
-        int choice = prettyMenu("Resultats for \"" + keyWord + "\"", searchResult);
-
-        if (!(choice == searchResult.size() - 1)) {
-            String[] productMenu = {"Like the product", "Add to cart", "Main Menu"};
-            int answer = prettyMenu(searchResult.get(choice), productMenu);
-
-            switch (answer) {
-                case 0 -> {
-                    likedProducts.add(searchResult.get(choice));
-                    System.out.println(prettify("Item successfully liked"));
-                }
-                case 1 -> {
-                    shoppingCart.add(searchResult.get(choice));
-                    System.out.println(prettify("Item successfully added to cart."));
-                }
-            }
-        }
     }
 
     // TODO
-    public static void displayCart(UniShop unishop) {
-        System.out.println(prettify("My cart: "));
-        if (shoppingCart.isEmpty()) {
-            System.out.println(prettify("Empty cart"));
-        } else {
-            for (String item : shoppingCart) {
-                System.out.println(prettify(item));
+    public static void displayCart() {
+        while (true) {
+            clearConsole();
+            System.out.println(prettify("My cart: "));
+            Cart cart = ((Buyer) unishop.getCurrentUser()).getCart();
+            if (cart.getProducts().isEmpty()) {
+                System.out.println(prettify("Empty cart"));
+            } else {
+                for (Tuple<Product, Integer> tuple : cart.getProducts()) {
+                    Product product = tuple.first;
+                    int quantity = tuple.second;
+                    int cost = product.getCost() * quantity;
+
+                    System.out.println(prettify(product.getTitle() + " x" + quantity + " | Cost: " + product.getFormattedCost()));
+                }
             }
-        }
-        // Fictional amount for prototype only.
-        System.out.println(prettify("Total: 1000$"));
-        boolean placeOrder = prettyPromptBool("Place an order?");
-        if (placeOrder) {
-            paymentForm(unishop);
-            ordersPlaced.add(shoppingCart);
-            System.out.println("Your order has been placed successfully");
+            System.out.println(prettify("Total: " + cart.getFormattedCost() + "$"));
+
+            String[] options = {"Main menu", "Remove product", "Place order", "Empty cart"};
+            int answer = prettyMenu("Cart menu", options);
+            switch (answer) {
+                case 0 -> {
+                    return;
+                }
+                case 1 -> {
+                    if (cart.getProducts().isEmpty()) {
+                        System.out.println(prettify("Empty cart"));
+                    } else {
+                        ArrayList<Product> products = new ArrayList<>();
+                        ArrayList<String> productsString = new ArrayList<>();
+
+                        for (Tuple<Product, Integer> tuple : cart.getProducts()) {
+                            Product product = tuple.first;
+                            int quantity = tuple.second;
+                            products.add(product);
+                            productsString.add(product.getTitle() + " x" + quantity + " | Cost: " + product.getFormattedCost());
+                        }
+
+                        int productToRemove = prettyMenu("What product do you want to remove?", productsString);
+                        Product product = products.get(productToRemove);
+
+                        while (true) {
+                            int removeHowMany = prettyPromptInt("How many do you want to remove? (-1 to remove all)");
+                            if (removeHowMany == -1 || removeHowMany >= cart.getProducts().get(productToRemove).second) {
+                                cart.removeProduct(product);
+                            } else if (removeHowMany > 0) {
+                                cart.subtractProduct(product, removeHowMany);
+                            } else {
+                                System.out.println(prettify("Invalid quantity"));
+
+                                boolean tryAgain = prettyPromptBool("Try again?");
+                                if (tryAgain) continue;
+                            }
+                            System.out.println(prettify("Product successfully removed"));
+                            break;
+                        }
+                    }
+                }
+                case 2 -> {
+                    if (cart.getProducts().isEmpty()) {
+                        System.out.println(prettify("Empty cart"));
+                    } else {
+                        placeOrder();
+                    }
+                }
+                case 3 -> {
+                    if (cart.getProducts().isEmpty()) {
+                        System.out.println(prettify("Empty cart"));
+                    } else {
+                        cart.emptyCart();
+                        System.out.println(prettify("Cart successfully emptied"));
+                    }
+                }
+            }
         }
     }
 
     // General metrics
-    // TODO
     public static void displayActivities() {
+        User currentUser = unishop.getCurrentUser();
+        int nMonths = prettyPromptInt("Display activities for the last how many months");
+
         System.out.println(prettify("My activities:"));
-        System.out.println(prettify("Total orders: " + ordersPlaced.size()));
-        System.out.println(prettify("Total likes: " + likedProducts.size()));
+        if (currentUser instanceof Buyer) {
+            BuyerMetrics metrics = ((Buyer) currentUser).getMetrics(nMonths);
+            // TODO complete this
+        } else if (currentUser instanceof Seller) {
+            SellerMetrics metrics = ((Seller) currentUser).getMetrics(nMonths);
+            // TODO complete this
+        }
     }
 
     public static void findUser() {
-        String[] options = {"Buyer", "Seller", "Main menu"};
+        String[] options = {"Main menu", "Buyer", "Seller"};
         loop:
         while (true) {
             int answer = prettyMenu("Search for", options);
             switch (answer) {
-                case 0 -> findBuyer();
-                case 1 -> findSeller();
-                case 2 -> {
+                case 0 -> {
                     break loop;
                 }
+                case 1 -> findBuyer();
+                case 2 -> findSeller();
             }
         }
     }
@@ -483,69 +511,131 @@ public class Client {
         }
     }
 
-    public static void validateName(String s) throws RuntimeException {
-        if (!s.matches("[a-zA-Z]+[\\s-]?[a-zA-Z]*")) {
-            throw new RuntimeException("Your name should only contains letters");
-        }
-    }
-
-    // regex took from https://www.w3resource.com/javascript/form/email-validation.php
-    // accept format "username@domain.com"
-    public static void validateEmail(String s) throws RuntimeException {
-        // if (!s.matches("/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\n" + "\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\n" + "\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:\n" + "(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])/")) {
-
-        // throw new RuntimeException("Your email address has a wrong format.");
-        //}
-    }
-
-    // regex took from https://www.baeldung.com/java-regex-validate-phone-numbers
-    // accept format xxx xxx xxxx  , xxx-xxx-xxxx and xxxxxxxxxx where x are digits
-    public static void validatePhone(String s) throws RuntimeException {
-        if (!s.matches("^(\\d{3}[- .]?){2}\\d{4}$")) {
-            throw new RuntimeException("Your phone number has a wrong format");
-        }
-    }
-
     public static void displayProduct(Product product) {
         System.out.println(prettify("Title: " + product.getTitle()));
         System.out.println(prettify("Description: ") + product.getDescription());
-        System.out.println(prettify("Price : ") + product.getCost());
+        System.out.println(prettify("Category: ") + product.getCategory());
+        System.out.println(prettify("Subcategory: ") + product.getSubCategory());
+        System.out.println(prettify("Price : ") + product.getCost() / 100 + "." + product.getCost() % 100 + "$");
+        System.out.println(prettify("Discount: ") + product.getDiscount() + "%");
+        System.out.println(prettify("Quantity: ") + product.getQuantity());
         System.out.println(prettify("Fidelity Points: ") + product.getBonusFidelityPoints());
-        System.out.println(prettify("Sold by: ") + product.getSeller());
+        System.out.println(prettify("Sold by: ") + product.getSeller().getName());
         System.out.println(prettify("Likes: ") + product.getLikes());
-        System.out.println(prettify("Reviews: ") + product.getReviews());
+        System.out.println(prettify("Commercialization date: ") + product.getCommercializationDate());
     }
 
-    // TODO
-    private static void paymentForm(UniShop unishop) {
+    private static void displayBuyerProductActions(Product product) {
+        String[] options = {"Go back", "Toggle like", "Display reviews", "Add to cart"};
+        while (true) {
+            int answer = prettyMenu("Select action", options);
+            switch (answer) {
+                case 0 -> {
+                    return;
+                }
+                case 1 -> {
+                    Buyer buyer = (Buyer) unishop.getCurrentUser();
+                    boolean wasLiked = buyer.toggleLike(product);
+
+                    if (wasLiked) {
+                        System.out.println(prettify("Product successfully liked"));
+                    } else {
+                        System.out.println(prettify("Product successfully unliked"));
+                    }
+                }
+                case 2 -> {
+                    displayReviews(product);
+                }
+                case 3 -> {
+                    int qty = prettyPromptInt("Quantity");
+                    if (qty > product.getQuantity()) {
+                        System.out.println(prettify("Insufficient product quantity in inventory"));
+                    } else {
+                        ((Buyer) unishop.getCurrentUser()).getCart().addProduct(product, qty);
+                        System.out.println(prettify("Product successfully added to cart"));
+                    }
+                }
+            }
+
+            boolean tryAgain = prettyPromptBool("New action?");
+            if (!tryAgain) break;
+        }
+    }
+
+    private static void placeOrder() {
         Buyer buyer = (Buyer) unishop.getCurrentUser();
         Cart cart = buyer.getCart();
 
-        System.out.println(prettify("Paiement form"));
+        System.out.println(prettify("Payement form"));
         String shippingAddress = prettyPrompt("Shipping address");
 
+        int fidelityPointsUsed = 0;
         if (buyer.getFidelityPoints() > 0) {
-            boolean answer = prettyPromptBool("You have " + buyer.getFidelityPoints() + " fidelity points. Do you want to use them?");
-            if (answer) {
-                // cart.setCost(cart.getCost() - buyer.getFidelityPoints()*0.02)//TODO : setter pour cart cost
-                buyer.setFidelityPoints(0);
-                prettify("Your new total is: " + cart.getCost());
+            boolean doUsePoints = prettyPromptBool("You have " + buyer.getFidelityPoints() + " fidelity points. Do you want to use them?");
+            if (doUsePoints) {
+                int availablePointMoney = buyer.getFidelityPoints() * 2; // In cents
+                if (availablePointMoney > cart.getCost()) {
+                    fidelityPointsUsed = cart.getCost() / 2;
+                } else {
+                    fidelityPointsUsed = buyer.getFidelityPoints();
+                }
+
+                int toPayWithMoney = cart.getCost() - fidelityPointsUsed * 2;
+                System.out.println(prettify("Remaining to pay: " + toPayWithMoney / 100 + "." + toPayWithMoney % 100 + "$"));
             }
         }
 
         String creditCardName = prettyPrompt("Credit card name");
-        int creditCardNumber = Integer.parseInt(prettyPrompt("Credit card number"));
-        int expirationDate = Integer.parseInt(prettyPrompt("Expiration date MMYY"));
-        int cvc = Integer.parseInt(prettyPrompt("CVC"));
 
-        buyer.getCart().createOrder(buyer.getEmail(), Integer.parseInt(buyer.getPhoneNumber()), shippingAddress, buyer.getAddress(), creditCardName, creditCardNumber, expirationDate, cvc);
+        String creditCardNumber = "";
+        while (true) {
+            creditCardNumber = prettyPrompt("Credit card number");
+            if (creditCardNumber.length() == 16 && creditCardNumber.matches("\\d+")) {
+                break;
+            } else {
+                System.out.println(prettify("Invalid credit card number"));
+            }
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMyy");
+        YearMonth expirationDate = null;
+        while (true) {
+            try {
+                expirationDate = YearMonth.parse(prettyPrompt("Expiration date MMYY"), formatter);
+                break;
+            } catch (DateTimeParseException e) {
+                System.out.println(prettify("Invalid expiration date"));
+            }
+        }
+
+        String cvc = "";
+        while (true) {
+            cvc = prettyPrompt("CVC");
+            if (cvc.length() == 3 && cvc.matches("\\d+")) {
+                break;
+            } else {
+                System.out.println(prettify("Invalid CVC"));
+            }
+        }
+
+        // Confirm whethre or not to place order using prettyAskBool
+
+        boolean doOrder = prettyPromptBool("Do you want to place the order?");
+
+        if (!doOrder) {
+            System.out.println("Cancelled order.");
+            return;
+        }
+
+        buyer.getCart().createOrder(buyer.getEmail(), buyer.getPhoneNumber(), shippingAddress, buyer.getAddress(), creditCardName, creditCardNumber, expirationDate, cvc, fidelityPointsUsed);
+
+        System.out.println(prettify("Your order has been placed successfully"));
     }
 
     // TODO complete
     private static void findBuyer() {
     }
 
-    // For prototype only
     private static void findSeller() {
         loop:
         while (true) {
@@ -607,12 +697,33 @@ public class Client {
         }
     }
 
+    private static void displayReviews(Product product) {
+        ArrayList<Review> reviews = product.getReviews();
+        if (reviews.isEmpty()) {
+            System.out.println(prettify("No reviews for this product"));
+        } else if (reviews.size() <= 3) {
+            // Print reviews in batches of 3
+            for (int i = 0; i < reviews.size(); i += 3) {
+                clearConsole();
+                System.out.println(prettify("Reviews " + i + " to " + (i + 3) + ":"));
+                for (int j = i; j < i + 3; j++) {
+                    if (j >= reviews.size()) break;
+                    Review review = reviews.get(j);
+                    Buyer author = review.getAuthor();
+                    System.out.println(prettify("--------------------"));
+                    System.out.println(prettify(author.getFirstName() + " " + author.getLastName() + " - " + review.getRating() + "/100"));
+                    System.out.println(prettify("Title: " + review.getTitle()));
+                    System.out.println(prettify(review.getContent()));
+                }
+                boolean tryAgain = prettyPromptBool("See more reviews?");
+                if (!tryAgain) break;
+            }
+        }
+    }
+
     // TODO
     public static void displaySeller(Seller seller) {
         String[] options = {"test"};
         int index = prettyMenu("Seller " + seller.getName(), options);
     }
 }
-
-
-
