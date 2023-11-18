@@ -316,4 +316,27 @@ public class Utils {
             System.out.println();
         }
     }
+
+    public static void validateName(String s) throws RuntimeException {
+        if (!s.matches("[a-zA-Z]+[\\s-]?[a-zA-Z]*")) {
+            throw new RuntimeException("Your name should only contains letters");
+        }
+    }
+
+    // regex took from https://www.w3resource.com/javascript/form/email-validation.php
+    // accept format "username@domain.com"
+    public static void validateEmail(String s) throws RuntimeException {
+        // if (!s.matches("/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\n" + "\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\n" + "\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:\n" + "(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])/")) {
+
+        // throw new RuntimeException("Your email address has a wrong format.");
+        //}
+    }
+
+    // regex took from https://www.baeldung.com/java-regex-validate-phone-numbers
+    // accept format xxx xxx xxxx  , xxx-xxx-xxxx and xxxxxxxxxx where x are digits
+    public static void validatePhone(String s) throws RuntimeException {
+        if (!s.matches("^(\\d{3}[- .]?){2}\\d{4}$")) {
+            throw new RuntimeException("Your phone number has a wrong format");
+        }
+    }
 }
