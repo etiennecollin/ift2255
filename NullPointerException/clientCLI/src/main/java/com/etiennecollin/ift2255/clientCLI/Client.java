@@ -6,11 +6,14 @@
 package com.etiennecollin.ift2255.clientCLI;
 
 import com.etiennecollin.ift2255.clientCLI.classes.*;
+import com.etiennecollin.ift2255.clientCLI.classes.products.BookOrManual;
+import com.etiennecollin.ift2255.clientCLI.classes.products.BookOrManualGenre;
 import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 import com.etiennecollin.ift2255.clientCLI.classes.products.ProductCategory;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -135,7 +138,7 @@ public class Client {
         while (true) {
             int buyerAnswer = prettyMenu("Main menu", buyerMenu);
             switch (buyerAnswer) {
-                case 0 -> displayCatalog();
+                case 0 -> displayCatalog(unishop);
                 case 1 -> searchProduct();
                 case 2 -> displayCart(unishop);
                 case 3 -> displayActivities();
@@ -171,7 +174,9 @@ public class Client {
     private static Buyer buyerCreationForm() {
         clearConsole();
 
+
         while (true) {
+
             try {
                 String firstName = (prettyPrompt("First name"));
                 validateName(firstName);
@@ -221,11 +226,13 @@ public class Client {
         return null;
     }
 
+
     // TODO
-    private static void displayCatalog() {
+    private static void displayCatalog(UniShop unishop) {
         ArrayList<String> options = ProductCategory.getOptions();
         options.add("Main menu");
 
+        Buyer buyer = (Buyer) unishop.getCurrentUser();
         while (true) {
             // Select category
             int choice = prettyMenu("Categories", options);
@@ -241,16 +248,44 @@ public class Client {
             Enum<?> selectedSubCategory = selectedCategory.getEnum().getEnumConstants()[subChoice];
 
             // Get products that match category/subcategory
-            ArrayList<Product> matchedProducts = unishop.getCatalog().stream().filter((product -> product.getCategory().equals(selectedCategory) && product.getSubCategory().equals(selectedSubCategory))).collect(Collectors.toCollection(ArrayList::new));
 
-            // Select one of these products
-            Product product = prettyMenuT("Select a product", matchedProducts);
+            ArrayList<Product> matchedProducts = new ArrayList<>();
+            ArrayList<String> matchedProductsString = new ArrayList<>();
+            matchedProductsString.add("Back to categories");
+            matchedProductsString.add("Back to main menu");
 
-            // TODO instead of adding to cart, we should display the product page. From there we can add it to cart.
-            ((Buyer) unishop.getCurrentUser()).getCart().addProduct(product, 1);
-            // displayProductPage(product);
 
-            System.out.println(prettify("Item successfully added to cart"));
+            for (Product product : unishop.getCatalog()) {
+                if (product.getCategory().equals(selectedCategory) && product.getSubCategory().equals(selectedSubCategory)) {
+                    matchedProducts.add(product);
+                    matchedProductsString.add(product.getTitle());
+
+                }
+            }
+
+            int answer = prettyMenu("Select a product", matchedProductsString);
+
+            if (answer == 0) {continue;}
+            else if (answer == 1) {break;}
+            else if (answer>=2 && answer<matchedProductsString.size()){
+                Product product = matchedProducts.get(answer-2);
+                displayProduct(product); //match index
+
+                boolean addToCart = prettyPromptBool("Add to cart?");
+
+                if(addToCart){
+                    int qte = prettyPromptInt("Quantity");
+                    if(qte>product.getQuantity())
+                        System.out.println(prettify("Not enough item in inventory"));
+                    else {
+                        buyer.getCart().addProduct(product, qte);
+                        System.out.println(prettify("Item successfully added to cart"));
+                    }
+                }
+            }
+            else {
+                System.out.println(prettify("Invalid input"));
+            }
 
             boolean tryAgain = prettyPromptBool("Keep browsing product?");
             if (!tryAgain) break;
@@ -464,9 +499,10 @@ public class Client {
     // regex took from https://www.w3resource.com/javascript/form/email-validation.php
     // accept format "username@domain.com"
     public static void validateEmail(String s) throws RuntimeException {
-        if (!s.matches("/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\n" + "\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\n" + "\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:\n" + "(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])/")) {
-            throw new RuntimeException("Your email address has a wrong format.");
-        }
+        //if (!s.matches("/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\n" + "\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\n" + "\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:\n" + "(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])/")) {
+
+           // throw new RuntimeException("Your email address has a wrong format.");
+        //}
     }
 
     // regex took from https://www.baeldung.com/java-regex-validate-phone-numbers
@@ -572,6 +608,16 @@ public class Client {
     public static void displaySeller(Seller seller) {
         String[] options = {"test"};
         int index = prettyMenu("Seller " + seller.getName(), options);
+    }
+
+    public static void displayProduct(Product product){
+        System.out.println(prettify("Title: " + product.getTitle()));
+        System.out.println(prettify("Description: ") + product.getDescription());
+        System.out.println(prettify("Price : ") + product.getCost());
+        System.out.println(prettify("Fidelity Points: ") + product.getBonusFidelityPoints());
+        System.out.println(prettify("Sold by: ") + product.getSeller());
+        System.out.println(prettify("Likes: ") + product.getLikes());
+        System.out.println(prettify("Reviews: ") + product.getReviews());
     }
 }
 

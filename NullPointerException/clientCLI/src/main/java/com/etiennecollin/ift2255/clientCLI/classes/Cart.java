@@ -24,6 +24,7 @@ public class Cart implements Serializable {
         this.cost = 0;
         this.numberOfFidelityPoints = 0;
         this.numberOfProducts = 0;
+        this.products = new ArrayList<Tuple<Product, Integer>>();
         this.buyer = buyer;
     }
 
