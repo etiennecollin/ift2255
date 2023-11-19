@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The `Utils` class provides utility methods for common tasks in the client command-line interface (CLI).
@@ -47,24 +49,25 @@ public class Utils {
     }
 
     /**
-     * Displays a formatted prompt to the console and validates the user input using a custom validator function.
-     * Continues prompting the user until a valid response is provided.
+     * Displays a prompt with single question and returns the user answer if valid.
      *
-     * @param prompt    The prompt message to be displayed.
-     * @param validator A {@code Function} that takes a {@code String} as input and returns {@code true} if the input is valid, {@code false} otherwise.
+     * @param prompt The message to display as the prompt.
      *
-     * @return A valid user input as a {@code String} that passes the provided validator function.
+     * @param validator A {@code Function} that takes a {@code String} as input and returns a {@code ValidationResult}.
+     *
+     * @return The answer of the user.
      */
-    protected static String prettyPromptValidated(String prompt, Function<String, Boolean> validator) {
+    protected static String prettyPrompt(String prompt, Function<String, ValidationResult> validator) {
         while (true) {
             System.out.println("------------");
             System.out.print(prettify(prompt) + ": ");
             String answer = scanner.nextLine().strip();
-            if (validator.apply(answer)) {
+            ValidationResult result = validator.apply(answer);
+            if (result.isValid) {
                 return answer;
             }
 
-            System.out.println("Invalid response. Please follow the prompt.");
+            System.out.println(result.message);
         }
     }
 
@@ -77,11 +80,31 @@ public class Utils {
      * @return A valid integer entered by the user.
      */
     protected static int prettyPromptInt(String prompt) {
+        return prettyPromptInt(prompt, i -> new ValidationResult(true, ""));
+    }
+
+    /**
+     * Displays a formatted prompt to the console and retrieves an integer input from the user.
+     * Continues prompting the user until a valid integer is provided.
+     *
+     * @param prompt The prompt message to be displayed.
+     *
+     * @param validator A {@code Function} that takes an {@code Integer} as input and returns a {@code ValidationResult}
+     *
+     * @return A valid integer entered by the user.
+     */
+    protected static int prettyPromptInt(String prompt, Function<Integer, ValidationResult> validator) {
         while (true) {
             System.out.println("------------");
             System.out.print(prettify(prompt) + ": ");
             try {
-                return Integer.parseInt(scanner.nextLine().strip());
+                int num = Integer.parseInt(scanner.nextLine().strip());
+                ValidationResult result = validator.apply(num);
+                if (result.isValid) {
+                    return num;
+                }
+
+                System.out.println(result.message);
             } catch (NumberFormatException ignored) {
                 System.out.println("Please enter a whole number with no thousands symbol.");
             }
@@ -113,12 +136,13 @@ public class Utils {
 
     /**
      * Displays a formatted prompt to the console and retrieves a currency amount input from the user.
-     * The input is expected to be in the format of a number representing a currency value (e.g., 1000 for $10.00).
+     * The input is expected to be in the format of a number representing a currency value
+     * (e.g. for $10.00: "10", "$10", "10.", "10.00", and "$10.00" are valid).
      * Continues prompting the user until a valid currency amount is provided.
      *
      * @param prompt The prompt message to be displayed.
      *
-     * @return A valid currency amount entered by the user, without decimal points and thousands symbols.
+     * @return A valid currency amount in cents.
      *
      * @throws NumberFormatException If the input provided is not a valid number.
      */
@@ -126,10 +150,20 @@ public class Utils {
         while (true) {
             System.out.println("------------");
             System.out.print(prettify(prompt) + ": ");
-            try {
-                return Integer.parseInt(scanner.nextLine().strip().replace(".", ""));
-            } catch (NumberFormatException ignored) {
-                System.out.println("Please enter a number with no thousands symbol.");
+
+            Pattern pattern = Pattern.compile("^\\$?(\\d+)\\.?(\\d{2})?$");
+            Matcher matcher = pattern.matcher(scanner.nextLine().strip());
+
+            if (matcher.find()) {
+                int value = Integer.parseInt(matcher.group(1)) * 100;
+                if (matcher.group(2) != null) {
+                    value += Integer.parseInt(matcher.group(2));
+                }
+
+                return value;
+            }
+            else {
+                System.out.println("Please enter a positive dollar (and cents) value with no thousands symbol. E.g. 42.99");
             }
         }
     }
@@ -362,4 +396,41 @@ public class Utils {
             throw new RuntimeException("Your phone number has a wrong format");
         }
     }
+
+    public static ValidationResult validateBonusFidelityPoints(int bonusPoints, int price) {
+        int dollars = price / 100;
+        int maxBonusPoints = 19 * dollars;
+        if (bonusPoints < 0) {
+            return new ValidationResult(false, "Bonus points cannot be negative.");
+        }
+        else if (maxBonusPoints < bonusPoints) {
+            return new ValidationResult(false, "A maximum of " + maxBonusPoints + " bonus points are allowed based on this product's price.");
+        }
+        else {
+            return new ValidationResult(true, "");
+        }
+    }
+
+    public static ValidationResult validateNumberRange(int number, int lowerBound, int upperBound) {
+        if (number < lowerBound) {
+            return new ValidationResult(false, "Number must not be less than " + lowerBound);
+        }
+        else if (upperBound < number) {
+            return new ValidationResult(false, "Number must not be greater than " + upperBound);
+        }
+        else {
+            return new ValidationResult(true, "");
+        }
+    }
+
+    public static ValidationResult validateNotEmpty(String string) {
+        if (string.isEmpty()) {
+            return new ValidationResult(false, "This field must not be empty.");
+        }
+        else {
+            return new ValidationResult(true, "");
+        }
+    }
+
+    public record ValidationResult(boolean isValid, String message) {}
 }

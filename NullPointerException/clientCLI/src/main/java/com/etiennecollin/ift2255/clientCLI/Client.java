@@ -447,8 +447,8 @@ public class Client {
         ProductCategory productCategory = prettyMenu("Category", ProductCategory.class);
         String description = prettyPrompt("Description");
         int price = prettyPromptCurrency("Price");
-        int fidelityPoints = prettyPromptInt("Fidelity points");
-        int quantity = prettyPromptInt("Quantity");
+        int fidelityPoints = prettyPromptInt("Fidelity points", bonusPoints -> validateBonusFidelityPoints(bonusPoints, price));
+        int quantity = prettyPromptInt("Quantity", amount -> validateNumberRange(amount, 0, Integer.MAX_VALUE));
 
         switch (productCategory) {
             case BookOrManual -> {
@@ -492,7 +492,7 @@ public class Client {
 
         if (prettyPromptBool("Save product?")) {
             ((Seller) unishop.getCurrentUser()).addProductOffered(product);
-
+            unishop.updateCatalog();
             System.out.println("Product " + title + " added!");
         }
         else {
@@ -514,8 +514,8 @@ public class Client {
             return;
         }
 
-        String shippingCompany = prettyPromptValidated("Shipping company", (s) -> !s.isEmpty());
-        String trackingId = prettyPromptValidated("Tracking ID", (s) -> !s.isEmpty());
+        String shippingCompany = prettyPrompt("Shipping company", Utils::validateNotEmpty);
+        String trackingId = prettyPrompt("Tracking ID", Utils::validateNotEmpty);
 
         System.out.println("Order status updated!");
     }
