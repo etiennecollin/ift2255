@@ -51,8 +51,7 @@ public class Utils {
     /**
      * Displays a prompt with single question and returns the user answer if valid.
      *
-     * @param prompt The message to display as the prompt.
-     *
+     * @param prompt    The message to display as the prompt.
      * @param validator A {@code Function} that takes a {@code String} as input and returns a {@code ValidationResult}.
      *
      * @return The answer of the user.
@@ -87,8 +86,7 @@ public class Utils {
      * Displays a formatted prompt to the console and retrieves an integer input from the user.
      * Continues prompting the user until a valid integer is provided.
      *
-     * @param prompt The prompt message to be displayed.
-     *
+     * @param prompt    The prompt message to be displayed.
      * @param validator A {@code Function} that takes an {@code Integer} as input and returns a {@code ValidationResult}
      *
      * @return A valid integer entered by the user.
@@ -161,8 +159,7 @@ public class Utils {
                 }
 
                 return value;
-            }
-            else {
+            } else {
                 System.out.println("Please enter a positive dollar (and cents) value with no thousands symbol. E.g. 42.99");
             }
         }
@@ -374,27 +371,34 @@ public class Utils {
         }
     }
 
-    public static void validateName(String s) throws RuntimeException {
+    public static ValidationResult validateName(String s) throws RuntimeException {
         if (!s.matches("[a-zA-Z]+[\\s-]?[a-zA-Z]*")) {
-            throw new RuntimeException("Your name should only contains letters");
+            return new ValidationResult(false, "Your name should only contains letters");
         }
+        return new ValidationResult(true, "");
     }
 
-    // regex took from https://www.w3resource.com/javascript/form/email-validation.php
-    // accept format "username@domain.com"
-    public static void validateEmail(String s) throws RuntimeException {
-        // if (!s.matches("/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\n" + "\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\n" + "\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:\n" + "(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])/")) {
-
-        // throw new RuntimeException("Your email address has a wrong format.");
-        //}
+    public static ValidationResult validateEmail(String s) throws RuntimeException {
+        if (!s.matches("[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}")) {
+            return new ValidationResult(false, "Your email has a wrong format");
+        }
+        return new ValidationResult(true, "");
     }
 
     // regex took from https://www.baeldung.com/java-regex-validate-phone-numbers
     // accept format xxx xxx xxxx  , xxx-xxx-xxxx and xxxxxxxxxx where x are digits
-    public static void validatePhone(String s) throws RuntimeException {
-        if (!s.matches("^(\\d{3}[- .]?){2}\\d{4}$")) {
-            throw new RuntimeException("Your phone number has a wrong format");
+    public static ValidationResult validatePhoneNumber(String s) throws RuntimeException {
+        if (!s.matches("(\\(\\d{3}\\)|\\d{3})[- ]?\\d{3}[- ]?\\d{4}")) {
+            return new ValidationResult(false, "Your phone number has a wrong format");
         }
+        return new ValidationResult(true, "");
+    }
+
+    public static ValidationResult validateISBN(String s) throws RuntimeException {
+        if (!s.matches("\\d{13}")) {
+            return new ValidationResult(false, "Your ISBN has a wrong format");
+        }
+        return new ValidationResult(true, "");
     }
 
     public static ValidationResult validateBonusFidelityPoints(int bonusPoints, int price) {
@@ -402,11 +406,9 @@ public class Utils {
         int maxBonusPoints = 19 * dollars;
         if (bonusPoints < 0) {
             return new ValidationResult(false, "Bonus points cannot be negative.");
-        }
-        else if (maxBonusPoints < bonusPoints) {
+        } else if (maxBonusPoints < bonusPoints) {
             return new ValidationResult(false, "A maximum of " + maxBonusPoints + " bonus points are allowed based on this product's price.");
-        }
-        else {
+        } else {
             return new ValidationResult(true, "");
         }
     }
@@ -414,11 +416,9 @@ public class Utils {
     public static ValidationResult validateNumberRange(int number, int lowerBound, int upperBound) {
         if (number < lowerBound) {
             return new ValidationResult(false, "Number must not be less than " + lowerBound);
-        }
-        else if (upperBound < number) {
+        } else if (upperBound < number) {
             return new ValidationResult(false, "Number must not be greater than " + upperBound);
-        }
-        else {
+        } else {
             return new ValidationResult(true, "");
         }
     }
@@ -426,8 +426,7 @@ public class Utils {
     public static ValidationResult validateNotEmpty(String string) {
         if (string.isEmpty()) {
             return new ValidationResult(false, "This field must not be empty.");
-        }
-        else {
+        } else {
             return new ValidationResult(true, "");
         }
     }
