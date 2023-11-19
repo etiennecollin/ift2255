@@ -165,11 +165,12 @@ public abstract class Product implements Serializable {
 
     public void setBonusFidelityPoints(int bonusFidelityPoints) throws IllegalArgumentException {
         if (bonusFidelityPoints < 0) {
+            this.bonusFidelityPoints = 0;
             throw new IllegalArgumentException("Cannot give less than 0 bonus points for a product");
         }
 
-        float newPointsPerDollar = (float) (bonusFidelityPoints) / ((float) this.getCost() / 100);
-        if (newPointsPerDollar > MAX_PTS_PER_DOLLAR - 1) {
+        float bonusPointsPerDollar = (float) (bonusFidelityPoints) / ((float) this.getCost() / 100);
+        if (bonusPointsPerDollar > MAX_PTS_PER_DOLLAR - 1) {
             this.bonusFidelityPoints = ((MAX_PTS_PER_DOLLAR - 1) * this.getCost()) / 100;
             throw new IllegalArgumentException("Products cannot provide more than " + (MAX_PTS_PER_DOLLAR - 1) + " bonus points per dollar spent. Bonus points were clamped to match" + " this maximum.");
         } else {
