@@ -4,6 +4,8 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes.products;
 
+import com.etiennecollin.ift2255.clientCLI.classes.Seller;
+
 import java.time.LocalDate;
 
 public class IT extends Product {
@@ -11,8 +13,8 @@ public class IT extends Product {
     private String model;
     private LocalDate releaseDate;
 
-    public IT(int price, int quantity, String title, String description, int fidelityPoints, String brand, String model, LocalDate releaseDate, ITCategory subCategory) throws IllegalArgumentException {
-        super(price, quantity, title, description, ProductCategory.IT, subCategory, fidelityPoints);
+    public IT(int price, int quantity, String title, String description, Seller seller, int fidelityPoints, String brand, String model, LocalDate releaseDate, ITCategory subCategory) throws IllegalArgumentException {
+        super(price, quantity, title, description, ProductCategory.IT, subCategory, seller, fidelityPoints);
         this.brand = brand;
         this.model = model;
         this.releaseDate = releaseDate;

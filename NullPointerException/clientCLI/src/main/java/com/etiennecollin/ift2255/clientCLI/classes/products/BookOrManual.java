@@ -4,18 +4,20 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes.products;
 
+import com.etiennecollin.ift2255.clientCLI.classes.Seller;
+
 import java.time.LocalDate;
 
 public class BookOrManual extends Product {
-    private int isbn;
+    private String isbn;
     private String author;
     private String editor;
     private LocalDate releaseDate;
     private int editionNumber;
     private int volumeNumber;
 
-    public BookOrManual(int price, int quantity, String title, String description, int fidelityPoints, int isbn, String author, String editor, BookOrManualGenre genre, LocalDate releaseDate, int editionNumber, int volumeNumber) throws IllegalArgumentException {
-        super(price, quantity, title, description, ProductCategory.BookOrManual, genre, fidelityPoints);
+    public BookOrManual(int price, int quantity, String title, String description, Seller seller, int fidelityPoints, String isbn, String author, String editor, BookOrManualGenre genre, LocalDate releaseDate, int editionNumber, int volumeNumber) throws IllegalArgumentException {
+        super(price, quantity, title, description, ProductCategory.BookOrManual, genre, seller, fidelityPoints);
         this.isbn = isbn;
         this.author = author;
         this.editor = editor;
@@ -24,11 +26,11 @@ public class BookOrManual extends Product {
         this.volumeNumber = volumeNumber;
     }
 
-    public int getIsbn() {
+    public String getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(int isbn) {
+    public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 

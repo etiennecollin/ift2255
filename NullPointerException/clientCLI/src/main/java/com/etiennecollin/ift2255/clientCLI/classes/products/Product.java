@@ -31,17 +31,17 @@ public abstract class Product implements Serializable {
     private int bonusFidelityPoints;
     private int discount;
 
-    public Product(int cost, int quantity, String title, String description, ProductCategory category, Enum<?> subCategory) {
+    public Product(int cost, int quantity, String title, String description, ProductCategory category, Enum<?> subCategory, Seller seller, int bonusFidelityPoints) throws IllegalArgumentException {
         this.setCost(cost);
         this.setQuantity(quantity);
         this.setTitle(title);
         this.setDescription(description);
         this.category = category;
         this.subCategory = subCategory;
-        this.setBonusFidelityPoints(0);
+        this.setSeller(seller);
+        this.setBonusFidelityPoints(bonusFidelityPoints);
 
         this.commercializationDate = LocalDate.now();
-        this.discount = 0;
         this.setLikes(0);
         this.setReview(new ArrayList<>());
         this.rating = new Rating();
@@ -59,23 +59,6 @@ public abstract class Product implements Serializable {
 
     public void setCost(int cost) {
         this.cost = cost;
-    }
-
-    public Product(int cost, int quantity, String title, String description, ProductCategory category, Enum<?> subCategory, int bonusFidelityPoints) throws IllegalArgumentException {
-        this.setCost(cost);
-        this.setQuantity(quantity);
-        this.setTitle(title);
-        this.setDescription(description);
-        this.category = category;
-        this.subCategory = subCategory;
-        this.setBonusFidelityPoints(bonusFidelityPoints);
-
-        this.commercializationDate = LocalDate.now();
-        this.setLikes(0);
-        this.setReview(new ArrayList<>());
-        this.rating = new Rating();
-        this.followedBy = new ArrayList<>();
-        this.id = UUID.randomUUID();
     }
 
     public String getFormattedCost() {
@@ -199,8 +182,16 @@ public abstract class Product implements Serializable {
         return seller;
     }
 
-    public void setSeller(Seller seller) {
-        this.seller = seller;
+    public void setSeller(Seller newSeller) {
+        if (!this.seller.equals(newSeller)) {
+            this.seller.removeProductOffered(this);
+        }
+
+        if (!newSeller.getProductsOffered().contains(this)) {
+            newSeller.addProductOffered(this);
+        }
+
+        this.seller = newSeller;
     }
 
     public int getLikes() {
