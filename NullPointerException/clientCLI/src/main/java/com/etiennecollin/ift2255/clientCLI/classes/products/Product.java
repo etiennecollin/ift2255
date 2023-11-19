@@ -61,7 +61,7 @@ public abstract class Product implements Serializable {
         this.cost = cost;
     }
 
-    public Product(int cost, int quantity, String title, String description, ProductCategory category, Enum<?> subCategory, int bonusFidelityPoints) {
+    public Product(int cost, int quantity, String title, String description, ProductCategory category, Enum<?> subCategory, int bonusFidelityPoints) throws IllegalArgumentException {
         this.setCost(cost);
         this.setQuantity(quantity);
         this.setTitle(title);
@@ -98,7 +98,7 @@ public abstract class Product implements Serializable {
         return discount;
     }
 
-    public void setDiscount(int discount) {
+    public void setDiscount(int discount) throws IllegalArgumentException {
         if (discount < 0 || discount > 100) {
             throw new IllegalArgumentException("The discount should be a percentage between 0% and 100%");
         }
@@ -163,15 +163,15 @@ public abstract class Product implements Serializable {
         return bonusFidelityPoints;
     }
 
-    public void setBonusFidelityPoints(int bonusFidelityPoints) {
+    public void setBonusFidelityPoints(int bonusFidelityPoints) throws IllegalArgumentException {
         if (bonusFidelityPoints < 0) {
             throw new IllegalArgumentException("Cannot give less than 0 bonus points for a product");
         }
 
-        float newPointsPerDollar = (float) (1 + bonusFidelityPoints) / ((float) this.getCost() / 100);
-        if (newPointsPerDollar > MAX_PTS_PER_DOLLAR) {
-            this.bonusFidelityPoints = (MAX_PTS_PER_DOLLAR * this.getCost()) / 100 - 1;
-            throw new IllegalArgumentException("Products cannot provide more than " + MAX_PTS_PER_DOLLAR + " bonus points per dollar spent. Bonus points were clamped to match" + " this maximum.");
+        float newPointsPerDollar = (float) (bonusFidelityPoints) / ((float) this.getCost() / 100);
+        if (newPointsPerDollar > MAX_PTS_PER_DOLLAR - 1) {
+            this.bonusFidelityPoints = ((MAX_PTS_PER_DOLLAR - 1) * this.getCost()) / 100;
+            throw new IllegalArgumentException("Products cannot provide more than " + (MAX_PTS_PER_DOLLAR - 1) + " bonus points per dollar spent. Bonus points were clamped to match" + " this maximum.");
         } else {
             this.bonusFidelityPoints = bonusFidelityPoints;
         }
@@ -206,7 +206,7 @@ public abstract class Product implements Serializable {
         return likes;
     }
 
-    public void setLikes(int likes) {
+    public void setLikes(int likes) throws IllegalArgumentException {
         if (likes < 0) {
             throw new IllegalArgumentException("Cannot have a negative number of likes");
         }

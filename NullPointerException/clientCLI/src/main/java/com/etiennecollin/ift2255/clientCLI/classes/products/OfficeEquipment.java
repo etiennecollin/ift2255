@@ -8,7 +8,7 @@ public class OfficeEquipment extends Product {
     private String brand;
     private String model;
 
-    public OfficeEquipment(int price, int quantity, String title, String description, int fidelityPoints, String brand, String model, OfficeEquipmentCategory subCategory) {
+    public OfficeEquipment(int price, int quantity, String title, String description, int fidelityPoints, String brand, String model, OfficeEquipmentCategory subCategory) throws IllegalArgumentException {
         super(price, quantity, title, description, ProductCategory.OfficeEquipment, subCategory, fidelityPoints);
         this.brand = brand;
         this.model = model;

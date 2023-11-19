@@ -12,7 +12,7 @@ public class LearningResource extends Product {
     private LocalDate releaseDate;
     private int editionNumber;
 
-    public LearningResource(int price, int quantity, String title, String description, int fidelityPoints, int isbn, String organisation, LocalDate releaseDate, LearningResourceType type, int editionNumber) {
+    public LearningResource(int price, int quantity, String title, String description, int fidelityPoints, int isbn, String organisation, LocalDate releaseDate, LearningResourceType type, int editionNumber) throws IllegalArgumentException {
         super(price, quantity, title, description, ProductCategory.LearningResource, type, fidelityPoints);
         this.isbn = isbn;
         this.organisation = organisation;

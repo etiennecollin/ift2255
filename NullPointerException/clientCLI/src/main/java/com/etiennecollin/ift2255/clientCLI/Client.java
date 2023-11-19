@@ -443,60 +443,64 @@ public class Client {
     public static void addProduct() {
         Product product = null;
 
-        String title = prettyPrompt("Title");
-        ProductCategory productCategory = prettyMenu("Category", ProductCategory.class);
-        String description = prettyPrompt("Description");
-        int price = prettyPromptCurrency("Price");
-        int fidelityPoints = prettyPromptInt("Fidelity points", bonusPoints -> validateBonusFidelityPoints(bonusPoints, price));
-        int quantity = prettyPromptInt("Quantity", amount -> validateNumberRange(amount, 0, Integer.MAX_VALUE));
+        try {
+            String title = prettyPrompt("Title");
+            ProductCategory productCategory = prettyMenu("Category", ProductCategory.class);
+            String description = prettyPrompt("Description");
+            int price = prettyPromptCurrency("Price");
+            int fidelityPoints = prettyPromptInt("Fidelity points", bonusPoints -> validateBonusFidelityPoints(bonusPoints, price));
+            int quantity = prettyPromptInt("Quantity", amount -> validateNumberRange(amount, 0, Integer.MAX_VALUE));
 
-        switch (productCategory) {
-            case BookOrManual -> {
-                String author = prettyPrompt("Author");
-                String editor = prettyPrompt("Publisher");
-                LocalDate releaseDate = prettyPromptDate("Release date");
-                BookOrManualGenre genre = prettyMenu("Genre", BookOrManualGenre.class);
-                int edition = prettyPromptInt("Edition number (enter 0 if not applicable)");
-                int volume = prettyPromptInt("Volume number (enter 0 if not applicable)");
-                int isbn = prettyPromptInt("ISBN");
-                product = new BookOrManual(price, quantity, title, description, fidelityPoints, isbn, author, editor, genre, releaseDate, edition, volume);
+            switch (productCategory) {
+                case BookOrManual -> {
+                    String author = prettyPrompt("Author");
+                    String editor = prettyPrompt("Publisher");
+                    LocalDate releaseDate = prettyPromptDate("Release date");
+                    BookOrManualGenre genre = prettyMenu("Genre", BookOrManualGenre.class);
+                    int edition = prettyPromptInt("Edition number (enter 0 if not applicable)");
+                    int volume = prettyPromptInt("Volume number (enter 0 if not applicable)");
+                    int isbn = prettyPromptInt("ISBN");
+                    product = new BookOrManual(price, quantity, title, description, fidelityPoints, isbn, author, editor, genre, releaseDate, edition, volume);
+                }
+                case IT -> {
+                    String brand = prettyPrompt("Brand name");
+                    String model = prettyPrompt("Model name");
+                    LocalDate releaseDate = prettyPromptDate("Release date");
+                    ITCategory itCategory = prettyMenu("Sub-category", ITCategory.class);
+                    product = new IT(price, quantity, title, description, fidelityPoints, brand, model, releaseDate, itCategory);
+                }
+                case LearningResource -> {
+                    String org = prettyPrompt("Organization");
+                    LocalDate releaseDate = prettyPromptDate("Release date");
+                    LearningResourceType type = prettyMenu("Sub-category", LearningResourceType.class);
+                    int edition = prettyPromptInt("Edition number (enter 0 if not applicable)");
+                    int isbn = prettyPromptInt("ISBN");
+                    product = new LearningResource(price, quantity, title, description, fidelityPoints, isbn, org, releaseDate, type, edition);
+                }
+                case OfficeEquipment -> {
+                    String brand = prettyPrompt("Brand name");
+                    String model = prettyPrompt("Model name");
+                    OfficeEquipmentCategory oeCategory = prettyMenu("Sub-category", OfficeEquipmentCategory.class);
+                    product = new OfficeEquipment(price, quantity, title, description, fidelityPoints, brand, model, oeCategory);
+                }
+                case StationeryArticle -> {
+                    String brand = prettyPrompt("Brand name");
+                    String model = prettyPrompt("Model name");
+                    StationeryArticleCategory saCategory = prettyMenu("Sub-category", StationeryArticleCategory.class);
+                    product = new StationeryArticle(price, quantity, title, description, fidelityPoints, brand, model, saCategory);
+                }
             }
-            case IT -> {
-                String brand = prettyPrompt("Brand name");
-                String model = prettyPrompt("Model name");
-                LocalDate releaseDate = prettyPromptDate("Release date");
-                ITCategory itCategory = prettyMenu("Sub-category", ITCategory.class);
-                product = new IT(price, quantity, title, description, fidelityPoints, brand, model, releaseDate, itCategory);
-            }
-            case LearningResource -> {
-                String org = prettyPrompt("Organization");
-                LocalDate releaseDate = prettyPromptDate("Release date");
-                LearningResourceType type = prettyMenu("Sub-category", LearningResourceType.class);
-                int edition = prettyPromptInt("Edition number (enter 0 if not applicable)");
-                int isbn = prettyPromptInt("ISBN");
-                product = new LearningResource(price, quantity, title, description, fidelityPoints, isbn, org, releaseDate, type, edition);
-            }
-            case OfficeEquipment -> {
-                String brand = prettyPrompt("Brand name");
-                String model = prettyPrompt("Model name");
-                OfficeEquipmentCategory oeCategory = prettyMenu("Sub-category", OfficeEquipmentCategory.class);
-                product = new OfficeEquipment(price, quantity, title, description, fidelityPoints, brand, model, oeCategory);
-            }
-            case StationeryArticle -> {
-                String brand = prettyPrompt("Brand name");
-                String model = prettyPrompt("Model name");
-                StationeryArticleCategory saCategory = prettyMenu("Sub-category", StationeryArticleCategory.class);
-                product = new StationeryArticle(price, quantity, title, description, fidelityPoints, brand, model, saCategory);
-            }
-        }
 
-        if (prettyPromptBool("Save product?")) {
-            ((Seller) unishop.getCurrentUser()).addProductOffered(product);
-            unishop.updateCatalog();
-            System.out.println("Product " + title + " added!");
-        }
-        else {
-            System.out.println("Cancelled adding a new product.");
+            if (prettyPromptBool("Save product?")) {
+                ((Seller) unishop.getCurrentUser()).addProductOffered(product);
+                unishop.updateCatalog();
+                System.out.println("Product " + title + " added!");
+            }
+            else {
+                System.out.println("Cancelled adding a new product.");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
