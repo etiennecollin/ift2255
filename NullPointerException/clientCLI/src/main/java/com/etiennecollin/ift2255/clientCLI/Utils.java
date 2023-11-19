@@ -6,6 +6,9 @@ package com.etiennecollin.ift2255.clientCLI;
 
 import com.etiennecollin.ift2255.clientCLI.classes.UniShop;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -127,6 +130,26 @@ public class Utils {
                 return Integer.parseInt(scanner.nextLine().strip().replace(".", ""));
             } catch (NumberFormatException ignored) {
                 System.out.println("Please enter a number with no thousands symbol.");
+            }
+        }
+    }
+
+    /**
+     * Displays a formatted prompt to the console and retrieves a date input from the user.
+     * Continues prompting the user until a valid date is provided.
+     *
+     * @param prompt The prompt message to be displayed.
+     *
+     * @return A valid LocalDate entered by the user.
+     */
+    protected static LocalDate prettyPromptDate(String prompt) {
+        while (true) {
+            System.out.println("------------");
+            System.out.print(prettify(prompt) + " (yyyy-mm-dd): ");
+            try {
+                return LocalDate.parse(scanner.nextLine().strip(), DateTimeFormatter.ISO_LOCAL_DATE);
+            } catch (DateTimeParseException e) {
+                System.out.println("Please enter a date in yyyy-mm-dd format. E.g. 2023-01-01");
             }
         }
     }

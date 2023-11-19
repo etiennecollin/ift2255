@@ -5,11 +5,11 @@
 package com.etiennecollin.ift2255.clientCLI;
 
 import com.etiennecollin.ift2255.clientCLI.classes.*;
-import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
-import com.etiennecollin.ift2255.clientCLI.classes.products.ProductCategory;
+import com.etiennecollin.ift2255.clientCLI.classes.products.*;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -440,17 +440,64 @@ public class Client {
         }
     }
 
-    // TODO
     public static void addProduct() {
+        Product product = null;
+
         String title = prettyPrompt("Title");
         ProductCategory productCategory = prettyMenu("Category", ProductCategory.class);
         String description = prettyPrompt("Description");
-        String brandName = prettyPrompt("Brand name");
-        String modelName = prettyPrompt("Model name");
+        int price = prettyPromptCurrency("Price");
+        int fidelityPoints = prettyPromptInt("Fidelity points");
         int quantity = prettyPromptInt("Quantity");
-        float price = prettyPromptCurrency("Price");
 
-        System.out.println("Product " + title + " added!");
+        switch (productCategory) {
+            case BookOrManual -> {
+                String author = prettyPrompt("Author");
+                String editor = prettyPrompt("Publisher");
+                LocalDate releaseDate = prettyPromptDate("Release date");
+                BookOrManualGenre genre = prettyMenu("Genre", BookOrManualGenre.class);
+                int edition = prettyPromptInt("Edition number (enter 0 if not applicable)");
+                int volume = prettyPromptInt("Volume number (enter 0 if not applicable)");
+                int isbn = prettyPromptInt("ISBN");
+                product = new BookOrManual(price, quantity, title, description, fidelityPoints, isbn, author, editor, genre, releaseDate, edition, volume);
+            }
+            case IT -> {
+                String brand = prettyPrompt("Brand name");
+                String model = prettyPrompt("Model name");
+                LocalDate releaseDate = prettyPromptDate("Release date");
+                ITCategory itCategory = prettyMenu("Sub-category", ITCategory.class);
+                product = new IT(price, quantity, title, description, fidelityPoints, brand, model, releaseDate, itCategory);
+            }
+            case LearningResource -> {
+                String org = prettyPrompt("Organization");
+                LocalDate releaseDate = prettyPromptDate("Release date");
+                LearningResourceType type = prettyMenu("Sub-category", LearningResourceType.class);
+                int edition = prettyPromptInt("Edition number (enter 0 if not applicable)");
+                int isbn = prettyPromptInt("ISBN");
+                product = new LearningResource(price, quantity, title, description, fidelityPoints, isbn, org, releaseDate, type, edition);
+            }
+            case OfficeEquipment -> {
+                String brand = prettyPrompt("Brand name");
+                String model = prettyPrompt("Model name");
+                OfficeEquipmentCategory oeCategory = prettyMenu("Sub-category", OfficeEquipmentCategory.class);
+                product = new OfficeEquipment(price, quantity, title, description, fidelityPoints, brand, model, oeCategory);
+            }
+            case StationeryArticle -> {
+                String brand = prettyPrompt("Brand name");
+                String model = prettyPrompt("Model name");
+                StationeryArticleCategory saCategory = prettyMenu("Sub-category", StationeryArticleCategory.class);
+                product = new StationeryArticle(price, quantity, title, description, fidelityPoints, brand, model, saCategory);
+            }
+        }
+
+        if (prettyPromptBool("Save product?")) {
+            ((Seller) unishop.getCurrentUser()).addProductOffered(product);
+
+            System.out.println("Product " + title + " added!");
+        }
+        else {
+            System.out.println("Cancelled adding a new product.");
+        }
     }
 
     // TODO
