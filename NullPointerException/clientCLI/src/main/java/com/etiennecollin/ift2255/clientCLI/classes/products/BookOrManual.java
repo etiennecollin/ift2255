@@ -14,7 +14,7 @@ public class BookOrManual extends Product {
     private int editionNumber;
     private int volumeNumber;
 
-    public BookOrManual(int price, int quantity, String title, String description, int fidelityPoints, int isbn, String author, String editor, BookOrManualGenre genre, LocalDate releaseDate, int editionNumber, int volumeNumber) {
+    public BookOrManual(int price, int quantity, String title, String description, int fidelityPoints, int isbn, String author, String editor, BookOrManualGenre genre, LocalDate releaseDate, int editionNumber, int volumeNumber) throws IllegalArgumentException {
         super(price, quantity, title, description, ProductCategory.BookOrManual, genre, fidelityPoints);
         this.isbn = isbn;
         this.author = author;

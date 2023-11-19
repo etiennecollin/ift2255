@@ -8,7 +8,7 @@ public class StationeryArticle extends Product {
     private String brand;
     private String model;
 
-    public StationeryArticle(int price, int quantity, String title, String description, int fidelityPoints, String brand, String model, StationeryArticleCategory subCategory) {
+    public StationeryArticle(int price, int quantity, String title, String description, int fidelityPoints, String brand, String model, StationeryArticleCategory subCategory) throws IllegalArgumentException {
         super(price, quantity, title, description, ProductCategory.StationeryArticle, subCategory, fidelityPoints);
         this.brand = brand;
         this.model = model;

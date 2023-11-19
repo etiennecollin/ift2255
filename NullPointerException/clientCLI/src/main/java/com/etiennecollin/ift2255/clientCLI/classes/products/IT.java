@@ -11,7 +11,7 @@ public class IT extends Product {
     private String model;
     private LocalDate releaseDate;
 
-    public IT(int price, int quantity, String title, String description, int fidelityPoints, String brand, String model, LocalDate releaseDate, ITCategory subCategory) {
+    public IT(int price, int quantity, String title, String description, int fidelityPoints, String brand, String model, LocalDate releaseDate, ITCategory subCategory) throws IllegalArgumentException {
         super(price, quantity, title, description, ProductCategory.IT, subCategory, fidelityPoints);
         this.brand = brand;
         this.model = model;
