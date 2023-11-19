@@ -47,10 +47,6 @@ public class Buyer extends User {
         return sellersLiked;
     }
 
-    public ArrayList<Review> getReviewsWritten() {
-        return reviewsWritten;
-    }
-
     public void addReviewWritten(Review review) {
         this.reviewsWritten.add(review);
     }
@@ -264,31 +260,33 @@ public class Buyer extends User {
             numberTotalOrders++;
         }
 
+        int numberRecentReviews = 0;
+        int sumRecentReviews = 0;
+        int sumTotalReviews = 0;
         int averageRecentReviews = 0;
         int averageTotalReviews = 0;
-        int numberRecentReviews = 0;
-        int numberTotalReviews = 0;
+
         for (Review review : reviewsWritten) {
+            sumTotalReviews += review.getRating();
             if (review.getCreationDate().isAfter(dateCutOff)) {
-                averageRecentReviews += review.getRating();
+                sumRecentReviews += review.getRating();
                 numberRecentReviews++;
             }
-            averageTotalReviews += review.getRating();
-            numberTotalReviews++;
         }
 
-        if(numberRecentReviews != 0)
-            averageRecentReviews = averageRecentReviews / numberRecentReviews;
-        else  //if there's no recent reviews
-            averageRecentReviews = 0;
+        if (numberRecentReviews != 0) {
+            averageRecentReviews = sumRecentReviews / numberRecentReviews;
+        }
 
+        if (!this.getReviewsWritten().isEmpty()) {
+            averageTotalReviews = sumTotalReviews / this.getReviewsWritten().size();
+        }
 
-        if(numberTotalReviews!=0)
-            averageTotalReviews = averageTotalReviews / numberTotalReviews;
-        else //if no reviews
-            averageTotalReviews = 0;
+        return new BuyerMetrics(numberRecentOrders, numberTotalOrders, numberRecentProductsBought, numberTotalProductsBought, this.getFollowedBy().size(), averageRecentReviews, averageTotalReviews, numberRecentReviews, this.getReviewsWritten().size());
+    }
 
-        return new BuyerMetrics(numberRecentOrders, numberTotalOrders, numberRecentProductsBought, numberTotalProductsBought, this.getFollowedBy().size(), averageRecentReviews, averageTotalReviews, numberRecentReviews, numberTotalReviews);
+    public ArrayList<Review> getReviewsWritten() {
+        return reviewsWritten;
     }
 
     public ArrayList<Buyer> getFollowedBy() {

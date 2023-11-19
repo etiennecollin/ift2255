@@ -125,19 +125,16 @@ public class Seller extends User {
                 numberRecentRatings++;
             }
         }
-        if(numberRecentRatings!=0){
+
+        if (numberRecentRatings != 0) {
             averageRecentRatings = sumRecentRatings / numberRecentRatings;
-        } else {
-            averageRecentRatings = 0;
         }
 
-        if(this.getProductsOffered().size()!=0){
+        if (!this.getProductsOffered().isEmpty()) {
             averageTotalRatings = sumTotalRatings / this.getProductsOffered().size();
-        } else {
-            averageTotalRatings = 0;
         }
 
-        return new SellerMetrics(recentRevenue, totalRevenue, numberRecentProductsSold, numberTotalProductsSold, this.productsOffered.size(), averageRecentRatings, averageTotalRatings);
+        return new SellerMetrics(recentRevenue, totalRevenue, numberRecentProductsSold, numberTotalProductsSold, this.getProductsOffered().size(), averageRecentRatings, averageTotalRatings);
     }
 
     public ArrayList<Product> getProductsOffered() {
