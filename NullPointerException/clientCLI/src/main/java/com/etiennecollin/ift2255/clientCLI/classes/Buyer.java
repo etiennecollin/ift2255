@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class Buyer extends User {
     private final ArrayList<Product> productsLiked;
-    private final ArrayList<Review> commentsLiked;
+    private final ArrayList<Review> reviewsLiked;
     private final ArrayList<Buyer> buyersLiked;
     private final ArrayList<Seller> sellersLiked;
     private final ArrayList<Review> reviewsWritten;
@@ -31,7 +31,7 @@ public class Buyer extends User {
         this.setUsername(username);
         this.cart = new Cart(this);
         this.productsLiked = new ArrayList<>();
-        this.commentsLiked = new ArrayList<>();
+        this.reviewsLiked = new ArrayList<>();
         this.sellersLiked = new ArrayList<>();
         this.buyersLiked = new ArrayList<>();
         this.followedBy = new ArrayList<>();
@@ -147,7 +147,7 @@ public class Buyer extends User {
     }
 
     public boolean doesLike(Review review) {
-        return commentsLiked.contains(review);
+        return reviewsLiked.contains(review);
     }
 
     public boolean doesLike(Seller seller) {
@@ -158,8 +158,8 @@ public class Buyer extends User {
         return buyersLiked.contains(buyer);
     }
 
-    public ArrayList<Review> getCommentsLiked() {
-        return commentsLiked;
+    public ArrayList<Review> getReviewsLiked() {
+        return reviewsLiked;
     }
 
     public boolean toggleLike(Product product) {
@@ -236,10 +236,10 @@ public class Buyer extends User {
     }
 
     public void toggleLike(Review review) {
-        if (commentsLiked.contains(review)) {
-            commentsLiked.remove(review);
+        if (reviewsLiked.contains(review)) {
+            reviewsLiked.remove(review);
         } else {
-            commentsLiked.add(review);
+            reviewsLiked.add(review);
         }
     }
 

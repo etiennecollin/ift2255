@@ -23,8 +23,6 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 public class Client {
     public static final String savePath;
     public static final UniShop unishop = new UniShop();
-    // Hardcoded for prototype
-    static String[] sellerMenu = {"Offer product", "Modify order status", "Manage issues", "Update account information", "Display activities", "Log out"};
     static ArrayList<String> shoppingCart = new ArrayList<>();
     static ArrayList<String> likedProducts = new ArrayList<>();
     static String[] productListDataBase = {"Computer", "Manual", "Utilities"};
@@ -130,20 +128,21 @@ public class Client {
 
     // TODO complete
     public static void buyerMenu() {
-        String[] buyerMenu = {"Catalog", "Search a product", "My cart", "My activities", "Find user", "My orders", "Update account information", "Log out"};
+        String[] buyerMenu = {"Catalog", "Search a product", "My cart", "Display notifications", "Display activities", "Find user", "My orders", "Update account information", "Log out"};
 
         loop:
         while (true) {
             int buyerAnswer = prettyMenu("Main menu", buyerMenu);
             switch (buyerAnswer) {
-                case 0 -> displayCatalog();
+                case 0 -> displayProducts(unishop.getCatalog());
                 case 1 -> searchProduct();
                 case 2 -> displayCart();
-                case 3 -> displayActivities();
-                case 4 -> findUser();
-                case 5 -> displayOrders();
-                case 6 -> updateBuyerInfo();
-                case 7 -> {
+                case 3 -> displayNotifications();
+                case 4 -> displayActivities();
+                case 5 -> findUser();
+                case 6 -> displayOrders();
+                case 7 -> updateBuyerInfo();
+                case 8 -> {
                     logout(unishop);
                     break loop;
                 }
@@ -153,18 +152,72 @@ public class Client {
 
     // TODO complete
     public static void sellerMenu() {
+        String[] sellerMenu = {"Offer product", "Modify order status", "Manage issues", "Update account information", "Display notifications", "Display activities", "Log out"};
+
         loop:
         while (true) {
             int answer = prettyMenu("Main menu", sellerMenu);
             switch (answer) {
                 case 0 -> addProduct();
                 case 1 -> changeOrderStatus();
-                case 2 -> manageProblems();
+                case 2 -> displayIssues();
                 case 3 -> updateSellerInfo();
-                case 4 -> displayActivities();
-                case 5 -> {
+                case 4 -> displayNotifications();
+                case 5 -> displayActivities();
+                case 6 -> {
                     logout(unishop);
                     break loop;
+                }
+            }
+        }
+    }
+
+    private static void displayNotifications() {
+        ArrayList<Notification> notifications = (ArrayList<Notification>) unishop.getCurrentUser().getNotifications().clone();
+        if (notifications.isEmpty()) {
+            System.out.println(prettify("No notifications"));
+        } else if (notifications.size() <= 3) {
+            // Print notifications in batches of 3
+            outerLoop:
+            for (int i = 0; i < notifications.size(); i += 3) {
+                clearConsole();
+                System.out.println(prettify("Notifications " + i + " to " + (i + 3) + ":"));
+
+                ArrayList<String> notificationTitles = new ArrayList<>();
+                notificationTitles.add("Go back");
+
+                // Print 3 notifs
+                for (int j = i; j < i + 3; j++) {
+                    if (j >= notifications.size()) break;
+                    Notification notification = notifications.get(j);
+                    notificationTitles.add(notification.getTitle());
+                    System.out.println(prettify("--------------------"));
+                    System.out.println(prettify(notification.getTitle()));
+                    System.out.println(prettify(notification.getContent()));
+                }
+
+                // Setup action menu
+                String[] options = {"Go back", "Delete notification", "See more"};
+                innerLoop:
+                while (true) {
+                    int answer = prettyMenu("Select action", options);
+                    switch (answer) {
+                        case 0 -> {
+                            // Go back by stopping print of notifs
+                            break outerLoop;
+                        }
+                        case 1 -> {
+                            // Delete notif
+                            int index = prettyMenu("Delete notification", notificationTitles);
+                            if (index == 0) break;
+                            unishop.getCurrentUser().removeNotification(notifications.get(i + index - 1));
+                            System.out.println(prettify("Notification successfully deleted"));
+                        }
+                        case 2 -> {
+                            // Display next notifs
+                            break innerLoop;
+                        }
+                    }
                 }
             }
         }
@@ -174,19 +227,14 @@ public class Client {
         clearConsole();
 
         while (true) {
-
             try {
-                String firstName = (prettyPrompt("First name"));
-                validateName(firstName);
-                String lastName = (prettyPrompt("Last name"));
-                validateName(lastName);
+                String firstName = prettyPrompt("First name", Utils::validateName);
+                String lastName = prettyPrompt("Last name", Utils::validateName);
                 String username = prettyPrompt("Username");
-                String email = prettyPrompt("Email");
-                validateEmail(email);
+                String email = prettyPrompt("Email", Utils::validateEmail);
                 String password = prettyPrompt("Password");
-                String phoneNumber = prettyPrompt("Phone number");
-                validatePhone(phoneNumber);
-                String address = prettyPrompt("Shipping address");
+                String phoneNumber = prettyPrompt("Phone number", Utils::validatePhoneNumber);
+                String address = prettyPrompt("Shipping address", Utils::validateISBN);
 
                 return new Buyer(firstName, lastName, username, email, phoneNumber, address, password);
             } catch (RuntimeException e) {
@@ -204,13 +252,10 @@ public class Client {
 
         while (true) {
             try {
-                String name = prettyPrompt("Name");
-                validateName(name);
-                String email = prettyPrompt("Email");
-                validateEmail(email);
+                String name = prettyPrompt("Name", Utils::validateName);
+                String email = prettyPrompt("Email", Utils::validateEmail);
                 String password = prettyPrompt("Password");
-                String phoneNumber = prettyPrompt("Phone number");
-                validatePhone(phoneNumber);
+                String phoneNumber = prettyPrompt("Phone number", Utils::validatePhoneNumber);
                 String address = prettyPrompt("Shipping address");
 
                 return new Seller(name, email, phoneNumber, address, password);
@@ -224,106 +269,35 @@ public class Client {
         return null;
     }
 
-    private static void displayCatalog() {
-        ArrayList<String> options = ProductCategory.getOptions();
-        options.add("Main menu");
-
-        Buyer buyer = (Buyer) unishop.getCurrentUser();
-        while (true) {
-            // Select category
-            int choice = prettyMenu("Categories", options);
-            if (choice == options.size() - 1) break;
-            ProductCategory selectedCategory = ProductCategory.values()[choice];
-
-            // Select subcategory
-            ArrayList<String> subOptions = selectedCategory.getSubOptions();
-            subOptions.add("Main menu");
-
-            int subChoice = prettyMenu("Sub-Categories", subOptions);
-            if (subChoice == subOptions.size() - 1) break;
-            Enum<?> selectedSubCategory = selectedCategory.getEnum().getEnumConstants()[subChoice];
-
-            // Get products that match category/subcategory
-
-            ArrayList<Product> matchedProducts = new ArrayList<>();
-            ArrayList<String> matchedProductsString = new ArrayList<>();
-            matchedProductsString.add("Back to categories");
-            matchedProductsString.add("Back to main menu");
-
-            for (Product product : unishop.getCatalog()) {
-                if (product.getCategory().equals(selectedCategory) && product.getSubCategory().equals(selectedSubCategory)) {
-                    matchedProducts.add(product);
-                    matchedProductsString.add(product.getTitle());
-                }
-            }
-
-            int answer = prettyMenu("Select a product", matchedProductsString);
-
-            // Check if we go back
-            if (answer == 0) {
-                continue;
-            } else if (answer == 1) {
-                break;
-            }
-
-            // Get product
-            Product product = matchedProducts.get(answer);
-            displayProduct(product);
-            displayBuyerProductActions(product);
-
-            boolean tryAgain = prettyPromptBool("Keep browsing product?");
-            if (!tryAgain) break;
-        }
-    }
-
-
     private static void searchProduct() {
-        //ONLY FOR TESTS
-        Seller seller = new Seller("name", "email", "phone", "address", "password");
-        Product prod = new BookOrManual(10, 1, "test", "test2", 0, 123456,
-                "test", "test2", BookOrManualGenre.Comic, LocalDate.now(), 2, 2);
-
-        seller.addProductOffered(prod);
-        prod.setSeller(seller);
-        unishop.getCatalog().add(prod);
-
-
-        while(true){
-
-            ArrayList<Product> searchResult = new ArrayList<>();
-            ArrayList<String> searchResultString = new ArrayList<>();
-
-            searchResultString.add("Main Menu");
+        while (true) {
+            ArrayList<Product> searchResults = new ArrayList<>();
+            ArrayList<String> searchResultsString = new ArrayList<>();
+            searchResultsString.add("Main Menu");
 
             String keyWord = prettyPrompt("Search");
 
             for (Product p : unishop.getCatalog()) {
-                if(p.getTitle().indexOf(keyWord)!= -1) {
-                    searchResult.add(p);
-                    searchResultString.add(p.getTitle());
+                if (p.getTitle().contains(keyWord)) {
+                    searchResults.add(p);
+                    searchResultsString.add(p.getTitle());
                 }
             }
 
-            int answer = prettyMenu("Select a product", searchResultString);
+            int answer = prettyMenu("Select a product", searchResultsString);
 
             if (answer == 0) {
                 break;
-            } else if (answer>0 && answer <searchResult.size()){
+            } else {
                 // Get product
-                Product product = searchResult.get(answer-1); //adjust to product array
+                Product product = searchResults.get(answer - 1); // adjust to product array
                 displayProduct(product);
                 displayBuyerProductActions(product);
-            } else {
-                System.out.println(prettify("Invalid input"));
             }
-
             boolean tryAgain = prettyPromptBool("Keep browsing product?");
             if (!tryAgain) break;
         }
-
     }
-
-
 
     public static void displayCart() {
         while (true) {
@@ -419,7 +393,6 @@ public class Client {
             System.out.println(prettify("Average total reviews: " + metrics.averageTotalReviews()));
             System.out.println(prettify("Recent reviews: " + metrics.averageRecentReviews()));
             System.out.println(prettify("Total reviews: " + metrics.numberTotalReviews()));
-
         } else if (currentUser instanceof Seller) {
             SellerMetrics metrics = ((Seller) currentUser).getMetrics(nMonths);
             System.out.println(prettify("Recent revenue: " + metrics.recentRevenue()));
@@ -431,8 +404,6 @@ public class Client {
             System.out.println(prettify("Total product rating average: " + metrics.averageTotalProductRating()));
         }
     }
-
-
 
     public static void findUser() {
         String[] options = {"Main menu", "Buyer", "Seller"};
@@ -510,6 +481,7 @@ public class Client {
             int price = prettyPromptCurrency("Price");
             int fidelityPoints = prettyPromptInt("Fidelity points", bonusPoints -> validateBonusFidelityPoints(bonusPoints, price));
             int quantity = prettyPromptInt("Quantity", amount -> validateNumberRange(amount, 0, Integer.MAX_VALUE));
+            Seller seller = (Seller) unishop.getCurrentUser();
 
             switch (productCategory) {
                 case BookOrManual -> {
@@ -519,15 +491,15 @@ public class Client {
                     BookOrManualGenre genre = prettyMenu("Genre", BookOrManualGenre.class);
                     int edition = prettyPromptInt("Edition number (enter 0 if not applicable)");
                     int volume = prettyPromptInt("Volume number (enter 0 if not applicable)");
-                    int isbn = prettyPromptInt("ISBN");
-                    product = new BookOrManual(price, quantity, title, description, fidelityPoints, isbn, author, editor, genre, releaseDate, edition, volume);
+                    String isbn = prettyPrompt("ISBN");// TODO
+                    product = new BookOrManual(price, quantity, title, description, seller, fidelityPoints, isbn, author, editor, genre, releaseDate, edition, volume);
                 }
                 case IT -> {
                     String brand = prettyPrompt("Brand name");
                     String model = prettyPrompt("Model name");
                     LocalDate releaseDate = prettyPromptDate("Release date");
                     ITCategory itCategory = prettyMenu("Sub-category", ITCategory.class);
-                    product = new IT(price, quantity, title, description, fidelityPoints, brand, model, releaseDate, itCategory);
+                    product = new IT(price, quantity, title, description, seller, fidelityPoints, brand, model, releaseDate, itCategory);
                 }
                 case LearningResource -> {
                     String org = prettyPrompt("Organization");
@@ -535,19 +507,19 @@ public class Client {
                     LearningResourceType type = prettyMenu("Sub-category", LearningResourceType.class);
                     int edition = prettyPromptInt("Edition number (enter 0 if not applicable)");
                     int isbn = prettyPromptInt("ISBN");
-                    product = new LearningResource(price, quantity, title, description, fidelityPoints, isbn, org, releaseDate, type, edition);
+                    product = new LearningResource(price, quantity, title, description, seller, fidelityPoints, isbn, org, releaseDate, type, edition);
                 }
                 case OfficeEquipment -> {
                     String brand = prettyPrompt("Brand name");
                     String model = prettyPrompt("Model name");
                     OfficeEquipmentCategory oeCategory = prettyMenu("Sub-category", OfficeEquipmentCategory.class);
-                    product = new OfficeEquipment(price, quantity, title, description, fidelityPoints, brand, model, oeCategory);
+                    product = new OfficeEquipment(price, quantity, title, description, seller, fidelityPoints, brand, model, oeCategory);
                 }
                 case StationeryArticle -> {
                     String brand = prettyPrompt("Brand name");
                     String model = prettyPrompt("Model name");
                     StationeryArticleCategory saCategory = prettyMenu("Sub-category", StationeryArticleCategory.class);
-                    product = new StationeryArticle(price, quantity, title, description, fidelityPoints, brand, model, saCategory);
+                    product = new StationeryArticle(price, quantity, title, description, seller, fidelityPoints, brand, model, saCategory);
                 }
             }
 
@@ -555,8 +527,7 @@ public class Client {
                 ((Seller) unishop.getCurrentUser()).addProductOffered(product);
                 unishop.updateCatalog();
                 System.out.println("Product " + title + " added!");
-            }
-            else {
+            } else {
                 System.out.println("Cancelled adding a new product.");
             }
         } catch (Exception e) {
@@ -585,11 +556,11 @@ public class Client {
     }
 
     // TODO
-    public static void manageProblems() {
-        String[] problemList = new String[]{"#123 - Order not received", "Main menu"};
+    public static void displayIssues() {
+        String[] issues = new String[]{"#123 - Order not received", "Main menu"};
 
-        int problemIdx = prettyMenu("Select a problem", problemList);
-        if (problemIdx == problemList.length - 1) {
+        int problemIdx = prettyMenu("Select a problem", issues);
+        if (problemIdx == issues.length - 1) {
             return;
         }
 
@@ -698,7 +669,7 @@ public class Client {
 
         String creditCardName = prettyPrompt("Credit card name");
 
-        String creditCardNumber = "";
+        String creditCardNumber;
         while (true) {
             creditCardNumber = prettyPrompt("Credit card number");
             if (creditCardNumber.length() == 16 && creditCardNumber.matches("\\d+")) {
@@ -709,7 +680,7 @@ public class Client {
         }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMyy");
-        YearMonth expirationDate = null;
+        YearMonth expirationDate;
         while (true) {
             try {
                 expirationDate = YearMonth.parse(prettyPrompt("Expiration date MMYY"), formatter);
@@ -719,7 +690,7 @@ public class Client {
             }
         }
 
-        String cvc = "";
+        String cvc;
         while (true) {
             cvc = prettyPrompt("CVC");
             if (cvc.length() == 3 && cvc.matches("\\d+")) {
@@ -729,8 +700,7 @@ public class Client {
             }
         }
 
-        // Confirm whethre or not to place order using prettyAskBool
-
+        // Confirm order
         boolean doOrder = prettyPromptBool("Do you want to place the order?");
 
         if (!doOrder) {
@@ -743,20 +713,72 @@ public class Client {
         System.out.println(prettify("Your order has been placed successfully"));
     }
 
-    // TODO complete
     private static void findBuyer() {
+        loop:
+        while (true) {
+            String[] searchBy = {"Go Back", "Name", "Phone number", "email"};
+            int search = prettyMenu("Search buyer by", searchBy);
+
+            ArrayList<Buyer> matchList = new ArrayList<>();
+            ArrayList<String> matchListString = new ArrayList<>();
+            switch (search) {
+                case 0 -> {
+                    break loop;
+                }
+                case 1 -> {
+                    String name = prettyPrompt("Name").toLowerCase();
+                    for (Buyer buyer : unishop.getBuyerList().values()) {
+                        String fullId = (buyer.getFirstName() + " " + buyer.getLastName() + " " + buyer.getUsername()).toLowerCase();
+                        if (fullId.contains(name)) {
+                            matchList.add(buyer);
+                            matchListString.add(buyer.getUsername());
+                        }
+                    }
+                }
+                case 2 -> {
+                    String phoneNumber = prettyPrompt("Phone number");
+                    for (Buyer buyer : unishop.getBuyerList().values()) {
+                        if (buyer.getPhoneNumber().contains(phoneNumber)) {
+                            matchList.add(buyer);
+                            matchListString.add(buyer.getUsername());
+                        }
+                    }
+                }
+                case 3 -> {
+                    String email = prettyPrompt("email").toLowerCase();
+                    for (Buyer buyer : unishop.getBuyerList().values()) {
+                        if (buyer.getEmail().contains(email)) {
+                            matchList.add(buyer);
+                            matchListString.add(buyer.getUsername());
+                        }
+                    }
+                }
+            }
+
+            matchListString.add("Go back");
+            while (true) {
+                int index = prettyMenu("Select buyer", matchListString);
+                if (index == matchListString.size() - 1) break;
+
+                Buyer buyer = matchList.get(index);
+                displayBuyer(buyer);
+            }
+        }
     }
 
     private static void findSeller() {
         loop:
         while (true) {
-            String[] searchBy = {"Name", "Address", "Phone number", "email", "Go Back"};
+            String[] searchBy = {"Go back", "Name", "Address", "Phone number", "email"};
             int search = prettyMenu("Search seller by", searchBy);
 
             ArrayList<Seller> matchList = new ArrayList<>();
             ArrayList<String> matchListString = new ArrayList<>();
             switch (search) {
                 case 0 -> {
+                    break loop;
+                }
+                case 1 -> {
                     String name = prettyPrompt("Name").toLowerCase();
                     for (Seller seller : unishop.getSellerList().values()) {
                         if (seller.getName().toLowerCase().contains(name)) {
@@ -765,7 +787,7 @@ public class Client {
                         }
                     }
                 }
-                case 1 -> {
+                case 2 -> {
                     String address = prettyPrompt("Address").toLowerCase();
                     for (Seller seller : unishop.getSellerList().values()) {
                         if (seller.getAddress().toLowerCase().contains(address)) {
@@ -774,7 +796,7 @@ public class Client {
                         }
                     }
                 }
-                case 2 -> {
+                case 3 -> {
                     String phoneNumber = prettyPrompt("Phone number");
                     for (Seller seller : unishop.getSellerList().values()) {
                         if (seller.getPhoneNumber().contains(phoneNumber)) {
@@ -783,7 +805,7 @@ public class Client {
                         }
                     }
                 }
-                case 3 -> {
+                case 4 -> {
                     String email = prettyPrompt("email").toLowerCase();
                     for (Seller seller : unishop.getSellerList().values()) {
                         if (seller.getEmail().contains(email)) {
@@ -792,13 +814,10 @@ public class Client {
                         }
                     }
                 }
-                case 4 -> {
-                    break loop;
-                }
             }
 
+            matchListString.add("Go back");
             while (true) {
-                matchListString.add("Go back");
                 int index = prettyMenu("Select seller", matchListString);
                 if (index == matchListString.size() - 1) break;
 
@@ -832,9 +851,112 @@ public class Client {
         }
     }
 
-    // TODO
     public static void displaySeller(Seller seller) {
-        String[] options = {"test"};
-        int index = prettyMenu("Seller " + seller.getName(), options);
+        Buyer currentBuyer = (Buyer) unishop.getCurrentUser();
+
+        loop:
+        while (true) {
+            System.out.println(prettify("Name: " + seller.getName()));
+            System.out.println(prettify("Email: " + seller.getEmail()));
+            System.out.println(prettify("Address: " + seller.getAddress()));
+            System.out.println(prettify("Phone number: " + seller.getPhoneNumber()));
+            System.out.println(prettify("Number of products offered: " + seller.getProductsOffered().size()));
+            System.out.println(prettify("Number of orders sold: " + seller.getOrdersSold().size()));
+            System.out.println(prettify("Followed by you: " + currentBuyer.doesLike(seller)));
+
+            String[] options = {"Go back", "Toggle follow", "Display seller's products"};
+            int answer = prettyMenu("Select action", options);
+            switch (answer) {
+                case 0 -> {
+                    break loop;
+                }
+                case 1 -> {
+                    currentBuyer.toggleLike(seller);
+                    System.out.println(prettify("Successfully toggled follow"));
+                }
+                case 2 -> displayProducts(seller.getProductsOffered());
+            }
+        }
+    }
+
+    public static void displayProducts(ArrayList<Product> source) {
+
+        ArrayList<String> options = ProductCategory.getOptions();
+        options.add("Main menu");
+
+        while (true) {
+            // Select category
+            int choice = prettyMenu("Categories", options);
+            if (choice == options.size() - 1) break;
+            ProductCategory selectedCategory = ProductCategory.values()[choice];
+
+            // Select subcategory
+            ArrayList<String> subOptions = selectedCategory.getSubOptions();
+            subOptions.add("Main menu");
+
+            int subChoice = prettyMenu("Sub-Categories", subOptions);
+            if (subChoice == subOptions.size() - 1) break;
+            Enum<?> selectedSubCategory = selectedCategory.getEnum().getEnumConstants()[subChoice];
+
+            // Get products that match category/subcategory
+
+            ArrayList<Product> matchedProducts = new ArrayList<>();
+            ArrayList<String> matchedProductsString = new ArrayList<>();
+            matchedProductsString.add("Back to categories");
+            matchedProductsString.add("Back to main menu");
+
+            for (Product product : source) {
+                if (product.getCategory().equals(selectedCategory) && product.getSubCategory().equals(selectedSubCategory)) {
+                    matchedProducts.add(product);
+                    matchedProductsString.add(product.getTitle());
+                }
+            }
+
+            int answer = prettyMenu("Select a product", matchedProductsString);
+
+            // Check if we go back
+            if (answer == 0) {
+                continue;
+            } else if (answer == 1) {
+                break;
+            }
+
+            // Get product
+            Product product = matchedProducts.get(answer - 2);
+            displayProduct(product);
+            displayBuyerProductActions(product);
+
+            boolean tryAgain = prettyPromptBool("Keep browsing product?");
+            if (!tryAgain) break;
+        }
+    }
+
+    public static void displayBuyer(Buyer buyer) {
+        Buyer currentBuyer = (Buyer) unishop.getCurrentUser();
+
+        loop:
+        while (true) {
+            System.out.println(prettify("Username: " + buyer.getUsername()));
+            System.out.println(prettify("Full name: ") + buyer.getFirstName() + " " + buyer.getLastName());
+            System.out.println(prettify("Followed by you: " + currentBuyer.doesLike(buyer)));
+            System.out.println(prettify("Follows you: " + buyer.doesLike(currentBuyer)));
+            System.out.println(prettify("Number of fidelity points: " + buyer.getFidelityPoints()));
+            System.out.println(prettify("Number of reviews written: " + buyer.getReviewsWritten().size()));
+            System.out.println(prettify("Number of reviews liked: " + buyer.getReviewsLiked().size()));
+            System.out.println(prettify("Number of products liked: " + buyer.getProductsLiked().size()));
+            System.out.println(prettify("Number of order bought: " + buyer.getOrders().size()));
+
+            String[] options = {"Go back", "Toggle follow"};
+            int answer = prettyMenu("Select action", options);
+            switch (answer) {
+                case 0 -> {
+                    break loop;
+                }
+                case 1 -> {
+                    currentBuyer.toggleLike(buyer);
+                    System.out.println(prettify("Successfully toggled follow"));
+                }
+            }
+        }
     }
 }
