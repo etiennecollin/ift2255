@@ -115,6 +115,9 @@ public class Seller extends User {
         int numberRecentRatings = 0;
         int sumRecentRatings = 0;
         int sumTotalRatings = 0;
+        int averageRecentRatings = 0;
+        int averageTotalRatings = 0;
+
         for (Product product : productsOffered) {
             sumTotalRatings += product.getRating().getRating();
             if (product.getCommercializationDate().isAfter(dateCutOff)) {
@@ -122,8 +125,17 @@ public class Seller extends User {
                 numberRecentRatings++;
             }
         }
-        int averageRecentRatings = sumRecentRatings / numberRecentRatings;
-        int averageTotalRatings = sumTotalRatings / this.getProductsOffered().size();
+        if(numberRecentRatings!=0){
+            averageRecentRatings = sumRecentRatings / numberRecentRatings;
+        } else {
+            averageRecentRatings = 0;
+        }
+
+        if(this.getProductsOffered().size()!=0){
+            averageTotalRatings = sumTotalRatings / this.getProductsOffered().size();
+        } else {
+            averageTotalRatings = 0;
+        }
 
         return new SellerMetrics(recentRevenue, totalRevenue, numberRecentProductsSold, numberTotalProductsSold, this.productsOffered.size(), averageRecentRatings, averageTotalRatings);
     }

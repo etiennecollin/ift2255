@@ -24,7 +24,7 @@ public class Client {
     public static final String savePath;
     public static final UniShop unishop = new UniShop();
     // Hardcoded for prototype
-    static String[] sellerMenu = {"Offer product", "Modify order status", "Manage issues", "Update account information", "Log out"};
+    static String[] sellerMenu = {"Offer product", "Modify order status", "Manage issues", "Update account information", "Display activities", "Log out"};
     static ArrayList<String> shoppingCart = new ArrayList<>();
     static ArrayList<String> likedProducts = new ArrayList<>();
     static String[] productListDataBase = {"Computer", "Manual", "Utilities"};
@@ -161,7 +161,8 @@ public class Client {
                 case 1 -> changeOrderStatus();
                 case 2 -> manageProblems();
                 case 3 -> updateSellerInfo();
-                case 4 -> {
+                case 4 -> displayActivities();
+                case 5 -> {
                     logout(unishop);
                     break loop;
                 }
@@ -278,14 +279,14 @@ public class Client {
 
     private static void searchProduct() {
         //ONLY FOR TESTS
-        /*Seller seller = new Seller("name", "email", "phone", "address", "password");
+        Seller seller = new Seller("name", "email", "phone", "address", "password");
         Product prod = new BookOrManual(10, 1, "test", "test2", 0, 123456,
                 "test", "test2", BookOrManualGenre.Comic, LocalDate.now(), 2, 2);
 
         seller.addProductOffered(prod);
         prod.setSeller(seller);
         unishop.getCatalog().add(prod);
-*/
+
 
         while(true){
 
@@ -323,7 +324,7 @@ public class Client {
     }
 
 
-    // TODO
+
     public static void displayCart() {
         while (true) {
             clearConsole();
@@ -409,12 +410,29 @@ public class Client {
         System.out.println(prettify("My activities:"));
         if (currentUser instanceof Buyer) {
             BuyerMetrics metrics = ((Buyer) currentUser).getMetrics(nMonths);
-            // TODO complete this
+            System.out.println(prettify("Recent orders: " + metrics.numberRecentOrders()));
+            System.out.println(prettify("Total orders: " + metrics.numberTotalOrders()));
+            System.out.println(prettify("Recent product bought: " + metrics.numberRecentProductsBought()));
+            System.out.println(prettify("Total product bought: " + metrics.numberTotalProductsBought()));
+            System.out.println(prettify("Followers: " + metrics.numberFollowers()));
+            System.out.println(prettify("Average recent reviews: " + metrics.averageRecentReviews()));
+            System.out.println(prettify("Average total reviews: " + metrics.averageTotalReviews()));
+            System.out.println(prettify("Recent reviews: " + metrics.averageRecentReviews()));
+            System.out.println(prettify("Total reviews: " + metrics.numberTotalReviews()));
+
         } else if (currentUser instanceof Seller) {
             SellerMetrics metrics = ((Seller) currentUser).getMetrics(nMonths);
-            // TODO complete this
+            System.out.println(prettify("Recent revenue: " + metrics.recentRevenue()));
+            System.out.println(prettify("Total revenue: " + metrics.totalRevenue()));
+            System.out.println(prettify("Recent products sold: " + metrics.numberRecentProductsSold()));
+            System.out.println(prettify("Total products sold: " + metrics.numberTotalProductsSold()));
+            System.out.println(prettify("Products offered " + metrics.numberProductsOffered()));
+            System.out.println(prettify("Recent product rating average: " + metrics.averageRecentProductRating()));
+            System.out.println(prettify("Total product rating average: " + metrics.averageTotalProductRating()));
         }
     }
+
+
 
     public static void findUser() {
         String[] options = {"Main menu", "Buyer", "Seller"};

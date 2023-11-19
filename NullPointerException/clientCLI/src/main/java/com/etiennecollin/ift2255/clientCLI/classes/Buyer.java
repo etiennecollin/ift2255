@@ -276,8 +276,18 @@ public class Buyer extends User {
             averageTotalReviews += review.getRating();
             numberTotalReviews++;
         }
-        averageRecentReviews = averageRecentReviews / numberRecentReviews;
-        averageTotalReviews = averageTotalReviews / numberTotalReviews;
+
+        if(numberRecentReviews != 0)
+            averageRecentReviews = averageRecentReviews / numberRecentReviews;
+        else  //if there's no recent reviews
+            averageRecentReviews = 0;
+
+
+        if(numberTotalReviews!=0)
+            averageTotalReviews = averageTotalReviews / numberTotalReviews;
+        else //if no reviews
+            averageTotalReviews = 0;
+
         return new BuyerMetrics(numberRecentOrders, numberTotalOrders, numberRecentProductsBought, numberTotalProductsBought, this.getFollowedBy().size(), averageRecentReviews, averageTotalReviews, numberRecentReviews, numberTotalReviews);
     }
 
