@@ -5,11 +5,14 @@
 package com.etiennecollin.ift2255.clientCLI;
 
 import com.etiennecollin.ift2255.clientCLI.classes.*;
+import com.etiennecollin.ift2255.clientCLI.classes.products.BookOrManual;
+import com.etiennecollin.ift2255.clientCLI.classes.products.BookOrManualGenre;
 import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 import com.etiennecollin.ift2255.clientCLI.classes.products.ProductCategory;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -275,11 +278,53 @@ public class Client {
         }
     }
 
-    // TODO
+
     private static void searchProduct() {
-        ArrayList<String> searchResult = new ArrayList<>();
-        String keyWord = prettyPrompt("Search");
+        //ONLY FOR TESTS
+        /*Seller seller = new Seller("name", "email", "phone", "address", "password");
+        Product prod = new BookOrManual(10, 1, "test", "test2", 0, 123456,
+                "test", "test2", BookOrManualGenre.Comic, LocalDate.now(), 2, 2);
+
+        seller.addProductOffered(prod);
+        prod.setSeller(seller);
+        unishop.getCatalog().add(prod);
+*/
+
+        while(true){
+
+            ArrayList<Product> searchResult = new ArrayList<>();
+            ArrayList<String> searchResultString = new ArrayList<>();
+
+            searchResultString.add("Main Menu");
+
+            String keyWord = prettyPrompt("Search");
+
+            for (Product p : unishop.getCatalog()) {
+                if(p.getTitle().indexOf(keyWord)!= -1) {
+                    searchResult.add(p);
+                    searchResultString.add(p.getTitle());
+                }
+            }
+
+            int answer = prettyMenu("Select a product", searchResultString);
+
+            if (answer == 0) {
+                break;
+            } else if (answer>0 && answer <searchResult.size()){
+                // Get product
+                Product product = searchResult.get(answer-1); //adjust to product array
+                displayProduct(product);
+                displayBuyerProductActions(product);
+            } else {
+                System.out.println(prettify("Invalid input"));
+            }
+
+            boolean tryAgain = prettyPromptBool("Keep browsing product?");
+            if (!tryAgain) break;
+        }
+
     }
+
 
     // TODO
     public static void displayCart() {
