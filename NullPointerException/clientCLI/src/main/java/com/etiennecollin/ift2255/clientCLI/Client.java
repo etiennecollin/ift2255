@@ -124,7 +124,7 @@ public class Client {
 
     // TODO complete
     public static void buyerMenu() {
-        String[] buyerMenu = {"Catalog", "Search a product", "My cart", "Display notifications", "Display activities", "Find user", "My orders", "Update account information", "Log out"};
+        String[] buyerMenu = {"Display catalog", "Search a product", "Display cart", "Find user", "Display orders", "Display notifications", "Display tickets", "Display activities", "Update account information", "Log out"};
 
         loop:
         while (true) {
@@ -133,12 +133,13 @@ public class Client {
                 case 0 -> displayProducts(unishop.getCatalog());
                 case 1 -> searchProduct();
                 case 2 -> displayCart();
-                case 3 -> displayNotifications();
-                case 4 -> displayActivities();
-                case 5 -> findUser();
-                case 6 -> displayOrders();
-                case 7 -> updateBuyerInfo();
-                case 8 -> {
+                case 3 -> findUser();
+                case 4 -> displayOrders();
+                case 5 -> displayNotifications();
+                case 6 -> displayTickets();
+                case 7 -> displayActivities();
+                case 8 -> updateBuyerInfo();
+                case 9 -> {
                     logout(unishop);
                     break loop;
                 }
@@ -148,18 +149,18 @@ public class Client {
 
     // TODO complete
     public static void sellerMenu() {
-        String[] sellerMenu = {"Offer product", "Modify order status", "Manage issues", "Update account information", "Display notifications", "Display activities", "Log out"};
+        String[] sellerMenu = {"Offer product", "Change order status", "Display notifications", "Display tickets", "Display activities", "Update account information", "Log out"};
 
         loop:
         while (true) {
             int answer = prettyMenu("Main menu", sellerMenu);
             switch (answer) {
-                case 0 -> addProduct();
+                case 0 -> offerProduct();
                 case 1 -> changeOrderStatus();
-                case 2 -> displayTickets();
-                case 3 -> updateSellerInfo();
-                case 4 -> displayNotifications();
-                case 5 -> displayActivities();
+                case 2 -> displayNotifications();
+                case 3 -> displayTickets();
+                case 4 -> displayActivities();
+                case 5 -> updateSellerInfo();
                 case 6 -> {
                     logout(unishop);
                     break loop;
@@ -576,7 +577,7 @@ public class Client {
         }
     }
 
-    public static void addProduct() {
+    public static void offerProduct() {
         Product product = null;
 
         try {
