@@ -96,7 +96,7 @@ public class Cart implements Serializable {
         throw new IllegalArgumentException("Product not in cart.");
     }
 
-    public void createOrder(String email, String phone, String address, String billingAddress, String creditCardName, String creditCardNumber, YearMonth creditCardExp, String creditCardSecretDigits, int fidelityPointsToUse) {
+    public void createOrder(String email, String phone, String address, String billingAddress, String creditCardName, String creditCardNumber, YearMonth creditCardExp, String creditCardSecretDigits, int fidelityPointsToUse, int purchaseCredit) {
         int paidWithFidelityPoints = fidelityPointsToUse * 2; // This is in cents
 
         // "Sort" products by seller

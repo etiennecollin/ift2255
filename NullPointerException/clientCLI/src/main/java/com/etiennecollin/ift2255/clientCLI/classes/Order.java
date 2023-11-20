@@ -112,7 +112,7 @@ public class Order implements Serializable {
         return seller;
     }
 
-    public void createTicket(String description, ArrayList<Tuple<Product, Integer>> products, TicketCause cause) {
+    public Ticket createTicket(String description, ArrayList<Tuple<Product, Integer>> products, TicketCause cause, Order exchangeOrder) {
         // Check if order can still be reported
         if (LocalDate.now().isAfter(this.getOrderDate().plusYears(1))) {
             throw new IllegalArgumentException("This order can no longer be reported");
@@ -135,6 +135,8 @@ public class Order implements Serializable {
         String content = "Order: " + this.getId() + "\nBuyer: " + this.buyer.getFirstName() + " " + this.buyer.getLastName();
         Notification notification = new Notification(title, content);
         this.seller.addNotification(notification);
+
+        return ticket;
     }
 
     public LocalDate getOrderDate() {

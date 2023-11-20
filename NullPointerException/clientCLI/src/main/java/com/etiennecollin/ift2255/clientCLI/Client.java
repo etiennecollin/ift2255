@@ -8,6 +8,7 @@ import com.etiennecollin.ift2255.clientCLI.classes.*;
 import com.etiennecollin.ift2255.clientCLI.classes.products.*;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -437,7 +438,21 @@ public class Client {
     }
 
     public static void displayBuyerOrderActions(Order order) {
-        String[] options = {"Go back", "Confirm reception of order", "Signal issue with order"};
+        ArrayList<String> options = new ArrayList<>();
+        options.add("Go back");
+        options.add("Confirm reception of order");
+        if (LocalDate.now().isBefore(order.getOrderDate().plusDays(365))) {
+            options.add("Report issue with order");
+
+            if (LocalDate.now().isBefore(order.getShipment().getExpectedDeliveryDate().plusDays(30))) {
+                options.add("Return items");
+                options.add("Exchange items");
+
+                if (order.getState() == OrderState.InProduction) {
+                    options.add("Cancel order");
+                }
+            }
+        }
 
         loop:
         while (true) {
@@ -467,12 +482,38 @@ public class Client {
                         System.out.println(prettify("Action cancelled"));
                     }
                 }
+                case 3 -> {
+                    boolean confirmation = prettyPromptBool("Do you really want to return items from this order?");
+                    if (confirmation) {
+                        createTicket(order);
+                    } else {
+                        System.out.println(prettify("Action cancelled"));
+                    }
+                }
+                case 4 -> {
+                    boolean confirmation = prettyPromptBool("Do you really want to exchange items from this order?");
+                    if (confirmation) {
+                        createTicket(order);
+                    } else {
+                        System.out.println(prettify("Action cancelled"));
+                    }
+                }
+                case 5 -> {
+                    boolean confirmation = prettyPromptBool("Do you really want to cancel this order?");
+                    if (confirmation) {
+                        // TODO cancel order
+                    } else {
+                        System.out.println(prettify("Action cancelled"));
+                    }
+                }
             }
         }
     }
 
     // TODO
     private static void createTicket(Order order) {
+
+
     }
 
     public static void updateBuyerInfo() {
@@ -918,7 +959,7 @@ public class Client {
             return;
         }
 
-        buyer.getCart().createOrder(buyer.getEmail(), buyer.getPhoneNumber(), shippingAddress, buyer.getAddress(), creditCardName, creditCardNumber, expirationDate, cvc, fidelityPointsUsed);
+        buyer.getCart().createOrder(buyer.getEmail(), buyer.getPhoneNumber(), shippingAddress, buyer.getAddress(), creditCardName, creditCardNumber, expirationDate, cvc, fidelityPointsUsed, 0);
 
         System.out.println(prettify("Your order has been placed successfully"));
     }
