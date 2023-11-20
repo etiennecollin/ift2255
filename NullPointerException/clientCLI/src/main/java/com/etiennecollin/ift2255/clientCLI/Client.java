@@ -229,7 +229,7 @@ public class Client {
                 String email = prettyPrompt("Email", Utils::validateEmail);
                 String password = prettyPrompt("Password", Utils::validateNotEmpty);
                 String phoneNumber = prettyPrompt("Phone number", Utils::validatePhoneNumber);
-                String address = prettyPrompt("Shipping address", Utils::validateISBN);
+                String address = prettyPrompt("Shipping address", Utils::validateNotEmpty);
 
                 return new Buyer(firstName, lastName, username, email, phoneNumber, address, password);
             } catch (RuntimeException e) {
@@ -578,7 +578,7 @@ public class Client {
         Product product = null;
 
         try {
-            String title = prettyPrompt("Title");
+            String title = prettyPrompt("Title", Utils::validateNotEmpty);
             ProductCategory productCategory = prettyMenu("Category", ProductCategory.class);
             String description = prettyPrompt("Description");
             int price = prettyPromptCurrency("Price");
@@ -588,24 +588,24 @@ public class Client {
 
             switch (productCategory) {
                 case BookOrManual -> {
-                    String author = prettyPrompt("Author");
-                    String editor = prettyPrompt("Publisher");
+                    String author = prettyPrompt("Author", Utils::validateNotEmpty);
+                    String editor = prettyPrompt("Publisher", Utils::validateNotEmpty);
                     LocalDate releaseDate = prettyPromptDate("Release date");
                     BookOrManualGenre genre = prettyMenu("Genre", BookOrManualGenre.class);
                     int edition = prettyPromptInt("Edition number (enter 0 if not applicable)");
                     int volume = prettyPromptInt("Volume number (enter 0 if not applicable)");
-                    String isbn = prettyPrompt("ISBN");// TODO
+                    String isbn = prettyPrompt("ISBN", Utils::validateISBN);
                     product = new BookOrManual(price, quantity, title, description, seller, fidelityPoints, isbn, author, editor, genre, releaseDate, edition, volume);
                 }
                 case IT -> {
-                    String brand = prettyPrompt("Brand name");
-                    String model = prettyPrompt("Model name");
+                    String brand = prettyPrompt("Brand name", Utils::validateNotEmpty);
+                    String model = prettyPrompt("Model name", Utils::validateNotEmpty);
                     LocalDate releaseDate = prettyPromptDate("Release date");
                     ITCategory itCategory = prettyMenu("Sub-category", ITCategory.class);
                     product = new IT(price, quantity, title, description, seller, fidelityPoints, brand, model, releaseDate, itCategory);
                 }
                 case LearningResource -> {
-                    String org = prettyPrompt("Organization");
+                    String org = prettyPrompt("Organization", Utils::validateNotEmpty);
                     LocalDate releaseDate = prettyPromptDate("Release date");
                     LearningResourceType type = prettyMenu("Sub-category", LearningResourceType.class);
                     int edition = prettyPromptInt("Edition number (enter 0 if not applicable)");
@@ -613,14 +613,14 @@ public class Client {
                     product = new LearningResource(price, quantity, title, description, seller, fidelityPoints, isbn, org, releaseDate, type, edition);
                 }
                 case OfficeEquipment -> {
-                    String brand = prettyPrompt("Brand name");
-                    String model = prettyPrompt("Model name");
+                    String brand = prettyPrompt("Brand name", Utils::validateNotEmpty);
+                    String model = prettyPrompt("Model name", Utils::validateNotEmpty);
                     OfficeEquipmentCategory oeCategory = prettyMenu("Sub-category", OfficeEquipmentCategory.class);
                     product = new OfficeEquipment(price, quantity, title, description, seller, fidelityPoints, brand, model, oeCategory);
                 }
                 case StationeryArticle -> {
-                    String brand = prettyPrompt("Brand name");
-                    String model = prettyPrompt("Model name");
+                    String brand = prettyPrompt("Brand name", Utils::validateNotEmpty);
+                    String model = prettyPrompt("Model name", Utils::validateNotEmpty);
                     StationeryArticleCategory saCategory = prettyMenu("Sub-category", StationeryArticleCategory.class);
                     product = new StationeryArticle(price, quantity, title, description, seller, fidelityPoints, brand, model, saCategory);
                 }
