@@ -225,9 +225,9 @@ public class Client {
             try {
                 String firstName = prettyPrompt("First name", Utils::validateName);
                 String lastName = prettyPrompt("Last name", Utils::validateName);
-                String username = prettyPrompt("Username");
+                String username = prettyPrompt("Username", Utils::validateNotEmpty);
                 String email = prettyPrompt("Email", Utils::validateEmail);
-                String password = prettyPrompt("Password");
+                String password = prettyPrompt("Password", Utils::validateNotEmpty);
                 String phoneNumber = prettyPrompt("Phone number", Utils::validatePhoneNumber);
                 String address = prettyPrompt("Shipping address", Utils::validateISBN);
 
@@ -249,9 +249,9 @@ public class Client {
             try {
                 String name = prettyPrompt("Name", Utils::validateName);
                 String email = prettyPrompt("Email", Utils::validateEmail);
-                String password = prettyPrompt("Password");
+                String password = prettyPrompt("Password", Utils::validateNotEmpty);
                 String phoneNumber = prettyPrompt("Phone number", Utils::validatePhoneNumber);
-                String address = prettyPrompt("Shipping address");
+                String address = prettyPrompt("Shipping address", Utils::validateNotEmpty);
 
                 return new Seller(name, email, phoneNumber, address, password);
             } catch (RuntimeException e) {
@@ -436,6 +436,7 @@ public class Client {
                     if (j >= orders.size()) break;
                     Order order = orders.get(j);
                     ordersDate.add("Order of " + order.getOrderDate());
+
                     System.out.println(prettify("--------------------"));
                     System.out.println(prettify("Order date: " + order.getOrderDate()));
                     System.out.println(prettify("State: " + order.getState()));
@@ -445,7 +446,7 @@ public class Client {
                 }
 
                 // Setup action menu
-                String[] options = {"Go back", "Confirm reception of order", "Signal issue with order", "See more"};
+                String[] options = {"Go back", "Display order", "See more"};
                 innerLoop:
                 while (true) {
                     int answer = prettyMenu("Select action", options);
@@ -455,20 +456,9 @@ public class Client {
                             break outerLoop;
                         }
                         case 1 -> {
-                            int index = prettyMenu("Confirm reception", ordersDate);
+                            int index = prettyMenu("Select order to display", ordersDate);
                             if (index == 0) break;
-                            boolean confirmation = prettyPromptBool("Do you really want to mark this order as delivered?");
-                            if (confirmation) {
-                                orders.get(i + index - 1).setDelivered();
-                                System.out.println(prettify("Order successfully marked as delivered"));
-                            } else {
-                                System.out.println(prettify("Action cancelled"));
-                            }
-                        }
-                        case 2 -> {
-                            int index = prettyMenu("Confirm reception", ordersDate);
-                            if (index == 0) break;
-                            createIssue(orders.get(i + index - 1));
+                            displayBuyerOrderActions(orders.get(i + index - 1));
                         }
                         case 3 -> {
                             // Display next orders
@@ -480,24 +470,106 @@ public class Client {
         }
     }
 
+    public static void displayOrder(Order order) {
+        System.out.println(prettify("Order date: " + order.getOrderDate()));
+        System.out.println(prettify("State: " + order.getState()));
+        System.out.println(prettify("Cost: " + order.getCost() / 100 + "." + order.getCost() % 100 + "$"));
+        System.out.println(prettify("Fidelity points earned: " + order.getNumberOfFidelityPoints()));
+        System.out.println(prettify("Number of products: " + order.getProducts().size()));
+        System.out.println(prettify("Seller: " + order.getSeller()));
+        System.out.println(prettify("Fidelity points used to pay: " + order.getPayementMethod().getFidelityPointsUsed()));
+        System.out.println(prettify("Money used to pay: " + order.getPayementMethod().getMoneyUsed()));
+        System.out.println(prettify("Shipping Address: " + order.getAddress()));
+        if (order.getState().equals(OrderState.InTransit)) {
+            System.out.println(prettify("Shipping company: " + order.getShippingInfo().getShippingCompany()));
+            System.out.println(prettify("Delivery date: " + order.getShippingInfo().getDeliveryDate()));
+            System.out.println(prettify("Tracking number: " + order.getShippingInfo().getTrackingNumber()));
+        }
+    }
+
+    public static void displayBuyerOrderActions(Order order) {
+        loop:
+        while (true) {
+            clearConsole();
+            displayOrder(order);
+
+            // Setup action menu
+            String[] options = {"Go back", "Confirm reception of order", "Signal issue with order"};
+            int answer = prettyMenu("Select action", options);
+            switch (answer) {
+                case 0 -> {
+                    break loop;
+                }
+                case 1 -> {
+                    boolean confirmation = prettyPromptBool("Do you really want to mark this order as delivered?");
+                    if (confirmation) {
+                        order.setDelivered();
+                        System.out.println(prettify("Order successfully marked as delivered"));
+                    } else {
+                        System.out.println(prettify("Action cancelled"));
+                    }
+                }
+                case 2 -> {
+                    boolean confirmation = prettyPromptBool("Do you really want to create an issue for this order?");
+                    if (confirmation) {
+                        createIssue(order);
+                    } else {
+                        System.out.println(prettify("Action cancelled"));
+                    }
+                }
+            }
+        }
+    }
+
     // TODO
     private static void createIssue(Order order) {
     }
 
-    // TODO
     public static void updateBuyerInfo() {
         String[] updateInfoMenu = new String[]{"Go back", "First name", "Last name", "Password", "Email", "Phone number", "Shipping address"};
+        Buyer buyer = (Buyer) unishop.getCurrentUser();
+
         while (true) {
             int menuIdx = prettyMenu("Select the information you'd like to change", updateInfoMenu);
 
             switch (menuIdx) {
-                case 0 -> {return;}
-                case 1 -> prettyPrompt("Set a new first name");
-                case 2 -> prettyPrompt("Set a new last name");
-                case 3 -> prettyPrompt("Set a new password");
-                case 4 -> prettyPrompt("Set a new email address");
-                case 5 -> prettyPrompt("Set a new phone number");
-                case 6 -> prettyPrompt("Set a new shipping address");
+                case 0 -> {
+                    return;
+                }
+                case 1 -> {
+                    String newVal = prettyPrompt("Set a new first name", Utils::validateName);
+                    buyer.setFirstName(newVal);
+                }
+                case 2 -> {
+                    String newVal = prettyPrompt("Set a new last name", Utils::validateName);
+                    buyer.setLastName(newVal);
+                }
+                case 3 -> {
+                    while (true) {
+                        String oldPassword = prettyPrompt("Enter old password", Utils::validateNotEmpty);
+                        if (unishop.isPasswordMatching(oldPassword)) {
+                            String newVal = prettyPrompt("Set a new password", Utils::validateNotEmpty);
+                            buyer.setPassword(newVal);
+                            break;
+                        } else {
+                            System.out.println(prettify("Old password invalid"));
+                            boolean tryAgain = prettyPromptBool("Try again?");
+                            if (!tryAgain) break;
+                        }
+                    }
+                }
+                case 4 -> {
+                    String newVal = prettyPrompt("Set a new email address", Utils::validateEmail);
+                    buyer.setEmail(newVal);
+                }
+                case 5 -> {
+                    String newVal = prettyPrompt("Set a new phone number", Utils::validatePhoneNumber);
+                    buyer.setPhoneNumber(newVal);
+                }
+                case 6 -> {
+                    String newVal = prettyPrompt("Set a new shipping address", Utils::validateNotEmpty);
+                    buyer.setAddress(newVal);
+                }
             }
         }
     }
