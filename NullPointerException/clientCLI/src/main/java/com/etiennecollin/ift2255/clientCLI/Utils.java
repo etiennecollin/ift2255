@@ -68,7 +68,7 @@ public class Utils {
                 return answer;
             }
 
-            System.out.println(result.message);
+            System.out.println(prettify(result.message));
         }
     }
 
@@ -104,9 +104,9 @@ public class Utils {
                     return num;
                 }
 
-                System.out.println(result.message);
+                System.out.println(prettify(result.message));
             } catch (NumberFormatException ignored) {
-                System.out.println("Please enter a whole number with no thousands symbol.");
+                System.out.println(prettify("Please enter a whole number with no thousands symbol."));
             }
         }
     }
