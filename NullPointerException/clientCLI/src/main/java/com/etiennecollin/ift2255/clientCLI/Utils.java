@@ -376,7 +376,9 @@ public class Utils {
             ArrayList<String> options = new ArrayList<>();
             options.add("Go back");
             options.add(actionName);
-            if (i + itemsOnPage < items.size()) { options.add("See more"); }
+            if (i + itemsOnPage < items.size()) {
+                options.add("See more");
+            }
 
             innerLoop:
             while (true) {
@@ -400,6 +402,12 @@ public class Utils {
         }
     }
 
+    protected static void clearConsole() {
+        for (int i = 0; i < 100; i++) {
+            System.out.println();
+        }
+    }
+
     protected static void quit(UniShop unishop) {
         System.out.println(prettify("Saving app state..."));
         unishop.saveUserList(Client.savePath);
@@ -410,12 +418,6 @@ public class Utils {
     protected static void logout(UniShop uniShop) {
         System.out.println(prettify("Logging-out..."));
         uniShop.setCurrentUser(null);
-    }
-
-    protected static void clearConsole() {
-        for (int i = 0; i < 100; i++) {
-            System.out.println();
-        }
     }
 
     public static ValidationResult validateName(String s) throws RuntimeException {
