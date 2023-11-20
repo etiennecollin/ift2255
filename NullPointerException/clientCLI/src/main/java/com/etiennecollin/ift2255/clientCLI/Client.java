@@ -23,11 +23,6 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 public class Client {
     public static final String savePath;
     public static final UniShop unishop = new UniShop();
-    static ArrayList<String> shoppingCart = new ArrayList<>();
-    static ArrayList<String> likedProducts = new ArrayList<>();
-    static String[] productListDataBase = {"Computer", "Manual", "Utilities"};
-    static ArrayList<String> sellersUsername = new ArrayList<>();
-    static ArrayList<ArrayList<String>> ordersPlaced = new ArrayList<>();
 
     static {
         try {
@@ -420,53 +415,89 @@ public class Client {
         }
     }
 
-    // TODO
     public static void displayOrders() {
-        System.out.println(prettify("Your orders: "));
-        for (int i = 0; i < ordersPlaced.size(); i++) {
-            System.out.println(prettify("Order " + (i + 1) + ": "));
-            for (int j = 0; j < ordersPlaced.get(i).size(); j++) {
-                System.out.println(prettify(ordersPlaced.get(i).get(j)));
-            }
-        }
+        Buyer currentBuyer = (Buyer) unishop.getCurrentUser();
+        ArrayList<Order> orders = currentBuyer.getOrders();
 
-        int answer = prettyMenu("Order menu", new String[]{"Confirm an order", "Signal an issue", "Back"});
-        switch (answer) {
-            case 0 -> {
-                if (ordersPlaced.isEmpty()) {
-                    System.out.println("No placed orders");
-                } else {
-                    int orderToConfirm = Utils.prettyMenu("What order do you want to confirm?", ordersPlaced, "Order");
-                    System.out.println("Order " + orderToConfirm + " is successfully confirmed");
+        if (orders.isEmpty()) {
+            System.out.println(prettify("No orders"));
+        } else if (orders.size() <= 3) {
+            // Print orders in batches of 3
+            outerLoop:
+            for (int i = 0; i < orders.size(); i += 3) {
+                clearConsole();
+                System.out.println(prettify("Orders " + i + " to " + (i + 3) + ":"));
+
+                ArrayList<String> ordersDate = new ArrayList<>();
+                ordersDate.add("Go back");
+
+                // Print 3 notifs
+                for (int j = i; j < i + 3; j++) {
+                    if (j >= orders.size()) break;
+                    Order order = orders.get(j);
+                    ordersDate.add("Order of " + order.getOrderDate());
+                    System.out.println(prettify("--------------------"));
+                    System.out.println(prettify("Order date: " + order.getOrderDate()));
+                    System.out.println(prettify("State: " + order.getState()));
+                    System.out.println(prettify("Cost: " + order.getCost() / 100 + "." + order.getCost() % 100 + "$"));
+                    System.out.println(prettify("Fidelity points earned: " + order.getNumberOfFidelityPoints()));
+                    System.out.println(prettify("Number of products: " + order.getProducts().size()));
                 }
-            }
-            case 1 -> {
-                if (ordersPlaced.isEmpty()) {
-                    System.out.println("No placed orders");
-                } else {
-                    int orderToSignal = Utils.prettyMenu("What order do you want to signal?", ordersPlaced, "Order");
-                    System.out.println("Order " + orderToSignal + " is successfully signaled");
+
+                // Setup action menu
+                String[] options = {"Go back", "Confirm reception of order", "Signal issue with order", "See more"};
+                innerLoop:
+                while (true) {
+                    int answer = prettyMenu("Select action", options);
+                    switch (answer) {
+                        case 0 -> {
+                            // Go back by stopping print of orders
+                            break outerLoop;
+                        }
+                        case 1 -> {
+                            int index = prettyMenu("Confirm reception", ordersDate);
+                            if (index == 0) break;
+                            boolean confirmation = prettyPromptBool("Do you really want to mark this order as delivered?");
+                            if (confirmation) {
+                                orders.get(i + index - 1).setDelivered();
+                                System.out.println(prettify("Order successfully marked as delivered"));
+                            } else {
+                                System.out.println(prettify("Action cancelled"));
+                            }
+                        }
+                        case 2 -> {
+                            int index = prettyMenu("Confirm reception", ordersDate);
+                            if (index == 0) break;
+                            createIssue(orders.get(i + index - 1));
+                        }
+                        case 3 -> {
+                            // Display next orders
+                            break innerLoop;
+                        }
+                    }
                 }
             }
         }
     }
 
     // TODO
+    private static void createIssue(Order order) {
+    }
+
+    // TODO
     public static void updateBuyerInfo() {
-        String[] updateInfoMenu = new String[]{"First name", "Last name", "Password", "Email", "Phone number", "Shipping address", "Main menu"};
+        String[] updateInfoMenu = new String[]{"Go back", "First name", "Last name", "Password", "Email", "Phone number", "Shipping address"};
         while (true) {
             int menuIdx = prettyMenu("Select the information you'd like to change", updateInfoMenu);
 
             switch (menuIdx) {
-                case 0 -> prettyPrompt("Set a new first name");
-                case 1 -> prettyPrompt("Set a new last name");
-                case 2 -> prettyPrompt("Set a new password");
-                case 3 -> prettyPrompt("Set a new email address");
-                case 4 -> prettyPrompt("Set a new phone number");
-                case 5 -> prettyPrompt("Set a new shipping address");
-                case 6 -> {
-                    return;
-                }
+                case 0 -> {return;}
+                case 1 -> prettyPrompt("Set a new first name");
+                case 2 -> prettyPrompt("Set a new last name");
+                case 3 -> prettyPrompt("Set a new password");
+                case 4 -> prettyPrompt("Set a new email address");
+                case 5 -> prettyPrompt("Set a new phone number");
+                case 6 -> prettyPrompt("Set a new shipping address");
             }
         }
     }
