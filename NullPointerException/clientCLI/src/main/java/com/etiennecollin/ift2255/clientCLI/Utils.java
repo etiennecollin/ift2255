@@ -383,7 +383,7 @@ public class Utils {
                 int answer = prettyMenu("Select action", options);
                 switch (answer) {
                     case 0 -> {
-                        // Go back by stopping print of orders
+                        // Go back
                         break outerLoop;
                     }
                     case 1 -> {
@@ -392,7 +392,7 @@ public class Utils {
                         action.accept(items.get(i + index - 1));
                     }
                     case 2 -> {
-                        // Display next orders
+                        // See more
                         break innerLoop;
                     }
                 }

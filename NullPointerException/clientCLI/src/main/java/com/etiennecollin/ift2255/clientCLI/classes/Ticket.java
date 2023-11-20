@@ -125,14 +125,14 @@ public class Ticket implements Serializable {
         }
     }
 
-    public void createReturnShipment(String trackingNumber) {
+    public void createReturnShipment(String trackingNumber, LocalDate deliveryDate, String shippingCompany) {
         this.state = TicketState.ReturnInTransit;
-        this.returnShipment = new Shipment(trackingNumber);
+        this.returnShipment = new Shipment(trackingNumber, deliveryDate, shippingCompany);
     }
 
-    public void createReplacementShipment(String trackingNumber) {
+    public void createReplacementShipment(String trackingNumber, LocalDate deliveryDate, String shippingCompany) {
         this.state = TicketState.ReplacementInTransit;
-        this.replacementShipment = new Shipment(trackingNumber);
+        this.replacementShipment = new Shipment(trackingNumber, deliveryDate, shippingCompany);
     }
 
     public ArrayList<Tuple<Product, Integer>> getProducts() {

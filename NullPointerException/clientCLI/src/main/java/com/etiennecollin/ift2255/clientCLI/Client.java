@@ -479,14 +479,15 @@ public class Client {
         System.out.println(prettify("Cost: " + order.getCost() / 100 + "." + order.getCost() % 100 + "$"));
         System.out.println(prettify("Fidelity points earned: " + order.getNumberOfFidelityPoints()));
         System.out.println(prettify("Number of products: " + order.getProducts().size()));
-        System.out.println(prettify("Seller: " + order.getSeller()));
+        System.out.println(prettify("Buyer: " + order.getBuyer().getUsername()));
+        System.out.println(prettify("Seller: " + order.getSeller().getName()));
         System.out.println(prettify("Fidelity points used to pay: " + order.getPayementMethod().getFidelityPointsUsed()));
         System.out.println(prettify("Money used to pay: " + order.getPayementMethod().getMoneyUsed()));
         System.out.println(prettify("Shipping Address: " + order.getAddress()));
         if (order.getState().equals(OrderState.InTransit)) {
-            System.out.println(prettify("Shipping company: " + order.getShippingInfo().getShippingCompany()));
-            System.out.println(prettify("Delivery date: " + order.getShippingInfo().getDeliveryDate()));
-            System.out.println(prettify("Tracking number: " + order.getShippingInfo().getTrackingNumber()));
+            System.out.println(prettify("Shipping company: " + order.getShipment().getShippingCompany()));
+            System.out.println(prettify("Delivery date: " + order.getShipment().getExpectedDeliveryDate()));
+            System.out.println(prettify("Tracking number: " + order.getShipment().getTrackingNumber()));
         }
     }
 
@@ -644,38 +645,32 @@ public class Client {
 
     public static void displaySellerOrders() {
         Seller seller = (Seller) unishop.getCurrentUser();
-        List<Order> orders = seller.getOrdersSold().stream().filter(order -> order.getState() == OrderState.InProduction).toList();
+        List<Order> orders = seller.getOrdersSold().stream().filter(order -> order.getState().equals(OrderState.InProduction)).toList();
 
         if (orders.isEmpty()) {
             System.out.println(prettify("No orders"));
             return;
         }
-        prettyPaginationMenu(orders, 2, "Select order to ship",
-                (order) -> {
-                    System.out.println(prettify("--------------------"));
-                    System.out.println(prettify("Name: " + order.getBuyer().getFirstName() + " " + order.getBuyer().getLastName()));
-                    System.out.println(prettify("State: " + order.getState()));
-                    System.out.println(prettify("Order date: " + order.getOrderDate()));
-                    System.out.println(prettify("Address: " + order.getAddress()));
-                    System.out.println(prettify("Products: "));
-                    for (var productTuple : order.getProducts()) {
-                        System.out.println(prettify(productTuple.first.getTitle() + " x" + productTuple.second));
-                    }
-                },
-                (order) -> "Order of " + order.getBuyer().getUsername() + " - " + order.getOrderDate(),
-                Client::displayOrderShipmentMenu
-        );
+        prettyPaginationMenu(orders, 2, "Select order to ship", (order) -> {
+            System.out.println(prettify("--------------------"));
+            System.out.println(prettify("Buyer username: " + order.getBuyer().getUsername()));
+            System.out.println(prettify("State: " + order.getState()));
+            System.out.println(prettify("Order date: " + order.getOrderDate()));
+            System.out.println(prettify("Address: " + order.getAddress()));
+            System.out.println(prettify("Number of products: " + order.getProducts().size()));
+        }, (order) -> "Order of " + order.getBuyer().getUsername() + " - " + order.getOrderDate(), Client::displayOrderShipmentMenu);
     }
 
     public static void displayOrderShipmentMenu(Order order) {
+        displayOrder(order);
+
         String shippingCompany = prettyPrompt("Shipping company", Utils::validateNotEmpty);
-        int trackingId = prettyPromptInt("Tracking ID");
+        String trackingNumber = prettyPrompt("Tracking number", Utils::validateNotEmpty);
 
         if (prettyPromptBool("Order shipped?")) {
-            order.setInTransit(shippingCompany, trackingId, LocalDate.now());
+            order.setInTransit(shippingCompany, trackingNumber, LocalDate.now());
             System.out.println("Order status updated!");
-        }
-        else {
+        } else {
             System.out.println("Order status change cancelled.");
         }
     }
@@ -795,8 +790,10 @@ public class Client {
                     ticket.setReplacementProductDescription(replacementProductDescription);
                 }
                 case 4 -> {
+                    String shippingCompany = prettyPrompt("Shipping company", Utils::validateNotEmpty);
                     String trackingNumber = prettyPrompt("Tracking number of replacement shipment", Utils::validateNotEmpty);
-                    ticket.createReplacementShipment(trackingNumber);
+                    LocalDate expectedDeliveryDate = prettyPromptDate("Expected delivery date");
+                    ticket.createReplacementShipment(trackingNumber, expectedDeliveryDate, shippingCompany);
                 }
             }
         }
@@ -819,7 +816,9 @@ public class Client {
                 }
                 case 1 -> {
                     String trackingNumber = prettyPrompt("Tracking number of return shipment", Utils::validateNotEmpty);
-                    ticket.createReturnShipment(trackingNumber);
+                    LocalDate deliveryDate = prettyPromptDate("Expected delivery date");
+                    String shippingCompany = prettyPrompt("Shipping company", Utils::validateNotEmpty);
+                    ticket.createReturnShipment(trackingNumber, deliveryDate, shippingCompany);
                 }
                 case 2 -> {
                     boolean confirmation = prettyPromptBool("Do you really want to confirm the reception of the replacement shipment");

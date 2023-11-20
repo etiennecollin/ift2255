@@ -32,7 +32,7 @@ public class Order implements Serializable {
     private YearMonth creditCardExp;
     private String creditCardSecretDigits;
     private OrderState state;
-    private ShippingInfo shippingInfo;
+    private Shipment shipment;
     private PayementMethod payementMethod;
 
     public Order(int cost, int numberOfFidelityPoints, PayementMethod payementMethod, ArrayList<Tuple<Product, Integer>> products, String email, String phone, String address, String billingAddress, String creditCardName, String creditCardNumber, YearMonth creditCardExp, String creditCardSecretDigits, Buyer buyer, Seller seller) {
@@ -104,8 +104,8 @@ public class Order implements Serializable {
         this.numberOfProducts = numberOfProducts;
     }
 
-    public ShippingInfo getShippingInfo() {
-        return shippingInfo;
+    public Shipment getShipment() {
+        return shipment;
     }
 
     public Seller getSeller() {
@@ -167,20 +167,12 @@ public class Order implements Serializable {
         this.seller.addNotification(notification);
     }
 
-    public ShippingInfo getShipping() {
-        return shippingInfo;
-    }
-
-    public void setShipping(ShippingInfo shippingInfo) {
-        this.shippingInfo = shippingInfo;
-    }
-
     public OrderState getState() {
         return state;
     }
 
-    public void setInTransit(String shippingCompany, int trackingNumber, LocalDate expectedDeliveryDate) {
-        this.shippingInfo = new ShippingInfo(shippingCompany, trackingNumber, expectedDeliveryDate);
+    public void setInTransit(String shippingCompany, String trackingNumber, LocalDate expectedDeliveryDate) {
+        this.shipment = new Shipment(trackingNumber, expectedDeliveryDate, shippingCompany);
         String title = "Your order is now shipped";
         String description = "Order: " + this.getId() + "\nShipped by: " + shippingCompany + "\nTracking number: " + trackingNumber;
         getBuyer().addNotification(new Notification(title, description));
