@@ -18,8 +18,8 @@ public class Buyer extends User {
     private final ArrayList<Review> reviewsWritten;
     private final ArrayList<Buyer> followedBy;
     private final ArrayList<Order> orders;
-    private Cart cart;
-    private Cart returnCart;
+    private final Cart returnCart;
+    private final Cart cart;
     private String lastName;
     private String firstName;
     private String username; // Unique
@@ -61,14 +61,7 @@ public class Buyer extends User {
     }
 
     public Cart getReturnCart() {
-        return cart;
-    }
-
-    public void setReturnCart(Cart cart) {
-        if (!cart.getBuyer().equals(this)) {
-            throw new IllegalArgumentException("This cart does not belong to this buyer");
-        }
-        this.cart = cart;
+        return returnCart;
     }
 
     @Override
@@ -89,13 +82,6 @@ public class Buyer extends User {
 
     public Cart getCart() {
         return cart;
-    }
-
-    public void setCart(Cart cart) {
-        if (!cart.getBuyer().equals(this)) {
-            throw new IllegalArgumentException("This cart does not belong to this buyer");
-        }
-        this.cart = cart;
     }
 
     public ArrayList<Order> getOrders() {

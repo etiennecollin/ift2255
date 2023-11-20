@@ -24,7 +24,7 @@ public class Client {
     public static final String savePath;
     public static final UniShop unishop = new UniShop();
     public static boolean inReturnProcess = false;
-    
+
     static {
         try {
             // Inspired by https://stackoverflow.com/a/3627527
