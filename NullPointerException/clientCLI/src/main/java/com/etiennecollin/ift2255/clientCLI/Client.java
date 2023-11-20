@@ -14,6 +14,7 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
@@ -156,7 +157,7 @@ public class Client {
             int answer = prettyMenu("Main menu", sellerMenu);
             switch (answer) {
                 case 0 -> offerProduct();
-                case 1 -> changeOrderStatus();
+                case 1 -> displaySellerOrders();
                 case 2 -> displayNotifications();
                 case 3 -> displayTickets();
                 case 4 -> displayActivities();
@@ -641,24 +642,42 @@ public class Client {
         }
     }
 
-    // TODO
-    public static void changeOrderStatus() {
-        String[] orderMenu = new String[]{"#123 - Pending Seller", "Main menu"};
-        int orderIdx = prettyMenu("Select the order to update", orderMenu);
-        if (orderIdx == orderMenu.length - 1) { // last index returns to main menu
+    public static void displaySellerOrders() {
+        Seller seller = (Seller) unishop.getCurrentUser();
+        List<Order> orders = seller.getOrdersSold().stream().filter(order -> order.getState() == OrderState.InProduction).toList();
+
+        if (orders.isEmpty()) {
+            System.out.println(prettify("No orders"));
             return;
         }
+        prettyPaginationMenu(orders, 2, "Select order to ship",
+                (order) -> {
+                    System.out.println(prettify("--------------------"));
+                    System.out.println(prettify("Name: " + order.getBuyer().getFirstName() + " " + order.getBuyer().getLastName()));
+                    System.out.println(prettify("State: " + order.getState()));
+                    System.out.println(prettify("Order date: " + order.getOrderDate()));
+                    System.out.println(prettify("Address: " + order.getAddress()));
+                    System.out.println(prettify("Products: "));
+                    for (var productTuple : order.getProducts()) {
+                        System.out.println(prettify(productTuple.first.getTitle() + " x" + productTuple.second));
+                    }
+                },
+                (order) -> "Order of " + order.getBuyer().getUsername() + " - " + order.getOrderDate(),
+                Client::displayOrderShipmentMenu
+        );
+    }
 
-        String[] orderStatusMenu = new String[]{"In transit", "Main menu"};
-        int statusIdx = prettyMenu("Select new status", orderStatusMenu);
-        if (statusIdx == orderStatusMenu.length - 1) { // last index returns to main menu
-            return;
-        }
-
+    public static void displayOrderShipmentMenu(Order order) {
         String shippingCompany = prettyPrompt("Shipping company", Utils::validateNotEmpty);
-        String trackingId = prettyPrompt("Tracking ID", Utils::validateNotEmpty);
+        int trackingId = prettyPromptInt("Tracking ID");
 
-        System.out.println("Order status updated!");
+        if (prettyPromptBool("Order shipped?")) {
+            order.setInTransit(shippingCompany, trackingId, LocalDate.now());
+            System.out.println("Order status updated!");
+        }
+        else {
+            System.out.println("Order status change cancelled.");
+        }
     }
 
     public static void displayTickets() {

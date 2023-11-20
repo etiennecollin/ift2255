@@ -11,7 +11,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -350,6 +352,51 @@ public class Utils {
             }
 
             return answerParsed;
+        }
+    }
+
+    public static <T> void prettyPaginationMenu(List<T> items, int itemsPerPage, String actionName, Consumer<T> itemDisplayer, Function<T, String> itemMenuName, Consumer<T> action) {
+        outerLoop:
+        for (int i = 0; i < items.size(); i += itemsPerPage) {
+            int itemsOnPage = Math.min(itemsPerPage, items.size() - i);
+            clearConsole();
+
+            System.out.println(prettify("Page from " + (i + 1) + " to " + (i + itemsOnPage) + ":"));
+
+            ArrayList<String> itemMenuNames = new ArrayList<>();
+            itemMenuNames.add("Go back");
+
+            for (int j = i; j < i + itemsOnPage; j++) {
+                T item = items.get(j);
+                itemDisplayer.accept(item);
+                itemMenuNames.add(itemMenuName.apply(item));
+            }
+
+            // Setup action menu
+            ArrayList<String> options = new ArrayList<>();
+            options.add("Go back");
+            options.add(actionName);
+            if (i + itemsOnPage < items.size()) { options.add("See more"); }
+
+            innerLoop:
+            while (true) {
+                int answer = prettyMenu("Select action", options);
+                switch (answer) {
+                    case 0 -> {
+                        // Go back by stopping print of orders
+                        break outerLoop;
+                    }
+                    case 1 -> {
+                        int index = prettyMenu("Select", itemMenuNames);
+                        if (index == 0) break;
+                        action.accept(items.get(i + index - 1));
+                    }
+                    case 2 -> {
+                        // Display next orders
+                        break innerLoop;
+                    }
+                }
+            }
         }
     }
 
