@@ -742,10 +742,9 @@ public class Client {
         }
     }
 
-    // TODO
+    // TODO verify if complete
     private static void displaySellerTicketActions(Ticket ticket) {
-        // Create replacementShipment, confirm reception of returnShipment, set suggested solution, set replacement product description
-        String[] options = {"Go back", "..."};
+        String[] options = {"Go back", "Set suggested solution", "Confirm reception of return shipment", "Set replacement product description", "Create replacement shipment"};
 
         loop:
         while (true) {
@@ -759,12 +758,25 @@ public class Client {
                     break loop;
                 }
                 case 1 -> {
-                    boolean confirmation = prettyPromptBool("Do you really want to...");
+                    String suggestedSolution = prettyPrompt("Suggested solution", Utils::validateNotEmpty);
+                    ticket.setSuggestedSolution(suggestedSolution);
+                }
+                case 2 -> {
+                    boolean confirmation = prettyPromptBool("Do you really want to confirm the reception of the return shipment");
                     if (confirmation) {
-                        // Do somehting
+                        ticket.getReturnShipment().confirmDelivery();
+                        ticket.updateState();
                     } else {
                         System.out.println(prettify("Action cancelled"));
                     }
+                }
+                case 3 -> {
+                    String replacementProductDescription = prettyPrompt("Replacement product description", Utils::validateNotEmpty);
+                    ticket.setReplacementProductDescription(replacementProductDescription);
+                }
+                case 4 -> {
+                    String trackingNumber = prettyPrompt("Tracking number of replacement shipment", Utils::validateNotEmpty);
+                    ticket.createReplacementShipment(trackingNumber);
                 }
             }
         }
