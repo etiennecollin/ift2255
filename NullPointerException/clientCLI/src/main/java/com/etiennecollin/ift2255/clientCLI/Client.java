@@ -157,7 +157,7 @@ public class Client {
             int answer = prettyMenu("Main menu", sellerMenu);
             switch (answer) {
                 case 0 -> offerProduct();
-                case 1 -> displaySellerOrders();
+                case 1 -> displayPendingSellerOrders();
                 case 2 -> displayNotifications();
                 case 3 -> displayTickets();
                 case 4 -> displayActivities();
@@ -643,7 +643,7 @@ public class Client {
         }
     }
 
-    public static void displaySellerOrders() {
+    public static void displayPendingSellerOrders() {
         Seller seller = (Seller) unishop.getCurrentUser();
         List<Order> orders = seller.getOrdersSold().stream().filter(order -> order.getState().equals(OrderState.InProduction)).toList();
 
@@ -662,6 +662,10 @@ public class Client {
     }
 
     public static void displayOrderShipmentMenu(Order order) {
+        if (order.getState() != OrderState.InProduction) {
+            System.out.println(prettify("Order has already been shipped."));
+            return;
+        }
         displayOrder(order);
 
         String shippingCompany = prettyPrompt("Shipping company", Utils::validateNotEmpty);
