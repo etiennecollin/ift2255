@@ -18,6 +18,7 @@ public class Order implements Serializable {
     private final LocalDate orderDate;
     private final Buyer buyer;
     private final Seller seller;
+    private final ArrayList<Ticket> tickets;
     private int cost;
     private int numberOfProducts;
     private int numberOfFidelityPoints;
@@ -55,8 +56,36 @@ public class Order implements Serializable {
         }
 
         this.state = OrderState.InProduction;
+        this.tickets = new ArrayList<>();
         this.orderDate = LocalDate.now();
         this.id = UUID.randomUUID();
+    }
+
+    public void addTicket(Ticket ticket) throws IllegalArgumentException {
+        if (tickets.contains(ticket)) {
+            throw new IllegalArgumentException("This ticket is already assigned to this order");
+        }
+        if (!ticket.getOrder().equals(this)) {
+            throw new IllegalArgumentException("This is not linked to this order");
+        }
+
+        tickets.add(ticket);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(getId(), order.getId());
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public ArrayList<Ticket> getTickets() {
+        return tickets;
     }
 
     public PayementMethod getPayementMethod() {
@@ -83,7 +112,7 @@ public class Order implements Serializable {
         return seller;
     }
 
-    public void createTicket(String description, ArrayList<Tuple<Product, Integer>> products) {
+    public void createTicket(String description, ArrayList<Tuple<Product, Integer>> products, TicketCause cause) {
         // Check if order can still be reported
         if (LocalDate.now().isAfter(this.getOrderDate().plusYears(1))) {
             throw new IllegalArgumentException("This order can no longer be reported");
@@ -97,7 +126,7 @@ public class Order implements Serializable {
         }
 
         // Create ticket per seller and add it to buyer and seller
-        Ticket ticket = new Ticket(description, this, products, this.buyer, seller);
+        Ticket ticket = new Ticket(description, this, products, cause, this.buyer, seller);
         this.buyer.addTicket(ticket);
         seller.addTicket(ticket);
 
@@ -112,10 +141,6 @@ public class Order implements Serializable {
         return orderDate;
     }
 
-    public UUID getId() {
-        return id;
-    }
-
     public ArrayList<Tuple<Product, Integer>> getProducts() {
         return products;
     }
@@ -124,14 +149,14 @@ public class Order implements Serializable {
         this.products = products;
     }
 
-    public void createTicket(String description) {
+    public void createTicket(String description, TicketCause cause) {
         // Check if order can still be reported
         if (LocalDate.now().isAfter(this.getOrderDate().plusYears(1))) {
             throw new IllegalArgumentException("This order can no longer be reported");
         }
 
         // Create ticket per seller and add it to buyer and seller
-        Ticket ticket = new Ticket(description, this, this.products, this.buyer, seller);
+        Ticket ticket = new Ticket(description, this, this.products, cause, this.buyer, seller);
         this.buyer.addTicket(ticket);
         seller.addTicket(ticket);
 
@@ -238,14 +263,6 @@ public class Order implements Serializable {
 
     public void setCreditCardSecretDigits(String creditCardSecretDigits) {
         this.creditCardSecretDigits = creditCardSecretDigits;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return Objects.equals(getId(), order.getId());
     }
 
     public String getEmail() {

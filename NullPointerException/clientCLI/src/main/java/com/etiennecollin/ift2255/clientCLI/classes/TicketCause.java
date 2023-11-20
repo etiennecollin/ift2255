@@ -6,17 +6,17 @@ package com.etiennecollin.ift2255.clientCLI.classes;
 
 import java.util.ArrayList;
 
-public enum TicketState {
-    OpenManual("Open"), OpenAuto("Open"), ReturnInTransit("Return in transit"), ReturnReceived("Return received"), ReplacementInTransit("Replacement in transit"), Closed("Closed"), Cancelled("Cancelled");
+public enum TicketCause {
+    MalfunctioningProduct("Malfunctioning product"), Other("Other");
     private final String name;
 
-    TicketState(String name) {
+    TicketCause(String name) {
         this.name = name;
     }
 
     public static ArrayList<String> getOptions() {
         ArrayList<String> options = new ArrayList<>();
-        for (TicketState option : TicketState.values()) {
+        for (TicketCause option : TicketCause.values()) {
             options.add(option.toString());
         }
         return options;

@@ -19,6 +19,7 @@ public class Buyer extends User {
     private final ArrayList<Buyer> followedBy;
     private final ArrayList<Order> orders;
     private Cart cart;
+    private Cart returnCart;
     private String lastName;
     private String firstName;
     private String username; // Unique
@@ -30,6 +31,7 @@ public class Buyer extends User {
         this.setLastName(lastName);
         this.setUsername(username);
         this.cart = new Cart(this);
+        this.returnCart = new Cart(this);
         this.productsLiked = new ArrayList<>();
         this.reviewsLiked = new ArrayList<>();
         this.sellersLiked = new ArrayList<>();
@@ -58,11 +60,11 @@ public class Buyer extends User {
         review.delete();
     }
 
-    public Cart getCart() {
+    public Cart getReturnCart() {
         return cart;
     }
 
-    public void setCart(Cart cart) {
+    public void setReturnCart(Cart cart) {
         if (!cart.getBuyer().equals(this)) {
             throw new IllegalArgumentException("This cart does not belong to this buyer");
         }
@@ -83,6 +85,17 @@ public class Buyer extends User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        if (!cart.getBuyer().equals(this)) {
+            throw new IllegalArgumentException("This cart does not belong to this buyer");
+        }
+        this.cart = cart;
     }
 
     public ArrayList<Order> getOrders() {

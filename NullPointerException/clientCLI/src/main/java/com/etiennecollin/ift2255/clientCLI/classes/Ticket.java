@@ -9,43 +9,80 @@ import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.UUID;
 
 public class Ticket implements Serializable {
     private static final int MAX_RETURN_DELAY_DAYS = 30;
     private final Buyer buyer;
     private final Seller seller;
-    private LocalDate returnTrackingNumberEmissionDate;
+    private final UUID id;
+    private final LocalDate creationDate;
+    private Shipment returnShipment;
+    private Shipment replacementShipment;
     private ArrayList<Tuple<Product, Integer>> products;
     private Order order;
     private String problemDescription;
     private String suggestedSolution;
     private String replacementProductDescription;
-    private boolean returnDeliveryConfirmed;
-    private boolean replacementDeliveryConfirmed;
-    private int returnTrackingNumber;
     private TicketState state;
+    private TicketCause cause;
 
-    public Ticket(String problemDescription, Order order, ArrayList<Tuple<Product, Integer>> products, Buyer buyer, Seller seller) {
+    public Ticket(String problemDescription, Order order, ArrayList<Tuple<Product, Integer>> products, TicketCause cause, Buyer buyer, Seller seller) {
         this.products = products;
         this.order = order;
+        this.cause = cause;
         this.buyer = buyer;
         this.seller = seller;
         this.problemDescription = problemDescription;
         this.suggestedSolution = "";
         this.replacementProductDescription = "";
-        this.returnDeliveryConfirmed = false;
-        this.replacementDeliveryConfirmed = false;
-        openTicket();
+        this.returnShipment = null;
+        this.replacementShipment = null;
+
+        if (LocalDate.now().isAfter(order.getOrderDate().plusDays(30))) {
+            this.state = TicketState.OpenAuto;
+        } else {
+            this.state = TicketState.OpenManual;
+        }
+
         buyer.addTicket(this);
         seller.addTicket(this);
+
+        this.id = UUID.randomUUID();
+        this.creationDate = LocalDate.now();
     }
 
-    public void openTicket() {
-        this.state = TicketState.Open;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ticket ticket = (Ticket) o;
+        return Objects.equals(getId(), ticket.getId());
     }
 
-    public LocalDate getReturnTrackingNumberEmissionDate() {
-        return returnTrackingNumberEmissionDate;
+    public UUID getId() {
+        return id;
+    }
+
+    public TicketCause getCause() {
+        return cause;
+    }
+
+    public void setCause(TicketCause cause) {
+        this.cause = cause;
+    }
+
+    public Shipment getReturnShipment() {
+        return returnShipment;
+    }
+
+    public Shipment getReplacementShipment() {
+        return replacementShipment;
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
     }
 
     public Order getOrder() {
@@ -56,33 +93,46 @@ public class Ticket implements Serializable {
         this.order = order;
     }
 
-    public void confirmReturnReceival() {
-        this.returnDeliveryConfirmed = true;
-    }
-
-    public int getReturnTrackingNumber() {
-        return returnTrackingNumber;
-    }
-
     public TicketState getState() {
-        if (!LocalDate.now().isAfter(returnTrackingNumberEmissionDate.plusDays(MAX_RETURN_DELAY_DAYS)) && !returnDeliveryConfirmed) {
-            cancelTicket();
-        }
-
+        updateState();
         return state;
     }
 
-    public void cancelTicket() {
-        this.state = TicketState.Cancelled;
+    public void setState(TicketState state) {
+        this.state = state;
     }
 
-    public void emitReturnTrackingNumber(int trackingNumber) {
-        this.returnTrackingNumberEmissionDate = LocalDate.now();
-        this.returnTrackingNumber = trackingNumber;
+    public void updateState() {
+        if (state.equals(TicketState.Cancelled) || state.equals(TicketState.Closed)) {
+            return;
+        }
+
+        boolean afterDueDate = LocalDate.now().isAfter(returnShipment.getCreationDate().plusDays(MAX_RETURN_DELAY_DAYS));
+        if (!state.equals(TicketState.ReturnInTransit) && !state.equals(TicketState.ReturnReceived) && afterDueDate) {
+            this.state = TicketState.Cancelled;
+        } else if (state.equals(TicketState.ReturnInTransit) && returnShipment.isDeliveryConfirmed()) {
+            this.state = TicketState.ReturnReceived;
+            // Add products back to inventory if products were not malfunctioning
+            if (!cause.equals(TicketCause.MalfunctioningProduct)) {
+                for (Tuple<Product, Integer> tuple : products) {
+                    Product product = tuple.first;
+                    int quantity = tuple.second;
+                    product.setQuantity(product.getQuantity() + quantity);
+                }
+            }
+        } else if (state.equals(TicketState.ReturnReceived) && replacementShipment.isDeliveryConfirmed()) {
+            this.state = TicketState.Closed;
+        }
     }
 
-    public void closeTicket() {
-        this.state = TicketState.Closed;
+    public void createReturnShipment(String trackingNumber) {
+        this.state = TicketState.ReturnInTransit;
+        this.returnShipment = new Shipment(trackingNumber);
+    }
+
+    public void createReplacementShipment(String trackingNumber) {
+        this.state = TicketState.ReplacementInTransit;
+        this.replacementShipment = new Shipment(trackingNumber);
     }
 
     public ArrayList<Tuple<Product, Integer>> getProducts() {
@@ -107,22 +157,6 @@ public class Ticket implements Serializable {
 
     public void setReplacementProductDescription(String replacementProductDescription) {
         this.replacementProductDescription = replacementProductDescription;
-    }
-
-    public boolean isReturnDeliveryConfirmed() {
-        return returnDeliveryConfirmed;
-    }
-
-    public void setReturnDeliveryConfirmed(boolean returnDeliveryConfirmed) {
-        this.returnDeliveryConfirmed = returnDeliveryConfirmed;
-    }
-
-    public boolean isReplacementDeliveryConfirmed() {
-        return replacementDeliveryConfirmed;
-    }
-
-    public void setReplacementDeliveryConfirmed(boolean replacementDeliveryConfirmed) {
-        this.replacementDeliveryConfirmed = replacementDeliveryConfirmed;
     }
 
     public String getProblemDescription() {

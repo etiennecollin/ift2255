@@ -23,7 +23,8 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 public class Client {
     public static final String savePath;
     public static final UniShop unishop = new UniShop();
-
+    public static boolean inReturnProcess = false;
+    
     static {
         try {
             // Inspired by https://stackoverflow.com/a/3627527
@@ -155,7 +156,7 @@ public class Client {
             switch (answer) {
                 case 0 -> addProduct();
                 case 1 -> changeOrderStatus();
-                case 2 -> displayIssues();
+                case 2 -> displayTickets();
                 case 3 -> updateSellerInfo();
                 case 4 -> displayNotifications();
                 case 5 -> displayActivities();
@@ -488,13 +489,14 @@ public class Client {
     }
 
     public static void displayBuyerOrderActions(Order order) {
+        String[] options = {"Go back", "Confirm reception of order", "Signal issue with order"};
+
         loop:
         while (true) {
             clearConsole();
             displayOrder(order);
 
             // Setup action menu
-            String[] options = {"Go back", "Confirm reception of order", "Signal issue with order"};
             int answer = prettyMenu("Select action", options);
             switch (answer) {
                 case 0 -> {
@@ -512,7 +514,7 @@ public class Client {
                 case 2 -> {
                     boolean confirmation = prettyPromptBool("Do you really want to create an issue for this order?");
                     if (confirmation) {
-                        createIssue(order);
+                        createTicket(order);
                     } else {
                         System.out.println(prettify("Action cancelled"));
                     }
@@ -522,7 +524,7 @@ public class Client {
     }
 
     // TODO
-    private static void createIssue(Order order) {
+    private static void createTicket(Order order) {
     }
 
     public static void updateBuyerInfo() {
@@ -658,24 +660,142 @@ public class Client {
         System.out.println("Order status updated!");
     }
 
-    // TODO
-    public static void displayIssues() {
-        String[] issues = new String[]{"#123 - Order not received", "Main menu"};
+    public static void displayTickets() {
+        User currentUser = unishop.getCurrentUser();
+        ArrayList<Ticket> tickets = currentUser.getTickets();
 
-        int problemIdx = prettyMenu("Select a problem", issues);
-        if (problemIdx == issues.length - 1) {
-            return;
+        if (tickets.isEmpty()) {
+            System.out.println(prettify("No tickets"));
+        } else if (tickets.size() <= 3) {
+            // Print tickets in batches of 3
+            outerLoop:
+            for (int i = 0; i < tickets.size(); i += 3) {
+                clearConsole();
+                System.out.println(prettify("Tickets " + i + " to " + (i + 3) + ":"));
+
+                ArrayList<String> ticketsString = new ArrayList<>();
+                ticketsString.add("Go back");
+
+                // Print 3 tickets
+                for (int j = i; j < i + 3; j++) {
+                    if (j >= tickets.size()) break;
+                    Ticket ticket = tickets.get(j);
+                    ticketsString.add("Ticket of " + ticket.getCreationDate());
+
+                    System.out.println(prettify("--------------------"));
+                    System.out.println(prettify("Creation date: " + ticket.getCreationDate()));
+                    System.out.println(prettify("State: " + ticket.getState()));
+                    System.out.println(prettify("For order placed on: " + ticket.getOrder().getOrderDate()));
+                    System.out.println(prettify("Buyer: " + ticket.getBuyer().getUsername()));
+                    System.out.println(prettify("Seller: " + ticket.getSeller().getName()));
+                    System.out.println(prettify("Number of products in ticket: " + ticket.getProducts().size()));
+                }
+
+                // Setup action menu
+                String[] options = {"Go back", "Display ticket", "See more"};
+                innerLoop:
+                while (true) {
+                    int answer = prettyMenu("Select action", options);
+                    switch (answer) {
+                        case 0 -> {
+                            // Go back by stopping print of tickets
+                            break outerLoop;
+                        }
+                        case 1 -> {
+                            int index = prettyMenu("Select order to display", ticketsString);
+                            if (index == 0) break;
+
+                            if (currentUser instanceof Buyer) {
+                                displayBuyerTicketActions(tickets.get(i + index - 1));
+                            } else {
+                                displaySellerTicketActions(tickets.get(i + index - 1));
+                            }
+                        }
+                        case 3 -> {
+                            // Display next tickets
+                            break innerLoop;
+                        }
+                    }
+                }
+            }
         }
+    }
 
-        System.out.println("#123 - Order not received");
-        System.out.println("I put in an order 5 minutes ago and I still have not received it!!!");
+    private static void displayTicket(Ticket ticket) {
+        System.out.println(prettify("Creation date: " + ticket.getCreationDate()));
+        System.out.println(prettify("State: " + ticket.getState()));
+        System.out.println(prettify("For order placed on: " + ticket.getOrder().getOrderDate()));
+        System.out.println(prettify("Buyer: " + ticket.getBuyer().getUsername()));
+        System.out.println(prettify("Seller: " + ticket.getSeller().getName()));
+        System.out.println(prettify("Number of products in ticket: " + ticket.getProducts().size()));
+        System.out.println(prettify("Cause of ticket: " + ticket.getCause()));
+        System.out.println(prettify("Problem description: " + ticket.getProblemDescription()));
+        System.out.println(prettify("Suggested solution: " + ticket.getSuggestedSolution()));
+        System.out.println(prettify("Replacement product description: " + ticket.getReplacementProductDescription()));
 
-        String[] solutionTypes = new String[]{"Refund", "Replace", "Repair"};
-        int solution = prettyMenu("Select a solution", solutionTypes);
-        String description = prettyPrompt("Provide solution details to the buyer");
-        // set new problem status
+        if (ticket.getState().equals(TicketState.ReturnInTransit)) {
+            System.out.println(prettify("Return shipment creation date: " + ticket.getReturnShipment().getCreationDate()));
+            System.out.println(prettify("Return shipment tracking number: " + ticket.getReturnShipment().getTrackingNumber()));
+        } else if (ticket.getState().equals(TicketState.ReplacementInTransit)) {
+            System.out.println(prettify("Replacement shipment creation date: " + ticket.getReplacementShipment().getCreationDate()));
+            System.out.println(prettify("Replacement shipment tracking number: " + ticket.getReplacementShipment().getTrackingNumber()));
+        }
+    }
 
-        System.out.println("Problem response sent!");
+    // TODO
+    private static void displaySellerTicketActions(Ticket ticket) {
+        // Create replacementShipment, confirm reception of returnShipment, set suggested solution, set replacement product description
+        String[] options = {"Go back", "..."};
+
+        loop:
+        while (true) {
+            clearConsole();
+            displayTicket(ticket);
+
+            // Setup action menu
+            int answer = prettyMenu("Select action", options);
+            switch (answer) {
+                case 0 -> {
+                    break loop;
+                }
+                case 1 -> {
+                    boolean confirmation = prettyPromptBool("Do you really want to...");
+                    if (confirmation) {
+                        // Do somehting
+                    } else {
+                        System.out.println(prettify("Action cancelled"));
+                    }
+                }
+            }
+        }
+    }
+
+    // TODO
+    private static void displayBuyerTicketActions(Ticket ticket) {
+        // Create returnShipment, confirm reception of replacementShipment
+        String[] options = {"Go back", "..."};
+
+        loop:
+        while (true) {
+            clearConsole();
+            displayTicket(ticket);
+
+            // Setup action menu
+            int answer = prettyMenu("Select action", options);
+            switch (answer) {
+                case 0 -> {
+                    break loop;
+                }
+                case 1 -> {
+                    boolean confirmation = prettyPromptBool("Do you really want to...");
+                    if (confirmation) {
+                        // Do somehting
+                    } else {
+                        System.out.println(prettify("Action cancelled"));
+                    }
+                }
+            }
+        }
     }
 
     public static void updateSellerInfo() {

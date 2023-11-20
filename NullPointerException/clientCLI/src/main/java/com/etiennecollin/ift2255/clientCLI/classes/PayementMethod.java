@@ -7,10 +7,20 @@ package com.etiennecollin.ift2255.clientCLI.classes;
 public class PayementMethod {
     private int moneyUsed;
     private int fidelityPointsUsed;
+    private int returnMoneyUsed;
 
-    public PayementMethod(int moneyUsed, int fidelityPointsUsed) {
+    public PayementMethod(int moneyUsed, int fidelityPointsUsed, int returnMoneyUsed) {
         this.moneyUsed = moneyUsed;
         this.fidelityPointsUsed = fidelityPointsUsed;
+        this.returnMoneyUsed = returnMoneyUsed;
+    }
+
+    public int getReturnMoneyUsed() {
+        return returnMoneyUsed;
+    }
+
+    public void setReturnMoneyUsed(int returnMoneyUsed) {
+        this.returnMoneyUsed = returnMoneyUsed;
     }
 
     public int getMoneyUsed() {

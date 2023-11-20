@@ -140,7 +140,7 @@ public class Cart implements Serializable {
                 subTotalFidelityPoints += (subTotalCost / 100 + product.getBonusFidelityPoints()) * quantity;
             }
 
-            PayementMethod payementMethod = new PayementMethod(subTotalCost, fidelityPointsToUse);
+            PayementMethod payementMethod = new PayementMethod(subTotalCost, fidelityPointsToUse, 0);
 
             // Create the sub-order
             Order order = new Order(subTotalCost, subTotalFidelityPoints, payementMethod, tuples, email, phone, address, billingAddress, creditCardName, creditCardNumber, creditCardExp, creditCardSecretDigits, this.buyer, seller);
