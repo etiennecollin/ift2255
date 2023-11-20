@@ -15,6 +15,7 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
@@ -485,7 +486,7 @@ public class Client {
                 case 3 -> {
                     boolean confirmation = prettyPromptBool("Do you really want to return items from this order?");
                     if (confirmation) {
-                        createTicket(order);
+                        displayReturnMenu(order);
                     } else {
                         System.out.println(prettify("Action cancelled"));
                     }
@@ -501,7 +502,8 @@ public class Client {
                 case 5 -> {
                     boolean confirmation = prettyPromptBool("Do you really want to cancel this order?");
                     if (confirmation) {
-                        // TODO cancel order
+                        order.setCancelled();
+                        System.out.println(prettify("Order cancelled"));
                     } else {
                         System.out.println(prettify("Action cancelled"));
                     }
@@ -510,10 +512,49 @@ public class Client {
         }
     }
 
-    // TODO
+    // TODO test
     private static void createTicket(Order order) {
+        TicketCause cause = prettyMenu("Select the type of issue", TicketCause.class);
+        String description = prettyPrompt("Description of problem", Utils::validateNotEmpty);
 
+        if (prettyPromptBool("Do you really want to report an issue with this order?")) {
+            order.createTicket(description, cause);
+            System.out.println(prettify("Issue report sent to seller."));
+        }
+        else {
+            System.out.println(prettify("Issue report sent to seller."));
+        }
 
+        waitForKey();
+    }
+
+    // TODO test
+    private static void displayReturnMenu(Order order) {
+        HashSet<Tuple<Product, Integer>> returnProducts = new HashSet<>();
+        prettyPaginationMenu(order.getProducts(), 5, "Select item with problem",
+                productTuple -> System.out.println(prettify(productTuple.first + " x" + productTuple.second)),
+                productIntegerTuple -> productIntegerTuple.first + " x" + productIntegerTuple.second,
+                returnProducts::add
+        );
+
+        if (returnProducts.size() == 0) {
+            System.out.println(prettify("No products selected to return"));
+            waitForKey();
+        }
+
+        TicketCause cause = prettyMenu("Select the type of issue", TicketCause.class);
+
+        Ticket ticket = order.createTicket("", new ArrayList<>(returnProducts), cause, null);
+        ticket.setSuggestedSolution("Return request accepted. Please bring the package to your nearest post office.");
+
+        System.out.println(prettify(ticket.getSuggestedSolution()));
+        waitForKey();
+    }
+
+    // TODO
+    private static void displayExchangeMenu(Order order) {
+        System.out.println(prettify("This functionality is not yet implemented"));
+        waitForKey();
     }
 
     public static void updateBuyerInfo() {

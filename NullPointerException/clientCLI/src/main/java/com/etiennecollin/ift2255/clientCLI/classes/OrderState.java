@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public enum OrderState implements Serializable {
-    InProduction("In Production"), InTransit("In Transit"), Delivered("Delivered");
+    InProduction("In Production"), InTransit("In Transit"), Delivered("Delivered"), Cancelled("Cancelled");
     private final String name;
 
     OrderState(String name) {

@@ -203,6 +203,10 @@ public class Order implements Serializable {
         this.state = OrderState.Delivered;
     }
 
+    public void setCancelled() {
+        this.state = OrderState.Cancelled;
+    }
+
     public int getCost() {
         return cost;
     }
