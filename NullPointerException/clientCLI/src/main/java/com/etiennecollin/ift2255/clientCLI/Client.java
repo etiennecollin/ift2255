@@ -782,10 +782,9 @@ public class Client {
         }
     }
 
-    // TODO
+    // TODO verify if complete
     private static void displayBuyerTicketActions(Ticket ticket) {
-        // Create returnShipment, confirm reception of replacementShipment
-        String[] options = {"Go back", "..."};
+        String[] options = {"Go back", "Create return shipment", "Confirm reception of replacement shipment"};
 
         loop:
         while (true) {
@@ -799,9 +798,14 @@ public class Client {
                     break loop;
                 }
                 case 1 -> {
-                    boolean confirmation = prettyPromptBool("Do you really want to...");
+                    String trackingNumber = prettyPrompt("Tracking number of return shipment", Utils::validateNotEmpty);
+                    ticket.createReturnShipment(trackingNumber);
+                }
+                case 2 -> {
+                    boolean confirmation = prettyPromptBool("Do you really want to confirm the reception of the replacement shipment");
                     if (confirmation) {
-                        // Do somehting
+                        ticket.getReplacementShipment().confirmDelivery();
+                        ticket.updateState();
                     } else {
                         System.out.println(prettify("Action cancelled"));
                     }
