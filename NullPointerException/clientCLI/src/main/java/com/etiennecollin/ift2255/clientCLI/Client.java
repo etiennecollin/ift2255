@@ -678,7 +678,6 @@ public class Client {
         System.out.println("Problem response sent!");
     }
 
-    // TODO
     public static void updateSellerInfo() {
         Seller seller = (Seller) unishop.getCurrentUser();
 
