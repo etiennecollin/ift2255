@@ -680,17 +680,45 @@ public class Client {
 
     // TODO
     public static void updateSellerInfo() {
-        String[] updateInfoMenu = new String[]{"Password", "Email", "Phone number", "Shipping address", "Main menu"};
-        while (true) {
-            int menuIdx = prettyMenu("Select the information you'd like to change", updateInfoMenu);
+        Seller seller = (Seller) unishop.getCurrentUser();
 
-            switch (menuIdx) {
-                case 0 -> prettyPrompt("Set a new password");
-                case 1 -> prettyPrompt("Set a new email address");
-                case 2 -> prettyPrompt("Set a new phone number");
-                case 3 -> prettyPrompt("Set a new shipping address");
-                case 4 -> {
+        String[] options = new String[]{"Go back", "Name", "Password", "Email", "Phone number", "Address"};
+        while (true) {
+            int answer = prettyMenu("Select the information you'd like to change", options);
+
+            switch (answer) {
+                case 0 -> {
                     return;
+                }
+                case 1 -> {
+                    String newVal = prettyPrompt("Set a new name", Utils::validateName);
+                    seller.setName(newVal);
+                }
+                case 2 -> {
+                    while (true) {
+                        String oldPassword = prettyPrompt("Enter old password", Utils::validateNotEmpty);
+                        if (unishop.isPasswordMatching(oldPassword)) {
+                            String newVal = prettyPrompt("Set a new password", Utils::validateNotEmpty);
+                            seller.setPassword(newVal);
+                            break;
+                        } else {
+                            System.out.println(prettify("Old password invalid"));
+                            boolean tryAgain = prettyPromptBool("Try again?");
+                            if (!tryAgain) break;
+                        }
+                    }
+                }
+                case 3 -> {
+                    String newVal = prettyPrompt("Set a new email address", Utils::validateEmail);
+                    seller.setEmail(newVal);
+                }
+                case 4 -> {
+                    String newVal = prettyPrompt("Set a new phone number", Utils::validatePhoneNumber);
+                    seller.setPhoneNumber(newVal);
+                }
+                case 5 -> {
+                    String newVal = prettyPrompt("Set a new address", Utils::validateNotEmpty);
+                    seller.setAddress(newVal);
                 }
             }
         }
