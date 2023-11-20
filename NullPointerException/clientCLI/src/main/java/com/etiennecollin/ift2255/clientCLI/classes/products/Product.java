@@ -187,9 +187,9 @@ public abstract class Product implements Serializable {
     }
 
     public void setSeller(Seller newSeller) {
-        if (!this.seller.equals(newSeller)) {
-            this.seller.removeProductOffered(this);
-        }
+//        if (!this.seller.equals(newSeller)) {
+//            this.seller.removeProductOffered(this);
+//        }
 
         if (!newSeller.getProductsOffered().contains(this)) {
             newSeller.addProductOffered(this);

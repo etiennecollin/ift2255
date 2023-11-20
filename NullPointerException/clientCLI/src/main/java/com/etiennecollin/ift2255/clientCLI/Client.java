@@ -8,7 +8,6 @@ import com.etiennecollin.ift2255.clientCLI.classes.*;
 import com.etiennecollin.ift2255.clientCLI.classes.products.*;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -216,7 +215,7 @@ public class Client {
         while (true) {
             clearConsole();
             try {
-                String name = prettyPrompt("Name", Utils::validateName);
+                String name = prettyPrompt("Name", Utils::validateNotEmpty);
                 String email = prettyPrompt("Email", Utils::validateEmail);
                 String password = prettyPrompt("Password", Utils::validateNotEmpty);
                 String phoneNumber = prettyPrompt("Phone number", Utils::validatePhoneNumber);
@@ -445,7 +444,7 @@ public class Client {
         if (LocalDate.now().isBefore(order.getOrderDate().plusDays(365))) {
             options.add("Report issue with order");
 
-            if (LocalDate.now().isBefore(order.getShipment().getExpectedDeliveryDate().plusDays(30))) {
+            if (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getExpectedDeliveryDate().plusDays(30))) {
                 options.add("Return items");
                 options.add("Exchange items");
 
