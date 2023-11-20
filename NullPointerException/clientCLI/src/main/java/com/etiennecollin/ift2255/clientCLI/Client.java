@@ -85,8 +85,8 @@ public class Client {
                 break;
             } catch (IllegalArgumentException e) {
                 System.out.println(prettify(e.getMessage()));
-                boolean tryAgain = prettyPromptBool("Try again?");
-                if (!tryAgain) break;
+
+                if (!prettyPromptBool("Try again?")) break;
             }
         }
         clearConsole();
@@ -116,8 +116,7 @@ public class Client {
                 break;
             } catch (IllegalArgumentException e) {
                 System.out.println(prettify(e.getMessage()));
-                boolean tryAgain = prettyPromptBool("Try again?");
-                if (!tryAgain) break;
+                if (!prettyPromptBool("Try again?")) break;
             }
         }
         clearConsole();
@@ -135,7 +134,7 @@ public class Client {
                 case 1 -> searchProduct();
                 case 2 -> displayCart();
                 case 3 -> findUser();
-                case 4 -> displayOrders();
+                case 4 -> displayBuyerOrders();
                 case 5 -> displayNotifications();
                 case 6 -> displayTickets();
                 case 7 -> displayActivities();
@@ -174,50 +173,12 @@ public class Client {
         ArrayList<Notification> notifications = (ArrayList<Notification>) unishop.getCurrentUser().getNotifications().clone();
         if (notifications.isEmpty()) {
             System.out.println(prettify("No notifications"));
-        } else if (notifications.size() <= 3) {
-            // Print notifications in batches of 3
-            outerLoop:
-            for (int i = 0; i < notifications.size(); i += 3) {
-                clearConsole();
-                System.out.println(prettify("Notifications " + i + " to " + (i + 3) + ":"));
-
-                ArrayList<String> notificationTitles = new ArrayList<>();
-                notificationTitles.add("Go back");
-
-                // Print 3 notifs
-                for (int j = i; j < i + 3; j++) {
-                    if (j >= notifications.size()) break;
-                    Notification notification = notifications.get(j);
-                    notificationTitles.add(notification.getTitle());
-                    System.out.println(prettify("--------------------"));
-                    System.out.println(prettify(notification.getTitle()));
-                    System.out.println(prettify(notification.getContent()));
-                }
-
-                // Setup action menu
-                String[] options = {"Go back", "Delete notification", "See more"};
-                innerLoop:
-                while (true) {
-                    int answer = prettyMenu("Select action", options);
-                    switch (answer) {
-                        case 0 -> {
-                            // Go back by stopping print of notifs
-                            break outerLoop;
-                        }
-                        case 1 -> {
-                            // Delete notif
-                            int index = prettyMenu("Delete notification", notificationTitles);
-                            if (index == 0) break;
-                            unishop.getCurrentUser().removeNotification(notifications.get(i + index - 1));
-                            System.out.println(prettify("Notification successfully deleted"));
-                        }
-                        case 2 -> {
-                            // Display next notifs
-                            break innerLoop;
-                        }
-                    }
-                }
-            }
+        } else {
+            prettyPaginationMenu(notifications, 3, "Delete notification", notification -> {
+                System.out.println(prettify("--------------------"));
+                System.out.println(prettify(notification.getTitle()));
+                System.out.println(prettify(notification.getContent()));
+            }, Notification::getTitle, unishop.getCurrentUser()::removeNotification);
         }
     }
 
@@ -237,8 +198,8 @@ public class Client {
                 return new Buyer(firstName, lastName, username, email, phoneNumber, address, password);
             } catch (RuntimeException e) {
                 System.out.println(prettify(e.getMessage()));
-                boolean tryAgain = prettyPromptBool("Try again?");
-                if (!tryAgain) break;
+
+                if (!prettyPromptBool("Try again?")) break;
             }
         }
 
@@ -259,8 +220,8 @@ public class Client {
                 return new Seller(name, email, phoneNumber, address, password);
             } catch (RuntimeException e) {
                 System.out.println(prettify(e.getMessage()));
-                boolean tryAgain = prettyPromptBool("Try again?");
-                if (!tryAgain) break;
+
+                if (!prettyPromptBool("Try again?")) break;
             }
         }
 
@@ -292,8 +253,8 @@ public class Client {
                 displayProduct(product);
                 displayBuyerProductActions(product);
             }
-            boolean tryAgain = prettyPromptBool("Keep browsing product?");
-            if (!tryAgain) break;
+
+            if (!prettyPromptBool("Keep browsing product?")) break;
         }
     }
 
@@ -347,8 +308,7 @@ public class Client {
                             } else {
                                 System.out.println(prettify("Invalid quantity"));
 
-                                boolean tryAgain = prettyPromptBool("Try again?");
-                                if (tryAgain) continue;
+                                if (prettyPromptBool("Try again?")) continue;
                             }
                             System.out.println(prettify("Product successfully removed"));
                             break;
@@ -418,58 +378,21 @@ public class Client {
         }
     }
 
-    public static void displayOrders() {
+    public static void displayBuyerOrders() {
         Buyer currentBuyer = (Buyer) unishop.getCurrentUser();
         ArrayList<Order> orders = currentBuyer.getOrders();
 
         if (orders.isEmpty()) {
             System.out.println(prettify("No orders"));
-        } else if (orders.size() <= 3) {
-            // Print orders in batches of 3
-            outerLoop:
-            for (int i = 0; i < orders.size(); i += 3) {
-                clearConsole();
-                System.out.println(prettify("Orders " + i + " to " + (i + 3) + ":"));
-
-                ArrayList<String> ordersDate = new ArrayList<>();
-                ordersDate.add("Go back");
-
-                // Print 3 notifs
-                for (int j = i; j < i + 3; j++) {
-                    if (j >= orders.size()) break;
-                    Order order = orders.get(j);
-                    ordersDate.add("Order of " + order.getOrderDate());
-
-                    System.out.println(prettify("--------------------"));
-                    System.out.println(prettify("Order date: " + order.getOrderDate()));
-                    System.out.println(prettify("State: " + order.getState()));
-                    System.out.println(prettify("Cost: " + order.getCost() / 100 + "." + order.getCost() % 100 + "$"));
-                    System.out.println(prettify("Fidelity points earned: " + order.getNumberOfFidelityPoints()));
-                    System.out.println(prettify("Number of products: " + order.getProducts().size()));
-                }
-
-                // Setup action menu
-                String[] options = {"Go back", "Display order", "See more"};
-                innerLoop:
-                while (true) {
-                    int answer = prettyMenu("Select action", options);
-                    switch (answer) {
-                        case 0 -> {
-                            // Go back by stopping print of orders
-                            break outerLoop;
-                        }
-                        case 1 -> {
-                            int index = prettyMenu("Select order to display", ordersDate);
-                            if (index == 0) break;
-                            displayBuyerOrderActions(orders.get(i + index - 1));
-                        }
-                        case 3 -> {
-                            // Display next orders
-                            break innerLoop;
-                        }
-                    }
-                }
-            }
+        } else {
+            prettyPaginationMenu(orders, 3, "Display order", order -> {
+                System.out.println(prettify("--------------------"));
+                System.out.println(prettify("Order date: " + order.getOrderDate()));
+                System.out.println(prettify("State: " + order.getState()));
+                System.out.println(prettify("Cost: " + order.getCost() / 100 + "." + order.getCost() % 100 + "$"));
+                System.out.println(prettify("Fidelity points earned: " + order.getNumberOfFidelityPoints()));
+                System.out.println(prettify("Number of products: " + order.getProducts().size()));
+            }, order -> "Order of " + order.getOrderDate(), Client::displayBuyerOrderActions);
         }
     }
 
@@ -558,8 +481,7 @@ public class Client {
                             break;
                         } else {
                             System.out.println(prettify("Old password invalid"));
-                            boolean tryAgain = prettyPromptBool("Try again?");
-                            if (!tryAgain) break;
+                            if (!prettyPromptBool("Try again?")) break;
                         }
                     }
                 }
@@ -666,12 +588,13 @@ public class Client {
 
         String shippingCompany = prettyPrompt("Shipping company", Utils::validateNotEmpty);
         String trackingNumber = prettyPrompt("Tracking number", Utils::validateNotEmpty);
+        LocalDate expectedDeliveryDate = prettyPromptDate("Tracking number");
 
-        if (prettyPromptBool("Order shipped?")) {
-            order.setInTransit(shippingCompany, trackingNumber, LocalDate.now());
-            System.out.println("Order status updated!");
+        if (prettyPromptBool("Ship order?")) {
+            order.setInTransit(shippingCompany, trackingNumber, expectedDeliveryDate);
+            System.out.println("Order status updated");
         } else {
-            System.out.println("Order status change cancelled.");
+            System.out.println("Order status change cancelled");
         }
     }
 
@@ -681,55 +604,89 @@ public class Client {
 
         if (tickets.isEmpty()) {
             System.out.println(prettify("No tickets"));
-        } else if (tickets.size() <= 3) {
-            // Print tickets in batches of 3
-            outerLoop:
-            for (int i = 0; i < tickets.size(); i += 3) {
+        } else {
+            prettyPaginationMenu(tickets, 3, "Display ticket", (ticket) -> {
+                System.out.println(prettify("--------------------"));
+                System.out.println(prettify("Creation date: " + ticket.getCreationDate()));
+                System.out.println(prettify("State: " + ticket.getState()));
+                System.out.println(prettify("For order placed on: " + ticket.getOrder().getOrderDate()));
+                System.out.println(prettify("Buyer: " + ticket.getBuyer().getUsername()));
+                System.out.println(prettify("Seller: " + ticket.getSeller().getName()));
+                System.out.println(prettify("Number of products in ticket: " + ticket.getProducts().size()));
+            }, (ticket) -> "Ticket of " + ticket.getCreationDate(), Client::displayTicketActions);
+        }
+    }
+
+    // TODO verify if complete
+    private static void displayTicketActions(Ticket ticket) {
+        if (unishop.getCurrentUser() instanceof Buyer) {
+
+            String[] options = {"Go back", "Create return shipment", "Confirm reception of replacement shipment"};
+
+            loop:
+            while (true) {
                 clearConsole();
-                System.out.println(prettify("Tickets " + i + " to " + (i + 3) + ":"));
-
-                ArrayList<String> ticketsString = new ArrayList<>();
-                ticketsString.add("Go back");
-
-                // Print 3 tickets
-                for (int j = i; j < i + 3; j++) {
-                    if (j >= tickets.size()) break;
-                    Ticket ticket = tickets.get(j);
-                    ticketsString.add("Ticket of " + ticket.getCreationDate());
-
-                    System.out.println(prettify("--------------------"));
-                    System.out.println(prettify("Creation date: " + ticket.getCreationDate()));
-                    System.out.println(prettify("State: " + ticket.getState()));
-                    System.out.println(prettify("For order placed on: " + ticket.getOrder().getOrderDate()));
-                    System.out.println(prettify("Buyer: " + ticket.getBuyer().getUsername()));
-                    System.out.println(prettify("Seller: " + ticket.getSeller().getName()));
-                    System.out.println(prettify("Number of products in ticket: " + ticket.getProducts().size()));
-                }
+                displayTicket(ticket);
 
                 // Setup action menu
-                String[] options = {"Go back", "Display ticket", "See more"};
-                innerLoop:
-                while (true) {
-                    int answer = prettyMenu("Select action", options);
-                    switch (answer) {
-                        case 0 -> {
-                            // Go back by stopping print of tickets
-                            break outerLoop;
+                int answer = prettyMenu("Select action", options);
+                switch (answer) {
+                    case 0 -> {
+                        break loop;
+                    }
+                    case 1 -> {
+                        String trackingNumber = prettyPrompt("Tracking number of return shipment", Utils::validateNotEmpty);
+                        LocalDate deliveryDate = prettyPromptDate("Expected delivery date");
+                        String shippingCompany = prettyPrompt("Shipping company", Utils::validateNotEmpty);
+                        ticket.createReturnShipment(trackingNumber, deliveryDate, shippingCompany);
+                    }
+                    case 2 -> {
+                        boolean confirmation = prettyPromptBool("Do you really want to confirm the reception of the replacement shipment");
+                        if (confirmation) {
+                            ticket.getReplacementShipment().confirmDelivery();
+                            ticket.updateState();
+                        } else {
+                            System.out.println(prettify("Action cancelled"));
                         }
-                        case 1 -> {
-                            int index = prettyMenu("Select order to display", ticketsString);
-                            if (index == 0) break;
+                    }
+                }
+            }
+        } else {
+            String[] options = {"Go back", "Set suggested solution", "Confirm reception of return shipment", "Set replacement product description", "Create replacement shipment"};
 
-                            if (currentUser instanceof Buyer) {
-                                displayBuyerTicketActions(tickets.get(i + index - 1));
-                            } else {
-                                displaySellerTicketActions(tickets.get(i + index - 1));
-                            }
+            loop:
+            while (true) {
+                clearConsole();
+                displayTicket(ticket);
+
+                // Setup action menu
+                int answer = prettyMenu("Select action", options);
+                switch (answer) {
+                    case 0 -> {
+                        break loop;
+                    }
+                    case 1 -> {
+                        String suggestedSolution = prettyPrompt("Suggested solution", Utils::validateNotEmpty);
+                        ticket.setSuggestedSolution(suggestedSolution);
+                    }
+                    case 2 -> {
+                        boolean confirmation = prettyPromptBool("Do you really want to confirm the reception of the return shipment");
+                        if (confirmation) {
+                            ticket.getReturnShipment().confirmDelivery();
+                            ticket.updateState();
+                        } else {
+                            System.out.println(prettify("Action cancelled"));
                         }
-                        case 3 -> {
-                            // Display next tickets
-                            break innerLoop;
-                        }
+                    }
+                    case 3 -> {
+                        String replacementProductDescription = prettyPrompt("Replacement product description", Utils::validateNotEmpty);
+                        ticket.setReplacementProductDescription(replacementProductDescription);
+                    }
+                    case 4 -> {
+                        String shippingCompany = prettyPrompt("Shipping company", Utils::validateNotEmpty);
+                        String trackingNumber = prettyPrompt("Tracking number of replacement shipment", Utils::validateNotEmpty);
+                        LocalDate expectedDeliveryDate = prettyPromptDate("Expected delivery date");
+                        ticket.createReplacementShipment(trackingNumber, expectedDeliveryDate, shippingCompany);
                     }
                 }
             }
@@ -757,82 +714,6 @@ public class Client {
         }
     }
 
-    // TODO verify if complete
-    private static void displaySellerTicketActions(Ticket ticket) {
-        String[] options = {"Go back", "Set suggested solution", "Confirm reception of return shipment", "Set replacement product description", "Create replacement shipment"};
-
-        loop:
-        while (true) {
-            clearConsole();
-            displayTicket(ticket);
-
-            // Setup action menu
-            int answer = prettyMenu("Select action", options);
-            switch (answer) {
-                case 0 -> {
-                    break loop;
-                }
-                case 1 -> {
-                    String suggestedSolution = prettyPrompt("Suggested solution", Utils::validateNotEmpty);
-                    ticket.setSuggestedSolution(suggestedSolution);
-                }
-                case 2 -> {
-                    boolean confirmation = prettyPromptBool("Do you really want to confirm the reception of the return shipment");
-                    if (confirmation) {
-                        ticket.getReturnShipment().confirmDelivery();
-                        ticket.updateState();
-                    } else {
-                        System.out.println(prettify("Action cancelled"));
-                    }
-                }
-                case 3 -> {
-                    String replacementProductDescription = prettyPrompt("Replacement product description", Utils::validateNotEmpty);
-                    ticket.setReplacementProductDescription(replacementProductDescription);
-                }
-                case 4 -> {
-                    String shippingCompany = prettyPrompt("Shipping company", Utils::validateNotEmpty);
-                    String trackingNumber = prettyPrompt("Tracking number of replacement shipment", Utils::validateNotEmpty);
-                    LocalDate expectedDeliveryDate = prettyPromptDate("Expected delivery date");
-                    ticket.createReplacementShipment(trackingNumber, expectedDeliveryDate, shippingCompany);
-                }
-            }
-        }
-    }
-
-    // TODO verify if complete
-    private static void displayBuyerTicketActions(Ticket ticket) {
-        String[] options = {"Go back", "Create return shipment", "Confirm reception of replacement shipment"};
-
-        loop:
-        while (true) {
-            clearConsole();
-            displayTicket(ticket);
-
-            // Setup action menu
-            int answer = prettyMenu("Select action", options);
-            switch (answer) {
-                case 0 -> {
-                    break loop;
-                }
-                case 1 -> {
-                    String trackingNumber = prettyPrompt("Tracking number of return shipment", Utils::validateNotEmpty);
-                    LocalDate deliveryDate = prettyPromptDate("Expected delivery date");
-                    String shippingCompany = prettyPrompt("Shipping company", Utils::validateNotEmpty);
-                    ticket.createReturnShipment(trackingNumber, deliveryDate, shippingCompany);
-                }
-                case 2 -> {
-                    boolean confirmation = prettyPromptBool("Do you really want to confirm the reception of the replacement shipment");
-                    if (confirmation) {
-                        ticket.getReplacementShipment().confirmDelivery();
-                        ticket.updateState();
-                    } else {
-                        System.out.println(prettify("Action cancelled"));
-                    }
-                }
-            }
-        }
-    }
-
     public static void updateSellerInfo() {
         Seller seller = (Seller) unishop.getCurrentUser();
 
@@ -857,8 +738,7 @@ public class Client {
                             break;
                         } else {
                             System.out.println(prettify("Old password invalid"));
-                            boolean tryAgain = prettyPromptBool("Try again?");
-                            if (!tryAgain) break;
+                            if (!prettyPromptBool("Try again?")) break;
                         }
                     }
                 }
@@ -924,8 +804,7 @@ public class Client {
                 }
             }
 
-            boolean tryAgain = prettyPromptBool("New action?");
-            if (!tryAgain) break;
+            if (!prettyPromptBool("New action?")) break;
         }
     }
 
@@ -1116,13 +995,15 @@ public class Client {
         ArrayList<Review> reviews = product.getReviews();
         if (reviews.isEmpty()) {
             System.out.println(prettify("No reviews for this product"));
-        } else if (reviews.size() <= 3) {
+        } else {
             // Print reviews in batches of 3
-            for (int i = 0; i < reviews.size(); i += 3) {
+            int itemsPerPage = 3;
+            for (int i = 0; i < reviews.size(); i += itemsPerPage) {
                 clearConsole();
-                System.out.println(prettify("Reviews " + i + " to " + (i + 3) + ":"));
-                for (int j = i; j < i + 3; j++) {
-                    if (j >= reviews.size()) break;
+                int itemsOnPage = Math.min(itemsPerPage, reviews.size() - i);
+
+                System.out.println(prettify("Reviews " + (i + 1) + " to " + (i + itemsOnPage) + ":"));
+                for (int j = i; j < i + itemsOnPage; j++) {
                     Review review = reviews.get(j);
                     Buyer author = review.getAuthor();
                     System.out.println(prettify("--------------------"));
@@ -1130,8 +1011,8 @@ public class Client {
                     System.out.println(prettify("Title: " + review.getTitle()));
                     System.out.println(prettify(review.getContent()));
                 }
-                boolean tryAgain = prettyPromptBool("See more reviews?");
-                if (!tryAgain) break;
+
+                if (!prettyPromptBool("See more reviews?")) break;
             }
         }
     }
@@ -1211,8 +1092,7 @@ public class Client {
             displayProduct(product);
             displayBuyerProductActions(product);
 
-            boolean tryAgain = prettyPromptBool("Keep browsing product?");
-            if (!tryAgain) break;
+            if (!prettyPromptBool("Keep browsing product?")) break;
         }
     }
 
