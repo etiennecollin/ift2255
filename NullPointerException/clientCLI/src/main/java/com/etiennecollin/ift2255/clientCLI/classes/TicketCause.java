@@ -4,9 +4,10 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public enum TicketCause {
+public enum TicketCause implements Serializable {
     MalfunctioningProduct("Malfunctioning product"), Other("Other");
     private final String name;
 

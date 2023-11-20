@@ -4,6 +4,9 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes;
 
+import java.io.Serializable;
+
 public record BuyerMetrics(int numberRecentOrders, int numberTotalOrders, int numberRecentProductsBought,
                            int numberTotalProductsBought, int numberFollowers, int averageRecentReviews,
-                           int averageTotalReviews, int numberRecentReviews, int numberTotalReviews) {}
+                           int averageTotalReviews, int numberRecentReviews,
+                           int numberTotalReviews) implements Serializable {}

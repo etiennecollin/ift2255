@@ -4,7 +4,9 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes.products;
 
-public enum LearningResourceType {
+import java.io.Serializable;
+
+public enum LearningResourceType implements Serializable {
     Printed("Printed"), Electronic("Electronic");
     private final String name;
 

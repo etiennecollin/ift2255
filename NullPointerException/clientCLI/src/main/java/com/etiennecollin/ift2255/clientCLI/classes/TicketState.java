@@ -4,9 +4,10 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public enum TicketState {
+public enum TicketState implements Serializable {
     OpenManual("Open"), OpenAuto("Open"), ReturnInTransit("Return in transit"), ReturnReceived("Return received"), ReplacementInTransit("Replacement in transit"), Closed("Closed"), Cancelled("Cancelled");
     private final String name;
 

@@ -4,7 +4,9 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes;
 
-public class PayementMethod {
+import java.io.Serializable;
+
+public class PayementMethod implements Serializable {
     private int moneyUsed;
     private int fidelityPointsUsed;
     private int returnMoneyUsed;

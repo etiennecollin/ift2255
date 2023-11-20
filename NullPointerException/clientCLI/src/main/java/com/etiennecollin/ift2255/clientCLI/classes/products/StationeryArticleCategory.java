@@ -4,7 +4,9 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes.products;
 
-public enum StationeryArticleCategory {
+import java.io.Serializable;
+
+public enum StationeryArticleCategory implements Serializable {
     Notebook("Notebook"), Pencil("Pencil"), Highlighter("Highlighter"), Other("Other");
     private final String name;
 

@@ -4,9 +4,10 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes.products;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public enum ProductCategory {
+public enum ProductCategory implements Serializable {
     BookOrManual("Book or Manual", BookOrManualGenre.class), LearningResource("Learning Resource", LearningResourceType.class), StationeryArticle("Stationery Article", StationeryArticleCategory.class), IT("IT", ITCategory.class), OfficeEquipment("Office Equipment", OfficeEquipmentCategory.class);
     private final Class<? extends Enum<?>> enumVar;
     private final String name;

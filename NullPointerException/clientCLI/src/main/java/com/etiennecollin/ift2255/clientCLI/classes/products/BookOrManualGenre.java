@@ -4,7 +4,9 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes.products;
 
-public enum BookOrManualGenre {
+import java.io.Serializable;
+
+public enum BookOrManualGenre implements Serializable {
     Novel("Novel"), Documentary("Documentary"), Comic("Comic"), Textbook("Textbook"), Other("Other");
     private final String name;
 

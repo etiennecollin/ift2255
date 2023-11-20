@@ -4,7 +4,9 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes.products;
 
-public enum OfficeEquipmentCategory {
+import java.io.Serializable;
+
+public enum OfficeEquipmentCategory implements Serializable {
     Table("Table"), Chair("Chair"), Lamp("Lamp"), Other("Other");
     private final String name;
 
