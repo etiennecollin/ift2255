@@ -65,6 +65,10 @@ public abstract class Product implements Serializable {
         return getCost() / 100 + "." + getCost() % 100 + "$";
     }
 
+    public String getFormattedCost(int quantity) {
+        return getCost() * quantity / 100 + "." + getCost() * quantity % 100 + "$";
+    }
+
     public Enum<?> getSubCategory() {
         return subCategory;
     }

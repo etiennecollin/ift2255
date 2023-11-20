@@ -43,8 +43,9 @@ public class Client {
     public static void main(String[] args) {
         unishop.loadUserList(savePath);
 
+        String[] loginMenu = {"Login", "Register", "Quit"};
         while (true) {
-            String[] loginMenu = {"Login", "Register", "Quit"};
+            clearConsole();
             int answer = prettyMenu("Welcome to UniShop", loginMenu);
 
             if (answer == 0) {
@@ -128,6 +129,7 @@ public class Client {
 
         loop:
         while (true) {
+            clearConsole();
             int buyerAnswer = prettyMenu("Main menu", buyerMenu);
             switch (buyerAnswer) {
                 case 0 -> displayProducts(unishop.getCatalog());
@@ -153,6 +155,7 @@ public class Client {
 
         loop:
         while (true) {
+            clearConsole();
             int answer = prettyMenu("Main menu", sellerMenu);
             switch (answer) {
                 case 0 -> offerProduct();
@@ -171,8 +174,10 @@ public class Client {
 
     private static void displayNotifications() {
         ArrayList<Notification> notifications = (ArrayList<Notification>) unishop.getCurrentUser().getNotifications().clone();
+        clearConsole();
         if (notifications.isEmpty()) {
             System.out.println(prettify("No notifications"));
+            waitForKey();
         } else {
             prettyPaginationMenu(notifications, 3, "Delete notification", notification -> {
                 System.out.println(prettify("--------------------"));
@@ -183,9 +188,8 @@ public class Client {
     }
 
     private static Buyer buyerCreationForm() {
-        clearConsole();
-
         while (true) {
+            clearConsole();
             try {
                 String firstName = prettyPrompt("First name", Utils::validateName);
                 String lastName = prettyPrompt("Last name", Utils::validateName);
@@ -207,9 +211,8 @@ public class Client {
     }
 
     private static Seller sellerCreationForm() {
-        clearConsole();
-
         while (true) {
+            clearConsole();
             try {
                 String name = prettyPrompt("Name", Utils::validateName);
                 String email = prettyPrompt("Email", Utils::validateEmail);
@@ -230,6 +233,7 @@ public class Client {
 
     private static void searchProduct() {
         while (true) {
+            clearConsole();
             ArrayList<Product> searchResults = new ArrayList<>();
             ArrayList<String> searchResultsString = new ArrayList<>();
             searchResultsString.add("Main Menu");
@@ -241,6 +245,12 @@ public class Client {
                     searchResults.add(p);
                     searchResultsString.add(p.getTitle());
                 }
+            }
+
+            if (searchResults.isEmpty()) {
+                System.out.println(prettify("No match found"));
+                waitForKey();
+                continue;
             }
 
             int answer = prettyMenu("Select a product", searchResultsString);
@@ -263,16 +273,18 @@ public class Client {
             clearConsole();
             System.out.println(prettify("My cart: "));
             Cart cart = ((Buyer) unishop.getCurrentUser()).getCart();
+
             if (cart.getProducts().isEmpty()) {
                 System.out.println(prettify("Empty cart"));
-            } else {
-                for (Tuple<Product, Integer> tuple : cart.getProducts()) {
-                    Product product = tuple.first;
-                    int quantity = tuple.second;
-                    int cost = product.getCost() * quantity;
+                waitForKey();
+                break;
+            }
 
-                    System.out.println(prettify(product.getTitle() + " x" + quantity + " | Cost: " + product.getFormattedCost()));
-                }
+            for (Tuple<Product, Integer> tuple : cart.getProducts()) {
+                Product product = tuple.first;
+                int quantity = tuple.second;
+
+                System.out.println(prettify(product.getTitle() + " x" + quantity + " | Cost: " + product.getFormattedCost(quantity)));
             }
             System.out.println(prettify("Total: " + cart.getFormattedCost() + "$"));
 
@@ -318,6 +330,7 @@ public class Client {
                 case 2 -> {
                     if (cart.getProducts().isEmpty()) {
                         System.out.println(prettify("Empty cart"));
+                        waitForKey();
                     } else {
                         placeOrder();
                     }
@@ -329,6 +342,7 @@ public class Client {
                         cart.emptyCart();
                         System.out.println(prettify("Cart successfully emptied"));
                     }
+                    waitForKey();
                 }
             }
         }
@@ -336,6 +350,7 @@ public class Client {
 
     // General metrics
     public static void displayActivities() {
+        clearConsole();
         User currentUser = unishop.getCurrentUser();
         int nMonths = prettyPromptInt("Display activities for the last how many months");
 
@@ -361,12 +376,14 @@ public class Client {
             System.out.println(prettify("Recent product rating average: " + metrics.averageRecentProductRating()));
             System.out.println(prettify("Total product rating average: " + metrics.averageTotalProductRating()));
         }
+        waitForKey();
     }
 
     public static void findUser() {
         String[] options = {"Main menu", "Buyer", "Seller"};
         loop:
         while (true) {
+            clearConsole();
             int answer = prettyMenu("Search for", options);
             switch (answer) {
                 case 0 -> {
@@ -379,24 +396,28 @@ public class Client {
     }
 
     public static void displayBuyerOrders() {
+        clearConsole();
         Buyer currentBuyer = (Buyer) unishop.getCurrentUser();
         ArrayList<Order> orders = currentBuyer.getOrders();
 
         if (orders.isEmpty()) {
             System.out.println(prettify("No orders"));
-        } else {
-            prettyPaginationMenu(orders, 3, "Display order", order -> {
-                System.out.println(prettify("--------------------"));
-                System.out.println(prettify("Order date: " + order.getOrderDate()));
-                System.out.println(prettify("State: " + order.getState()));
-                System.out.println(prettify("Cost: " + order.getCost() / 100 + "." + order.getCost() % 100 + "$"));
-                System.out.println(prettify("Fidelity points earned: " + order.getNumberOfFidelityPoints()));
-                System.out.println(prettify("Number of products: " + order.getProducts().size()));
-            }, order -> "Order of " + order.getOrderDate(), Client::displayBuyerOrderActions);
+            waitForKey();
+            return;
         }
+
+        prettyPaginationMenu(orders, 3, "Display order", order -> {
+            System.out.println(prettify("--------------------"));
+            System.out.println(prettify("Order date: " + order.getOrderDate()));
+            System.out.println(prettify("State: " + order.getState()));
+            System.out.println(prettify("Cost: " + order.getCost() / 100 + "." + order.getCost() % 100 + "$"));
+            System.out.println(prettify("Fidelity points earned: " + order.getNumberOfFidelityPoints()));
+            System.out.println(prettify("Number of products: " + order.getProducts().size()));
+        }, order -> "Order of " + order.getOrderDate(), Client::displayBuyerOrderActions);
     }
 
     public static void displayOrder(Order order) {
+        clearConsole();
         System.out.println(prettify("Order date: " + order.getOrderDate()));
         System.out.println(prettify("State: " + order.getState()));
         System.out.println(prettify("Cost: " + order.getCost() / 100 + "." + order.getCost() % 100 + "$"));
@@ -412,6 +433,7 @@ public class Client {
             System.out.println(prettify("Delivery date: " + order.getShipment().getExpectedDeliveryDate()));
             System.out.println(prettify("Tracking number: " + order.getShipment().getTrackingNumber()));
         }
+        waitForKey();
     }
 
     public static void displayBuyerOrderActions(Order order) {
@@ -458,6 +480,7 @@ public class Client {
 
         String[] options = new String[]{"Go back", "First name", "Last name", "Password", "Email", "Phone number", "Address"};
         while (true) {
+            clearConsole();
             int answer = prettyMenu("Select the information you'd like to change", options);
 
             switch (answer) {
@@ -503,6 +526,7 @@ public class Client {
 
     public static void offerProduct() {
         Product product = null;
+        clearConsole();
 
         try {
             String title = prettyPrompt("Title", Utils::validateNotEmpty);
@@ -557,8 +581,10 @@ public class Client {
                 ((Seller) unishop.getCurrentUser()).addProductOffered(product);
                 unishop.updateCatalog();
                 System.out.println("Product " + title + " added!");
+                waitForKey();
             } else {
                 System.out.println("Cancelled adding a new product.");
+                waitForKey();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -568,11 +594,14 @@ public class Client {
     public static void displayPendingSellerOrders() {
         Seller seller = (Seller) unishop.getCurrentUser();
         List<Order> orders = seller.getOrdersSold().stream().filter(order -> order.getState().equals(OrderState.InProduction)).toList();
+        clearConsole();
 
         if (orders.isEmpty()) {
             System.out.println(prettify("No orders"));
+            waitForKey();
             return;
         }
+
         prettyPaginationMenu(orders, 2, "Select order to ship", (order) -> {
             System.out.println(prettify("--------------------"));
             System.out.println(prettify("Buyer username: " + order.getBuyer().getUsername()));
@@ -584,8 +613,10 @@ public class Client {
     }
 
     public static void displayOrderShipmentMenu(Order order) {
+        clearConsole();
         if (order.getState() != OrderState.InProduction) {
             System.out.println(prettify("Order has already been shipped."));
+            waitForKey();
             return;
         }
         displayOrder(order);
@@ -605,9 +636,11 @@ public class Client {
     public static void displayTickets() {
         User currentUser = unishop.getCurrentUser();
         ArrayList<Ticket> tickets = currentUser.getTickets();
+        clearConsole();
 
         if (tickets.isEmpty()) {
             System.out.println(prettify("No tickets"));
+            waitForKey();
         } else {
             prettyPaginationMenu(tickets, 3, "Display ticket", (ticket) -> {
                 System.out.println(prettify("--------------------"));
@@ -651,6 +684,7 @@ public class Client {
                             ticket.updateState();
                         } else {
                             System.out.println(prettify("Action cancelled"));
+                            waitForKey();
                         }
                     }
                 }
@@ -680,6 +714,7 @@ public class Client {
                             ticket.updateState();
                         } else {
                             System.out.println(prettify("Action cancelled"));
+                            waitForKey();
                         }
                     }
                     case 3 -> {
@@ -698,6 +733,7 @@ public class Client {
     }
 
     private static void displayTicket(Ticket ticket) {
+        clearConsole();
         System.out.println(prettify("Creation date: " + ticket.getCreationDate()));
         System.out.println(prettify("State: " + ticket.getState()));
         System.out.println(prettify("For order placed on: " + ticket.getOrder().getOrderDate()));
@@ -716,6 +752,7 @@ public class Client {
             System.out.println(prettify("Replacement shipment creation date: " + ticket.getReplacementShipment().getCreationDate()));
             System.out.println(prettify("Replacement shipment tracking number: " + ticket.getReplacementShipment().getTrackingNumber()));
         }
+        waitForKey();
     }
 
     public static void updateSellerInfo() {
@@ -723,6 +760,7 @@ public class Client {
 
         String[] options = new String[]{"Go back", "Name", "Password", "Email", "Phone number", "Address"};
         while (true) {
+            clearConsole();
             int answer = prettyMenu("Select the information you'd like to change", options);
 
             switch (answer) {
@@ -763,6 +801,7 @@ public class Client {
     }
 
     public static void displayProduct(Product product) {
+        clearConsole();
         System.out.println(prettify("Title: " + product.getTitle()));
         System.out.println(prettify("Description: ") + product.getDescription());
         System.out.println(prettify("Category: ") + product.getCategory());
@@ -774,11 +813,13 @@ public class Client {
         System.out.println(prettify("Sold by: ") + product.getSeller().getName());
         System.out.println(prettify("Likes: ") + product.getLikes());
         System.out.println(prettify("Commercialization date: ") + product.getCommercializationDate());
+        waitForKey();
     }
 
     private static void displayBuyerProductActions(Product product) {
         String[] options = {"Go back", "Toggle like", "Display reviews", "Add to cart"};
         while (true) {
+            clearConsole();
             int answer = prettyMenu("Select action", options);
             switch (answer) {
                 case 0 -> {
@@ -815,8 +856,9 @@ public class Client {
     private static void placeOrder() {
         Buyer buyer = (Buyer) unishop.getCurrentUser();
         Cart cart = buyer.getCart();
+        clearConsole();
 
-        System.out.println(prettify("Payement form"));
+        System.out.println(prettify("Payment form"));
         String shippingAddress = prettyPrompt("Shipping address");
 
         int fidelityPointsUsed = 0;
@@ -884,6 +926,7 @@ public class Client {
     private static void findBuyer() {
         loop:
         while (true) {
+            clearConsole();
             String[] searchBy = {"Go Back", "Name", "Phone number", "email"};
             int search = prettyMenu("Search buyer by", searchBy);
 
@@ -925,6 +968,12 @@ public class Client {
 
             matchListString.add("Go back");
             while (true) {
+                if (matchList.isEmpty()) {
+                    System.out.println("------------");
+                    System.out.println(prettify("No match found"));
+                    waitForKey();
+                    break;
+                }
                 int index = prettyMenu("Select buyer", matchListString);
                 if (index == matchListString.size() - 1) break;
 
@@ -937,6 +986,7 @@ public class Client {
     private static void findSeller() {
         loop:
         while (true) {
+            clearConsole();
             String[] searchBy = {"Go back", "Name", "Address", "Phone number", "email"};
             int search = prettyMenu("Search seller by", searchBy);
 
@@ -986,6 +1036,12 @@ public class Client {
 
             matchListString.add("Go back");
             while (true) {
+                if (matchList.isEmpty()) {
+                    System.out.println("------------");
+                    System.out.println(prettify("No match found"));
+                    waitForKey();
+                    break;
+                }
                 int index = prettyMenu("Select seller", matchListString);
                 if (index == matchListString.size() - 1) break;
 
@@ -996,28 +1052,32 @@ public class Client {
     }
 
     private static void displayReviews(Product product) {
+        clearConsole();
         ArrayList<Review> reviews = product.getReviews();
+
         if (reviews.isEmpty()) {
             System.out.println(prettify("No reviews for this product"));
-        } else {
-            // Print reviews in batches of 3
-            int itemsPerPage = 3;
-            for (int i = 0; i < reviews.size(); i += itemsPerPage) {
-                clearConsole();
-                int itemsOnPage = Math.min(itemsPerPage, reviews.size() - i);
+            waitForKey();
+            return;
+        }
 
-                System.out.println(prettify("Reviews " + (i + 1) + " to " + (i + itemsOnPage) + ":"));
-                for (int j = i; j < i + itemsOnPage; j++) {
-                    Review review = reviews.get(j);
-                    Buyer author = review.getAuthor();
-                    System.out.println(prettify("--------------------"));
-                    System.out.println(prettify(author.getFirstName() + " " + author.getLastName() + " - " + review.getRating() + "/100"));
-                    System.out.println(prettify("Title: " + review.getTitle()));
-                    System.out.println(prettify(review.getContent()));
-                }
+        // Print reviews in batches of 3
+        int itemsPerPage = 3;
+        for (int i = 0; i < reviews.size(); i += itemsPerPage) {
+            clearConsole();
+            int itemsOnPage = Math.min(itemsPerPage, reviews.size() - i);
 
-                if (!prettyPromptBool("See more reviews?")) break;
+            System.out.println(prettify("Reviews " + (i + 1) + " to " + (i + itemsOnPage) + ":"));
+            for (int j = i; j < i + itemsOnPage; j++) {
+                Review review = reviews.get(j);
+                Buyer author = review.getAuthor();
+                System.out.println(prettify("--------------------"));
+                System.out.println(prettify(author.getFirstName() + " " + author.getLastName() + " - " + review.getRating() + "/100"));
+                System.out.println(prettify("Title: " + review.getTitle()));
+                System.out.println(prettify(review.getContent()));
             }
+
+            if (!prettyPromptBool("See more reviews?")) break;
         }
     }
 
@@ -1026,6 +1086,7 @@ public class Client {
 
         loop:
         while (true) {
+            clearConsole();
             System.out.println(prettify("Name: " + seller.getName()));
             System.out.println(prettify("Email: " + seller.getEmail()));
             System.out.println(prettify("Address: " + seller.getAddress()));
@@ -1043,6 +1104,7 @@ public class Client {
                 case 1 -> {
                     currentBuyer.toggleLike(seller);
                     System.out.println(prettify("Successfully toggled follow"));
+                    waitForKey();
                 }
                 case 2 -> displayProducts(seller.getProductsOffered());
             }
@@ -1055,6 +1117,7 @@ public class Client {
         options.add("Main menu");
 
         while (true) {
+            clearConsole();
             // Select category
             int choice = prettyMenu("Categories", options);
             if (choice == options.size() - 1) break;
@@ -1082,6 +1145,13 @@ public class Client {
                 }
             }
 
+            if (matchedProducts.isEmpty()) {
+                System.out.println("------------");
+                System.out.println(prettify("No match found"));
+                waitForKey();
+                continue;
+            }
+
             int answer = prettyMenu("Select a product", matchedProductsString);
 
             // Check if we go back
@@ -1105,6 +1175,7 @@ public class Client {
 
         loop:
         while (true) {
+            clearConsole();
             System.out.println(prettify("Username: " + buyer.getUsername()));
             System.out.println(prettify("Full name: ") + buyer.getFirstName() + " " + buyer.getLastName());
             System.out.println(prettify("Followed by you: " + currentBuyer.doesLike(buyer)));
@@ -1124,6 +1195,7 @@ public class Client {
                 case 1 -> {
                     currentBuyer.toggleLike(buyer);
                     System.out.println(prettify("Successfully toggled follow"));
+                    waitForKey();
                 }
             }
         }

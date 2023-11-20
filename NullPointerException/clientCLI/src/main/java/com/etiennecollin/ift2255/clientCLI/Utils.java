@@ -27,30 +27,6 @@ public class Utils {
     private static final Scanner scanner = new Scanner(System.in);
 
     /**
-     * Displays a prompt with single question and returns the user answer.
-     *
-     * @param prompt The message to display as the prompt.
-     *
-     * @return The answer of the user.
-     */
-    protected static String prettyPrompt(String prompt) {
-        System.out.println("------------");
-        System.out.print(prettify(prompt) + ": ");
-        return scanner.nextLine().strip();
-    }
-
-    /**
-     * Prettifies a string by adding a delimiter bar at the beginning.
-     *
-     * @param string The input string to prettify.
-     *
-     * @return The prettified string with a delimiter at the beginning.
-     */
-    protected static String prettify(String string) {
-        return "| " + string;
-    }
-
-    /**
      * Displays a prompt with single question and returns the user answer if valid.
      *
      * @param prompt    The message to display as the prompt.
@@ -70,6 +46,17 @@ public class Utils {
 
             System.out.println(prettify(result.message));
         }
+    }
+
+    /**
+     * Prettifies a string by adding a delimiter bar at the beginning.
+     *
+     * @param string The input string to prettify.
+     *
+     * @return The prettified string with a delimiter at the beginning.
+     */
+    protected static String prettify(String string) {
+        return "| " + string;
     }
 
     /**
@@ -479,6 +466,24 @@ public class Utils {
             return new ValidationResult(true, "");
         }
     }
+
+    public static void waitForKey() {
+        prettyPrompt("Press any key to continue");
+    }
+
+    /**
+     * Displays a prompt with single question and returns the user answer.
+     *
+     * @param prompt The message to display as the prompt.
+     *
+     * @return The answer of the user.
+     */
+    protected static String prettyPrompt(String prompt) {
+        System.out.println("------------");
+        System.out.print(prettify(prompt) + ": ");
+        return scanner.nextLine().strip();
+    }
+
 
     public record ValidationResult(boolean isValid, String message) {}
 }
