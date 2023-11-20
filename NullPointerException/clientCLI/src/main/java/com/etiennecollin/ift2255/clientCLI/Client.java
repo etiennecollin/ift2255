@@ -526,13 +526,13 @@ public class Client {
     }
 
     public static void updateBuyerInfo() {
-        String[] updateInfoMenu = new String[]{"Go back", "First name", "Last name", "Password", "Email", "Phone number", "Shipping address"};
         Buyer buyer = (Buyer) unishop.getCurrentUser();
 
+        String[] options = new String[]{"Go back", "First name", "Last name", "Password", "Email", "Phone number", "Address"};
         while (true) {
-            int menuIdx = prettyMenu("Select the information you'd like to change", updateInfoMenu);
+            int answer = prettyMenu("Select the information you'd like to change", options);
 
-            switch (menuIdx) {
+            switch (answer) {
                 case 0 -> {
                     return;
                 }
@@ -567,7 +567,7 @@ public class Client {
                     buyer.setPhoneNumber(newVal);
                 }
                 case 6 -> {
-                    String newVal = prettyPrompt("Set a new shipping address", Utils::validateNotEmpty);
+                    String newVal = prettyPrompt("Set a new address", Utils::validateNotEmpty);
                     buyer.setAddress(newVal);
                 }
             }
