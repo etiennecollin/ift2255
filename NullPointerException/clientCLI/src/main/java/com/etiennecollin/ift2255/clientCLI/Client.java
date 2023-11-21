@@ -439,6 +439,9 @@ public class Client {
     public static void displayBuyerOrderActions(Order order) {
         ArrayList<DynamicMenuItem> options = new ArrayList<>();
 
+        options.add(new DynamicMenuItem("Evaluate a product",
+                () -> System.out.println(prettify("Not yet implemented")),
+                () -> order.getState() == OrderState.Delivered));
         options.add(new DynamicMenuItem("Confirm reception of order", () -> {
             if (prettyPromptBool("Do you really want to mark this order as delivered?")) {
                 order.setDelivered();
