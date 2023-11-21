@@ -28,7 +28,7 @@ public class Ticket implements Serializable {
     private TicketState state;
     private TicketCause cause;
 
-    public Ticket(String problemDescription, Order order, ArrayList<Tuple<Product, Integer>> products, TicketCause cause, Buyer buyer, Seller seller) {
+    public Ticket(String problemDescription, Order order, ArrayList<Tuple<Product, Integer>> products, TicketCause cause, TicketState state, Buyer buyer, Seller seller) {
         this.products = products;
         this.order = order;
         this.cause = cause;
@@ -39,12 +39,12 @@ public class Ticket implements Serializable {
         this.replacementProductDescription = "";
         this.returnShipment = null;
         this.replacementShipment = null;
-
-        if (LocalDate.now().isAfter(order.getOrderDate().plusDays(30))) {
-            this.state = TicketState.OpenAuto;
-        } else {
-            this.state = TicketState.OpenManual;
-        }
+        this.state = state;
+//        if (LocalDate.now().isAfter(order.getOrderDate().plusDays(30))) {
+//            this.state = TicketState.OpenAuto;
+//        } else {
+//            this.state = TicketState.OpenManual;
+//        }
 
         buyer.addTicket(this);
         seller.addTicket(this);

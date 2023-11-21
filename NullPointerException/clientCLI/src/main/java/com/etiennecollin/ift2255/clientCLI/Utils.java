@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -341,6 +342,39 @@ public class Utils {
             return answerParsed;
         }
     }
+
+    public static void prettyDynamicMenu(String prompt, String backName, ArrayList<DynamicMenuItem> menuItems, Runnable topOfLoopDisplayer) {
+
+        while (true) {
+            ArrayList<DynamicMenuItem> filteredItems = new ArrayList<>();
+            for (var item : menuItems) {
+                if (item.displayCondition.get()) {
+                    filteredItems.add(item);
+                }
+            }
+
+            ArrayList<String> itemNames = new ArrayList<>();
+            itemNames.add(backName);
+            for (var item : filteredItems) {
+                itemNames.add(item.name);
+            }
+
+
+            // Setup action menu
+            clearConsole();
+            topOfLoopDisplayer.run();
+
+            int answer = prettyMenu(prompt, itemNames);
+            if (answer == 0) {
+                break;
+            }
+            else {
+                filteredItems.get(answer - 1).action.run();
+            }
+        }
+    }
+
+    public record DynamicMenuItem(String name, Runnable action, Supplier<Boolean> displayCondition) {}
 
     public static <T> void prettyPaginationMenu(List<T> items, int itemsPerPage, String actionName, Consumer<T> itemDisplayer, Function<T, String> itemMenuName, Consumer<T> action) {
         outerLoop:

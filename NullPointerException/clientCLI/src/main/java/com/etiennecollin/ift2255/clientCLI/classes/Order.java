@@ -112,7 +112,7 @@ public class Order implements Serializable {
         return seller;
     }
 
-    public Ticket createTicket(String description, ArrayList<Tuple<Product, Integer>> products, TicketCause cause, Order exchangeOrder) {
+    public Ticket createTicket(String description, ArrayList<Tuple<Product, Integer>> products, TicketCause cause, TicketState state, Order exchangeOrder) {
         // Check if order can still be reported
         if (LocalDate.now().isAfter(this.getOrderDate().plusYears(1))) {
             throw new IllegalArgumentException("This order can no longer be reported");
@@ -126,7 +126,7 @@ public class Order implements Serializable {
         }
 
         // Create ticket per seller and add it to buyer and seller
-        Ticket ticket = new Ticket(description, this, products, cause, this.buyer, seller);
+        Ticket ticket = new Ticket(description, this, products, cause, state, this.buyer, seller);
         this.buyer.addTicket(ticket);
         seller.addTicket(ticket);
 
@@ -151,14 +151,14 @@ public class Order implements Serializable {
         this.products = products;
     }
 
-    public void createTicket(String description, TicketCause cause) {
+    public void createTicket(String description, TicketCause cause, TicketState state) {
         // Check if order can still be reported
         if (LocalDate.now().isAfter(this.getOrderDate().plusYears(1))) {
             throw new IllegalArgumentException("This order can no longer be reported");
         }
 
         // Create ticket per seller and add it to buyer and seller
-        Ticket ticket = new Ticket(description, this, this.products, cause, this.buyer, seller);
+        Ticket ticket = new Ticket(description, this, this.products, cause, state, this.buyer, seller);
         this.buyer.addTicket(ticket);
         seller.addTicket(ticket);
 

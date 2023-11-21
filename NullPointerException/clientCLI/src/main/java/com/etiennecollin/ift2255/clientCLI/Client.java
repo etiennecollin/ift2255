@@ -424,7 +424,7 @@ public class Client {
         System.out.println(prettify("Buyer: " + order.getBuyer().getUsername()));
         System.out.println(prettify("Seller: " + order.getSeller().getName()));
         System.out.println(prettify("Fidelity points used to pay: " + order.getPayementMethod().getFidelityPointsUsed()));
-        System.out.println(prettify("Money used to pay: " + order.getPayementMethod().getMoneyUsed()));
+        System.out.println(prettify("Money used to pay: " + order.getPayementMethod().getMoneyUsed() / 100 + "." + order.getPayementMethod().getMoneyUsed() % 100 + "$"));
         System.out.println(prettify("Shipping Address: " + order.getAddress()));
         if (order.getState().equals(OrderState.InTransit)) {
             System.out.println(prettify("Shipping company: " + order.getShipment().getShippingCompany()));
@@ -435,77 +435,62 @@ public class Client {
     }
 
     public static void displayBuyerOrderActions(Order order) {
-        ArrayList<String> options = new ArrayList<>();
-        options.add("Go back");
-        options.add("Confirm reception of order");
-        if (LocalDate.now().isBefore(order.getOrderDate().plusDays(365))) {
-            options.add("Report issue with order");
+        ArrayList<DynamicMenuItem> options = new ArrayList<>();
 
-            if (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getExpectedDeliveryDate().plusDays(30))) {
-                options.add("Return items");
-                options.add("Exchange items");
-
-                if (order.getState() == OrderState.InProduction) {
-                    options.add("Cancel order");
-                }
-            }
-        }
-
-        loop:
-        while (true) {
-            clearConsole();
-            displayOrder(order);
-
-            // Setup action menu
-            int answer = prettyMenu("Select action", options);
-            switch (answer) {
-                case 0 -> {
-                    break loop;
-                }
-                case 1 -> {
-                    boolean confirmation = prettyPromptBool("Do you really want to mark this order as delivered?");
-                    if (confirmation) {
+        options.add(new DynamicMenuItem("Confirm reception of order",
+                () -> {
+                    if (prettyPromptBool("Do you really want to mark this order as delivered?")) {
                         order.setDelivered();
                         System.out.println(prettify("Order successfully marked as delivered"));
                     } else {
                         System.out.println(prettify("Action cancelled"));
                     }
-                }
-                case 2 -> {
-                    boolean confirmation = prettyPromptBool("Do you really want to open a ticket for this order?");
-                    if (confirmation) {
+                },
+                () -> order.getState() == OrderState.InTransit
+        ));
+        options.add(new DynamicMenuItem("Report issue with order",
+                () -> {
+                    if (prettyPromptBool("Do you really want to create an issue for this order?")) {
                         createTicket(order);
                     } else {
                         System.out.println(prettify("Action cancelled"));
                     }
-                }
-                case 3 -> {
-                    boolean confirmation = prettyPromptBool("Do you really want to return items from this order?");
-                    if (confirmation) {
+                },
+                () -> order.getState() != OrderState.Cancelled && LocalDate.now().isBefore(order.getOrderDate().plusDays(365))
+        ));
+        options.add(new DynamicMenuItem("Return items",
+                () -> {
+                    if (prettyPromptBool("Do you really want to return items from this order?")) {
                         displayReturnMenu(order);
                     } else {
                         System.out.println(prettify("Action cancelled"));
                     }
-                }
-                case 4 -> {
-                    boolean confirmation = prettyPromptBool("Do you really want to exchange items from this order?");
-                    if (confirmation) {
-                        createTicket(order);
+                },
+                () -> order.getState() != OrderState.Cancelled && (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getExpectedDeliveryDate().plusDays(30)))
+        ));
+        options.add(new DynamicMenuItem("Exchange items",
+                () -> {
+                    if (prettyPromptBool("Do you really want to exchange items from this order?")) {
+                        displayExchangeMenu(order);
                     } else {
                         System.out.println(prettify("Action cancelled"));
                     }
-                }
-                case 5 -> {
-                    boolean confirmation = prettyPromptBool("Do you really want to cancel this order?");
-                    if (confirmation) {
+                },
+                () -> order.getState() != OrderState.Cancelled && (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getExpectedDeliveryDate().plusDays(30)))
+        ));
+        options.add(new DynamicMenuItem("Cancel order",
+                () -> {
+                    if (prettyPromptBool("Do you really want to cancel this order?")) {
                         order.setCancelled();
                         System.out.println(prettify("Order cancelled"));
                     } else {
                         System.out.println(prettify("Action cancelled"));
                     }
-                }
-            }
-        }
+                },
+                () -> order.getState() == OrderState.InProduction
+        ));
+
+        prettyDynamicMenu("Select action", "Go back", options, () -> displayOrder(order));
     }
 
     // TODO test
@@ -514,7 +499,7 @@ public class Client {
         String description = prettyPrompt("Description of problem", Utils::validateNotEmpty);
 
         if (prettyPromptBool("Do you really want to open a ticket for this order?")) {
-            order.createTicket(description, cause);
+            order.createTicket(description, cause, TicketState.OpenManual);
             System.out.println(prettify("Ticket successfully opened"));
         } else {
             System.out.println(prettify("Cancelled ticket creation"));
@@ -535,12 +520,9 @@ public class Client {
 
         TicketCause cause = prettyMenu("Select the type of issue", TicketCause.class);
 
-        Ticket ticket = order.createTicket("", new ArrayList<>(returnProducts), cause, null);
-
-        if (ticket.getState().equals(TicketState.OpenAuto)) {
-            ticket.setSuggestedSolution("Return request accepted. Please bring the package to your nearest post office");
-            System.out.println(prettify(ticket.getSuggestedSolution()));
-        }
+        Ticket ticket = order.createTicket("", new ArrayList<>(returnProducts), cause, TicketState.OpenAuto, null);
+        ticket.setSuggestedSolution("Return request accepted. Please bring the package to your nearest post office.");
+        System.out.println(prettify(ticket.getSuggestedSolution()));
 
         waitForKey();
     }
