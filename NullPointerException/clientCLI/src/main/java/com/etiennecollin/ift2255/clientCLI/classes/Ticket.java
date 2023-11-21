@@ -40,11 +40,11 @@ public class Ticket implements Serializable {
         this.returnShipment = null;
         this.replacementShipment = null;
         this.state = state;
-//        if (LocalDate.now().isAfter(order.getOrderDate().plusDays(30))) {
-//            this.state = TicketState.OpenAuto;
-//        } else {
-//            this.state = TicketState.OpenManual;
-//        }
+        //        if (LocalDate.now().isAfter(order.getOrderDate().plusDays(30))) {
+        //            this.state = TicketState.OpenAuto;
+        //        } else {
+        //            this.state = TicketState.OpenManual;
+        //        }
 
         buyer.addTicket(this);
         seller.addTicket(this);

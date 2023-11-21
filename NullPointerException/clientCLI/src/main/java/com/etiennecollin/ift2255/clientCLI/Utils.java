@@ -359,7 +359,6 @@ public class Utils {
                 itemNames.add(item.name);
             }
 
-
             // Setup action menu
             clearConsole();
             topOfLoopDisplayer.run();
@@ -367,14 +366,17 @@ public class Utils {
             int answer = prettyMenu(prompt, itemNames);
             if (answer == 0) {
                 break;
-            }
-            else {
+            } else {
                 filteredItems.get(answer - 1).action.run();
             }
         }
     }
 
-    public record DynamicMenuItem(String name, Runnable action, Supplier<Boolean> displayCondition) {}
+    protected static void clearConsole() {
+        for (int i = 0; i < 100; i++) {
+            System.out.println();
+        }
+    }
 
     public static <T> void prettyPaginationMenu(List<T> items, int itemsPerPage, String actionName, Consumer<T> itemDisplayer, Function<T, String> itemMenuName, Consumer<T> action) {
         outerLoop:
@@ -420,12 +422,6 @@ public class Utils {
                     }
                 }
             }
-        }
-    }
-
-    protected static void clearConsole() {
-        for (int i = 0; i < 100; i++) {
-            System.out.println();
         }
     }
 
@@ -517,6 +513,9 @@ public class Utils {
         System.out.print(prettify(prompt) + ": ");
         return scanner.nextLine().strip();
     }
+
+    public record DynamicMenuItem(String name, Runnable action, Supplier<Boolean> displayCondition) {}
+
 
     public record ValidationResult(boolean isValid, String message) {}
 }

@@ -437,58 +437,43 @@ public class Client {
     public static void displayBuyerOrderActions(Order order) {
         ArrayList<DynamicMenuItem> options = new ArrayList<>();
 
-        options.add(new DynamicMenuItem("Confirm reception of order",
-                () -> {
-                    if (prettyPromptBool("Do you really want to mark this order as delivered?")) {
-                        order.setDelivered();
-                        System.out.println(prettify("Order successfully marked as delivered"));
-                    } else {
-                        System.out.println(prettify("Action cancelled"));
-                    }
-                },
-                () -> order.getState() == OrderState.InTransit
-        ));
-        options.add(new DynamicMenuItem("Report issue with order",
-                () -> {
-                    if (prettyPromptBool("Do you really want to create an issue for this order?")) {
-                        createTicket(order);
-                    } else {
-                        System.out.println(prettify("Action cancelled"));
-                    }
-                },
-                () -> order.getState() != OrderState.Cancelled && LocalDate.now().isBefore(order.getOrderDate().plusDays(365))
-        ));
-        options.add(new DynamicMenuItem("Return items",
-                () -> {
-                    if (prettyPromptBool("Do you really want to return items from this order?")) {
-                        displayReturnMenu(order);
-                    } else {
-                        System.out.println(prettify("Action cancelled"));
-                    }
-                },
-                () -> order.getState() != OrderState.Cancelled && (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getExpectedDeliveryDate().plusDays(30)))
-        ));
-        options.add(new DynamicMenuItem("Exchange items",
-                () -> {
-                    if (prettyPromptBool("Do you really want to exchange items from this order?")) {
-                        displayExchangeMenu(order);
-                    } else {
-                        System.out.println(prettify("Action cancelled"));
-                    }
-                },
-                () -> order.getState() != OrderState.Cancelled && (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getExpectedDeliveryDate().plusDays(30)))
-        ));
-        options.add(new DynamicMenuItem("Cancel order",
-                () -> {
-                    if (prettyPromptBool("Do you really want to cancel this order?")) {
-                        order.setCancelled();
-                        System.out.println(prettify("Order cancelled"));
-                    } else {
-                        System.out.println(prettify("Action cancelled"));
-                    }
-                },
-                () -> order.getState() == OrderState.InProduction
-        ));
+        options.add(new DynamicMenuItem("Confirm reception of order", () -> {
+            if (prettyPromptBool("Do you really want to mark this order as delivered?")) {
+                order.setDelivered();
+                System.out.println(prettify("Order successfully marked as delivered"));
+            } else {
+                System.out.println(prettify("Action cancelled"));
+            }
+        }, () -> order.getState() == OrderState.InTransit));
+        options.add(new DynamicMenuItem("Report issue with order", () -> {
+            if (prettyPromptBool("Do you really want to create an issue for this order?")) {
+                createTicket(order);
+            } else {
+                System.out.println(prettify("Action cancelled"));
+            }
+        }, () -> order.getState() != OrderState.Cancelled && LocalDate.now().isBefore(order.getOrderDate().plusDays(365))));
+        options.add(new DynamicMenuItem("Return items", () -> {
+            if (prettyPromptBool("Do you really want to return items from this order?")) {
+                displayReturnMenu(order);
+            } else {
+                System.out.println(prettify("Action cancelled"));
+            }
+        }, () -> order.getState() != OrderState.Cancelled && (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getExpectedDeliveryDate().plusDays(30)))));
+        options.add(new DynamicMenuItem("Exchange items", () -> {
+            if (prettyPromptBool("Do you really want to exchange items from this order?")) {
+                displayExchangeMenu(order);
+            } else {
+                System.out.println(prettify("Action cancelled"));
+            }
+        }, () -> order.getState() != OrderState.Cancelled && (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getExpectedDeliveryDate().plusDays(30)))));
+        options.add(new DynamicMenuItem("Cancel order", () -> {
+            if (prettyPromptBool("Do you really want to cancel this order?")) {
+                order.setCancelled();
+                System.out.println(prettify("Order cancelled"));
+            } else {
+                System.out.println(prettify("Action cancelled"));
+            }
+        }, () -> order.getState() == OrderState.InProduction));
 
         prettyDynamicMenu("Select action", "Go back", options, () -> displayOrder(order));
     }
