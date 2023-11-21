@@ -4,12 +4,14 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes.products;
 
+import com.etiennecollin.ift2255.clientCLI.classes.Seller;
+
 public class OfficeEquipment extends Product {
     private String brand;
     private String model;
 
-    public OfficeEquipment(int price, int quantity, String title, String description, int fidelityPoints, String brand, String model, OfficeEquipmentCategory subCategory) {
-        super(price, quantity, title, description, ProductCategory.OfficeEquipment, subCategory, fidelityPoints);
+    public OfficeEquipment(int price, int quantity, String title, String description, Seller seller, int fidelityPoints, String brand, String model, OfficeEquipmentCategory subCategory) throws IllegalArgumentException {
+        super(price, quantity, title, description, ProductCategory.OfficeEquipment, subCategory, seller, fidelityPoints);
         this.brand = brand;
         this.model = model;
     }

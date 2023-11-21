@@ -4,10 +4,11 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public enum OrderState {
-    InProduction("In Production"), InTransit("In Transit"), Delivered("Delivered");
+public enum OrderState implements Serializable {
+    InProduction("In Production"), InTransit("In Transit"), Delivered("Delivered"), Cancelled("Cancelled");
     private final String name;
 
     OrderState(String name) {

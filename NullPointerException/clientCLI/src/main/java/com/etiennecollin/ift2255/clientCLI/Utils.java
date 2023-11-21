@@ -6,10 +6,18 @@ package com.etiennecollin.ift2255.clientCLI;
 
 import com.etiennecollin.ift2255.clientCLI.classes.UniShop;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The `Utils` class provides utility methods for common tasks in the client command-line interface (CLI).
@@ -20,16 +28,25 @@ public class Utils {
     private static final Scanner scanner = new Scanner(System.in);
 
     /**
-     * Displays a prompt with single question and returns the user answer.
+     * Displays a prompt with single question and returns the user answer if valid.
      *
-     * @param prompt The message to display as the prompt.
+     * @param prompt    The message to display as the prompt.
+     * @param validator A {@code Function} that takes a {@code String} as input and returns a {@code ValidationResult}.
      *
      * @return The answer of the user.
      */
-    protected static String prettyPrompt(String prompt) {
-        System.out.println("------------");
-        System.out.print(prettify(prompt) + ": ");
-        return scanner.nextLine().strip();
+    protected static String prettyPrompt(String prompt, Function<String, ValidationResult> validator) {
+        while (true) {
+            System.out.println("------------");
+            System.out.print(prettify(prompt) + ": ");
+            String answer = scanner.nextLine().strip();
+            ValidationResult result = validator.apply(answer);
+            if (result.isValid) {
+                return answer;
+            }
+
+            System.out.println(prettify(result.message));
+        }
     }
 
     /**
@@ -44,28 +61,6 @@ public class Utils {
     }
 
     /**
-     * Displays a formatted prompt to the console and validates the user input using a custom validator function.
-     * Continues prompting the user until a valid response is provided.
-     *
-     * @param prompt    The prompt message to be displayed.
-     * @param validator A {@code Function} that takes a {@code String} as input and returns {@code true} if the input is valid, {@code false} otherwise.
-     *
-     * @return A valid user input as a {@code String} that passes the provided validator function.
-     */
-    protected static String prettyPromptValidated(String prompt, Function<String, Boolean> validator) {
-        while (true) {
-            System.out.println("------------");
-            System.out.print(prettify(prompt) + ": ");
-            String answer = scanner.nextLine().strip();
-            if (validator.apply(answer)) {
-                return answer;
-            }
-
-            System.out.println("Invalid response. Please follow the prompt.");
-        }
-    }
-
-    /**
      * Displays a formatted prompt to the console and retrieves an integer input from the user.
      * Continues prompting the user until a valid integer is provided.
      *
@@ -74,13 +69,32 @@ public class Utils {
      * @return A valid integer entered by the user.
      */
     protected static int prettyPromptInt(String prompt) {
+        return prettyPromptInt(prompt, i -> new ValidationResult(true, ""));
+    }
+
+    /**
+     * Displays a formatted prompt to the console and retrieves an integer input from the user.
+     * Continues prompting the user until a valid integer is provided.
+     *
+     * @param prompt    The prompt message to be displayed.
+     * @param validator A {@code Function} that takes an {@code Integer} as input and returns a {@code ValidationResult}
+     *
+     * @return A valid integer entered by the user.
+     */
+    protected static int prettyPromptInt(String prompt, Function<Integer, ValidationResult> validator) {
         while (true) {
             System.out.println("------------");
             System.out.print(prettify(prompt) + ": ");
             try {
-                return Integer.parseInt(scanner.nextLine().strip());
+                int num = Integer.parseInt(scanner.nextLine().strip());
+                ValidationResult result = validator.apply(num);
+                if (result.isValid) {
+                    return num;
+                }
+
+                System.out.println(prettify(result.message));
             } catch (NumberFormatException ignored) {
-                System.out.println("Please enter a whole number with no thousands symbol.");
+                System.out.println(prettify("Please enter a whole number with no thousands symbol."));
             }
         }
     }
@@ -110,12 +124,13 @@ public class Utils {
 
     /**
      * Displays a formatted prompt to the console and retrieves a currency amount input from the user.
-     * The input is expected to be in the format of a number representing a currency value (e.g., 1000 for $10.00).
+     * The input is expected to be in the format of a number representing a currency value
+     * (e.g. for $10.00: "10", "$10", "10.", "10.00", and "$10.00" are valid).
      * Continues prompting the user until a valid currency amount is provided.
      *
      * @param prompt The prompt message to be displayed.
      *
-     * @return A valid currency amount entered by the user, without decimal points and thousands symbols.
+     * @return A valid currency amount in cents.
      *
      * @throws NumberFormatException If the input provided is not a valid number.
      */
@@ -123,10 +138,39 @@ public class Utils {
         while (true) {
             System.out.println("------------");
             System.out.print(prettify(prompt) + ": ");
+
+            Pattern pattern = Pattern.compile("^\\$?(\\d+)\\.?(\\d{2})?$");
+            Matcher matcher = pattern.matcher(scanner.nextLine().strip());
+
+            if (matcher.find()) {
+                int value = Integer.parseInt(matcher.group(1)) * 100;
+                if (matcher.group(2) != null) {
+                    value += Integer.parseInt(matcher.group(2));
+                }
+
+                return value;
+            } else {
+                System.out.println("Please enter a positive dollar (and cents) value with no thousands symbol. E.g. 42.99");
+            }
+        }
+    }
+
+    /**
+     * Displays a formatted prompt to the console and retrieves a date input from the user.
+     * Continues prompting the user until a valid date is provided.
+     *
+     * @param prompt The prompt message to be displayed.
+     *
+     * @return A valid LocalDate entered by the user.
+     */
+    protected static LocalDate prettyPromptDate(String prompt) {
+        while (true) {
+            System.out.println("------------");
+            System.out.print(prettify(prompt) + " (yyyy-mm-dd): ");
             try {
-                return Integer.parseInt(scanner.nextLine().strip().replace(".", ""));
-            } catch (NumberFormatException ignored) {
-                System.out.println("Please enter a number with no thousands symbol.");
+                return LocalDate.parse(scanner.nextLine().strip(), DateTimeFormatter.ISO_LOCAL_DATE);
+            } catch (DateTimeParseException e) {
+                System.out.println("Please enter a date in yyyy-mm-dd format. E.g. 2023-01-01");
             }
         }
     }
@@ -299,6 +343,88 @@ public class Utils {
         }
     }
 
+    public static void prettyDynamicMenu(String prompt, String backName, ArrayList<DynamicMenuItem> menuItems, Runnable topOfLoopDisplayer) {
+
+        while (true) {
+            ArrayList<DynamicMenuItem> filteredItems = new ArrayList<>();
+            for (var item : menuItems) {
+                if (item.displayCondition.get()) {
+                    filteredItems.add(item);
+                }
+            }
+
+            ArrayList<String> itemNames = new ArrayList<>();
+            itemNames.add(backName);
+            for (var item : filteredItems) {
+                itemNames.add(item.name);
+            }
+
+            // Setup action menu
+            clearConsole();
+            topOfLoopDisplayer.run();
+
+            int answer = prettyMenu(prompt, itemNames);
+            if (answer == 0) {
+                break;
+            } else {
+                filteredItems.get(answer - 1).action.run();
+            }
+        }
+    }
+
+    protected static void clearConsole() {
+        for (int i = 0; i < 100; i++) {
+            System.out.println();
+        }
+    }
+
+    public static <T> void prettyPaginationMenu(List<T> items, int itemsPerPage, String actionName, Consumer<T> itemDisplayer, Function<T, String> itemMenuName, Consumer<T> action) {
+        outerLoop:
+        for (int i = 0; i < items.size(); i += itemsPerPage) {
+            int itemsOnPage = Math.min(itemsPerPage, items.size() - i);
+            clearConsole();
+
+            System.out.println(prettify("Page from " + (i + 1) + " to " + (i + itemsOnPage) + ":"));
+
+            ArrayList<String> itemMenuNames = new ArrayList<>();
+            itemMenuNames.add("Go back");
+
+            for (int j = i; j < i + itemsOnPage; j++) {
+                T item = items.get(j);
+                itemDisplayer.accept(item);
+                itemMenuNames.add(itemMenuName.apply(item));
+            }
+
+            // Setup action menu
+            ArrayList<String> options = new ArrayList<>();
+            options.add("Go back");
+            options.add(actionName);
+            if (i + itemsOnPage < items.size()) {
+                options.add("See more");
+            }
+
+            innerLoop:
+            while (true) {
+                int answer = prettyMenu("Select action", options);
+                switch (answer) {
+                    case 0 -> {
+                        // Go back
+                        break outerLoop;
+                    }
+                    case 1 -> {
+                        int index = prettyMenu("Select", itemMenuNames);
+                        if (index == 0) break;
+                        action.accept(items.get(i + index - 1));
+                    }
+                    case 2 -> {
+                        // See more
+                        break innerLoop;
+                    }
+                }
+            }
+        }
+    }
+
     protected static void quit(UniShop unishop) {
         System.out.println(prettify("Saving app state..."));
         unishop.saveUserList(Client.savePath);
@@ -311,9 +437,85 @@ public class Utils {
         uniShop.setCurrentUser(null);
     }
 
-    protected static void clearConsole() {
-        for (int i = 0; i < 100; i++) {
-            System.out.println();
+    public static ValidationResult validateName(String s) throws RuntimeException {
+        if (!s.matches("[a-zA-Z]+[\\s-]?[a-zA-Z]*")) {
+            return new ValidationResult(false, "Your name should only contains letters");
+        }
+        return new ValidationResult(true, "");
+    }
+
+    public static ValidationResult validateEmail(String s) throws RuntimeException {
+        if (!s.matches("[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}")) {
+            return new ValidationResult(false, "Your email has a wrong format");
+        }
+        return new ValidationResult(true, "");
+    }
+
+    // regex took from https://www.baeldung.com/java-regex-validate-phone-numbers
+    // accept format xxx xxx xxxx  , xxx-xxx-xxxx and xxxxxxxxxx where x are digits
+    public static ValidationResult validatePhoneNumber(String s) throws RuntimeException {
+        if (!s.matches("(\\(\\d{3}\\)|\\d{3})[- ]?\\d{3}[- ]?\\d{4}")) {
+            return new ValidationResult(false, "Your phone number has a wrong format");
+        }
+        return new ValidationResult(true, "");
+    }
+
+    public static ValidationResult validateISBN(String s) throws RuntimeException {
+        if (!s.matches("\\d{13}")) {
+            return new ValidationResult(false, "Your ISBN has a wrong format");
+        }
+        return new ValidationResult(true, "");
+    }
+
+    public static ValidationResult validateBonusFidelityPoints(int bonusPoints, int price) {
+        int dollars = price / 100;
+        int maxBonusPoints = 19 * dollars;
+        if (bonusPoints < 0) {
+            return new ValidationResult(false, "Bonus points cannot be negative.");
+        } else if (maxBonusPoints < bonusPoints) {
+            return new ValidationResult(false, "A maximum of " + maxBonusPoints + " bonus points are allowed based on this product's price.");
+        } else {
+            return new ValidationResult(true, "");
         }
     }
+
+    public static ValidationResult validateNumberRange(int number, int lowerBound, int upperBound) {
+        if (number < lowerBound) {
+            return new ValidationResult(false, "Number must not be less than " + lowerBound);
+        } else if (upperBound < number) {
+            return new ValidationResult(false, "Number must not be greater than " + upperBound);
+        } else {
+            return new ValidationResult(true, "");
+        }
+    }
+
+    public static ValidationResult validateNotEmpty(String string) {
+        if (string.isEmpty()) {
+            return new ValidationResult(false, "This field must not be empty.");
+        } else {
+            return new ValidationResult(true, "");
+        }
+    }
+
+    public static void waitForKey() {
+        prettyPrompt("Press any key to continue");
+    }
+
+    /**
+     * Displays a prompt with single question and returns the user answer.
+     *
+     * @param prompt The message to display as the prompt.
+     *
+     * @return The answer of the user.
+     */
+    protected static String prettyPrompt(String prompt) {
+        System.out.println("------------");
+        System.out.print(prettify(prompt) + ": ");
+        return scanner.nextLine().strip();
+    }
+
+    public record DynamicMenuItem(String name, Runnable action, Supplier<Boolean> displayCondition) {}
+
+
+    public record ValidationResult(boolean isValid, String message) {}
 }

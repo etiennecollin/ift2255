@@ -7,12 +7,14 @@ package com.etiennecollin.ift2255.clientCLI.classes;
 import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
 import java.io.Serializable;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Cart implements Serializable {
     private final Buyer buyer;
-    private ArrayList<Tuple<Product, Integer>> products;
+    private final ArrayList<Tuple<Product, Integer>> products;
     /**
      * Total value of cart in cents.
      */
@@ -24,6 +26,7 @@ public class Cart implements Serializable {
         this.cost = 0;
         this.numberOfFidelityPoints = 0;
         this.numberOfProducts = 0;
+        this.products = new ArrayList<>();
         this.buyer = buyer;
     }
 
@@ -93,7 +96,9 @@ public class Cart implements Serializable {
         throw new IllegalArgumentException("Product not in cart.");
     }
 
-    public void createOrder(String email, int phone, String address, String billingAddress, String creditCardName, int creditCardNumber, int creditCardExp, int creditCardSecretDigits) {
+    public void createOrder(String email, String phone, String address, String billingAddress, String creditCardName, String creditCardNumber, YearMonth creditCardExp, String creditCardSecretDigits, int fidelityPointsToUse, int purchaseCredit) {
+        int paidWithFidelityPoints = fidelityPointsToUse * 2; // This is in cents
+
         // "Sort" products by seller
         HashMap<Seller, ArrayList<Tuple<Product, Integer>>> hashmap = new HashMap<>();
         for (Tuple<Product, Integer> tuple : this.products) {
@@ -109,7 +114,10 @@ public class Cart implements Serializable {
         }
 
         // For each seller and tuples of Product/Quantity in the hashmap
-        hashmap.forEach((seller, tuples) -> {
+        for (Map.Entry<Seller, ArrayList<Tuple<Product, Integer>>> entry : hashmap.entrySet()) {
+            Seller seller = entry.getKey();
+            ArrayList<Tuple<Product, Integer>> tuples = entry.getValue();
+
             int subTotalCost = 0;
             int subTotalFidelityPoints = 0;
 
@@ -118,11 +126,24 @@ public class Cart implements Serializable {
                 Product product = tuple.first;
                 int quantity = tuple.second;
                 subTotalCost += product.getCost() * quantity;
-                subTotalFidelityPoints += (product.getCost() / 100 + product.getBonusFidelityPoints()) * quantity;
+
+                // Subtract rebate from fidelity points
+                if (paidWithFidelityPoints > 0) {
+                    if (subTotalCost < paidWithFidelityPoints) {
+                        paidWithFidelityPoints -= subTotalCost;
+                        subTotalCost = 0;
+                    } else {
+                        subTotalCost -= paidWithFidelityPoints;
+                        paidWithFidelityPoints = 0;
+                    }
+                }
+                subTotalFidelityPoints += (subTotalCost / 100 + product.getBonusFidelityPoints()) * quantity;
             }
 
+            PayementMethod payementMethod = new PayementMethod(subTotalCost, fidelityPointsToUse, 0);
+
             // Create the sub-order
-            Order order = new Order(subTotalCost, subTotalFidelityPoints, tuples, email, phone, address, billingAddress, creditCardName, creditCardNumber, creditCardExp, creditCardSecretDigits, this.buyer, seller);
+            Order order = new Order(subTotalCost, subTotalFidelityPoints, payementMethod, tuples, email, phone, address, billingAddress, creditCardName, creditCardNumber, creditCardExp, creditCardSecretDigits, this.buyer, seller);
             this.buyer.addOrder(order);
             seller.addOrderSold(order);
 
@@ -130,7 +151,7 @@ public class Cart implements Serializable {
             String content = "Order " + order.getId() + " by " + order.getBuyer().getFirstName() + " " + order.getBuyer().getLastName() + " was received on " + order.getOrderDate() + ".";
             Notification notification = new Notification("Order received", content);
             seller.addNotification(notification);
-        });
+        }
 
         emptyCart();
     }
@@ -139,6 +160,10 @@ public class Cart implements Serializable {
         this.products.clear();
         this.numberOfFidelityPoints = 0;
         this.cost = 0;
+    }
+
+    public String getFormattedCost() {
+        return getCost() / 100 + "." + getCost() % 100;
     }
 
     public int getCost() {

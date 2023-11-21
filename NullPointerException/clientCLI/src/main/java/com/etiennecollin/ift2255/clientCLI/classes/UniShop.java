@@ -42,6 +42,7 @@ public class UniShop {
         } catch (IOException | ClassNotFoundException e) {
             // throw new RuntimeException("Could not load the user list");
         }
+        updateCatalog();
     }
 
     public ArrayList<Product> getCatalog() {
@@ -89,37 +90,37 @@ public class UniShop {
     }
 
     public void addUser(Buyer buyer) throws IllegalArgumentException {
-        if (buyerList.containsKey(buyer.getUsername())) {
+        if (buyerList.containsKey(buyer.getUsername().toLowerCase())) {
             throw new IllegalArgumentException("This buyer already exists");
         }
-        this.buyerList.put(buyer.getUsername(), buyer);
+        this.buyerList.put(buyer.getUsername().toLowerCase(), buyer);
     }
 
     public void addUser(Seller seller) throws IllegalArgumentException {
-        if (sellerList.containsKey(seller.getName())) {
+        if (sellerList.containsKey(seller.getName().toLowerCase())) {
             throw new IllegalArgumentException("This seller already exists");
         }
-        this.sellerList.put(seller.getName(), seller);
+        this.sellerList.put(seller.getName().toLowerCase(), seller);
         updateCatalog();
     }
 
     public void removeUser(Buyer buyer) {
-        if (!buyerList.containsKey(buyer.getUsername())) {
+        if (!buyerList.containsKey(buyer.getUsername().toLowerCase())) {
             throw new IllegalArgumentException("This buyer does not exist");
         }
-        this.buyerList.remove(buyer.getUsername());
+        this.buyerList.remove(buyer.getUsername().toLowerCase());
     }
 
     public void removeUser(Seller seller) {
-        if (!sellerList.containsKey(seller.getName())) {
+        if (!sellerList.containsKey(seller.getName().toLowerCase())) {
             throw new IllegalArgumentException("This seller does not exist");
         }
-        this.sellerList.remove(seller.getName());
+        this.sellerList.remove(seller.getName().toLowerCase());
         updateCatalog();
     }
 
     public void loginBuyer(String username, String password) throws IllegalArgumentException {
-        Buyer buyer = buyerList.get(username);
+        Buyer buyer = buyerList.get(username.toLowerCase());
 
         // Check that a buyer is found
         if (buyer == null) {
@@ -134,7 +135,7 @@ public class UniShop {
     }
 
     public void loginSeller(String name, String password) throws IllegalArgumentException {
-        Seller seller = sellerList.get(name);
+        Seller seller = sellerList.get(name.toLowerCase());
 
         if (seller == null) {
             throw new IllegalArgumentException("Incorrect name");
@@ -147,7 +148,7 @@ public class UniShop {
         this.setCurrentUser(seller);
     }
 
-    public boolean isPasswordValid(String password) {
+    public boolean isPasswordMatching(String password) {
         return this.currentUser.getPassword() == password.hashCode();
     }
 }

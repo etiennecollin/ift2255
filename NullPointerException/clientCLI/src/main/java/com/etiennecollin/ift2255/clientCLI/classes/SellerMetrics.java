@@ -4,6 +4,8 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes;
 
+import java.io.Serializable;
+
 public record SellerMetrics(int recentRevenue, int totalRevenue, int numberRecentProductsSold,
                             int numberTotalProductsSold, int numberProductsOffered, int averageRecentProductRating,
-                            int averageTotalProductRating) {}
+                            int averageTotalProductRating) implements Serializable {}

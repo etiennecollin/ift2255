@@ -4,6 +4,8 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes.products;
 
+import com.etiennecollin.ift2255.clientCLI.classes.Seller;
+
 import java.time.LocalDate;
 
 public class LearningResource extends Product {
@@ -12,8 +14,8 @@ public class LearningResource extends Product {
     private LocalDate releaseDate;
     private int editionNumber;
 
-    public LearningResource(int price, int quantity, String title, String description, int fidelityPoints, int isbn, String organisation, LocalDate releaseDate, LearningResourceType type, int editionNumber) {
-        super(price, quantity, title, description, ProductCategory.LearningResource, type, fidelityPoints);
+    public LearningResource(int price, int quantity, String title, String description, Seller seller, int fidelityPoints, int isbn, String organisation, LocalDate releaseDate, LearningResourceType type, int editionNumber) throws IllegalArgumentException {
+        super(price, quantity, title, description, ProductCategory.LearningResource, type, seller, fidelityPoints);
         this.isbn = isbn;
         this.organisation = organisation;
         this.releaseDate = releaseDate;

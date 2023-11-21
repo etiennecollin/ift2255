@@ -4,7 +4,9 @@
 
 package com.etiennecollin.ift2255.clientCLI.classes.products;
 
-public enum ITCategory {
+import java.io.Serializable;
+
+public enum ITCategory implements Serializable {
     Computer("Computer"), Mouse("Mouse"), Keyboard("Keyboard"), ExternalHardDrive("External Hard Drive"), Other("Other");
     private final String name;
 

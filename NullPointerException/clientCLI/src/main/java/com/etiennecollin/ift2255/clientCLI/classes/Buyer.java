@@ -12,13 +12,14 @@ import java.util.Objects;
 
 public class Buyer extends User {
     private final ArrayList<Product> productsLiked;
-    private final ArrayList<Review> commentsLiked;
+    private final ArrayList<Review> reviewsLiked;
     private final ArrayList<Buyer> buyersLiked;
     private final ArrayList<Seller> sellersLiked;
     private final ArrayList<Review> reviewsWritten;
     private final ArrayList<Buyer> followedBy;
     private final ArrayList<Order> orders;
-    private Cart cart;
+    private final Cart returnCart;
+    private final Cart cart;
     private String lastName;
     private String firstName;
     private String username; // Unique
@@ -30,8 +31,9 @@ public class Buyer extends User {
         this.setLastName(lastName);
         this.setUsername(username);
         this.cart = new Cart(this);
+        this.returnCart = new Cart(this);
         this.productsLiked = new ArrayList<>();
-        this.commentsLiked = new ArrayList<>();
+        this.reviewsLiked = new ArrayList<>();
         this.sellersLiked = new ArrayList<>();
         this.buyersLiked = new ArrayList<>();
         this.followedBy = new ArrayList<>();
@@ -47,10 +49,6 @@ public class Buyer extends User {
         return sellersLiked;
     }
 
-    public ArrayList<Review> getReviewsWritten() {
-        return reviewsWritten;
-    }
-
     public void addReviewWritten(Review review) {
         this.reviewsWritten.add(review);
     }
@@ -62,15 +60,8 @@ public class Buyer extends User {
         review.delete();
     }
 
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        if (!cart.getBuyer().equals(this)) {
-            throw new IllegalArgumentException("This cart does not belong to this buyer");
-        }
-        this.cart = cart;
+    public Cart getReturnCart() {
+        return returnCart;
     }
 
     @Override
@@ -87,6 +78,10 @@ public class Buyer extends User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Cart getCart() {
+        return cart;
     }
 
     public ArrayList<Order> getOrders() {
@@ -151,7 +146,7 @@ public class Buyer extends User {
     }
 
     public boolean doesLike(Review review) {
-        return commentsLiked.contains(review);
+        return reviewsLiked.contains(review);
     }
 
     public boolean doesLike(Seller seller) {
@@ -162,17 +157,20 @@ public class Buyer extends User {
         return buyersLiked.contains(buyer);
     }
 
-    public ArrayList<Review> getCommentsLiked() {
-        return commentsLiked;
+    public ArrayList<Review> getReviewsLiked() {
+        return reviewsLiked;
     }
 
-    public void toggleLike(Product product) {
+    public boolean toggleLike(Product product) {
         if (productsLiked.contains(product)) {
             productsLiked.remove(product);
+            product.toggleFollowedBy(this);
+            return false;
         } else {
             productsLiked.add(product);
+            product.toggleFollowedBy(this);
+            return true;
         }
-        product.toggleFollowedBy(this);
     }
 
     public void toggleLike(Buyer buyer) {
@@ -237,10 +235,10 @@ public class Buyer extends User {
     }
 
     public void toggleLike(Review review) {
-        if (commentsLiked.contains(review)) {
-            commentsLiked.remove(review);
+        if (reviewsLiked.contains(review)) {
+            reviewsLiked.remove(review);
         } else {
-            commentsLiked.add(review);
+            reviewsLiked.add(review);
         }
     }
 
@@ -261,21 +259,33 @@ public class Buyer extends User {
             numberTotalOrders++;
         }
 
+        int numberRecentReviews = 0;
+        int sumRecentReviews = 0;
+        int sumTotalReviews = 0;
         int averageRecentReviews = 0;
         int averageTotalReviews = 0;
-        int numberRecentReviews = 0;
-        int numberTotalReviews = 0;
+
         for (Review review : reviewsWritten) {
+            sumTotalReviews += review.getRating();
             if (review.getCreationDate().isAfter(dateCutOff)) {
-                averageRecentReviews += review.getRating();
+                sumRecentReviews += review.getRating();
                 numberRecentReviews++;
             }
-            averageTotalReviews += review.getRating();
-            numberTotalReviews++;
         }
-        averageRecentReviews = averageRecentReviews / numberRecentReviews;
-        averageTotalReviews = averageTotalReviews / numberTotalReviews;
-        return new BuyerMetrics(numberRecentOrders, numberTotalOrders, numberRecentProductsBought, numberTotalProductsBought, this.getFollowedBy().size(), averageRecentReviews, averageTotalReviews, numberRecentReviews, numberTotalReviews);
+
+        if (numberRecentReviews != 0) {
+            averageRecentReviews = sumRecentReviews / numberRecentReviews;
+        }
+
+        if (!this.getReviewsWritten().isEmpty()) {
+            averageTotalReviews = sumTotalReviews / this.getReviewsWritten().size();
+        }
+
+        return new BuyerMetrics(numberRecentOrders, numberTotalOrders, numberRecentProductsBought, numberTotalProductsBought, this.getFollowedBy().size(), averageRecentReviews, averageTotalReviews, numberRecentReviews, this.getReviewsWritten().size());
+    }
+
+    public ArrayList<Review> getReviewsWritten() {
+        return reviewsWritten;
     }
 
     public ArrayList<Buyer> getFollowedBy() {

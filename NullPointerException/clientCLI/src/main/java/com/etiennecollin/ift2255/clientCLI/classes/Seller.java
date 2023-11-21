@@ -8,6 +8,7 @@ import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class Seller extends User {
@@ -115,17 +116,30 @@ public class Seller extends User {
         int numberRecentRatings = 0;
         int sumRecentRatings = 0;
         int sumTotalRatings = 0;
-        for (Product product : productsOffered) {
-            sumTotalRatings += product.getRating().getRating();
-            if (product.getCommercializationDate().isAfter(dateCutOff)) {
-                sumRecentRatings += product.getRating().getRating();
-                numberRecentRatings++;
-            }
-        }
-        int averageRecentRatings = sumRecentRatings / numberRecentRatings;
-        int averageTotalRatings = sumTotalRatings / this.getProductsOffered().size();
+        int averageRecentRatings = 0;
+        int averageTotalRatings = 0;
 
-        return new SellerMetrics(recentRevenue, totalRevenue, numberRecentProductsSold, numberTotalProductsSold, this.productsOffered.size(), averageRecentRatings, averageTotalRatings);
+        try {
+            for (Product product : productsOffered) {
+                sumTotalRatings += product.getRating().getRating();
+                if (product.getCommercializationDate().isAfter(dateCutOff)) {
+                    sumRecentRatings += product.getRating().getRating();
+                    numberRecentRatings++;
+                }
+            }
+            if (numberRecentRatings != 0) {
+                averageRecentRatings = sumRecentRatings / numberRecentRatings;
+            }
+
+            if (!this.getProductsOffered().isEmpty()) {
+                averageTotalRatings = sumTotalRatings / this.getProductsOffered().size();
+            }
+        } catch (NoSuchElementException e) {
+            averageRecentRatings = -1;
+            averageTotalRatings = -1;
+        }
+
+        return new SellerMetrics(recentRevenue, totalRevenue, numberRecentProductsSold, numberTotalProductsSold, this.getProductsOffered().size(), averageRecentRatings, averageTotalRatings);
     }
 
     public ArrayList<Product> getProductsOffered() {

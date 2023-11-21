@@ -8,6 +8,7 @@ import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
@@ -17,24 +18,27 @@ public class Order implements Serializable {
     private final LocalDate orderDate;
     private final Buyer buyer;
     private final Seller seller;
+    private final ArrayList<Ticket> tickets;
     private int cost;
     private int numberOfProducts;
     private int numberOfFidelityPoints;
     private ArrayList<Tuple<Product, Integer>> products;
     private String email;
-    private int phone;
+    private String phone;
     private String address;
     private String billingAddress;
     private String creditCardName;
-    private int creditCardNumber;
-    private int creditCardExp;
-    private int creditCardSecretDigits;
+    private String creditCardNumber;
+    private YearMonth creditCardExp;
+    private String creditCardSecretDigits;
     private OrderState state;
-    private ShippingInfo shippingInfo;
+    private Shipment shipment;
+    private PayementMethod payementMethod;
 
-    public Order(int cost, int numberOfFidelityPoints, ArrayList<Tuple<Product, Integer>> products, String email, int phone, String address, String billingAddress, String creditCardName, int creditCardNumber, int creditCardExp, int creditCardSecretDigits, Buyer buyer, Seller seller) {
+    public Order(int cost, int numberOfFidelityPoints, PayementMethod payementMethod, ArrayList<Tuple<Product, Integer>> products, String email, String phone, String address, String billingAddress, String creditCardName, String creditCardNumber, YearMonth creditCardExp, String creditCardSecretDigits, Buyer buyer, Seller seller) {
         this.cost = cost;
         this.numberOfFidelityPoints = numberOfFidelityPoints;
+        this.payementMethod = payementMethod;
         this.products = products;
         this.email = email;
         this.phone = phone;
@@ -52,8 +56,44 @@ public class Order implements Serializable {
         }
 
         this.state = OrderState.InProduction;
+        this.tickets = new ArrayList<>();
         this.orderDate = LocalDate.now();
         this.id = UUID.randomUUID();
+    }
+
+    public void addTicket(Ticket ticket) throws IllegalArgumentException {
+        if (tickets.contains(ticket)) {
+            throw new IllegalArgumentException("This ticket is already assigned to this order");
+        }
+        if (!ticket.getOrder().equals(this)) {
+            throw new IllegalArgumentException("This is not linked to this order");
+        }
+
+        tickets.add(ticket);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(getId(), order.getId());
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public ArrayList<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public PayementMethod getPayementMethod() {
+        return payementMethod;
+    }
+
+    public void setPayementMethod(PayementMethod payementMethod) {
+        this.payementMethod = payementMethod;
     }
 
     public int getNumberOfProducts() {
@@ -64,15 +104,15 @@ public class Order implements Serializable {
         this.numberOfProducts = numberOfProducts;
     }
 
-    public ShippingInfo getShippingInfo() {
-        return shippingInfo;
+    public Shipment getShipment() {
+        return shipment;
     }
 
     public Seller getSeller() {
         return seller;
     }
 
-    public void createTicket(String description, ArrayList<Tuple<Product, Integer>> products) {
+    public Ticket createTicket(String description, ArrayList<Tuple<Product, Integer>> products, TicketCause cause, TicketState state, Order exchangeOrder) {
         // Check if order can still be reported
         if (LocalDate.now().isAfter(this.getOrderDate().plusYears(1))) {
             throw new IllegalArgumentException("This order can no longer be reported");
@@ -86,7 +126,7 @@ public class Order implements Serializable {
         }
 
         // Create ticket per seller and add it to buyer and seller
-        Ticket ticket = new Ticket(description, this, products, this.buyer, seller);
+        Ticket ticket = new Ticket(description, this, products, cause, state, this.buyer, seller);
         this.buyer.addTicket(ticket);
         seller.addTicket(ticket);
 
@@ -95,14 +135,12 @@ public class Order implements Serializable {
         String content = "Order: " + this.getId() + "\nBuyer: " + this.buyer.getFirstName() + " " + this.buyer.getLastName();
         Notification notification = new Notification(title, content);
         this.seller.addNotification(notification);
+
+        return ticket;
     }
 
     public LocalDate getOrderDate() {
         return orderDate;
-    }
-
-    public UUID getId() {
-        return id;
     }
 
     public ArrayList<Tuple<Product, Integer>> getProducts() {
@@ -113,14 +151,14 @@ public class Order implements Serializable {
         this.products = products;
     }
 
-    public void createTicket(String description) {
+    public void createTicket(String description, TicketCause cause, TicketState state) {
         // Check if order can still be reported
         if (LocalDate.now().isAfter(this.getOrderDate().plusYears(1))) {
             throw new IllegalArgumentException("This order can no longer be reported");
         }
 
         // Create ticket per seller and add it to buyer and seller
-        Ticket ticket = new Ticket(description, this, this.products, this.buyer, seller);
+        Ticket ticket = new Ticket(description, this, this.products, cause, state, this.buyer, seller);
         this.buyer.addTicket(ticket);
         seller.addTicket(ticket);
 
@@ -131,20 +169,12 @@ public class Order implements Serializable {
         this.seller.addNotification(notification);
     }
 
-    public ShippingInfo getShipping() {
-        return shippingInfo;
-    }
-
-    public void setShipping(ShippingInfo shippingInfo) {
-        this.shippingInfo = shippingInfo;
-    }
-
     public OrderState getState() {
         return state;
     }
 
-    public void setInTransit(String shippingCompany, int trackingNumber, LocalDate expectedDeliveryDate) {
-        this.shippingInfo = new ShippingInfo(shippingCompany, trackingNumber, expectedDeliveryDate);
+    public void setInTransit(String shippingCompany, String trackingNumber, LocalDate expectedDeliveryDate) {
+        this.shipment = new Shipment(trackingNumber, expectedDeliveryDate, shippingCompany);
         String title = "Your order is now shipped";
         String description = "Order: " + this.getId() + "\nShipped by: " + shippingCompany + "\nTracking number: " + trackingNumber;
         getBuyer().addNotification(new Notification(title, description));
@@ -171,6 +201,10 @@ public class Order implements Serializable {
         this.buyer.addNotification(notification);
 
         this.state = OrderState.Delivered;
+    }
+
+    public void setCancelled() {
+        this.state = OrderState.Cancelled;
     }
 
     public int getCost() {
@@ -205,36 +239,28 @@ public class Order implements Serializable {
         this.creditCardName = creditCardName;
     }
 
-    public int getCreditCardNumber() {
+    public String getCreditCardNumber() {
         return creditCardNumber;
     }
 
-    public void setCreditCardNumber(int creditCardNumber) {
+    public void setCreditCardNumber(String creditCardNumber) {
         this.creditCardNumber = creditCardNumber;
     }
 
-    public int getCreditCardExp() {
+    public YearMonth getCreditCardExp() {
         return creditCardExp;
     }
 
-    public void setCreditCardExp(int creditCardExp) {
+    public void setCreditCardExp(YearMonth creditCardExp) {
         this.creditCardExp = creditCardExp;
     }
 
-    public int getCreditCardSecretDigits() {
+    public String getCreditCardSecretDigits() {
         return creditCardSecretDigits;
     }
 
-    public void setCreditCardSecretDigits(int creditCardSecretDigits) {
+    public void setCreditCardSecretDigits(String creditCardSecretDigits) {
         this.creditCardSecretDigits = creditCardSecretDigits;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return Objects.equals(getId(), order.getId());
     }
 
     public String getEmail() {
@@ -245,11 +271,11 @@ public class Order implements Serializable {
         this.email = email;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
