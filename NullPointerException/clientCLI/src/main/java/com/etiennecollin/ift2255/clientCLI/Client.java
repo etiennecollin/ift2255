@@ -439,9 +439,18 @@ public class Client {
     public static void displayBuyerOrderActions(Order order) {
         ArrayList<DynamicMenuItem> options = new ArrayList<>();
 
-        options.add(new DynamicMenuItem("Evaluate a product",
-                () -> System.out.println(prettify("Not yet implemented")),
-                () -> order.getState() == OrderState.Delivered));
+        options.add(new DynamicMenuItem("Review a product", () -> {
+            prettyPaginationMenu(order.getProducts(), 3, "Review product", (tuple) -> {
+                Product product = tuple.first;
+                int quantity = tuple.second;
+                String totalPrice = (product.getCost() * quantity) / 100 + "." + (product.getCost() * quantity) % 100 + "$";
+                System.out.println(prettify("--------------------"));
+                System.out.println(prettify("Product name: " + product.getTitle()));
+                System.out.println(prettify("Quantity: " + quantity));
+                System.out.println(prettify("Price per product: " + product.getCost() / 100 + "." + product.getCost() % 100 + "$"));
+                System.out.println(prettify("Total price: " + totalPrice));
+            }, tuple -> tuple.first.getTitle(), tuple -> Client.reviewProduct(tuple.first));
+        }, () -> order.getState().equals(OrderState.Delivered)));
         options.add(new DynamicMenuItem("Confirm reception of order", () -> {
             if (prettyPromptBool("Do you really want to mark this order as delivered?")) {
                 order.setDelivered();
@@ -449,28 +458,28 @@ public class Client {
             } else {
                 System.out.println(prettify("Action cancelled"));
             }
-        }, () -> order.getState() == OrderState.InTransit));
+        }, () -> order.getState().equals(OrderState.InTransit)));
         options.add(new DynamicMenuItem("Report issue with order", () -> {
             if (prettyPromptBool("Do you really want to open a ticket for this order?")) {
                 createTicket(order);
             } else {
                 System.out.println(prettify("Action cancelled"));
             }
-        }, () -> order.getState() != OrderState.Cancelled && LocalDate.now().isBefore(order.getOrderDate().plusDays(365))));
+        }, () -> !order.getState().equals(OrderState.Cancelled) && LocalDate.now().isBefore(order.getOrderDate().plusDays(365))));
         options.add(new DynamicMenuItem("Return items", () -> {
             if (prettyPromptBool("Do you really want to return items from this order?")) {
                 displayReturnMenu(order);
             } else {
                 System.out.println(prettify("Action cancelled"));
             }
-        }, () -> order.getState() != OrderState.Cancelled && (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getExpectedDeliveryDate().plusDays(30)))));
+        }, () -> !order.getState().equals(OrderState.Cancelled) && (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getExpectedDeliveryDate().plusDays(30)))));
         options.add(new DynamicMenuItem("Exchange items", () -> {
             if (prettyPromptBool("Do you really want to exchange items from this order?")) {
                 displayExchangeMenu(order);
             } else {
                 System.out.println(prettify("Action cancelled"));
             }
-        }, () -> order.getState() != OrderState.Cancelled && (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getExpectedDeliveryDate().plusDays(30)))));
+        }, () -> !order.getState().equals(OrderState.Cancelled) && (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getExpectedDeliveryDate().plusDays(30)))));
         options.add(new DynamicMenuItem("Cancel order", () -> {
             if (prettyPromptBool("Do you really want to cancel this order?")) {
                 order.setCancelled();
@@ -478,9 +487,30 @@ public class Client {
             } else {
                 System.out.println(prettify("Action cancelled"));
             }
-        }, () -> order.getState() == OrderState.InProduction));
+        }, () -> order.getState().equals(OrderState.InProduction)));
 
         prettyDynamicMenu("Select action", "Go back", options, () -> displayOrder(order));
+    }
+
+    private static void reviewProduct(Product product) {
+        Buyer author = (Buyer) unishop.getCurrentUser();
+
+        for (Review review : author.getReviewsWritten()) {
+            if (review.getProduct().equals(product)) {
+                System.out.println(prettify("This product has already been reviewed"));
+                waitForKey();
+                return;
+            }
+        }
+
+        String title = prettyPrompt("Title of your review", Utils::validateNotEmpty);
+        String content = prettyPrompt("Content of your review", Utils::validateNotEmpty);
+        int rating = prettyPromptInt("Rating out of 100", number -> Utils.validateNumberRange(number, 0, 100));
+        Review review = new Review(content, title, author, product, rating);
+        product.addReview(review);
+
+        System.out.println(prettify("Review successfully submitted"));
+        waitForKey();
     }
 
     // TODO test
@@ -665,7 +695,7 @@ public class Client {
 
         String shippingCompany = prettyPrompt("Shipping company", Utils::validateNotEmpty);
         String trackingNumber = prettyPrompt("Tracking number", Utils::validateNotEmpty);
-        LocalDate expectedDeliveryDate = prettyPromptDate("Tracking number");
+        LocalDate expectedDeliveryDate = prettyPromptDate("Expected delivery date");
 
         if (prettyPromptBool("Ship order?")) {
             order.setInTransit(shippingCompany, trackingNumber, expectedDeliveryDate);
@@ -852,7 +882,7 @@ public class Client {
         System.out.println(prettify("Quantity: ") + product.getQuantity());
         System.out.println(prettify("Fidelity Points: ") + product.getBonusFidelityPoints());
         System.out.println(prettify("Sold by: ") + product.getSeller().getName());
-        System.out.println(prettify("Likes: ") + product.getLikes());
+        System.out.println(prettify("Likes: ") + product.getFollowedBy().size());
         System.out.println(prettify("Commercialization date: ") + product.getCommercializationDate());
         waitForKey();
     }
@@ -869,6 +899,7 @@ public class Client {
                 case 1 -> {
                     Buyer buyer = (Buyer) unishop.getCurrentUser();
                     boolean wasLiked = buyer.toggleLike(product);
+                    unishop.updateCatalog();
 
                     if (wasLiked) {
                         System.out.println(prettify("Product successfully liked"));
