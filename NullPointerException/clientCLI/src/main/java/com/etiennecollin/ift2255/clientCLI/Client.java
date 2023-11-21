@@ -124,7 +124,6 @@ public class Client {
         clearConsole();
     }
 
-    // TODO complete
     public static void buyerMenu() {
         String[] buyerMenu = {"Display catalog", "Search a product", "Display cart", "Find user", "Display orders", "Display notifications", "Display tickets", "Display activities", "Update account information", "Log out"};
 
@@ -150,7 +149,6 @@ public class Client {
         }
     }
 
-    // TODO complete
     public static void sellerMenu() {
         String[] sellerMenu = {"Offer product", "Change order status", "Display notifications", "Display tickets", "Display activities", "Update account information", "Log out"};
 
@@ -349,7 +347,6 @@ public class Client {
         }
     }
 
-    // General metrics
     public static void displayActivities() {
         clearConsole();
         User currentUser = unishop.getCurrentUser();
@@ -475,7 +472,7 @@ public class Client {
                     }
                 }
                 case 2 -> {
-                    boolean confirmation = prettyPromptBool("Do you really want to create an issue for this order?");
+                    boolean confirmation = prettyPromptBool("Do you really want to open a ticket for this order?");
                     if (confirmation) {
                         createTicket(order);
                     } else {
@@ -516,12 +513,11 @@ public class Client {
         TicketCause cause = prettyMenu("Select the type of issue", TicketCause.class);
         String description = prettyPrompt("Description of problem", Utils::validateNotEmpty);
 
-        if (prettyPromptBool("Do you really want to report an issue with this order?")) {
+        if (prettyPromptBool("Do you really want to open a ticket for this order?")) {
             order.createTicket(description, cause);
-            System.out.println(prettify("Issue report sent to seller."));
-        }
-        else {
-            System.out.println(prettify("Issue report sent to seller."));
+            System.out.println(prettify("Ticket successfully opened"));
+        } else {
+            System.out.println(prettify("Cancelled ticket creation"));
         }
 
         waitForKey();
@@ -530,13 +526,9 @@ public class Client {
     // TODO test
     private static void displayReturnMenu(Order order) {
         HashSet<Tuple<Product, Integer>> returnProducts = new HashSet<>();
-        prettyPaginationMenu(order.getProducts(), 5, "Select item with problem",
-                productTuple -> System.out.println(prettify(productTuple.first + " x" + productTuple.second)),
-                productIntegerTuple -> productIntegerTuple.first + " x" + productIntegerTuple.second,
-                returnProducts::add
-        );
+        prettyPaginationMenu(order.getProducts(), 5, "Select item with problem", productTuple -> System.out.println(prettify(productTuple.first + " x" + productTuple.second)), productIntegerTuple -> productIntegerTuple.first + " x" + productIntegerTuple.second, returnProducts::add);
 
-        if (returnProducts.size() == 0) {
+        if (returnProducts.isEmpty()) {
             System.out.println(prettify("No products selected to return"));
             waitForKey();
         }
@@ -544,9 +536,12 @@ public class Client {
         TicketCause cause = prettyMenu("Select the type of issue", TicketCause.class);
 
         Ticket ticket = order.createTicket("", new ArrayList<>(returnProducts), cause, null);
-        ticket.setSuggestedSolution("Return request accepted. Please bring the package to your nearest post office.");
 
-        System.out.println(prettify(ticket.getSuggestedSolution()));
+        if (ticket.getState().equals(TicketState.OpenAuto)) {
+            ticket.setSuggestedSolution("Return request accepted. Please bring the package to your nearest post office");
+            System.out.println(prettify(ticket.getSuggestedSolution()));
+        }
+
         waitForKey();
     }
 
@@ -735,7 +730,6 @@ public class Client {
         }
     }
 
-    // TODO verify if complete
     private static void displayTicketActions(Ticket ticket) {
         if (unishop.getCurrentUser() instanceof Buyer) {
 

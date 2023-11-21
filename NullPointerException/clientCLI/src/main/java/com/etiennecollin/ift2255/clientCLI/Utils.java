@@ -484,6 +484,5 @@ public class Utils {
         return scanner.nextLine().strip();
     }
 
-
     public record ValidationResult(boolean isValid, String message) {}
 }
