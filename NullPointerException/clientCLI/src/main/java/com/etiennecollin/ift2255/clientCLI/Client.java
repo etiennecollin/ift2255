@@ -852,7 +852,6 @@ public class Client {
         System.out.println(prettify("Quantity: ") + product.getQuantity());
         System.out.println(prettify("Fidelity Points: ") + product.getBonusFidelityPoints());
         System.out.println(prettify("Sold by: ") + product.getSeller().getName());
-        System.out.println(prettify("Likes: ") + product.getLikes());
         System.out.println(prettify("Commercialization date: ") + product.getCommercializationDate());
         waitForKey();
     }
