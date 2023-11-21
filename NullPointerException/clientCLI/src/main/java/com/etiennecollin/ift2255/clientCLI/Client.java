@@ -448,7 +448,7 @@ public class Client {
             }
         }, () -> order.getState() == OrderState.InTransit));
         options.add(new DynamicMenuItem("Report issue with order", () -> {
-            if (prettyPromptBool("Do you really want to create an issue for this order?")) {
+            if (prettyPromptBool("Do you really want to open a ticket for this order?")) {
                 createTicket(order);
             } else {
                 System.out.println(prettify("Action cancelled"));
