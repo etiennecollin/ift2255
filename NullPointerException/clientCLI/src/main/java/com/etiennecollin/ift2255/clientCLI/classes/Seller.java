@@ -8,6 +8,7 @@ import com.etiennecollin.ift2255.clientCLI.classes.products.Product;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class Seller extends User {
@@ -118,20 +119,24 @@ public class Seller extends User {
         int averageRecentRatings = 0;
         int averageTotalRatings = 0;
 
-        for (Product product : productsOffered) {
-            sumTotalRatings += product.getRating().getRating();
-            if (product.getCommercializationDate().isAfter(dateCutOff)) {
-                sumRecentRatings += product.getRating().getRating();
-                numberRecentRatings++;
+        try {
+            for (Product product : productsOffered) {
+                sumTotalRatings += product.getRating().getRating();
+                if (product.getCommercializationDate().isAfter(dateCutOff)) {
+                    sumRecentRatings += product.getRating().getRating();
+                    numberRecentRatings++;
+                }
             }
-        }
+            if (numberRecentRatings != 0) {
+                averageRecentRatings = sumRecentRatings / numberRecentRatings;
+            }
 
-        if (numberRecentRatings != 0) {
-            averageRecentRatings = sumRecentRatings / numberRecentRatings;
-        }
-
-        if (!this.getProductsOffered().isEmpty()) {
-            averageTotalRatings = sumTotalRatings / this.getProductsOffered().size();
+            if (!this.getProductsOffered().isEmpty()) {
+                averageTotalRatings = sumTotalRatings / this.getProductsOffered().size();
+            }
+        } catch (NoSuchElementException e) {
+            averageRecentRatings = -1;
+            averageTotalRatings = -1;
         }
 
         return new SellerMetrics(recentRevenue, totalRevenue, numberRecentProductsSold, numberTotalProductsSold, this.getProductsOffered().size(), averageRecentRatings, averageTotalRatings);

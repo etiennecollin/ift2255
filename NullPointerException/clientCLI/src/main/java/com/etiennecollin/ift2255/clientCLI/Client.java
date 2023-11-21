@@ -237,10 +237,10 @@ public class Client {
             ArrayList<String> searchResultsString = new ArrayList<>();
             searchResultsString.add("Main Menu");
 
-            String keyWord = prettyPrompt("Search");
+            String keyWord = prettyPrompt("Search").toLowerCase();
 
             for (Product p : unishop.getCatalog()) {
-                if (p.getTitle().contains(keyWord)) {
+                if (p.getTitle().toLowerCase().contains(keyWord) || p.getDescription().toLowerCase().contains(keyWord)) {
                     searchResults.add(p);
                     searchResultsString.add(p.getTitle());
                 }
@@ -248,7 +248,7 @@ public class Client {
 
             if (searchResults.isEmpty()) {
                 System.out.println(prettify("No match found"));
-                waitForKey();
+                if (!prettyPromptBool("Keep browsing product?")) break;
                 continue;
             }
 
@@ -370,9 +370,11 @@ public class Client {
             System.out.println(prettify("Total revenue: " + metrics.totalRevenue()));
             System.out.println(prettify("Recent products sold: " + metrics.numberRecentProductsSold()));
             System.out.println(prettify("Total products sold: " + metrics.numberTotalProductsSold()));
-            System.out.println(prettify("Products offered " + metrics.numberProductsOffered()));
-            System.out.println(prettify("Recent product rating average: " + metrics.averageRecentProductRating()));
-            System.out.println(prettify("Total product rating average: " + metrics.averageTotalProductRating()));
+            System.out.println(prettify("Products offered: " + metrics.numberProductsOffered()));
+            if (metrics.averageRecentProductRating() != -1 && metrics.averageTotalProductRating() != -1) {
+                System.out.println(prettify("Recent product rating average: " + metrics.averageRecentProductRating()));
+                System.out.println(prettify("Total product rating average: " + metrics.averageTotalProductRating()));
+            }
         }
         waitForKey();
     }
