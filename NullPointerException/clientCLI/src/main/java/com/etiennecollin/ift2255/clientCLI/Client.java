@@ -622,15 +622,9 @@ public class Client {
                 }
             }
 
-            if (prettyPromptBool("Save product?")) {
-                ((Seller) unishop.getCurrentUser()).addProductOffered(product);
-                unishop.updateCatalog();
-                System.out.println("Product " + title + " added!");
-                waitForKey();
-            } else {
-                System.out.println("Cancelled adding a new product.");
-                waitForKey();
-            }
+            unishop.updateCatalog();
+            System.out.println("Product " + title + " added!");
+            waitForKey();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
