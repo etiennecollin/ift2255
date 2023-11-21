@@ -1150,25 +1150,32 @@ public class Client {
     }
 
     public static void displayProducts(ArrayList<Product> source) {
-
-        ArrayList<String> options = ProductCategory.getOptions();
-        options.add("Main menu");
-
         while (true) {
             clearConsole();
+
+            ProductCategory selectedCategory = null;
+            Enum<?> selectedSubCategory = null;
+
             // Select category
+            ArrayList<String> options = ProductCategory.getOptions();
+            options.add("All");
+            options.add("Main menu");
             int choice = prettyMenu("Categories", options);
             if (choice == options.size() - 1) break;
-            ProductCategory selectedCategory = ProductCategory.values()[choice];
+            if (choice != options.size() - 2) {
+                selectedCategory = ProductCategory.values()[choice];
 
-            // Select subcategory
-            ArrayList<String> subOptions = selectedCategory.getSubOptions();
-            subOptions.add("Main menu");
+                // Select subcategory
+                ArrayList<String> subOptions = selectedCategory.getSubOptions();
+                subOptions.add("All");
+                subOptions.add("Main menu");
 
-            int subChoice = prettyMenu("Sub-Categories", subOptions);
-            if (subChoice == subOptions.size() - 1) break;
-            Enum<?> selectedSubCategory = selectedCategory.getEnum().getEnumConstants()[subChoice];
-
+                int subChoice = prettyMenu("Sub-Categories", subOptions);
+                if (subChoice == subOptions.size() - 1) break;
+                if (subChoice != subOptions.size() - 2) {
+                    selectedSubCategory = selectedCategory.getEnum().getEnumConstants()[subChoice];
+                }
+            }
             // Get products that match category/subcategory
 
             ArrayList<Product> matchedProducts = new ArrayList<>();
@@ -1177,7 +1184,7 @@ public class Client {
             matchedProductsString.add("Back to main menu");
 
             for (Product product : source) {
-                if (product.getCategory().equals(selectedCategory) && product.getSubCategory().equals(selectedSubCategory)) {
+                if ((selectedCategory == null || product.getCategory().equals(selectedCategory)) && (selectedSubCategory == null || product.getSubCategory().equals(selectedSubCategory))) {
                     matchedProducts.add(product);
                     matchedProductsString.add(product.getTitle());
                 }
