@@ -1,0 +1,475 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+class BookOrManual {
+  + BookOrManual(int, int, String, String, Seller, int, String, String, String, BookOrManualGenre, LocalDate, int, int):
+  - author: String
+  - releaseDate: LocalDate
+  - isbn: String
+  - volumeNumber: int
+  - editor: String
+  - editionNumber: int
+}
+enum BookOrManualGenre << enumeration >> {
+  - BookOrManualGenre(String):
+  + toString(): String
+  + values(): BookOrManualGenre[]
+  + valueOf(String): BookOrManualGenre
+}
+class Buyer {
+  + Buyer(String, String, String, String, String, String, String):
+  - sellersLiked: ArrayList<Seller>
+  - followedBy: ArrayList<Buyer>
+  - firstName: String
+  - reviewsWritten: ArrayList<Review>
+  - fidelityPoints: int
+  - orders: ArrayList<Order>
+  - productsLiked: ArrayList<Product>
+  - returnCart: Cart
+  - reviewsLiked: ArrayList<Review>
+  - buyersLiked: ArrayList<Buyer>
+  - username: String
+  - lastName: String
+  - cart: Cart
+  + doesLike(Seller): boolean
+  + exchangeOrder(Order): void
+  + getMetrics(int): BuyerMetrics
+  + toggleLike(Review): void
+  + addReviewWritten(Review): void
+  + returnOrder(Order): void
+  + toggleLike(Seller): void
+  + orderDelivered(Order): void
+  + removeReviewWritten(Review): void
+  + toggleFollowedBy(Buyer): void
+  + addOrder(Order): void
+  + toggleLike(Product): boolean
+  + toggleLike(Buyer): void
+  + addFidelityPoints(int): void
+  + doesLike(Review): boolean
+  + cancelOrder(Order): void
+  + doesLike(Buyer): boolean
+  + removeFidelityPoints(int): void
+  + equals(Object): boolean
+  + doesLike(Product): boolean
+}
+entity BuyerMetrics << record >> {
+  + BuyerMetrics(int, int, int, int, int, int, int, int, int):
+  + numberTotalReviews(): int
+  + numberRecentProductsBought(): int
+  + numberRecentReviews(): int
+  + numberRecentOrders(): int
+  + numberTotalOrders(): int
+  + numberTotalProductsBought(): int
+  + averageTotalReviews(): int
+  + numberFollowers(): int
+  + averageRecentReviews(): int
+}
+class Cart {
+  + Cart(Buyer):
+  - cost: int
+  - numberOfProducts: int
+  - products: ArrayList<Tuple<Product, Integer>>
+  - buyer: Buyer
+  - numberOfFidelityPoints: int
+  + removeProduct(Product): void
+  + subtractProduct(Product, int): void
+  + createOrder(String, String, String, String, String, String, YearMonth, String, int, int): void
+  + addProduct(Product, int): void
+  + emptyCart(): void
+}
+class Client {
+  + Client():
+  - createAccount(): void
+  + findUser(): void
+  + sellerMenu(): void
+  + displaySeller(Seller): void
+  - findSeller(): void
+  + displayOrderShipmentMenu(Order): void
+  - buyerCreationForm(): Buyer
+  + displayBuyer(Buyer): void
+  + buyerMenu(): void
+  - searchProduct(): void
+  + offerProduct(): void
+  + updateSellerInfo(): void
+  + displayBuyerOrders(): void
+  + displayActivities(): void
+  - displayBuyerProductActions(Product): void
+  + displayPendingSellerOrders(): void
+  + displayTickets(): void
+  - displayTicket(Ticket): void
+  + displayProducts(ArrayList<Product>): void
+  - sellerCreationForm(): Seller
+  - displayReturnMenu(Order): void
+  + updateBuyerInfo(): void
+  - createTicket(Order): void
+  + displayProduct(Product): void
+  - loginForm(): void
+  - displayTicketActions(Ticket): void
+  + main(String[]): void
+  + displayOrder(Order): void
+  - findBuyer(): void
+  - displayNotifications(): void
+  + displayBuyerOrderActions(Order): void
+  - displayReviews(Product): void
+  - displayExchangeMenu(Order): void
+  - placeOrder(): void
+  + displayCart(): void
+}
+entity DynamicMenuItem << record >> {
+  + DynamicMenuItem(String, Runnable, Supplier<Boolean>):
+  + name(): String
+  + displayCondition(): Supplier<Boolean>
+  + action(): Runnable
+}
+class IT {
+  + IT(int, int, String, String, Seller, int, String, String, LocalDate, ITCategory):
+  - model: String
+  - releaseDate: LocalDate
+  - brand: String
+}
+enum ITCategory << enumeration >> {
+  - ITCategory(String):
+  + valueOf(String): ITCategory
+  + toString(): String
+  + values(): ITCategory[]
+}
+class LearningResource {
+  + LearningResource(int, int, String, String, Seller, int, int, String, LocalDate, LearningResourceType, int):
+  - isbn: int
+  - organisation: String
+  - editionNumber: int
+  - releaseDate: LocalDate
+}
+enum LearningResourceType << enumeration >> {
+  - LearningResourceType(String):
+  + valueOf(String): LearningResourceType
+  + toString(): String
+  + values(): LearningResourceType[]
+}
+class Notification {
+  + Notification(String, String):
+  - title: String
+  - id: UUID
+  - content: String
+  + equals(Object): boolean
+}
+class OfficeEquipment {
+  + OfficeEquipment(int, int, String, String, Seller, int, String, String, OfficeEquipmentCategory):
+  - model: String
+  - brand: String
+}
+enum OfficeEquipmentCategory << enumeration >> {
+  - OfficeEquipmentCategory(String):
+  + toString(): String
+  + values(): OfficeEquipmentCategory[]
+  + valueOf(String): OfficeEquipmentCategory
+}
+class Order {
+  + Order(int, int, PayementMethod, ArrayList<Tuple<Product, Integer>>, String, String, String, String, String, String, YearMonth, String, Buyer, Seller):
+  - payementMethod: PayementMethod
+  - products: ArrayList<Tuple<Product, Integer>>
+  - address: String
+  - state: OrderState
+  - numberOfFidelityPoints: int
+  - orderDate: LocalDate
+  - numberOfProducts: int
+  - creditCardNumber: String
+  - creditCardSecretDigits: String
+  - phone: String
+  - creditCardName: String
+  - shipment: Shipment
+  - cost: int
+  - email: String
+  - billingAddress: String
+  - buyer: Buyer
+  - seller: Seller
+  - tickets: ArrayList<Ticket>
+  - id: UUID
+  - creditCardExp: YearMonth
+  + setInTransit(String, String, LocalDate): void
+  + createTicket(String, ArrayList<Tuple<Product, Integer>>, TicketCause, TicketState, Order): Ticket
+  + setInProduction(): void
+  + setCancelled(): void
+  + setDelivered(): void
+  + addTicket(Ticket): void
+  + equals(Object): boolean
+  + createTicket(String, TicketCause, TicketState): void
+}
+enum OrderState << enumeration >> {
+  - OrderState(String):
+  + toString(): String
+  + values(): OrderState[]
+  + valueOf(String): OrderState
+   options: ArrayList<String>
+}
+class PayementMethod {
+  + PayementMethod(int, int, int):
+  - fidelityPointsUsed: int
+  - moneyUsed: int
+  - returnMoneyUsed: int
+}
+class Product {
+  + Product(int, int, String, String, ProductCategory, Enum<?>, Seller, int):
+  - likes: int
+  - seller: Seller
+  - reviews: ArrayList<Review>
+  - quantity: int
+  - title: String
+  - discount: int
+  - description: String
+  - bonusFidelityPoints: int
+  - subCategory: Enum<?>
+  - cost: int
+  - rating: Rating
+  - commercializationDate: LocalDate
+  - category: ProductCategory
+  - id: UUID
+  - followedBy: ArrayList<Buyer>
+  + toggleFollowedBy(Buyer): void
+  + equals(Object): boolean
+  + toString(): String
+  + addReview(Review): void
+  + getFormattedCost(int): String
+  + removeReview(Review): void
+}
+enum ProductCategory << enumeration >> {
+  - ProductCategory(String, Class<Enum<?>>):
+  + toString(): String
+  + valueOf(String): ProductCategory
+  + values(): ProductCategory[]
+   subOptions: ArrayList<String>
+   enum: Class<Enum<?>>
+   options: ArrayList<String>
+}
+class Rating {
+  + Rating():
+  - rating: int
+  + removeRating(int): void
+  + addRating(int): void
+}
+class Review {
+  + Review(String, String, Buyer, Product, int):
+  - content: String
+  - title: String
+  - product: Product
+  - likes: int
+  - rating: int
+  - reports: int
+  - author: Buyer
+  - id: UUID
+  - creationDate: LocalDate
+  + delete(): void
+  - updateAuthorPoints(): void
+  + equals(Object): boolean
+  + arePointsGiven(): boolean
+  + toString(): String
+}
+class Seller {
+  + Seller(String, String, String, String, String):
+  - name: String
+  - productsOffered: ArrayList<Product>
+  - ordersSold: ArrayList<Order>
+  - followedBy: ArrayList<Buyer>
+  + removeProductOffered(Product): void
+  + addProductOffered(Product): void
+  + addOrderSold(Order): void
+  + getMetrics(int): SellerMetrics
+  + equals(Object): boolean
+  + toggleFollowedBy(Buyer): void
+  + removeOrderSold(Order): void
+}
+entity SellerMetrics << record >> {
+  + SellerMetrics(int, int, int, int, int, int, int):
+  + recentRevenue(): int
+  + totalRevenue(): int
+  + averageTotalProductRating(): int
+  + numberTotalProductsSold(): int
+  + numberRecentProductsSold(): int
+  + averageRecentProductRating(): int
+  + numberProductsOffered(): int
+}
+class Shipment {
+  + Shipment(String, LocalDate, String):
+  - isDeliveryConfirmed: boolean
+  - trackingNumber: String
+  - creationDate: LocalDate
+  - expectedDeliveryDate: LocalDate
+  - shippingCompany: String
+  + confirmDelivery(): void
+}
+class StationeryArticle {
+  + StationeryArticle(int, int, String, String, Seller, int, String, String, StationeryArticleCategory):
+  - brand: String
+  - model: String
+}
+enum StationeryArticleCategory << enumeration >> {
+  - StationeryArticleCategory(String):
+  + toString(): String
+  + valueOf(String): StationeryArticleCategory
+  + values(): StationeryArticleCategory[]
+}
+class Ticket {
+  + Ticket(String, Order, ArrayList<Tuple<Product, Integer>>, TicketCause, TicketState, Buyer, Seller):
+  - products: ArrayList<Tuple<Product, Integer>>
+  - creationDate: LocalDate
+  - replacementShipment: Shipment
+  - suggestedSolution: String
+  - buyer: Buyer
+  - problemDescription: String
+  - order: Order
+  - cause: TicketCause
+  - id: UUID
+  - seller: Seller
+  - replacementProductDescription: String
+  - returnShipment: Shipment
+  - state: TicketState
+  + equals(Object): boolean
+  + createReplacementShipment(String, LocalDate, String): void
+  + updateState(): void
+  + createReturnShipment(String, LocalDate, String): void
+}
+enum TicketCause << enumeration >> {
+  - TicketCause(String):
+  + values(): TicketCause[]
+  + toString(): String
+  + valueOf(String): TicketCause
+   options: ArrayList<String>
+}
+enum TicketState << enumeration >> {
+  - TicketState(String):
+  + toString(): String
+  + valueOf(String): TicketState
+  + values(): TicketState[]
+   options: ArrayList<String>
+}
+class Tuple<A, B> {
+  + Tuple(A, B):
+}
+class UniShop {
+  + UniShop():
+  - sellerList: HashMap<String, Seller>
+  - catalog: ArrayList<Product>
+  - currentUser: User
+  - buyerList: HashMap<String, Buyer>
+  + loginSeller(String, String): void
+  + loadUserList(String): void
+  + addUser(Seller): void
+  + updateCatalog(): void
+  + saveUserList(String): void
+  + addUser(Buyer): void
+  + removeUser(Buyer): void
+  + removeUser(Seller): void
+  + loginBuyer(String, String): void
+  + isPasswordMatching(String): boolean
+}
+class User {
+  + User(String, String, String, String):
+  - phoneNumber: String
+  - password: int
+  - tickets: ArrayList<Ticket>
+  - notifications: ArrayList<Notification>
+  - address: String
+  - id: UUID
+  - email: String
+  + removeNotification(Notification): void
+  + addNotification(Notification): void
+  + hashCode(): int
+  + addTicket(Ticket): void
+  + updatePassword(String, String): void
+}
+class Utils {
+  + Utils():
+  # prettyMenu(String, ArrayList<String>): int
+  + validateBonusFidelityPoints(int, int): ValidationResult
+  # prettyMenuT(String, ArrayList<T>): T
+  # prettyPrompt(String, Function<String, ValidationResult>): String
+  + validatePhoneNumber(String): ValidationResult
+  + validateNumberRange(int, int, int): ValidationResult
+  # prettyPrompt(String): String
+  # prettyPromptInt(String, Function<Integer, ValidationResult>): int
+  # prettyMenu(String, ArrayList<ArrayList<String>>, String): int
+  # quit(UniShop): void
+  # prettyPromptCurrency(String): int
+  # prettyPromptDate(String): LocalDate
+  + validateNotEmpty(String): ValidationResult
+  + validateName(String): ValidationResult
+  + waitForKey(): void
+  + validateISBN(String): ValidationResult
+  # prettyPromptBool(String): boolean
+  + validateEmail(String): ValidationResult
+  # prettify(String): String
+  + prettyDynamicMenu(String, String, ArrayList<DynamicMenuItem>, Runnable): void
+  + prettyPaginationMenu(List<T>, int, String, Consumer<T>, Function<T, String>, Consumer<T>): void
+  # logout(UniShop): void
+  # prettyMenu(String, String[]): int
+  # clearConsole(): void
+  # prettyPromptInt(String): int
+  # prettyMenu(String, Class<T>): T
+}
+entity ValidationResult << record >> {
+  + ValidationResult(boolean, String):
+  - isValid: boolean
+  + message(): String
+}
+
+BookOrManual               -[#000082,plain]-^  Product
+Buyer                     "1" *-[#595959,plain]-> "buyersLiked\n*" Buyer
+Buyer                      -[#595959,dashed]->  BuyerMetrics
+Buyer                     "1" *-[#595959,plain]-> "returnCart\n1" Cart
+Buyer                     "1" *-[#595959,plain]-> "orders\n*" Order
+Buyer                     "1" *-[#595959,plain]-> "productsLiked\n*" Product
+Buyer                     "1" *-[#595959,plain]-> "reviewsLiked\n*" Review
+Buyer                     "1" *-[#595959,plain]-> "sellersLiked\n*" Seller
+Buyer                      -[#000082,plain]-^  User
+Cart                      "1" *-[#595959,plain]-> "buyer\n1" Buyer
+Cart                       -[#595959,dashed]->  Product
+Cart                      "1" *-[#595959,plain]-> "products\n*" Tuple
+Client                     -[#595959,dashed]->  Buyer
+Client                     -[#595959,dashed]->  Seller
+Client                    "1" *-[#595959,plain]-> "unishop\n1" UniShop
+DynamicMenuItem            +-[#820000,plain]-  Utils
+IT                         -[#000082,plain]-^  Product
+LearningResource           -[#000082,plain]-^  Product
+OfficeEquipment            -[#000082,plain]-^  Product
+Order                     "1" *-[#595959,plain]-> "buyer\n1" Buyer
+Order                     "1" *-[#595959,plain]-> "state\n1" OrderState
+Order                     "1" *-[#595959,plain]-> "payementMethod\n1" PayementMethod
+Order                      -[#595959,dashed]->  Product
+Order                     "1" *-[#595959,plain]-> "seller\n1" Seller
+Order                     "1" *-[#595959,plain]-> "shipment\n1" Shipment
+Order                     "1" *-[#595959,plain]-> "tickets\n*" Ticket
+Order                     "1" *-[#595959,plain]-> "products\n*" Tuple
+Product                   "1" *-[#595959,plain]-> "followedBy\n*" Buyer
+Product                   "1" *-[#595959,plain]-> "category\n1" ProductCategory
+Product                   "1" *-[#595959,plain]-> "rating\n1" Rating
+Product                   "1" *-[#595959,plain]-> "reviews\n*" Review
+Product                   "1" *-[#595959,plain]-> "seller\n1" Seller
+Review                    "1" *-[#595959,plain]-> "author\n1" Buyer
+Review                    "1" *-[#595959,plain]-> "product\n1" Product
+Seller                    "1" *-[#595959,plain]-> "followedBy\n*" Buyer
+Seller                    "1" *-[#595959,plain]-> "ordersSold\n*" Order
+Seller                    "1" *-[#595959,plain]-> "productsOffered\n*" Product
+Seller                     -[#595959,dashed]->  SellerMetrics
+Seller                     -[#000082,plain]-^  User
+StationeryArticle          -[#000082,plain]-^  Product
+Ticket                    "1" *-[#595959,plain]-> "buyer\n1" Buyer
+Ticket                    "1" *-[#595959,plain]-> "order\n1" Order
+Ticket                     -[#595959,dashed]->  Product
+Ticket                    "1" *-[#595959,plain]-> "seller\n1" Seller
+Ticket                    "1" *-[#595959,plain]-> "returnShipment\n1" Shipment
+Ticket                    "1" *-[#595959,plain]-> "cause\n1" TicketCause
+Ticket                    "1" *-[#595959,plain]-> "state\n1" TicketState
+Ticket                    "1" *-[#595959,plain]-> "products\n*" Tuple
+UniShop                   "1" *-[#595959,plain]-> "buyerList\n*" Buyer
+UniShop                   "1" *-[#595959,plain]-> "catalog\n*" Product
+UniShop                   "1" *-[#595959,plain]-> "sellerList\n*" Seller
+UniShop                   "1" *-[#595959,plain]-> "currentUser\n1" User
+User                      "1" *-[#595959,plain]-> "notifications\n*" Notification
+User                      "1" *-[#595959,plain]-> "tickets\n*" Ticket
+Utils                      -[#595959,dashed]->  ValidationResult
+ValidationResult           +-[#820000,plain]-  Utils
+@enduml
