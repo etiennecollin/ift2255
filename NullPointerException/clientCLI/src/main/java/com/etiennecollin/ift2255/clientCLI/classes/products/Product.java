@@ -25,7 +25,6 @@ public abstract class Product implements Serializable {
     private int quantity;
     private String title; // Unique
     private String description;
-    private int likes;
     private Seller seller;
     private ArrayList<Review> reviews;
     private int bonusFidelityPoints;
@@ -42,7 +41,6 @@ public abstract class Product implements Serializable {
         this.setBonusFidelityPoints(bonusFidelityPoints);
 
         this.commercializationDate = LocalDate.now();
-        this.setLikes(0);
         this.setReview(new ArrayList<>());
         this.rating = new Rating();
         this.followedBy = new ArrayList<>();
@@ -196,17 +194,6 @@ public abstract class Product implements Serializable {
         }
 
         this.seller = newSeller;
-    }
-
-    public int getLikes() {
-        return likes;
-    }
-
-    public void setLikes(int likes) throws IllegalArgumentException {
-        if (likes < 0) {
-            throw new IllegalArgumentException("Cannot have a negative number of likes");
-        }
-        this.likes = likes;
     }
 
     public ArrayList<Review> getReviews() {
