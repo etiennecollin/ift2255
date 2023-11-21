@@ -4,7 +4,10 @@
 
 package com.etiennecollin.ift2255.clientCLI;
 
+import com.etiennecollin.ift2255.clientCLI.classes.UniShop;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.function.Function;
 
@@ -17,38 +20,16 @@ public class Utils {
     private static final Scanner scanner = new Scanner(System.in);
 
     /**
-     * Displays a prompt to the user and expects a yes/no response.
-     * It keeps prompting until a valid response is given.
+     * Displays a prompt with single question and returns the user answer.
      *
      * @param prompt The message to display as the prompt.
      *
-     * @return `true` if the user answers "yes" (case-insensitive), `false` if the user answers "no" (case-insensitive).
+     * @return The answer of the user.
      */
-    protected static boolean prettyYesNo(String prompt) {
-
-        // Instantiate the variables used to store the answer and its parsed version
-        String answer;
-        boolean answerParsed;
-
-        // Repeat until input is valid
-        while (true) {
-            // Print prompt
-            System.out.println("------------");
-            System.out.print(prettify(prompt) + " (y/n): ");
-            answer = scanner.nextLine().strip();
-
-            // Parse answer
-            if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
-                answerParsed = true;
-            } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
-                answerParsed = false;
-            } else {
-                System.out.println(prettify("Invalid input"));
-                continue;
-            }
-
-            return answerParsed;
-        }
+    protected static String prettyPrompt(String prompt) {
+        System.out.println("------------");
+        System.out.print(prettify(prompt) + ": ");
+        return scanner.nextLine().strip();
     }
 
     /**
@@ -63,18 +44,6 @@ public class Utils {
     }
 
     /**
-     * Displays a prompt with single question and returns the user answer.
-     *
-     * @param prompt The message to display as the prompt.
-     *
-     * @return The answer of the user.
-     */
-    protected static String prettyPrompt(String prompt) {
-        System.out.print(prettify(prompt) + ": ");
-        return scanner.nextLine().strip();
-    }
-
-    /**
      * Displays a formatted prompt to the console and validates the user input using a custom validator function.
      * Continues prompting the user until a valid response is provided.
      *
@@ -85,6 +54,7 @@ public class Utils {
      */
     protected static String prettyPromptValidated(String prompt, Function<String, Boolean> validator) {
         while (true) {
+            System.out.println("------------");
             System.out.print(prettify(prompt) + ": ");
             String answer = scanner.nextLine().strip();
             if (validator.apply(answer)) {
@@ -105,11 +75,35 @@ public class Utils {
      */
     protected static int prettyPromptInt(String prompt) {
         while (true) {
+            System.out.println("------------");
             System.out.print(prettify(prompt) + ": ");
             try {
                 return Integer.parseInt(scanner.nextLine().strip());
             } catch (NumberFormatException ignored) {
                 System.out.println("Please enter a whole number with no thousands symbol.");
+            }
+        }
+    }
+
+    /**
+     * Displays a prompt to the user and expects a yes/no response.
+     * It keeps prompting until a valid response is given.
+     *
+     * @param prompt The message to display as the prompt.
+     *
+     * @return `true` if the user answers "yes/y/true/1" (case-insensitive), `false` if the user answers "no/n/false/0" (case-insensitive).
+     */
+    protected static boolean prettyPromptBool(String prompt) {
+        while (true) {
+            System.out.println("------------");
+            System.out.print(prettify(prompt) + " (y/n): ");
+            String answer = scanner.nextLine().strip();
+            if (answer.equalsIgnoreCase("yes") || answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("true") || answer.equalsIgnoreCase("1")) {
+                return true;
+            } else if (answer.equalsIgnoreCase("no") || answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("false") || answer.equalsIgnoreCase("0")) {
+                return false;
+            } else {
+                System.out.println("Please enter a valid answer (yes/y/true/1 or no/n/false/0)");
             }
         }
     }
@@ -127,6 +121,7 @@ public class Utils {
      */
     protected static int prettyPromptCurrency(String prompt) {
         while (true) {
+            System.out.println("------------");
             System.out.print(prettify(prompt) + ": ");
             try {
                 return Integer.parseInt(scanner.nextLine().strip().replace(".", ""));
@@ -141,12 +136,12 @@ public class Utils {
      * It keeps prompting until a valid selection is made.
      *
      * @param prompt  The message to display as the prompt.
-     * @param choices An ArrayList of strings representing the menu choices.
+     * @param choices An array of strings representing the menu choices.
      *
      * @return The index of the selected choice (0-based index).
      */
-    protected static int prettyMenuInt(String prompt, ArrayList<String> choices) {
-        return prettyMenuInt(prompt, choices.toArray(new String[0]));
+    protected static int prettyMenu(String prompt, String[] choices) {
+        return prettyMenu(prompt, new ArrayList<>(Arrays.asList(choices)));
     }
 
     /**
@@ -158,16 +153,16 @@ public class Utils {
      *
      * @return The index of the selected choice (0-based index).
      */
-    protected static int prettyMenuInt(String prompt, String[] choices) {
+    protected static int prettyMenu(String prompt, ArrayList<String> choices) {
         // Instantiate the variables used to store the answer and its parsed version
         String answer;
         int answerParsed;
 
         // Generate the menu containing all choices
-        String menu = "";
+        StringBuilder menu = new StringBuilder();
         int i = 0;
         for (String choice : choices) {
-            menu = menu.concat(prettify(i + ") " + choice + "\n"));
+            menu.append(prettify(i + ") " + choice + "\n"));
             i++;
         }
 
@@ -189,7 +184,7 @@ public class Utils {
             }
 
             // Check that answer corresponds to a choice
-            if (answerParsed < 0 || answerParsed >= choices.length) {
+            if (answerParsed < 0 || answerParsed >= choices.size()) {
                 System.out.println(prettify("Invalid input"));
                 continue;
             }
@@ -198,17 +193,43 @@ public class Utils {
         }
     }
 
-    /**
-     * Displays a menu with choices to the user and expects a numeric selection.
-     * It keeps prompting until a valid selection is made.
-     *
-     * @param prompt  The message to display as the prompt.
-     * @param choices An array of strings representing the menu choices.
-     *
-     * @return The String associated with the selected choice.
-     */
-    protected static String prettyMenu(String prompt, String[] choices) {
-        return choices[prettyMenuInt(prompt, choices)];
+    protected static <T> T prettyMenuT(String prompt, ArrayList<T> choices) {
+        // Instantiate the variables used to store the answer and its parsed version
+        int index;
+
+        // Generate the menu containing all choices
+        StringBuilder menu = new StringBuilder();
+        int i = 0;
+        for (T choice : choices) {
+            menu.append(prettify(i + ") " + choice + "\n"));
+            i++;
+        }
+
+        // Repeat until input is valid
+        while (true) {
+            // Print menu and prompt
+            System.out.println("------------");
+            System.out.println(prettify(prompt) + ": ");
+            System.out.print(menu);
+            System.out.print(prettify("Selection: "));
+            String answer = scanner.nextLine().strip();
+
+            // Parse answer
+            try {
+                index = Integer.parseInt(answer);
+            } catch (NumberFormatException e) {
+                System.out.println(prettify("Invalid input"));
+                continue;
+            }
+
+            // Check that answer corresponds to a choice
+            if (index < 0 || index >= choices.size()) {
+                System.out.println(prettify("Invalid input"));
+                continue;
+            }
+
+            return choices.get(index);
+        }
     }
 
     /**
@@ -227,20 +248,7 @@ public class Utils {
             enumNames.add(c.name());
         }
 
-        return Enum.valueOf(enumClass, prettyMenu(prompt, enumNames));
-    }
-
-    /**
-     * Displays a menu with choices to the user and expects a numeric selection.
-     * It keeps prompting until a valid selection is made.
-     *
-     * @param prompt  The message to display as the prompt.
-     * @param choices An ArrayList of strings representing the menu choices.
-     *
-     * @return The String associated with the selected choice.
-     */
-    protected static String prettyMenu(String prompt, ArrayList<String> choices) {
-        return choices.get(prettyMenuInt(prompt, choices.toArray(new String[0])));
+        return enumConstants[prettyMenu(prompt, enumNames)];
     }
 
     /**
@@ -249,25 +257,28 @@ public class Utils {
      *
      * @param prompt  The message to display as the prompt.
      * @param choices An ArrayList of ArrayLists of strings representing the menu choices.
+     * @param prefix  What each ArrayList contained in the main one represents.
+     *                This prefix will be printed with an index.
      *
      * @return The index associated with the selected choice in choices.
      */
-    protected static int prettyMenu2DArray(String prompt, ArrayList<ArrayList<String>> choices) {
+    protected static int prettyMenu(String prompt, ArrayList<ArrayList<String>> choices, String prefix) {
         // Instantiate the variables used to store the answer and its parsed version
         String answer;
         int answerParsed;
 
+        StringBuilder menu = new StringBuilder();
+        for (int i = 0; i < choices.size(); i++) {
+            menu.append(prettify(prefix + " " + i + ":\n"));
+            for (String choice : choices.get(i)) {
+                menu.append(prettify("  " + choice + "\n"));
+            }
+        }
+
         while (true) {
             System.out.println("------------");
-            System.out.println(prettify(prompt));
-
-            for (int i = 0; i < choices.size(); i++) {
-                System.out.println(prettify("Order " + (i) + ": "));
-                for (int j = 0; j < choices.get(i).size(); j++) {
-                    System.out.println(prettify(choices.get(i).get(j)));
-                }
-            }
-
+            System.out.println(prettify(prompt) + ": ");
+            System.out.print(menu);
             System.out.print(prettify("Selection: "));
             answer = scanner.nextLine().strip();
 
@@ -281,7 +292,6 @@ public class Utils {
 
             if (answerParsed < 0 || answerParsed >= choices.size()) {
                 System.out.println(prettify("Invalid input"));
-                System.out.print(prettify("Selection: "));
                 continue;
             }
 
@@ -289,8 +299,21 @@ public class Utils {
         }
     }
 
-    protected static void quit() {
+    protected static void quit(UniShop unishop) {
+        System.out.println(prettify("Saving app state..."));
+        unishop.saveUserList(Client.savePath);
         System.out.println(prettify("Quitting UniShop"));
         scanner.close();
+    }
+
+    protected static void logout(UniShop uniShop) {
+        System.out.println(prettify("Logging-out..."));
+        uniShop.setCurrentUser(null);
+    }
+
+    protected static void clearConsole() {
+        for (int i = 0; i < 100; i++) {
+            System.out.println();
+        }
     }
 }
