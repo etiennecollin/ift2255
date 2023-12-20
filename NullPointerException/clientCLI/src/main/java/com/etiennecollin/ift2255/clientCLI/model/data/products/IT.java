@@ -2,19 +2,18 @@
  * Copyright (c) 2023. Etienne Collin #20237904, Nicholas Cooper #20241729, Aboubakre Walid Diongue #20198446, Charlotte Locas #20211755
  */
 
-package com.etiennecollin.ift2255.clientCLI.classes.products;
-
-import com.etiennecollin.ift2255.clientCLI.classes.Seller;
+package com.etiennecollin.ift2255.clientCLI.model.data.products;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public class IT extends Product {
     private String brand;
     private String model;
     private LocalDate releaseDate;
 
-    public IT(int price, int quantity, String title, String description, Seller seller, int fidelityPoints, String brand, String model, LocalDate releaseDate, ITCategory subCategory) throws IllegalArgumentException {
-        super(price, quantity, title, description, ProductCategory.IT, subCategory, seller, fidelityPoints);
+    public IT(int price, int quantity, String title, String description, UUID sellerId, int fidelityPoints, String brand, String model, LocalDate releaseDate, ITCategory subCategory) throws IllegalArgumentException {
+        super(price, quantity, title, description, ProductCategory.IT, subCategory, sellerId, fidelityPoints);
         this.brand = brand;
         this.model = model;
         this.releaseDate = releaseDate;

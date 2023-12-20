@@ -35,17 +35,17 @@ public class Utils {
      *
      * @return The answer of the user.
      */
-    protected static String prettyPrompt(String prompt, Function<String, ValidationResult> validator) {
+    public static String prettyPrompt(String prompt, Function<String, OperationResult> validator) {
         while (true) {
             System.out.println("------------");
             System.out.print(prettify(prompt) + ": ");
             String answer = scanner.nextLine().strip();
-            ValidationResult result = validator.apply(answer);
-            if (result.isValid) {
+            OperationResult result = validator.apply(answer);
+            if (result.isValid()) {
                 return answer;
             }
 
-            System.out.println(prettify(result.message));
+            System.out.println(prettify(result.message()));
         }
     }
 
@@ -56,7 +56,7 @@ public class Utils {
      *
      * @return The prettified string with a delimiter at the beginning.
      */
-    protected static String prettify(String string) {
+    public static String prettify(String string) {
         return "| " + string;
     }
 
@@ -69,7 +69,7 @@ public class Utils {
      * @return A valid integer entered by the user.
      */
     protected static int prettyPromptInt(String prompt) {
-        return prettyPromptInt(prompt, i -> new ValidationResult(true, ""));
+        return prettyPromptInt(prompt, i -> new OperationResult(true, ""));
     }
 
     /**
@@ -81,18 +81,18 @@ public class Utils {
      *
      * @return A valid integer entered by the user.
      */
-    protected static int prettyPromptInt(String prompt, Function<Integer, ValidationResult> validator) {
+    protected static int prettyPromptInt(String prompt, Function<Integer, OperationResult> validator) {
         while (true) {
             System.out.println("------------");
             System.out.print(prettify(prompt) + ": ");
             try {
                 int num = Integer.parseInt(scanner.nextLine().strip());
-                ValidationResult result = validator.apply(num);
-                if (result.isValid) {
+                OperationResult result = validator.apply(num);
+                if (result.isValid()) {
                     return num;
                 }
 
-                System.out.println(prettify(result.message));
+                System.out.println(prettify(result.message()));
             } catch (NumberFormatException ignored) {
                 System.out.println(prettify("Please enter a whole number with no thousands symbol."));
             }
@@ -107,7 +107,7 @@ public class Utils {
      *
      * @return `true` if the user answers "yes/y/true/1" (case-insensitive), `false` if the user answers "no/n/false/0" (case-insensitive).
      */
-    protected static boolean prettyPromptBool(String prompt) {
+    public static boolean prettyPromptBool(String prompt) {
         while (true) {
             System.out.println("------------");
             System.out.print(prettify(prompt) + " (y/n): ");
@@ -184,7 +184,7 @@ public class Utils {
      *
      * @return The index of the selected choice (0-based index).
      */
-    protected static int prettyMenu(String prompt, String[] choices) {
+    public static int prettyMenu(String prompt, String[] choices) {
         return prettyMenu(prompt, new ArrayList<>(Arrays.asList(choices)));
     }
 
@@ -372,7 +372,7 @@ public class Utils {
         }
     }
 
-    protected static void clearConsole() {
+    public static void clearConsole() {
         for (int i = 0; i < 100; i++) {
             System.out.println();
         }
@@ -425,75 +425,79 @@ public class Utils {
         }
     }
 
-    protected static void quit(UniShop unishop) {
-        System.out.println(prettify("Saving app state..."));
-        unishop.saveUserList(Client.savePath);
-        System.out.println(prettify("Quitting UniShop"));
+    public static void quit() {
         scanner.close();
     }
 
-    protected static void logout(UniShop uniShop) {
-        System.out.println(prettify("Logging-out..."));
-        uniShop.setCurrentUser(null);
-    }
+//    protected static void quit(UniShop unishop) {
+//        System.out.println(prettify("Saving app state..."));
+//        unishop.saveUserList(Client.savePath);
+//        System.out.println(prettify("Quitting UniShop"));
+//        scanner.close();
+//    }
 
-    public static ValidationResult validateName(String s) throws RuntimeException {
+//    protected static void logout(UniShop uniShop) {
+//        System.out.println(prettify("Logging-out..."));
+//        uniShop.setCurrentUser(null);
+//    }
+
+    public static OperationResult validateName(String s) throws RuntimeException {
         if (!s.matches("[a-zA-Z]+[\\s-]?[a-zA-Z]*")) {
-            return new ValidationResult(false, "Your name should only contains letters");
+            return new OperationResult(false, "Your name should only contains letters");
         }
-        return new ValidationResult(true, "");
+        return new OperationResult(true, "");
     }
 
-    public static ValidationResult validateEmail(String s) throws RuntimeException {
+    public static OperationResult validateEmail(String s) throws RuntimeException {
         if (!s.matches("[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}")) {
-            return new ValidationResult(false, "Your email has a wrong format");
+            return new OperationResult(false, "Your email has a wrong format");
         }
-        return new ValidationResult(true, "");
+        return new OperationResult(true, "");
     }
 
     // regex took from https://www.baeldung.com/java-regex-validate-phone-numbers
     // accept format xxx xxx xxxx  , xxx-xxx-xxxx and xxxxxxxxxx where x are digits
-    public static ValidationResult validatePhoneNumber(String s) throws RuntimeException {
+    public static OperationResult validatePhoneNumber(String s) throws RuntimeException {
         if (!s.matches("(\\(\\d{3}\\)|\\d{3})[- ]?\\d{3}[- ]?\\d{4}")) {
-            return new ValidationResult(false, "Your phone number has a wrong format");
+            return new OperationResult(false, "Your phone number has a wrong format");
         }
-        return new ValidationResult(true, "");
+        return new OperationResult(true, "");
     }
 
-    public static ValidationResult validateISBN(String s) throws RuntimeException {
+    public static OperationResult validateISBN(String s) throws RuntimeException {
         if (!s.matches("\\d{13}")) {
-            return new ValidationResult(false, "Your ISBN has a wrong format");
+            return new OperationResult(false, "Your ISBN has a wrong format");
         }
-        return new ValidationResult(true, "");
+        return new OperationResult(true, "");
     }
 
-    public static ValidationResult validateBonusFidelityPoints(int bonusPoints, int price) {
+    public static OperationResult validateBonusFidelityPoints(int bonusPoints, int price) {
         int dollars = price / 100;
         int maxBonusPoints = 19 * dollars;
         if (bonusPoints < 0) {
-            return new ValidationResult(false, "Bonus points cannot be negative.");
+            return new OperationResult(false, "Bonus points cannot be negative.");
         } else if (maxBonusPoints < bonusPoints) {
-            return new ValidationResult(false, "A maximum of " + maxBonusPoints + " bonus points are allowed based on this product's price.");
+            return new OperationResult(false, "A maximum of " + maxBonusPoints + " bonus points are allowed based on this product's price.");
         } else {
-            return new ValidationResult(true, "");
+            return new OperationResult(true, "");
         }
     }
 
-    public static ValidationResult validateNumberRange(int number, int lowerBound, int upperBound) {
+    public static OperationResult validateNumberRange(int number, int lowerBound, int upperBound) {
         if (number < lowerBound) {
-            return new ValidationResult(false, "Number must not be less than " + lowerBound);
+            return new OperationResult(false, "Number must not be less than " + lowerBound);
         } else if (upperBound < number) {
-            return new ValidationResult(false, "Number must not be greater than " + upperBound);
+            return new OperationResult(false, "Number must not be greater than " + upperBound);
         } else {
-            return new ValidationResult(true, "");
+            return new OperationResult(true, "");
         }
     }
 
-    public static ValidationResult validateNotEmpty(String string) {
+    public static OperationResult validateNotEmpty(String string) {
         if (string.isEmpty()) {
-            return new ValidationResult(false, "This field must not be empty.");
+            return new OperationResult(false, "This field must not be empty.");
         } else {
-            return new ValidationResult(true, "");
+            return new OperationResult(true, "");
         }
     }
 
@@ -508,14 +512,11 @@ public class Utils {
      *
      * @return The answer of the user.
      */
-    protected static String prettyPrompt(String prompt) {
+    public static String prettyPrompt(String prompt) {
         System.out.println("------------");
         System.out.print(prettify(prompt) + ": ");
         return scanner.nextLine().strip();
     }
 
     public record DynamicMenuItem(String name, Runnable action, Supplier<Boolean> displayCondition) {}
-
-
-    public record ValidationResult(boolean isValid, String message) {}
 }

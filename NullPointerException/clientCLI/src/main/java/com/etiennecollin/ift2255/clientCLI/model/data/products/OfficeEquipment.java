@@ -2,16 +2,16 @@
  * Copyright (c) 2023. Etienne Collin #20237904, Nicholas Cooper #20241729, Aboubakre Walid Diongue #20198446, Charlotte Locas #20211755
  */
 
-package com.etiennecollin.ift2255.clientCLI.classes.products;
+package com.etiennecollin.ift2255.clientCLI.model.data.products;
 
-import com.etiennecollin.ift2255.clientCLI.classes.Seller;
+import java.util.UUID;
 
-public class StationeryArticle extends Product {
+public class OfficeEquipment extends Product {
     private String brand;
     private String model;
 
-    public StationeryArticle(int price, int quantity, String title, String description, Seller seller, int fidelityPoints, String brand, String model, StationeryArticleCategory subCategory) throws IllegalArgumentException {
-        super(price, quantity, title, description, ProductCategory.StationeryArticle, subCategory, seller, fidelityPoints);
+    public OfficeEquipment(int price, int quantity, String title, String description, UUID sellerId, int fidelityPoints, String brand, String model, OfficeEquipmentCategory subCategory) {
+        super(price, quantity, title, description, ProductCategory.OfficeEquipment, subCategory, sellerId, fidelityPoints);
         this.brand = brand;
         this.model = model;
     }

@@ -2,11 +2,10 @@
  * Copyright (c) 2023. Etienne Collin #20237904, Nicholas Cooper #20241729, Aboubakre Walid Diongue #20198446, Charlotte Locas #20211755
  */
 
-package com.etiennecollin.ift2255.clientCLI.classes.products;
-
-import com.etiennecollin.ift2255.clientCLI.classes.Seller;
+package com.etiennecollin.ift2255.clientCLI.model.data.products;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public class LearningResource extends Product {
     private int isbn;
@@ -14,8 +13,8 @@ public class LearningResource extends Product {
     private LocalDate releaseDate;
     private int editionNumber;
 
-    public LearningResource(int price, int quantity, String title, String description, Seller seller, int fidelityPoints, int isbn, String organisation, LocalDate releaseDate, LearningResourceType type, int editionNumber) throws IllegalArgumentException {
-        super(price, quantity, title, description, ProductCategory.LearningResource, type, seller, fidelityPoints);
+    public LearningResource(int price, int quantity, String title, String description, UUID sellerId, int fidelityPoints, int isbn, String organisation, LocalDate releaseDate, LearningResourceType type, int editionNumber) throws IllegalArgumentException {
+        super(price, quantity, title, description, ProductCategory.LearningResource, type, sellerId, fidelityPoints);
         this.isbn = isbn;
         this.organisation = organisation;
         this.releaseDate = releaseDate;
