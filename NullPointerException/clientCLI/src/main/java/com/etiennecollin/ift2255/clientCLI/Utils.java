@@ -68,9 +68,9 @@ public class Utils {
      *
      * @return A valid integer entered by the user.
      */
-    protected static int prettyPromptInt(String prompt) {
+    /*protected static int prettyPromptInt(String prompt) {
         return prettyPromptInt(prompt, i -> new OperationResult(true, ""));
-    }
+    }*/
 
     /**
      * Displays a formatted prompt to the console and retrieves an integer input from the user.
@@ -81,7 +81,7 @@ public class Utils {
      *
      * @return A valid integer entered by the user.
      */
-    protected static int prettyPromptInt(String prompt, Function<Integer, OperationResult> validator) {
+    /*protected static int prettyPromptInt(String prompt, Function<Integer, OperationResult> validator) {
         while (true) {
             System.out.println("------------");
             System.out.print(prettify(prompt) + ": ");
@@ -97,7 +97,7 @@ public class Utils {
                 System.out.println(prettify("Please enter a whole number with no thousands symbol."));
             }
         }
-    }
+    }*/
 
     /**
      * Displays a prompt to the user and expects a yes/no response.
@@ -134,7 +134,7 @@ public class Utils {
      *
      * @throws NumberFormatException If the input provided is not a valid number.
      */
-    protected static int prettyPromptCurrency(String prompt) {
+    /*protected static int prettyPromptCurrency(String prompt) {
         while (true) {
             System.out.println("------------");
             System.out.print(prettify(prompt) + ": ");
@@ -153,7 +153,7 @@ public class Utils {
                 System.out.println("Please enter a positive dollar (and cents) value with no thousands symbol. E.g. 42.99");
             }
         }
-    }
+    }*/
 
     /**
      * Displays a formatted prompt to the console and retrieves a date input from the user.
@@ -163,7 +163,7 @@ public class Utils {
      *
      * @return A valid LocalDate entered by the user.
      */
-    protected static LocalDate prettyPromptDate(String prompt) {
+    /*protected static LocalDate prettyPromptDate(String prompt) {
         while (true) {
             System.out.println("------------");
             System.out.print(prettify(prompt) + " (yyyy-mm-dd): ");
@@ -173,7 +173,7 @@ public class Utils {
                 System.out.println("Please enter a date in yyyy-mm-dd format. E.g. 2023-01-01");
             }
         }
-    }
+    }*/
 
     /**
      * Displays a menu with choices to the user and expects a numeric selection.
@@ -237,7 +237,7 @@ public class Utils {
         }
     }
 
-    protected static <T> T prettyMenuT(String prompt, ArrayList<T> choices) {
+    /*protected static <T> T prettyMenuT(String prompt, ArrayList<T> choices) {
         // Instantiate the variables used to store the answer and its parsed version
         int index;
 
@@ -274,7 +274,7 @@ public class Utils {
 
             return choices.get(index);
         }
-    }
+    }*/
 
     /**
      * Displays a menu with choices to the user and expects a numeric selection.
@@ -285,7 +285,7 @@ public class Utils {
      *
      * @return The Enum associated with the selected choice.
      */
-    protected static <T extends Enum<T>> T prettyMenu(String prompt, Class<T> enumClass) {
+    /*protected static <T extends Enum<T>> T prettyMenu(String prompt, Class<T> enumClass) {
         var enumConstants = enumClass.getEnumConstants();
         ArrayList<String> enumNames = new ArrayList<>();
         for (var c : enumConstants) {
@@ -293,7 +293,7 @@ public class Utils {
         }
 
         return enumConstants[prettyMenu(prompt, enumNames)];
-    }
+    }*/
 
     /**
      * Displays a menu with choices to the user and expects a numeric selection.
@@ -306,7 +306,7 @@ public class Utils {
      *
      * @return The index associated with the selected choice in choices.
      */
-    protected static int prettyMenu(String prompt, ArrayList<ArrayList<String>> choices, String prefix) {
+   /* protected static int prettyMenu(String prompt, ArrayList<ArrayList<String>> choices, String prefix) {
         // Instantiate the variables used to store the answer and its parsed version
         String answer;
         int answerParsed;
@@ -341,9 +341,9 @@ public class Utils {
 
             return answerParsed;
         }
-    }
+    }*/
 
-    public static void prettyDynamicMenu(String prompt, String backName, ArrayList<DynamicMenuItem> menuItems, Runnable topOfLoopDisplayer) {
+    /*public static void prettyDynamicMenu(String prompt, String backName, ArrayList<DynamicMenuItem> menuItems, Runnable topOfLoopDisplayer) {
 
         while (true) {
             ArrayList<DynamicMenuItem> filteredItems = new ArrayList<>();
@@ -370,7 +370,7 @@ public class Utils {
                 filteredItems.get(answer - 1).action.run();
             }
         }
-    }
+    }*/
 
     public static void clearConsole() {
         for (int i = 0; i < 100; i++) {
@@ -378,7 +378,7 @@ public class Utils {
         }
     }
 
-    public static <T> void prettyPaginationMenu(List<T> items, int itemsPerPage, String actionName, Consumer<T> itemDisplayer, Function<T, String> itemMenuName, Consumer<T> action) {
+    /*public static <T> void prettyPaginationMenu(List<T> items, int itemsPerPage, String actionName, Consumer<T> itemDisplayer, Function<T, String> itemMenuName, Consumer<T> action) {
         outerLoop:
         for (int i = 0; i < items.size(); i += itemsPerPage) {
             int itemsOnPage = Math.min(itemsPerPage, items.size() - i);
@@ -423,23 +423,11 @@ public class Utils {
                 }
             }
         }
-    }
+    }*/
 
     public static void quit() {
         scanner.close();
     }
-
-//    protected static void quit(UniShop unishop) {
-//        System.out.println(prettify("Saving app state..."));
-//        unishop.saveUserList(Client.savePath);
-//        System.out.println(prettify("Quitting UniShop"));
-//        scanner.close();
-//    }
-
-//    protected static void logout(UniShop uniShop) {
-//        System.out.println(prettify("Logging-out..."));
-//        uniShop.setCurrentUser(null);
-//    }
 
     public static OperationResult validateName(String s) throws RuntimeException {
         if (!s.matches("[a-zA-Z]+[\\s-]?[a-zA-Z]*")) {
@@ -464,14 +452,14 @@ public class Utils {
         return new OperationResult(true, "");
     }
 
-    public static OperationResult validateISBN(String s) throws RuntimeException {
+/*    public static OperationResult validateISBN(String s) throws RuntimeException {
         if (!s.matches("\\d{13}")) {
             return new OperationResult(false, "Your ISBN has a wrong format");
         }
         return new OperationResult(true, "");
-    }
+    }*/
 
-    public static OperationResult validateBonusFidelityPoints(int bonusPoints, int price) {
+/*    public static OperationResult validateBonusFidelityPoints(int bonusPoints, int price) {
         int dollars = price / 100;
         int maxBonusPoints = 19 * dollars;
         if (bonusPoints < 0) {
@@ -481,9 +469,9 @@ public class Utils {
         } else {
             return new OperationResult(true, "");
         }
-    }
+    }*/
 
-    public static OperationResult validateNumberRange(int number, int lowerBound, int upperBound) {
+ /*   public static OperationResult validateNumberRange(int number, int lowerBound, int upperBound) {
         if (number < lowerBound) {
             return new OperationResult(false, "Number must not be less than " + lowerBound);
         } else if (upperBound < number) {
@@ -491,7 +479,7 @@ public class Utils {
         } else {
             return new OperationResult(true, "");
         }
-    }
+    }*/
 
     public static OperationResult validateNotEmpty(String string) {
         if (string.isEmpty()) {
@@ -501,9 +489,9 @@ public class Utils {
         }
     }
 
-    public static void waitForKey() {
+/*    public static void waitForKey() {
         prettyPrompt("Press any key to continue");
-    }
+    }*/
 
     /**
      * Displays a prompt with single question and returns the user answer.
@@ -518,5 +506,5 @@ public class Utils {
         return scanner.nextLine().strip();
     }
 
-    public record DynamicMenuItem(String name, Runnable action, Supplier<Boolean> displayCondition) {}
+  //  public record DynamicMenuItem(String name, Runnable action, Supplier<Boolean> displayCondition) {}
 }

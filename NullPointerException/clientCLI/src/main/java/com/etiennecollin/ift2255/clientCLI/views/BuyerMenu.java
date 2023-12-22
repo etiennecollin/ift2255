@@ -24,15 +24,6 @@ public class BuyerMenu extends View {
             clearConsole();
             int buyerAnswer = prettyMenu("Main menu", buyerMenu);
             switch (buyerAnswer) {
-//                case 0 -> displayProducts(unishop.getCatalog());
-//                case 1 -> searchProduct();
-//                case 2 -> displayCart();
-//                case 3 -> findUser();
-//                case 4 -> displayBuyerOrders();
-//                case 5 -> displayNotifications();
-//                case 6 -> displayTickets();
-//                case 7 -> displayActivities();
-//                case 8 -> updateBuyerInfo();
                 case 9 -> {
                     System.out.println(prettify("Logging-out..."));
                     profileController.logout();

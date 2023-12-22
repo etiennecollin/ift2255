@@ -24,12 +24,6 @@ public class SellerMenu extends View {
             clearConsole();
             int answer = prettyMenu("Main menu", sellerMenu);
             switch (answer) {
-//                case 0 -> offerProduct();
-//                case 1 -> displayPendingSellerOrders();
-//                case 2 -> displayNotifications();
-//                case 3 -> displayTickets();
-//                case 4 -> displayActivities();
-//                case 5 -> updateSellerInfo();
                 case 6 -> {
                     System.out.println(prettify("Logging-out..."));
                     profileController.logout();
