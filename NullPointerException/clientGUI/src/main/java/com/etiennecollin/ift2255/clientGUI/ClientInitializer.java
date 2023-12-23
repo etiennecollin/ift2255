@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Etienne Collin #20237904, Nicholas Cooper #20241729, Charlotte Locas #20211755
+ * Copyright (c) 2023. Etienne Collin #20237904, Nicholas Cooper #20241729, Aboubakre Walid Diongue #20198446, Charlotte Locas #20211755
  */
 
 package com.etiennecollin.ift2255.clientGUI;
@@ -13,7 +13,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
-public class ClientLauncher extends Application {
+public class ClientInitializer extends Application {
     /**
      * Runs the client.
      */
@@ -30,7 +30,7 @@ public class ClientLauncher extends Application {
      */
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(ClientLauncher.class.getResource("client_interface.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(ClientInitializer.class.getResource("client_interface.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         scene.setFill(Color.TRANSPARENT);
 

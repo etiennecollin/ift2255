@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) 2023. Etienne Collin #20237904, Nicholas Cooper #20241729, Charlotte Locas #20211755
+  ~ Copyright (c) 2023. Etienne Collin #20237904, Nicholas Cooper #20241729, Aboubakre Walid Diongue #20198446, Charlotte Locas #20211755
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -8,7 +8,7 @@
 
   <groupId>com.etiennecollin</groupId>
   <artifactId>clientCLI</artifactId>
-  <version>0.0.1</version>
+  <version>0.2.0</version>
   <packaging>jar</packaging>
 
   <name>clientCLI</name>
@@ -17,6 +17,10 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <junit.version>5.9.2</junit.version>
+    <classNumber>ift2255</classNumber>
+    <mainClassName>Client</mainClassName>
+    <fullPath>${project.groupId}.${classNumber}.${project.artifactId}</fullPath>
+    <fullPathMain>${fullPath}.${mainClassName}</fullPathMain>
   </properties>
 
   <dependencies>
@@ -43,6 +47,25 @@
         <configuration>
           <source>20</source>
           <target>20</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <archive>
+            <index>true</index>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>lib/</classpathPrefix>
+              <mainClass>${fullPathMain}</mainClass>
+            </manifest>
+            <manifestEntries>
+              <url>${project.url}</url>
+            </manifestEntries>
+          </archive>
         </configuration>
       </plugin>
     </plugins>

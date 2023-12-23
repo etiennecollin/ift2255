@@ -1,0 +1,1192 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="4490px" preserveAspectRatio="none" style="width:5702px;height:4490px;background:#FFFFFF;" version="1.1" viewBox="0 0 5702 4490" width="5702px" zoomAndPan="magnify"><defs/><g><!--MD5=[2eed7e7bc87ad32ed7b9f6b099f61954]
+class BookOrManual--><g id="elem_BookOrManual"><rect codeLine="7" fill="#FFFFFF" height="163.1025" id="BookOrManual" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="828" x="3646.5" y="918.15"/><ellipse cx="4006.25" cy="932.15" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M4008.7231,938.2931 Q4008.1421,938.5919 4007.5029,938.7413 Q4006.8638,938.8907 4006.1582,938.8907 Q4003.6514,938.8907 4002.3315,937.2389 Q4001.0117,935.587 4001.0117,932.4659 Q4001.0117,929.3365 4002.3315,927.6847 Q4003.6514,926.0328 4006.1582,926.0328 Q4006.8638,926.0328 4007.5112,926.1822 Q4008.1587,926.3316 4008.7231,926.6305 L4008.7231,929.3531 Q4008.0923,928.7721 4007.4988,928.5023 Q4006.9053,928.2325 4006.2744,928.2325 Q4004.9297,928.2325 4004.2449,929.2992 Q4003.5601,930.3658 4003.5601,932.4659 Q4003.5601,934.5577 4004.2449,935.6244 Q4004.9297,936.691 4006.2744,936.691 Q4006.9053,936.691 4007.4988,936.4212 Q4008.0923,936.1515 4008.7231,935.5704 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="101" x="4023.75" y="937.7179">BookOrManual</text><line style="stroke:#000000;stroke-width:1.0;" x1="3647.5" x2="4473.5" y1="946.15" y2="946.15"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="107" x="3652.5" y="964.2252">-author: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="167" x="3652.5" y="981.2398">-releaseDate: LocalDate</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="90" x="3652.5" y="998.2545">-isbn: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="143" x="3652.5" y="1015.2691">-volumeNumber: int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="102" x="3652.5" y="1032.2838">-editor: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="140" x="3652.5" y="1049.2984">-editionNumber: int</text><line style="stroke:#000000;stroke-width:1.0;" x1="3647.5" x2="4473.5" y1="1056.2379" y2="1056.2379"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="816" x="3652.5" y="1074.3131">+BookOrManual(int, int, String, String, Seller, int, String, String, String, BookOrManualGenre, LocalDate, int, int):</text></g><!--MD5=[37817c8c8a3df2b6d21cfc2ecfbf550e]
+class BookOrManualGenre--><g id="elem_BookOrManualGenre"><rect codeLine="16" fill="#FFFFFF" height="125.6572" id="BookOrManualGenre" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="286" x="30.5" y="277.18"/><ellipse cx="98.25" cy="297.9793" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M101.8643,304.4793 L94.1445,304.4793 L94.1445,292.0862 L101.8643,292.0862 L101.8643,294.2445 L96.5933,294.2445 L96.5933,296.9173 L101.3662,296.9173 L101.3662,299.0755 L96.5933,299.0755 L96.5933,302.3211 L101.8643,302.3211 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="93" x="140.75" y="294.2445">«enumeration»</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="143" x="115.75" y="310.8392">BookOrManualGenre</text><line style="stroke:#000000;stroke-width:1.0;" x1="31.5" x2="315.5" y1="318.7786" y2="318.7786"/><line style="stroke:#000000;stroke-width:1.0;" x1="31.5" x2="315.5" y1="326.7786" y2="326.7786"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="211" x="36.5" y="344.8538">-BookOrManualGenre(String):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="136" x="36.5" y="361.8685">+toString(): String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="233" x="36.5" y="378.8831">+values(): BookOrManualGenre[]</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="274" x="36.5" y="395.8978">+valueOf(String): BookOrManualGenre</text></g><!--MD5=[2a6a992e699eac248da01b98a6cecd43]
+class Buyer--><g id="elem_Buyer"><rect codeLine="22" fill="#FFFFFF" height="622.498" id="Buyer" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="450" x="3275.5" y="1832.4"/><ellipse cx="3476.25" cy="1846.4" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M3478.7231,1852.5431 Q3478.1421,1852.8419 3477.5029,1852.9913 Q3476.8638,1853.1407 3476.1582,1853.1407 Q3473.6514,1853.1407 3472.3315,1851.4889 Q3471.0117,1849.837 3471.0117,1846.7159 Q3471.0117,1843.5865 3472.3315,1841.9347 Q3473.6514,1840.2828 3476.1582,1840.2828 Q3476.8638,1840.2828 3477.5112,1840.4322 Q3478.1587,1840.5816 3478.7231,1840.8805 L3478.7231,1843.6031 Q3478.0923,1843.0221 3477.4988,1842.7523 Q3476.9053,1842.4825 3476.2744,1842.4825 Q3474.9297,1842.4825 3474.2449,1843.5492 Q3473.5601,1844.6158 3473.5601,1846.7159 Q3473.5601,1848.8077 3474.2449,1849.8744 Q3474.9297,1850.941 3476.2744,1850.941 Q3476.9053,1850.941 3477.4988,1850.6712 Q3478.0923,1850.4015 3478.7231,1849.8204 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="41" x="3493.75" y="1851.9679">Buyer</text><line style="stroke:#000000;stroke-width:1.0;" x1="3276.5" x2="3724.5" y1="1860.4" y2="1860.4"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="223" x="3281.5" y="1878.4752">-sellersLiked: ArrayList&lt;Seller&gt;</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="218" x="3281.5" y="1895.4898">-followedBy: ArrayList&lt;Buyer&gt;</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="129" x="3281.5" y="1912.5045">-firstName: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="256" x="3281.5" y="1929.5191">-reviewsWritten: ArrayList&lt;Review&gt;</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="126" x="3281.5" y="1946.5338">-fidelityPoints: int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="186" x="3281.5" y="1963.5484">-orders: ArrayList&lt;Order&gt;</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="253" x="3281.5" y="1980.5631">-productsLiked: ArrayList&lt;Product&gt;</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="121" x="3281.5" y="1997.5777">-returnCart: Cart</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="240" x="3281.5" y="2014.5924">-reviewsLiked: ArrayList&lt;Review&gt;</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="227" x="3281.5" y="2031.607">-buyersLiked: ArrayList&lt;Buyer&gt;</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="130" x="3281.5" y="2048.6217">-username: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="126" x="3281.5" y="2065.6363">-lastName: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="74" x="3281.5" y="2082.651">-cart: Cart</text><line style="stroke:#000000;stroke-width:1.0;" x1="3276.5" x2="3724.5" y1="2089.5904" y2="2089.5904"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="438" x="3281.5" y="2107.6656">+Buyer(String, String, String, String, String, String, String):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="188" x="3281.5" y="2124.6803">+doesLike(Seller): boolean</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="209" x="3281.5" y="2141.6949">+exchangeOrder(Order): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="217" x="3281.5" y="2158.7096">+getMetrics(int): BuyerMetrics</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="184" x="3281.5" y="2175.7242">+toggleLike(Review): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="240" x="3281.5" y="2192.7389">+addReviewWritten(Review): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="187" x="3281.5" y="2209.7535">+returnOrder(Order): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="175" x="3281.5" y="2226.7682">+toggleLike(Seller): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="206" x="3281.5" y="2243.7828">+orderDelivered(Order): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="266" x="3281.5" y="2260.7975">+removeReviewWritten(Review): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="226" x="3281.5" y="2277.8121">+toggleFollowedBy(Buyer): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="169" x="3281.5" y="2294.8268">+addOrder(Order): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="213" x="3281.5" y="2311.8414">+toggleLike(Product): boolean</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="176" x="3281.5" y="2328.8561">+toggleLike(Buyer): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="201" x="3281.5" y="2345.8707">+addFidelityPoints(int): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="197" x="3281.5" y="2362.8854">+doesLike(Review): boolean</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="186" x="3281.5" y="2379.9">+cancelOrder(Order): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="189" x="3281.5" y="2396.9146">+doesLike(Buyer): boolean</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="227" x="3281.5" y="2413.9293">+removeFidelityPoints(int): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="179" x="3281.5" y="2430.9439">+equals(Object): boolean</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="201" x="3281.5" y="2447.9586">+doesLike(Product): boolean</text></g><!--MD5=[223e4023b0e61e8cde47cc8fa0db1de2]
+class BuyerMetrics--><g id="elem_BuyerMetrics"><rect codeLine="58" fill="#FFFFFF" height="227.7451" id="BuyerMetrics" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="383" x="4178" y="2709.03"/><ellipse cx="4320.25" cy="2729.8293" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M4323.8643,2736.3293 L4316.1445,2736.3293 L4316.1445,2723.9362 L4323.8643,2723.9362 L4323.8643,2726.0945 L4318.5933,2726.0945 L4318.5933,2728.7673 L4323.3662,2728.7673 L4323.3662,2730.9255 L4318.5933,2730.9255 L4318.5933,2734.1711 L4323.8643,2734.1711 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="53" x="4356.75" y="2726.0945">«record»</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="91" x="4337.75" y="2742.6892">BuyerMetrics</text><line style="stroke:#000000;stroke-width:1.0;" x1="4179" x2="4560" y1="2750.6286" y2="2750.6286"/><line style="stroke:#000000;stroke-width:1.0;" x1="4179" x2="4560" y1="2758.6286" y2="2758.6286"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="371" x="4184" y="2776.7038">+BuyerMetrics(int, int, int, int, int, int, int, int, int):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="199" x="4184" y="2793.7185">+numberTotalReviews(): int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="267" x="4184" y="2810.7331">+numberRecentProductsBought(): int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="212" x="4184" y="2827.7478">+numberRecentReviews(): int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="203" x="4184" y="2844.7624">+numberRecentOrders(): int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="190" x="4184" y="2861.7771">+numberTotalOrders(): int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="254" x="4184" y="2878.7917">+numberTotalProductsBought(): int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="199" x="4184" y="2895.8064">+averageTotalReviews(): int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="172" x="4184" y="2912.821">+numberFollowers(): int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="212" x="4184" y="2929.8357">+averageRecentReviews(): int</text></g><!--MD5=[a608780e30028417ceff2d6f0d878efa]
+class Cart--><g id="elem_Cart"><rect codeLine="70" fill="#FFFFFF" height="231.1611" id="Cart" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="669" x="2201" y="2707.4"/><ellipse cx="2516.75" cy="2721.4" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M2519.2231,2727.5431 Q2518.6421,2727.8419 2518.0029,2727.9913 Q2517.3638,2728.1407 2516.6582,2728.1407 Q2514.1514,2728.1407 2512.8315,2726.4889 Q2511.5117,2724.837 2511.5117,2721.7159 Q2511.5117,2718.5865 2512.8315,2716.9347 Q2514.1514,2715.2828 2516.6582,2715.2828 Q2517.3638,2715.2828 2518.0112,2715.4322 Q2518.6587,2715.5816 2519.2231,2715.8805 L2519.2231,2718.6031 Q2518.5923,2718.0221 2517.9988,2717.7523 Q2517.4053,2717.4825 2516.7744,2717.4825 Q2515.4297,2717.4825 2514.7449,2718.5492 Q2514.0601,2719.6158 2514.0601,2721.7159 Q2514.0601,2723.8077 2514.7449,2724.8744 Q2515.4297,2725.941 2516.7744,2725.941 Q2517.4053,2725.941 2517.9988,2725.6712 Q2518.5923,2725.4015 2519.2231,2724.8204 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="30" x="2534.25" y="2726.9679">Cart</text><line style="stroke:#000000;stroke-width:1.0;" x1="2202" x2="2869" y1="2735.4" y2="2735.4"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="64" x="2207" y="2753.4752">-cost: int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="167" x="2207" y="2770.4898">-numberOfProducts: int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="339" x="2207" y="2787.5045">-products: ArrayList&lt;Tuple&lt;Product, Integer&gt;&gt;</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="98" x="2207" y="2804.5191">-buyer: Buyer</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="200" x="2207" y="2821.5338">-numberOfFidelityPoints: int</text><line style="stroke:#000000;stroke-width:1.0;" x1="2202" x2="2869" y1="2828.4732" y2="2828.4732"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="100" x="2207" y="2846.5484">+Cart(Buyer):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="221" x="2207" y="2863.5631">+removeProduct(Product): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="256" x="2207" y="2880.5777">+subtractProduct(Product, int): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="657" x="2207" y="2897.5924">+createOrder(String, String, String, String, String, String, YearMonth, String, int, int): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="224" x="2207" y="2914.607">+addProduct(Product, int): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="138" x="2207" y="2931.6217">+emptyCart(): void</text></g><!--MD5=[ed6624c6556d5e7b1bd23032162d20b7]
+class Client--><g id="elem_Client"><rect codeLine="83" fill="#FFFFFF" height="656.5273" id="Client" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="322" x="4514.5" y="12"/><ellipse cx="4651.25" cy="26" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M4653.7231,32.1431 Q4653.1421,32.4419 4652.5029,32.5913 Q4651.8638,32.7407 4651.1582,32.7407 Q4648.6514,32.7407 4647.3315,31.0889 Q4646.0117,29.437 4646.0117,26.3159 Q4646.0117,23.1865 4647.3315,21.5347 Q4648.6514,19.8828 4651.1582,19.8828 Q4651.8638,19.8828 4652.5112,20.0322 Q4653.1587,20.1816 4653.7231,20.4805 L4653.7231,23.2031 Q4653.0923,22.6221 4652.4988,22.3523 Q4651.9053,22.0825 4651.2744,22.0825 Q4649.9297,22.0825 4649.2449,23.1492 Q4648.5601,24.2158 4648.5601,26.3159 Q4648.5601,28.4077 4649.2449,29.4744 Q4649.9297,30.541 4651.2744,30.541 Q4651.9053,30.541 4652.4988,30.2712 Q4653.0923,30.0015 4653.7231,29.4204 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="41" x="4668.75" y="31.5679">Client</text><line style="stroke:#000000;stroke-width:1.0;" x1="4515.5" x2="4835.5" y1="40" y2="40"/><line style="stroke:#000000;stroke-width:1.0;" x1="4515.5" x2="4835.5" y1="48" y2="48"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="70" x="4520.5" y="66.0752">+Client():</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="157" x="4520.5" y="83.0898">-createAccount(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="121" x="4520.5" y="100.1045">+findUser(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="138" x="4520.5" y="117.1191">+sellerMenu(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="192" x="4520.5" y="134.1338">+displaySeller(Seller): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="125" x="4520.5" y="151.1484">-findSeller(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="299" x="4520.5" y="168.1631">+displayOrderShipmentMenu(Order): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="205" x="4520.5" y="185.1777">-buyerCreationForm(): Buyer</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="194" x="4520.5" y="202.1924">+displayBuyer(Buyer): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="141" x="4520.5" y="219.207">+buyerMenu(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="156" x="4520.5" y="236.2217">-searchProduct(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="148" x="4520.5" y="253.2363">+offerProduct(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="180" x="4520.5" y="270.251">+updateSellerInfo(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="200" x="4520.5" y="287.2656">+displayBuyerOrders(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="176" x="4520.5" y="304.2803">+displayActivities(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="305" x="4520.5" y="321.2949">-displayBuyerProductActions(Product): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="255" x="4520.5" y="338.3096">+displayPendingSellerOrders(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="161" x="4520.5" y="355.3242">+displayTickets(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="191" x="4520.5" y="372.3389">-displayTicket(Ticket): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="310" x="4520.5" y="389.3535">+displayProducts(ArrayList&lt;Product&gt;): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="201" x="4520.5" y="406.3682">-sellerCreationForm(): Seller</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="233" x="4520.5" y="423.3828">-displayReturnMenu(Order): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="181" x="4520.5" y="440.3975">+updateBuyerInfo(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="183" x="4520.5" y="457.4121">-createTicket(Order): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="218" x="4520.5" y="474.4268">+displayProduct(Product): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="128" x="4520.5" y="491.4414">-loginForm(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="242" x="4520.5" y="508.4561">-displayTicketActions(Ticket): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="154" x="4520.5" y="525.4707">+main(String[]): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="192" x="4520.5" y="542.4854">+displayOrder(Order): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="126" x="4520.5" y="559.5">-findBuyer(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="193" x="4520.5" y="576.5146">-displayNotifications(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="284" x="4520.5" y="593.5293">+displayBuyerOrderActions(Order): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="216" x="4520.5" y="610.5439">-displayReviews(Product): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="252" x="4520.5" y="627.5586">-displayExchangeMenu(Order): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="134" x="4520.5" y="644.5732">-placeOrder(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="142" x="4520.5" y="661.5879">+displayCart(): void</text></g><!--MD5=[e2e15b8d492769b51c6cc415a85fb5cf]
+class DynamicMenuItem--><g id="elem_DynamicMenuItem"><rect codeLine="121" fill="#FFFFFF" height="125.6572" id="DynamicMenuItem" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="440" x="5101.5" y="277.18"/><ellipse cx="5251.25" cy="297.9793" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M5254.8643,304.4793 L5247.1445,304.4793 L5247.1445,292.0862 L5254.8643,292.0862 L5254.8643,294.2445 L5249.5933,294.2445 L5249.5933,296.9173 L5254.3662,296.9173 L5254.3662,299.0755 L5249.5933,299.0755 L5249.5933,302.3211 L5254.8643,302.3211 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="53" x="5308.75" y="294.2445">«record»</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="133" x="5268.75" y="310.8392">DynamicMenuItem</text><line style="stroke:#000000;stroke-width:1.0;" x1="5102.5" x2="5540.5" y1="318.7786" y2="318.7786"/><line style="stroke:#000000;stroke-width:1.0;" x1="5102.5" x2="5540.5" y1="326.7786" y2="326.7786"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="428" x="5107.5" y="344.8538">+DynamicMenuItem(String, Runnable, Supplier&lt;Boolean&gt;):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="117" x="5107.5" y="361.8685">+name(): String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="286" x="5107.5" y="378.8831">+displayCondition(): Supplier&lt;Boolean&gt;</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="142" x="5107.5" y="395.8978">+action(): Runnable</text></g><!--MD5=[95926c325e3137dd2dd3817a1edb1210]
+class IT--><g id="elem_IT"><rect codeLine="127" fill="#FFFFFF" height="112.0586" id="IT" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="565" x="2182" y="943.67"/><ellipse cx="2453.25" cy="957.67" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M2455.7231,963.8131 Q2455.1421,964.1119 2454.5029,964.2613 Q2453.8638,964.4107 2453.1582,964.4107 Q2450.6514,964.4107 2449.3315,962.7589 Q2448.0117,961.107 2448.0117,957.9859 Q2448.0117,954.8565 2449.3315,953.2047 Q2450.6514,951.5528 2453.1582,951.5528 Q2453.8638,951.5528 2454.5112,951.7022 Q2455.1587,951.8516 2455.7231,952.1505 L2455.7231,954.8731 Q2455.0923,954.2921 2454.4988,954.0223 Q2453.9053,953.7525 2453.2744,953.7525 Q2451.9297,953.7525 2451.2449,954.8192 Q2450.5601,955.8858 2450.5601,957.9859 Q2450.5601,960.0777 2451.2449,961.1444 Q2451.9297,962.211 2453.2744,962.211 Q2453.9053,962.211 2454.4988,961.9412 Q2455.0923,961.6715 2455.7231,961.0904 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="15" x="2470.75" y="963.2379">IT</text><line style="stroke:#000000;stroke-width:1.0;" x1="2183" x2="2746" y1="971.67" y2="971.67"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="104" x="2188" y="989.7452">-model: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="167" x="2188" y="1006.7598">-releaseDate: LocalDate</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="102" x="2188" y="1023.7745">-brand: String</text><line style="stroke:#000000;stroke-width:1.0;" x1="2183" x2="2746" y1="1030.7139" y2="1030.7139"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="553" x="2188" y="1048.7891">+IT(int, int, String, String, Seller, int, String, String, LocalDate, ITCategory):</text></g><!--MD5=[612e9986a5479ee524ca7a03cb0f3b54]
+class ITCategory--><g id="elem_ITCategory"><rect codeLine="133" fill="#FFFFFF" height="125.6572" id="ITCategory" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="221" x="351" y="277.18"/><ellipse cx="413.25" cy="297.9793" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M416.8643,304.4793 L409.1445,304.4793 L409.1445,292.0862 L416.8643,292.0862 L416.8643,294.2445 L411.5933,294.2445 L411.5933,296.9173 L416.3662,296.9173 L416.3662,299.0755 L411.5933,299.0755 L411.5933,302.3211 L416.8643,302.3211 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="93" x="428.75" y="294.2445">«enumeration»</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="78" x="436.25" y="310.8392">ITCategory</text><line style="stroke:#000000;stroke-width:1.0;" x1="352" x2="571" y1="318.7786" y2="318.7786"/><line style="stroke:#000000;stroke-width:1.0;" x1="352" x2="571" y1="326.7786" y2="326.7786"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="146" x="357" y="344.8538">-ITCategory(String):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="209" x="357" y="361.8685">+valueOf(String): ITCategory</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="136" x="357" y="378.8831">+toString(): String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="168" x="357" y="395.8978">+values(): ITCategory[]</text></g><!--MD5=[94285f419c3dcc5f55f4bbcbaaac58ce]
+class LearningResource--><g id="elem_LearningResource"><rect codeLine="139" fill="#FFFFFF" height="129.0732" id="LearningResource" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="758" x="2782.5" y="935.17"/><ellipse cx="3095.75" cy="949.17" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M3098.2231,955.3131 Q3097.6421,955.6119 3097.0029,955.7613 Q3096.3638,955.9107 3095.6582,955.9107 Q3093.1514,955.9107 3091.8315,954.2589 Q3090.5117,952.607 3090.5117,949.4859 Q3090.5117,946.3565 3091.8315,944.7047 Q3093.1514,943.0528 3095.6582,943.0528 Q3096.3638,943.0528 3097.0112,943.2022 Q3097.6587,943.3516 3098.2231,943.6505 L3098.2231,946.3731 Q3097.5923,945.7921 3096.9988,945.5223 Q3096.4053,945.2525 3095.7744,945.2525 Q3094.4297,945.2525 3093.7449,946.3192 Q3093.0601,947.3858 3093.0601,949.4859 Q3093.0601,951.5777 3093.7449,952.6444 Q3094.4297,953.711 3095.7744,953.711 Q3096.4053,953.711 3096.9988,953.4412 Q3097.5923,953.1715 3098.2231,952.5904 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="124" x="3113.25" y="954.7379">LearningResource</text><line style="stroke:#000000;stroke-width:1.0;" x1="2783.5" x2="3539.5" y1="963.17" y2="963.17"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="65" x="2788.5" y="981.2452">-isbn: int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="147" x="2788.5" y="998.2598">-organisation: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="140" x="2788.5" y="1015.2745">-editionNumber: int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="167" x="2788.5" y="1032.2891">-releaseDate: LocalDate</text><line style="stroke:#000000;stroke-width:1.0;" x1="2783.5" x2="3539.5" y1="1039.2286" y2="1039.2286"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="746" x="2788.5" y="1057.3038">+LearningResource(int, int, String, String, Seller, int, int, String, LocalDate, LearningResourceType, int):</text></g><!--MD5=[d608b72f1818e09002612f27b46ce496]
+class LearningResourceType--><g id="elem_LearningResourceType"><rect codeLine="146" fill="#FFFFFF" height="125.6572" id="LearningResourceType" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="301" x="607" y="277.18"/><ellipse cx="674.75" cy="297.9793" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M678.3643,304.4793 L670.6445,304.4793 L670.6445,292.0862 L678.3643,292.0862 L678.3643,294.2445 L673.0933,294.2445 L673.0933,296.9173 L677.8662,296.9173 L677.8662,299.0755 L673.0933,299.0755 L673.0933,302.3211 L678.3643,302.3211 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="93" x="724.75" y="294.2445">«enumeration»</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="158" x="692.25" y="310.8392">LearningResourceType</text><line style="stroke:#000000;stroke-width:1.0;" x1="608" x2="907" y1="318.7786" y2="318.7786"/><line style="stroke:#000000;stroke-width:1.0;" x1="608" x2="907" y1="326.7786" y2="326.7786"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="226" x="613" y="344.8538">-LearningResourceType(String):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="289" x="613" y="361.8685">+valueOf(String): LearningResourceType</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="136" x="613" y="378.8831">+toString(): String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="248" x="613" y="395.8978">+values(): LearningResourceType[]</text></g><!--MD5=[76b5e19c9337179d2d7ae334371d68c8]
+class Notification--><g id="elem_Notification"><rect codeLine="152" fill="#FFFFFF" height="129.0732" id="Notification" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="218" x="4856.5" y="4354.4"/><ellipse cx="4922.25" cy="4368.4" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M4924.7231,4374.5431 Q4924.1421,4374.8419 4923.5029,4374.9913 Q4922.8638,4375.1407 4922.1582,4375.1407 Q4919.6514,4375.1407 4918.3315,4373.4889 Q4917.0117,4371.837 4917.0117,4368.7159 Q4917.0117,4365.5865 4918.3315,4363.9347 Q4919.6514,4362.2828 4922.1582,4362.2828 Q4922.8638,4362.2828 4923.5112,4362.4322 Q4924.1587,4362.5816 4924.7231,4362.8805 L4924.7231,4365.6031 Q4924.0923,4365.0221 4923.4988,4364.7523 Q4922.9053,4364.4825 4922.2744,4364.4825 Q4920.9297,4364.4825 4920.2449,4365.5492 Q4919.5601,4366.6158 4919.5601,4368.7159 Q4919.5601,4370.8077 4920.2449,4371.8744 Q4920.9297,4372.941 4922.2744,4372.941 Q4922.9053,4372.941 4923.4988,4372.6712 Q4924.0923,4372.4015 4924.7231,4371.8204 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="79" x="4939.75" y="4373.9679">Notification</text><line style="stroke:#000000;stroke-width:1.0;" x1="4857.5" x2="5073.5" y1="4382.4" y2="4382.4"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="89" x="4862.5" y="4400.4752">-title: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="67" x="4862.5" y="4417.4898">-id: UUID</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="114" x="4862.5" y="4434.5045">-content: String</text><line style="stroke:#000000;stroke-width:1.0;" x1="4857.5" x2="5073.5" y1="4441.4439" y2="4441.4439"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="206" x="4862.5" y="4459.5191">+Notification(String, String):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="179" x="4862.5" y="4476.5338">+equals(Object): boolean</text></g><!--MD5=[0ab59d56af5b144506fb03b64b565b57]
+class OfficeEquipment--><g id="elem_OfficeEquipment"><rect codeLine="159" fill="#FFFFFF" height="95.0439" id="OfficeEquipment" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="691" x="728" y="952.18"/><ellipse cx="1011.25" cy="966.18" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M1013.7231,972.3231 Q1013.1421,972.6219 1012.5029,972.7713 Q1011.8638,972.9207 1011.1582,972.9207 Q1008.6514,972.9207 1007.3315,971.2689 Q1006.0117,969.617 1006.0117,966.4959 Q1006.0117,963.3665 1007.3315,961.7147 Q1008.6514,960.0628 1011.1582,960.0628 Q1011.8638,960.0628 1012.5112,960.2122 Q1013.1587,960.3616 1013.7231,960.6605 L1013.7231,963.3831 Q1013.0923,962.8021 1012.4988,962.5323 Q1011.9053,962.2625 1011.2744,962.2625 Q1009.9297,962.2625 1009.2449,963.3292 Q1008.5601,964.3958 1008.5601,966.4959 Q1008.5601,968.5877 1009.2449,969.6544 Q1009.9297,970.721 1011.2744,970.721 Q1011.9053,970.721 1012.4988,970.4512 Q1013.0923,970.1815 1013.7231,969.6004 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="117" x="1028.75" y="971.7479">OfficeEquipment</text><line style="stroke:#000000;stroke-width:1.0;" x1="729" x2="1418" y1="980.18" y2="980.18"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="104" x="734" y="998.2552">-model: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="102" x="734" y="1015.2698">-brand: String</text><line style="stroke:#000000;stroke-width:1.0;" x1="729" x2="1418" y1="1022.2093" y2="1022.2093"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="679" x="734" y="1040.2845">+OfficeEquipment(int, int, String, String, Seller, int, String, String, OfficeEquipmentCategory):</text></g><!--MD5=[ad70ac7f4f7d8e338d07c7353443fde6]
+class OfficeEquipmentCategory--><g id="elem_OfficeEquipmentCategory"><rect codeLine="164" fill="#FFFFFF" height="125.6572" id="OfficeEquipmentCategory" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="323" x="12" y="936.87"/><ellipse cx="79.75" cy="957.6693" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M83.3643,964.1693 L75.6445,964.1693 L75.6445,951.7762 L83.3643,951.7762 L83.3643,953.9345 L78.0933,953.9345 L78.0933,956.6073 L82.8662,956.6073 L82.8662,958.7655 L78.0933,958.7655 L78.0933,962.0111 L83.3643,962.0111 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="93" x="140.75" y="953.9345">«enumeration»</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="180" x="97.25" y="970.5292">OfficeEquipmentCategory</text><line style="stroke:#000000;stroke-width:1.0;" x1="13" x2="334" y1="978.4686" y2="978.4686"/><line style="stroke:#000000;stroke-width:1.0;" x1="13" x2="334" y1="986.4686" y2="986.4686"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="248" x="18" y="1004.5438">-OfficeEquipmentCategory(String):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="136" x="18" y="1021.5585">+toString(): String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="270" x="18" y="1038.5731">+values(): OfficeEquipmentCategory[]</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="311" x="18" y="1055.5878">+valueOf(String): OfficeEquipmentCategory</text></g><!--MD5=[cf4d6237fcae255cd2e1656cf84a30e2]
+class Order--><g id="elem_Order"><rect codeLine="170" fill="#FFFFFF" height="537.4248" id="Order" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="1095" x="2953" y="2554.4"/><ellipse cx="3476.75" cy="2568.4" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M3479.2231,2574.5431 Q3478.6421,2574.8419 3478.0029,2574.9913 Q3477.3638,2575.1407 3476.6582,2575.1407 Q3474.1514,2575.1407 3472.8315,2573.4889 Q3471.5117,2571.837 3471.5117,2568.7159 Q3471.5117,2565.5865 3472.8315,2563.9347 Q3474.1514,2562.2828 3476.6582,2562.2828 Q3477.3638,2562.2828 3478.0112,2562.4322 Q3478.6587,2562.5816 3479.2231,2562.8805 L3479.2231,2565.6031 Q3478.5923,2565.0221 3477.9988,2564.7523 Q3477.4053,2564.4825 3476.7744,2564.4825 Q3475.4297,2564.4825 3474.7449,2565.5492 Q3474.0601,2566.6158 3474.0601,2568.7159 Q3474.0601,2570.8077 3474.7449,2571.8744 Q3475.4297,2572.941 3476.7744,2572.941 Q3477.4053,2572.941 3477.9988,2572.6712 Q3478.5923,2572.4015 3479.2231,2571.8204 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="40" x="3494.25" y="2573.9679">Order</text><line style="stroke:#000000;stroke-width:1.0;" x1="2954" x2="4047" y1="2582.4" y2="2582.4"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="260" x="2959" y="2600.4752">-payementMethod: PayementMethod</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="339" x="2959" y="2617.4898">-products: ArrayList&lt;Tuple&lt;Product, Integer&gt;&gt;</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="115" x="2959" y="2634.5045">-address: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="130" x="2959" y="2651.5191">-state: OrderState</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="200" x="2959" y="2668.5338">-numberOfFidelityPoints: int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="155" x="2959" y="2685.5484">-orderDate: LocalDate</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="167" x="2959" y="2702.5631">-numberOfProducts: int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="190" x="2959" y="2719.5777">-creditCardNumber: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="220" x="2959" y="2736.5924">-creditCardSecretDigits: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="104" x="2959" y="2753.607">-phone: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="174" x="2959" y="2770.6217">-creditCardName: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="152" x="2959" y="2787.6363">-shipment: Shipment</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="64" x="2959" y="2804.651">-cost: int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="99" x="2959" y="2821.6656">-email: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="160" x="2959" y="2838.6803">-billingAddress: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="98" x="2959" y="2855.6949">-buyer: Buyer</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="94" x="2959" y="2872.7096">-seller: Seller</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="190" x="2959" y="2889.7242">-tickets: ArrayList&lt;Ticket&gt;</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="67" x="2959" y="2906.7389">-id: UUID</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="191" x="2959" y="2923.7535">-creditCardExp: YearMonth</text><line style="stroke:#000000;stroke-width:1.0;" x1="2954" x2="4047" y1="2930.693" y2="2930.693"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="1083" x="2959" y="2948.7682">+Order(int, int, PayementMethod, ArrayList&lt;Tuple&lt;Product, Integer&gt;&gt;, String, String, String, String, String, String, YearMonth, String, Buyer, Seller):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="324" x="2959" y="2965.7828">+setInTransit(String, String, LocalDate): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="710" x="2959" y="2982.7975">+createTicket(String, ArrayList&lt;Tuple&lt;Product, Integer&gt;&gt;, TicketCause, TicketState, Order): Ticket</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="173" x="2959" y="2999.8121">+setInProduction(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="151" x="2959" y="3016.8268">+setCancelled(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="150" x="2959" y="3033.8414">+setDelivered(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="173" x="2959" y="3050.8561">+addTicket(Ticket): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="179" x="2959" y="3067.8707">+equals(Object): boolean</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="376" x="2959" y="3084.8854">+createTicket(String, TicketCause, TicketState): void</text></g><!--MD5=[b0808aa00a5c1d2430824b5104b080bc]
+class OrderState--><g id="elem_OrderState"><rect codeLine="201" fill="#FFFFFF" height="142.6719" id="OrderState" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="221" x="3394" y="3295.4"/><ellipse cx="3456.25" cy="3316.1993" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M3459.8643,3322.6993 L3452.1445,3322.6993 L3452.1445,3310.3062 L3459.8643,3310.3062 L3459.8643,3312.4645 L3454.5933,3312.4645 L3454.5933,3315.1373 L3459.3662,3315.1373 L3459.3662,3317.2955 L3454.5933,3317.2955 L3454.5933,3320.5411 L3459.8643,3320.5411 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="93" x="3471.75" y="3312.4645">«enumeration»</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="78" x="3479.25" y="3329.0592">OrderState</text><line style="stroke:#000000;stroke-width:1.0;" x1="3395" x2="3614" y1="3336.9986" y2="3336.9986"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="191" x="3400" y="3355.0738">options: ArrayList&lt;String&gt;</text><line style="stroke:#000000;stroke-width:1.0;" x1="3395" x2="3614" y1="3362.0133" y2="3362.0133"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="146" x="3400" y="3380.0885">-OrderState(String):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="136" x="3400" y="3397.1031">+toString(): String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="168" x="3400" y="3414.1178">+values(): OrderState[]</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="209" x="3400" y="3431.1324">+valueOf(String): OrderState</text></g><!--MD5=[6b996fa506c427302ae7f247bde9168c]
+class PayementMethod--><g id="elem_PayementMethod"><rect codeLine="208" fill="#FFFFFF" height="112.0586" id="PayementMethod" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="239" x="3000" y="3310.4"/><ellipse cx="3055.25" cy="3324.4" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M3057.7231,3330.5431 Q3057.1421,3330.8419 3056.5029,3330.9913 Q3055.8638,3331.1407 3055.1582,3331.1407 Q3052.6514,3331.1407 3051.3315,3329.4889 Q3050.0117,3327.837 3050.0117,3324.7159 Q3050.0117,3321.5865 3051.3315,3319.9347 Q3052.6514,3318.2828 3055.1582,3318.2828 Q3055.8638,3318.2828 3056.5112,3318.4322 Q3057.1587,3318.5816 3057.7231,3318.8805 L3057.7231,3321.6031 Q3057.0923,3321.0221 3056.4988,3320.7523 Q3055.9053,3320.4825 3055.2744,3320.4825 Q3053.9297,3320.4825 3053.2449,3321.5492 Q3052.5601,3322.6158 3052.5601,3324.7159 Q3052.5601,3326.8077 3053.2449,3327.8744 Q3053.9297,3328.941 3055.2744,3328.941 Q3055.9053,3328.941 3056.4988,3328.6712 Q3057.0923,3328.4015 3057.7231,3327.8204 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="121" x="3072.75" y="3329.9679">PayementMethod</text><line style="stroke:#000000;stroke-width:1.0;" x1="3001" x2="3238" y1="3338.4" y2="3338.4"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="160" x="3006" y="3356.4752">-fidelityPointsUsed: int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="117" x="3006" y="3373.4898">-moneyUsed: int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="159" x="3006" y="3390.5045">-returnMoneyUsed: int</text><line style="stroke:#000000;stroke-width:1.0;" x1="3001" x2="3238" y1="3397.4439" y2="3397.4439"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="227" x="3006" y="3415.5191">+PayementMethod(int, int, int):</text></g><!--MD5=[72136138052d025cffdce3c22fbd185f]
+class Product--><g id="elem_Product"><rect codeLine="214" fill="#FFFFFF" height="401.3076" id="Product" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="536" x="2267.5" y="1331.4"/><ellipse cx="2505.25" cy="1345.4" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M2507.7231,1351.5431 Q2507.1421,1351.8419 2506.5029,1351.9913 Q2505.8638,1352.1407 2505.1582,1352.1407 Q2502.6514,1352.1407 2501.3315,1350.4889 Q2500.0117,1348.837 2500.0117,1345.7159 Q2500.0117,1342.5865 2501.3315,1340.9347 Q2502.6514,1339.2828 2505.1582,1339.2828 Q2505.8638,1339.2828 2506.5112,1339.4322 Q2507.1587,1339.5816 2507.7231,1339.8805 L2507.7231,1342.6031 Q2507.0923,1342.0221 2506.4988,1341.7523 Q2505.9053,1341.4825 2505.2744,1341.4825 Q2503.9297,1341.4825 2503.2449,1342.5492 Q2502.5601,1343.6158 2502.5601,1345.7159 Q2502.5601,1347.8077 2503.2449,1348.8744 Q2503.9297,1349.941 2505.2744,1349.941 Q2505.9053,1349.941 2506.4988,1349.6712 Q2507.0923,1349.4015 2507.7231,1348.8204 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="53" x="2522.75" y="1350.9679">Product</text><line style="stroke:#000000;stroke-width:1.0;" x1="2268.5" x2="2802.5" y1="1359.4" y2="1359.4"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="94" x="2273.5" y="1377.4752">-seller: Seller</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="203" x="2273.5" y="1394.4898">-reviews: ArrayList&lt;Review&gt;</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="95" x="2273.5" y="1411.5045">-quantity: int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="89" x="2273.5" y="1428.5191">-title: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="95" x="2273.5" y="1445.5338">-discount: int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="138" x="2273.5" y="1462.5484">-description: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="171" x="2273.5" y="1479.5631">-bonusFidelityPoints: int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="176" x="2273.5" y="1496.5777">-subCategory: Enum&lt;?&gt;</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="64" x="2273.5" y="1513.5924">-cost: int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="105" x="2273.5" y="1530.607">-rating: Rating</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="244" x="2273.5" y="1547.6217">-commercializationDate: LocalDate</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="193" x="2273.5" y="1564.6363">-category: ProductCategory</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="67" x="2273.5" y="1581.651">-id: UUID</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="218" x="2273.5" y="1598.6656">-followedBy: ArrayList&lt;Buyer&gt;</text><line style="stroke:#000000;stroke-width:1.0;" x1="2268.5" x2="2802.5" y1="1605.6051" y2="1605.6051"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="524" x="2273.5" y="1623.6803">+Product(int, int, String, String, ProductCategory, Enum&lt;?&gt;, Seller, int):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="226" x="2273.5" y="1640.6949">+toggleFollowedBy(Buyer): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="179" x="2273.5" y="1657.7096">+equals(Object): boolean</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="136" x="2273.5" y="1674.7242">+toString(): String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="187" x="2273.5" y="1691.7389">+addReview(Review): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="224" x="2273.5" y="1708.7535">+getFormattedCost(int): String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="213" x="2273.5" y="1725.7682">+removeReview(Review): void</text></g><!--MD5=[a1db4bf20df23ac2cd9366d22a9e2860]
+class ProductCategory--><g id="elem_ProductCategory"><rect codeLine="237" fill="#FFFFFF" height="176.7012" id="ProductCategory" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="335" x="1022" y="2055.4"/><ellipse cx="1127.75" cy="2076.1993" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M1131.3643,2082.6993 L1123.6445,2082.6993 L1123.6445,2070.3062 L1131.3643,2070.3062 L1131.3643,2072.4645 L1126.0933,2072.4645 L1126.0933,2075.1373 L1130.8662,2075.1373 L1130.8662,2077.2955 L1126.0933,2077.2955 L1126.0933,2080.5411 L1131.3643,2080.5411 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="93" x="1156.75" y="2072.4645">«enumeration»</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="116" x="1145.25" y="2089.0592">ProductCategory</text><line style="stroke:#000000;stroke-width:1.0;" x1="1023" x2="1356" y1="2096.9986" y2="2096.9986"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="219" x="1028" y="2115.0738">subOptions: ArrayList&lt;String&gt;</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="180" x="1028" y="2132.0885">enum: Class&lt;Enum&lt;?&gt;&gt;</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="191" x="1028" y="2149.1031">options: ArrayList&lt;String&gt;</text><line style="stroke:#000000;stroke-width:1.0;" x1="1023" x2="1356" y1="2156.0426" y2="2156.0426"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="323" x="1028" y="2174.1178">-ProductCategory(String, Class&lt;Enum&lt;?&gt;&gt;):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="136" x="1028" y="2191.1324">+toString(): String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="247" x="1028" y="2208.1471">+valueOf(String): ProductCategory</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="206" x="1028" y="2225.1617">+values(): ProductCategory[]</text></g><!--MD5=[0a8a9a553ad28d76d3a1fd3918a25a86]
+class Rating--><g id="elem_Rating"><rect codeLine="246" fill="#FFFFFF" height="112.0586" id="Rating" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="192" x="1440.5" y="2087.4"/><ellipse cx="1509.75" cy="2101.4" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M1512.2231,2107.5431 Q1511.6421,2107.8419 1511.0029,2107.9913 Q1510.3638,2108.1407 1509.6582,2108.1407 Q1507.1514,2108.1407 1505.8315,2106.4889 Q1504.5117,2104.837 1504.5117,2101.7159 Q1504.5117,2098.5865 1505.8315,2096.9347 Q1507.1514,2095.2828 1509.6582,2095.2828 Q1510.3638,2095.2828 1511.0112,2095.4322 Q1511.6587,2095.5816 1512.2231,2095.8805 L1512.2231,2098.6031 Q1511.5923,2098.0221 1510.9988,2097.7523 Q1510.4053,2097.4825 1509.7744,2097.4825 Q1508.4297,2097.4825 1507.7449,2098.5492 Q1507.0601,2099.6158 1507.0601,2101.7159 Q1507.0601,2103.8077 1507.7449,2104.8744 Q1508.4297,2105.941 1509.7744,2105.941 Q1510.4053,2105.941 1510.9988,2105.6712 Q1511.5923,2105.4015 1512.2231,2104.8204 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="46" x="1527.25" y="2106.9679">Rating</text><line style="stroke:#000000;stroke-width:1.0;" x1="1441.5" x2="1631.5" y1="2115.4" y2="2115.4"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="78" x="1446.5" y="2133.4752">-rating: int</text><line style="stroke:#000000;stroke-width:1.0;" x1="1441.5" x2="1631.5" y1="2140.4146" y2="2140.4146"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="75" x="1446.5" y="2158.4898">+Rating():</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="180" x="1446.5" y="2175.5045">+removeRating(int): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="154" x="1446.5" y="2192.5191">+addRating(int): void</text></g><!--MD5=[eb0e8f8ddfdc21c3fdb48447501fec67]
+class Review--><g id="elem_Review"><rect codeLine="252" fill="#FFFFFF" height="299.2197" id="Review" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="331" x="1787" y="2673.4"/><ellipse cx="1924.25" cy="2687.4" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M1926.7231,2693.5431 Q1926.1421,2693.8419 1925.5029,2693.9913 Q1924.8638,2694.1407 1924.1582,2694.1407 Q1921.6514,2694.1407 1920.3315,2692.4889 Q1919.0117,2690.837 1919.0117,2687.7159 Q1919.0117,2684.5865 1920.3315,2682.9347 Q1921.6514,2681.2828 1924.1582,2681.2828 Q1924.8638,2681.2828 1925.5112,2681.4322 Q1926.1587,2681.5816 1926.7231,2681.8805 L1926.7231,2684.6031 Q1926.0923,2684.0221 1925.4988,2683.7523 Q1924.9053,2683.4825 1924.2744,2683.4825 Q1922.9297,2683.4825 1922.2449,2684.5492 Q1921.5601,2685.6158 1921.5601,2687.7159 Q1921.5601,2689.8077 1922.2449,2690.8744 Q1922.9297,2691.941 1924.2744,2691.941 Q1924.9053,2691.941 1925.4988,2691.6712 Q1926.0923,2691.4015 1926.7231,2690.8204 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="49" x="1941.75" y="2692.9679">Review</text><line style="stroke:#000000;stroke-width:1.0;" x1="1788" x2="2117" y1="2701.4" y2="2701.4"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="114" x="1793" y="2719.4752">-content: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="89" x="1793" y="2736.4898">-title: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="124" x="1793" y="2753.5045">-product: Product</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="67" x="1793" y="2770.5191">-likes: int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="78" x="1793" y="2787.5338">-rating: int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="86" x="1793" y="2804.5484">-reports: int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="104" x="1793" y="2821.5631">-author: Buyer</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="67" x="1793" y="2838.5777">-id: UUID</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="174" x="1793" y="2855.5924">-creationDate: LocalDate</text><line style="stroke:#000000;stroke-width:1.0;" x1="1788" x2="2117" y1="2862.5318" y2="2862.5318"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="319" x="1793" y="2880.607">+Review(String, String, Buyer, Product, int):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="106" x="1793" y="2897.6217">+delete(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="197" x="1793" y="2914.6363">-updateAuthorPoints(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="179" x="1793" y="2931.651">+equals(Object): boolean</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="192" x="1793" y="2948.6656">+arePointsGiven(): boolean</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="136" x="1793" y="2965.6803">+toString(): String</text></g><!--MD5=[43844b47726d9c4702f600b824e35ead]
+class Seller--><g id="elem_Seller"><rect codeLine="269" fill="#FFFFFF" height="248.1758" id="Seller" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="341" x="4460" y="3641.4"/><ellipse cx="4606.75" cy="3655.4" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M4609.2231,3661.5431 Q4608.6421,3661.8419 4608.0029,3661.9913 Q4607.3638,3662.1407 4606.6582,3662.1407 Q4604.1514,3662.1407 4602.8315,3660.4889 Q4601.5117,3658.837 4601.5117,3655.7159 Q4601.5117,3652.5865 4602.8315,3650.9347 Q4604.1514,3649.2828 4606.6582,3649.2828 Q4607.3638,3649.2828 4608.0112,3649.4322 Q4608.6587,3649.5816 4609.2231,3649.8805 L4609.2231,3652.6031 Q4608.5923,3652.0221 4607.9988,3651.7523 Q4607.4053,3651.4825 4606.7744,3651.4825 Q4605.4297,3651.4825 4604.7449,3652.5492 Q4604.0601,3653.6158 4604.0601,3655.7159 Q4604.0601,3657.8077 4604.7449,3658.8744 Q4605.4297,3659.941 4606.7744,3659.941 Q4607.4053,3659.941 4607.9988,3659.6712 Q4608.5923,3659.4015 4609.2231,3658.8204 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="40" x="4624.25" y="3660.9679">Seller</text><line style="stroke:#000000;stroke-width:1.0;" x1="4461" x2="4800" y1="3669.4" y2="3669.4"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="100" x="4466" y="3687.4752">-name: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="268" x="4466" y="3704.4898">-productsOffered: ArrayList&lt;Product&gt;</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="217" x="4466" y="3721.5045">-ordersSold: ArrayList&lt;Order&gt;</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="218" x="4466" y="3738.5191">-followedBy: ArrayList&lt;Buyer&gt;</text><line style="stroke:#000000;stroke-width:1.0;" x1="4461" x2="4800" y1="3745.4586" y2="3745.4586"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="329" x="4466" y="3763.5338">+Seller(String, String, String, String, String):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="273" x="4466" y="3780.5484">+removeProductOffered(Product): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="247" x="4466" y="3797.5631">+addProductOffered(Product): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="200" x="4466" y="3814.5777">+addOrderSold(Order): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="216" x="4466" y="3831.5924">+getMetrics(int): SellerMetrics</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="179" x="4466" y="3848.607">+equals(Object): boolean</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="226" x="4466" y="3865.6217">+toggleFollowedBy(Buyer): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="226" x="4466" y="3882.6363">+removeOrderSold(Order): void</text></g><!--MD5=[a2aa158ad96beae750d8ab7ff767c10d]
+class SellerMetrics--><g id="elem_SellerMetrics"><rect codeLine="283" fill="#FFFFFF" height="193.7158" id="SellerMetrics" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="324" x="4439.5" y="4025.04"/><ellipse cx="4552.75" cy="4045.8393" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M4556.3643,4052.3393 L4548.6445,4052.3393 L4548.6445,4039.9462 L4556.3643,4039.9462 L4556.3643,4042.1045 L4551.0933,4042.1045 L4551.0933,4044.7773 L4555.8662,4044.7773 L4555.8662,4046.9355 L4551.0933,4046.9355 L4551.0933,4050.1811 L4556.3643,4050.1811 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="53" x="4588.75" y="4042.1045">«record»</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="90" x="4570.25" y="4058.6992">SellerMetrics</text><line style="stroke:#000000;stroke-width:1.0;" x1="4440.5" x2="4762.5" y1="4066.6386" y2="4066.6386"/><line style="stroke:#000000;stroke-width:1.0;" x1="4440.5" x2="4762.5" y1="4074.6386" y2="4074.6386"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="312" x="4445.5" y="4092.7138">+SellerMetrics(int, int, int, int, int, int, int):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="157" x="4445.5" y="4109.7285">+recentRevenue(): int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="145" x="4445.5" y="4126.7431">+totalRevenue(): int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="242" x="4445.5" y="4143.7578">+averageTotalProductRating(): int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="234" x="4445.5" y="4160.7724">+numberTotalProductsSold(): int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="247" x="4445.5" y="4177.7871">+numberRecentProductsSold(): int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="255" x="4445.5" y="4194.8017">+averageRecentProductRating(): int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="220" x="4445.5" y="4211.8164">+numberProductsOffered(): int</text></g><!--MD5=[962bf8d17154efae8864e2ec046f4b93]
+class Shipment--><g id="elem_Shipment"><rect codeLine="293" fill="#FFFFFF" height="163.1025" id="Shipment" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="286" x="3240.5" y="3683.9"/><ellipse cx="3345.25" cy="3697.9" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M3347.7231,3704.0431 Q3347.1421,3704.3419 3346.5029,3704.4913 Q3345.8638,3704.6407 3345.1582,3704.6407 Q3342.6514,3704.6407 3341.3315,3702.9889 Q3340.0117,3701.337 3340.0117,3698.2159 Q3340.0117,3695.0865 3341.3315,3693.4347 Q3342.6514,3691.7828 3345.1582,3691.7828 Q3345.8638,3691.7828 3346.5112,3691.9322 Q3347.1587,3692.0816 3347.7231,3692.3805 L3347.7231,3695.1031 Q3347.0923,3694.5221 3346.4988,3694.2523 Q3345.9053,3693.9825 3345.2744,3693.9825 Q3343.9297,3693.9825 3343.2449,3695.0492 Q3342.5601,3696.1158 3342.5601,3698.2159 Q3342.5601,3700.3077 3343.2449,3701.3744 Q3343.9297,3702.441 3345.2744,3702.441 Q3345.9053,3702.441 3346.4988,3702.1712 Q3347.0923,3701.9015 3347.7231,3701.3204 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="69" x="3362.75" y="3703.4679">Shipment</text><line style="stroke:#000000;stroke-width:1.0;" x1="3241.5" x2="3525.5" y1="3711.9" y2="3711.9"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="212" x="3246.5" y="3729.9752">-isDeliveryConfirmed: boolean</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="174" x="3246.5" y="3746.9898">-trackingNumber: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="174" x="3246.5" y="3764.0045">-creationDate: LocalDate</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="238" x="3246.5" y="3781.0191">-expectedDeliveryDate: LocalDate</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="187" x="3246.5" y="3798.0338">-shippingCompany: String</text><line style="stroke:#000000;stroke-width:1.0;" x1="3241.5" x2="3525.5" y1="3804.9732" y2="3804.9732"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="274" x="3246.5" y="3823.0484">+Shipment(String, LocalDate, String):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="173" x="3246.5" y="3840.0631">+confirmDelivery(): void</text></g><!--MD5=[1019404ecb5579880f528dfdf281b7c3]
+class StationeryArticle--><g id="elem_StationeryArticle"><rect codeLine="302" fill="#FFFFFF" height="95.0439" id="StationeryArticle" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="693" x="1454" y="952.18"/><ellipse cx="1737.75" cy="966.18" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M1740.2231,972.3231 Q1739.6421,972.6219 1739.0029,972.7713 Q1738.3638,972.9207 1737.6582,972.9207 Q1735.1514,972.9207 1733.8315,971.2689 Q1732.5117,969.617 1732.5117,966.4959 Q1732.5117,963.3665 1733.8315,961.7147 Q1735.1514,960.0628 1737.6582,960.0628 Q1738.3638,960.0628 1739.0112,960.2122 Q1739.6587,960.3616 1740.2231,960.6605 L1740.2231,963.3831 Q1739.5923,962.8021 1738.9988,962.5323 Q1738.4053,962.2625 1737.7744,962.2625 Q1736.4297,962.2625 1735.7449,963.3292 Q1735.0601,964.3958 1735.0601,966.4959 Q1735.0601,968.5877 1735.7449,969.6544 Q1736.4297,970.721 1737.7744,970.721 Q1738.4053,970.721 1738.9988,970.4512 Q1739.5923,970.1815 1740.2231,969.6004 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="118" x="1755.25" y="971.7479">StationeryArticle</text><line style="stroke:#000000;stroke-width:1.0;" x1="1455" x2="2146" y1="980.18" y2="980.18"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="102" x="1460" y="998.2552">-brand: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="104" x="1460" y="1015.2698">-model: String</text><line style="stroke:#000000;stroke-width:1.0;" x1="1455" x2="2146" y1="1022.2093" y2="1022.2093"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="681" x="1460" y="1040.2845">+StationeryArticle(int, int, String, String, Seller, int, String, String, StationeryArticleCategory):</text></g><!--MD5=[4ad7d4672a1dcfbf65b7af4d89e263ca]
+class StationeryArticleCategory--><g id="elem_StationeryArticleCategory"><rect codeLine="307" fill="#FFFFFF" height="125.6572" id="StationeryArticleCategory" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="324" x="369.5" y="936.87"/><ellipse cx="437.25" cy="957.6693" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M440.8643,964.1693 L433.1445,964.1693 L433.1445,951.7762 L440.8643,951.7762 L440.8643,953.9345 L435.5933,953.9345 L435.5933,956.6073 L440.3662,956.6073 L440.3662,958.7655 L435.5933,958.7655 L435.5933,962.0111 L440.8643,962.0111 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="93" x="498.75" y="953.9345">«enumeration»</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="181" x="454.75" y="970.5292">StationeryArticleCategory</text><line style="stroke:#000000;stroke-width:1.0;" x1="370.5" x2="692.5" y1="978.4686" y2="978.4686"/><line style="stroke:#000000;stroke-width:1.0;" x1="370.5" x2="692.5" y1="986.4686" y2="986.4686"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="249" x="375.5" y="1004.5438">-StationeryArticleCategory(String):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="136" x="375.5" y="1021.5585">+toString(): String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="312" x="375.5" y="1038.5731">+valueOf(String): StationeryArticleCategory</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="271" x="375.5" y="1055.5878">+values(): StationeryArticleCategory[]</text></g><!--MD5=[ac6bea31e13c94c7baa9ad18feb7405e]
+class Ticket--><g id="elem_Ticket"><rect codeLine="313" fill="#FFFFFF" height="350.2637" id="Ticket" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="733" x="3698" y="3191.4"/><ellipse cx="4039.75" cy="3205.4" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M4042.2231,3211.5431 Q4041.6421,3211.8419 4041.0029,3211.9913 Q4040.3638,3212.1407 4039.6582,3212.1407 Q4037.1514,3212.1407 4035.8315,3210.4889 Q4034.5117,3208.837 4034.5117,3205.7159 Q4034.5117,3202.5865 4035.8315,3200.9347 Q4037.1514,3199.2828 4039.6582,3199.2828 Q4040.3638,3199.2828 4041.0112,3199.4322 Q4041.6587,3199.5816 4042.2231,3199.8805 L4042.2231,3202.6031 Q4041.5923,3202.0221 4040.9988,3201.7523 Q4040.4053,3201.4825 4039.7744,3201.4825 Q4038.4297,3201.4825 4037.7449,3202.5492 Q4037.0601,3203.6158 4037.0601,3205.7159 Q4037.0601,3207.8077 4037.7449,3208.8744 Q4038.4297,3209.941 4039.7744,3209.941 Q4040.4053,3209.941 4040.9988,3209.6712 Q4041.5923,3209.4015 4042.2231,3208.8204 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="42" x="4057.25" y="3210.9679">Ticket</text><line style="stroke:#000000;stroke-width:1.0;" x1="3699" x2="4430" y1="3219.4" y2="3219.4"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="339" x="3704" y="3237.4752">-products: ArrayList&lt;Tuple&lt;Product, Integer&gt;&gt;</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="174" x="3704" y="3254.4898">-creationDate: LocalDate</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="242" x="3704" y="3271.5045">-replacementShipment: Shipment</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="191" x="3704" y="3288.5191">-suggestedSolution: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="98" x="3704" y="3305.5338">-buyer: Buyer</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="198" x="3704" y="3322.5484">-problemDescription: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="94" x="3704" y="3339.5631">-order: Order</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="140" x="3704" y="3356.5777">-cause: TicketCause</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="67" x="3704" y="3373.5924">-id: UUID</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="94" x="3704" y="3390.607">-seller: Seller</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="280" x="3704" y="3407.6217">-replacementProductDescription: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="199" x="3704" y="3424.6363">-returnShipment: Shipment</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="132" x="3704" y="3441.651">-state: TicketState</text><line style="stroke:#000000;stroke-width:1.0;" x1="3699" x2="4430" y1="3448.5904" y2="3448.5904"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="721" x="3704" y="3466.6656">+Ticket(String, Order, ArrayList&lt;Tuple&lt;Product, Integer&gt;&gt;, TicketCause, TicketState, Buyer, Seller):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="179" x="3704" y="3483.6803">+equals(Object): boolean</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="442" x="3704" y="3500.6949">+createReplacementShipment(String, LocalDate, String): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="150" x="3704" y="3517.7096">+updateState(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="399" x="3704" y="3534.7242">+createReturnShipment(String, LocalDate, String): void</text></g><!--MD5=[6ba94dfe10813421fe30d69e13bc4e2f]
+class TicketCause--><g id="elem_TicketCause"><rect codeLine="333" fill="#FFFFFF" height="142.6719" id="TicketCause" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="227" x="3983" y="3694.4"/><ellipse cx="4048.25" cy="3715.1993" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M4051.8643,3721.6993 L4044.1445,3721.6993 L4044.1445,3709.3062 L4051.8643,3709.3062 L4051.8643,3711.4645 L4046.5933,3711.4645 L4046.5933,3714.1373 L4051.3662,3714.1373 L4051.3662,3716.2955 L4046.5933,3716.2955 L4046.5933,3719.5411 L4051.8643,3719.5411 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="93" x="4063.75" y="3711.4645">«enumeration»</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="84" x="4068.25" y="3728.0592">TicketCause</text><line style="stroke:#000000;stroke-width:1.0;" x1="3984" x2="4209" y1="3735.9986" y2="3735.9986"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="191" x="3989" y="3754.0738">options: ArrayList&lt;String&gt;</text><line style="stroke:#000000;stroke-width:1.0;" x1="3984" x2="4209" y1="3761.0133" y2="3761.0133"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="152" x="3989" y="3779.0885">-TicketCause(String):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="174" x="3989" y="3796.1031">+values(): TicketCause[]</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="136" x="3989" y="3813.1178">+toString(): String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="215" x="3989" y="3830.1324">+valueOf(String): TicketCause</text></g><!--MD5=[7ad7e0ff1dbe8560fbee464f84db7f7b]
+class TicketState--><g id="elem_TicketState"><rect codeLine="340" fill="#FFFFFF" height="142.6719" id="TicketState" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="223" x="3677" y="3694.4"/><ellipse cx="3740.25" cy="3715.1993" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M3743.8643,3721.6993 L3736.1445,3721.6993 L3736.1445,3709.3062 L3743.8643,3709.3062 L3743.8643,3711.4645 L3738.5933,3711.4645 L3738.5933,3714.1373 L3743.3662,3714.1373 L3743.3662,3716.2955 L3738.5933,3716.2955 L3738.5933,3719.5411 L3743.8643,3719.5411 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="93" x="3755.75" y="3711.4645">«enumeration»</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="80" x="3762.25" y="3728.0592">TicketState</text><line style="stroke:#000000;stroke-width:1.0;" x1="3678" x2="3899" y1="3735.9986" y2="3735.9986"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="191" x="3683" y="3754.0738">options: ArrayList&lt;String&gt;</text><line style="stroke:#000000;stroke-width:1.0;" x1="3678" x2="3899" y1="3761.0133" y2="3761.0133"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="148" x="3683" y="3779.0885">-TicketState(String):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="136" x="3683" y="3796.1031">+toString(): String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="211" x="3683" y="3813.1178">+valueOf(String): TicketState</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="170" x="3683" y="3830.1324">+values(): TicketState[]</text></g><!--MD5=[064889823136230ed73fb5238d2f9216]
+class Tuple--><g id="elem_Tuple"><rect codeLine="347" fill="#FFFFFF" height="61.0146" id="Tuple" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="110" x="2867.5" y="3734.9"/><ellipse cx="2887.25" cy="3748.9" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M2889.7231,3755.0431 Q2889.1421,3755.3419 2888.5029,3755.4913 Q2887.8638,3755.6407 2887.1582,3755.6407 Q2884.6514,3755.6407 2883.3315,3753.9889 Q2882.0117,3752.337 2882.0117,3749.2159 Q2882.0117,3746.0865 2883.3315,3744.4347 Q2884.6514,3742.7828 2887.1582,3742.7828 Q2887.8638,3742.7828 2888.5112,3742.9322 Q2889.1587,3743.0816 2889.7231,3743.3805 L2889.7231,3746.1031 Q2889.0923,3745.5221 2888.4988,3745.2523 Q2887.9053,3744.9825 2887.2744,3744.9825 Q2885.9297,3744.9825 2885.2449,3746.0492 Q2884.5601,3747.1158 2884.5601,3749.2159 Q2884.5601,3751.3077 2885.2449,3752.3744 Q2885.9297,3753.441 2887.2744,3753.441 Q2887.9053,3753.441 2888.4988,3753.1712 Q2889.0923,3752.9015 2889.7231,3752.3204 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="39" x="2900.75" y="3754.4679">Tuple</text><rect fill="#FFFFFF" height="16.584" style="stroke:#000000;stroke-width:1.0;stroke-dasharray:2.0,2.0;" width="26" x="2954.5" y="3731.9"/><text fill="#000000" font-family="Verdana" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="24" x="2955.5" y="3744.9645">A, B</text><line style="stroke:#000000;stroke-width:1.0;" x1="2868.5" x2="2976.5" y1="3762.9" y2="3762.9"/><line style="stroke:#000000;stroke-width:1.0;" x1="2868.5" x2="2976.5" y1="3770.9" y2="3770.9"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="98" x="2873.5" y="3788.9752">+Tuple(A, B):</text></g><!--MD5=[4806d259d5d149918426b2bb977d148c]
+class UniShop--><g id="elem_UniShop"><rect codeLine="350" fill="#FFFFFF" height="299.2197" id="UniShop" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="283" x="4534" y="850.2"/><ellipse cx="4642.25" cy="864.2" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M4644.7231,870.3431 Q4644.1421,870.6419 4643.5029,870.7913 Q4642.8638,870.9407 4642.1582,870.9407 Q4639.6514,870.9407 4638.3315,869.2889 Q4637.0117,867.637 4637.0117,864.5159 Q4637.0117,861.3865 4638.3315,859.7347 Q4639.6514,858.0828 4642.1582,858.0828 Q4642.8638,858.0828 4643.5112,858.2322 Q4644.1587,858.3816 4644.7231,858.6805 L4644.7231,861.4031 Q4644.0923,860.8221 4643.4988,860.5523 Q4642.9053,860.2825 4642.2744,860.2825 Q4640.9297,860.2825 4640.2449,861.3492 Q4639.5601,862.4158 4639.5601,864.5159 Q4639.5601,866.6077 4640.2449,867.6744 Q4640.9297,868.741 4642.2744,868.741 Q4642.9053,868.741 4643.4988,868.4712 Q4644.0923,868.2015 4644.7231,867.6204 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="59" x="4659.75" y="869.7679">UniShop</text><line style="stroke:#000000;stroke-width:1.0;" x1="4535" x2="4816" y1="878.2" y2="878.2"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="259" x="4540" y="896.2752">-sellerList: HashMap&lt;String, Seller&gt;</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="205" x="4540" y="913.2898">-catalog: ArrayList&lt;Product&gt;</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="130" x="4540" y="930.3045">-currentUser: User</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="263" x="4540" y="947.3191">-buyerList: HashMap&lt;String, Buyer&gt;</text><line style="stroke:#000000;stroke-width:1.0;" x1="4535" x2="4816" y1="954.2586" y2="954.2586"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="88" x="4540" y="972.3338">+UniShop():</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="235" x="4540" y="989.3484">+loginSeller(String, String): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="192" x="4540" y="1006.3631">+loadUserList(String): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="160" x="4540" y="1023.3777">+addUser(Seller): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="165" x="4540" y="1040.3924">+updateCatalog(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="194" x="4540" y="1057.407">+saveUserList(String): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="161" x="4540" y="1074.4217">+addUser(Buyer): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="187" x="4540" y="1091.4363">+removeUser(Buyer): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="186" x="4540" y="1108.451">+removeUser(Seller): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="236" x="4540" y="1125.4656">+loginBuyer(String, String): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="271" x="4540" y="1142.4803">+isPasswordMatching(String): boolean</text></g><!--MD5=[3fd616f346a44cd59a91eb10b19e157c]
+class User--><g id="elem_User"><rect codeLine="367" fill="#FFFFFF" height="265.1904" id="User" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="286" x="4822.5" y="3989.4"/><ellipse cx="4946.25" cy="4003.4" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M4948.7231,4009.5431 Q4948.1421,4009.8419 4947.5029,4009.9913 Q4946.8638,4010.1407 4946.1582,4010.1407 Q4943.6514,4010.1407 4942.3315,4008.4889 Q4941.0117,4006.837 4941.0117,4003.7159 Q4941.0117,4000.5865 4942.3315,3998.9347 Q4943.6514,3997.2828 4946.1582,3997.2828 Q4946.8638,3997.2828 4947.5112,3997.4322 Q4948.1587,3997.5816 4948.7231,3997.8805 L4948.7231,4000.6031 Q4948.0923,4000.0221 4947.4988,3999.7523 Q4946.9053,3999.4825 4946.2744,3999.4825 Q4944.9297,3999.4825 4944.2449,4000.5492 Q4943.5601,4001.6158 4943.5601,4003.7159 Q4943.5601,4005.8077 4944.2449,4006.8744 Q4944.9297,4007.941 4946.2744,4007.941 Q4946.9053,4007.941 4947.4988,4007.6712 Q4948.0923,4007.4015 4948.7231,4006.8204 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="31" x="4963.75" y="4008.9679">User</text><line style="stroke:#000000;stroke-width:1.0;" x1="4823.5" x2="5107.5" y1="4017.4" y2="4017.4"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="160" x="4828.5" y="4035.4752">-phoneNumber: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="101" x="4828.5" y="4052.4898">-password: int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="190" x="4828.5" y="4069.5045">-tickets: ArrayList&lt;Ticket&gt;</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="266" x="4828.5" y="4086.5191">-notifications: ArrayList&lt;Notification&gt;</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="115" x="4828.5" y="4103.5338">-address: String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="67" x="4828.5" y="4120.5484">-id: UUID</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="99" x="4828.5" y="4137.5631">-email: String</text><line style="stroke:#000000;stroke-width:1.0;" x1="4823.5" x2="5107.5" y1="4144.5025" y2="4144.5025"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="266" x="4828.5" y="4162.5777">+User(String, String, String, String):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="273" x="4828.5" y="4179.5924">+removeNotification(Notification): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="247" x="4828.5" y="4196.607">+addNotification(Notification): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="121" x="4828.5" y="4213.6217">+hashCode(): int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="173" x="4828.5" y="4230.6363">+addTicket(Ticket): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="274" x="4828.5" y="4247.651">+updatePassword(String, String): void</text></g><!--MD5=[f8d2b21678b6ea5d90e779ee6463ca37]
+class Utils--><g id="elem_Utils"><rect codeLine="382" fill="#FFFFFF" height="503.3955" id="Utils" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="747" x="4948" y="748"/><ellipse cx="5302.25" cy="762" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M5304.7231,768.1431 Q5304.1421,768.4419 5303.5029,768.5913 Q5302.8638,768.7407 5302.1582,768.7407 Q5299.6514,768.7407 5298.3315,767.0889 Q5297.0117,765.437 5297.0117,762.3159 Q5297.0117,759.1865 5298.3315,757.5347 Q5299.6514,755.8828 5302.1582,755.8828 Q5302.8638,755.8828 5303.5112,756.0322 Q5304.1587,756.1816 5304.7231,756.4805 L5304.7231,759.2031 Q5304.0923,758.6221 5303.4988,758.3523 Q5302.9053,758.0825 5302.2744,758.0825 Q5300.9297,758.0825 5300.2449,759.1492 Q5299.5601,760.2158 5299.5601,762.3159 Q5299.5601,764.4077 5300.2449,765.4744 Q5300.9297,766.541 5302.2744,766.541 Q5302.9053,766.541 5303.4988,766.2712 Q5304.0923,766.0015 5304.7231,765.4204 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="31" x="5319.75" y="767.5679">Utils</text><line style="stroke:#000000;stroke-width:1.0;" x1="4949" x2="5694" y1="776" y2="776"/><line style="stroke:#000000;stroke-width:1.0;" x1="4949" x2="5694" y1="784" y2="784"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="60" x="4954" y="802.0752">+Utils():</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="317" x="4954" y="819.0898">#prettyMenu(String, ArrayList&lt;String&gt;): int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="387" x="4954" y="836.1045">+validateBonusFidelityPoints(int, int): ValidationResult</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="281" x="4954" y="853.1191">#prettyMenuT(String, ArrayList&lt;T&gt;): T</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="476" x="4954" y="870.1338">#prettyPrompt(String, Function&lt;String, ValidationResult&gt;): String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="345" x="4954" y="887.1484">+validatePhoneNumber(String): ValidationResult</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="380" x="4954" y="904.1631">+validateNumberRange(int, int, int): ValidationResult</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="216" x="4954" y="921.1777">#prettyPrompt(String): String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="480" x="4954" y="938.1924">#prettyPromptInt(String, Function&lt;Integer, ValidationResult&gt;): int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="456" x="4954" y="955.207">#prettyMenu(String, ArrayList&lt;ArrayList&lt;String&gt;&gt;, String): int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="150" x="4954" y="972.2217">#quit(UniShop): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="254" x="4954" y="989.2363">#prettyPromptCurrency(String): int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="273" x="4954" y="1006.251">#prettyPromptDate(String): LocalDate</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="317" x="4954" y="1023.2656">+validateNotEmpty(String): ValidationResult</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="287" x="4954" y="1040.2803">+validateName(String): ValidationResult</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="140" x="4954" y="1057.2949">+waitForKey(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="283" x="4954" y="1074.3096">+validateISBN(String): ValidationResult</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="256" x="4954" y="1091.3242">#prettyPromptBool(String): boolean</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="286" x="4954" y="1108.3389">+validateEmail(String): ValidationResult</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="174" x="4954" y="1125.3535">#prettify(String): String</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="607" x="4954" y="1142.3682">+prettyDynamicMenu(String, String, ArrayList&lt;DynamicMenuItem&gt;, Runnable): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="735" x="4954" y="1159.3828">+prettyPaginationMenu(List&lt;T&gt;, int, String, Consumer&lt;T&gt;, Function&lt;T, String&gt;, Consumer&lt;T&gt;): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="166" x="4954" y="1176.3975">#logout(UniShop): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="244" x="4954" y="1193.4121">#prettyMenu(String, String[]): int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="150" x="4954" y="1210.4268">#clearConsole(): void</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="212" x="4954" y="1227.4414">#prettyPromptInt(String): int</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="245" x="4954" y="1244.4561">#prettyMenu(String, Class&lt;T&gt;): T</text></g><!--MD5=[22bbe4d3b2f4c4ad358537adae3124f6]
+class ValidationResult--><g id="elem_ValidationResult"><rect codeLine="411" fill="#FFFFFF" height="108.6426" id="ValidationResult" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="263" x="5190" y="1477.58"/><ellipse cx="5260.75" cy="1498.3793" fill="#FFFFFF" rx="9" ry="9" style="stroke:#000000;stroke-width:1.0;"/><path d="M5264.3643,1504.8793 L5256.6445,1504.8793 L5256.6445,1492.4862 L5264.3643,1492.4862 L5264.3643,1494.6445 L5259.0933,1494.6445 L5259.0933,1497.3173 L5263.8662,1497.3173 L5263.8662,1499.4755 L5259.0933,1499.4755 L5259.0933,1502.7211 L5264.3643,1502.7211 Z " fill="#000000"/><text fill="#000000" font-family="Verdana" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="53" x="5308.75" y="1494.6445">«record»</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="114" x="5278.25" y="1511.2392">ValidationResult</text><line style="stroke:#000000;stroke-width:1.0;" x1="5191" x2="5452" y1="1519.1786" y2="1519.1786"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="117" x="5196" y="1537.2538">-isValid: boolean</text><line style="stroke:#000000;stroke-width:1.0;" x1="5191" x2="5452" y1="1544.1933" y2="1544.1933"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="251" x="5196" y="1562.2685">+ValidationResult(boolean, String):</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="139" x="5196" y="1579.2831">+message(): String</text></g><!--MD5=[70b347481a1fa9be8b68e308847bd6b8]
+link BookOrManual to Product--><g id="link_BookOrManual_Product"><path codeLine="417" d="M3646.36,1073.4 C3280.6,1073.4 2805,1073.4 2805,1073.4 C2805,1073.4 2805,1510.3 2805,1510.3 " fill="none" id="BookOrManual-to-Product" style="stroke:#000082;stroke-width:1.0;"/><polygon fill="none" points="2812,1510.3,2805,1530.3,2798,1510.3,2812,1510.3" style="stroke:#000082;stroke-width:1.0;"/></g><!--MD5=[d8e7344f35e426d342681d97e9a6776a]
+link Buyer to Buyer--><g id="link_Buyer_Buyer"><path codeLine="418" d="M3715.17,1819.08 C3715.17,1819.08 3715.17,1782.4 3715.17,1782.4 C3715.17,1782.4 3910.75,1782.4 3910.75,1782.4 C3910.75,1782.4 3910.75,2504.4 3910.75,2504.4 C3910.75,2504.4 3625,2504.4 3625,2504.4 C3625,2504.4 3625,2468.72 3625,2468.72 " fill="none" id="Buyer-Buyer" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="3625,2455.72,3621,2464.72,3625,2460.72,3629,2464.72,3625,2455.72" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="3625" x2="3625" y1="2460.72" y2="2468.72"/><polygon fill="#595959" points="3715.17,1831.08,3719.17,1825.08,3715.17,1819.08,3711.17,1825.08,3715.17,1831.08" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3713.4243" y="1821.2248">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="80" x="3547.2445" y="2475.9385">buyersLiked</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3583.2445" y="2491.7378">*</text></g><!--MD5=[f032cd7882e4d9035f45b974c6b8d4e8]
+link Buyer to BuyerMetrics--><g id="link_Buyer_BuyerMetrics"><path codeLine="419" d="M3725.32,2254.4 C3969.83,2254.4 4326.25,2254.4 4326.25,2254.4 C4326.25,2254.4 4326.25,2702.03 4326.25,2702.03 " fill="none" id="Buyer-to-BuyerMetrics" style="stroke:#595959;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#595959" points="4326.25,2707.03,4330.25,2698.03,4326.25,2702.03,4322.25,2698.03,4326.25,2707.03" style="stroke:#595959;stroke-width:1.0;"/></g><!--MD5=[7c031c4e7dfc31d37df19263297da826]
+link Buyer to Cart--><g id="link_Buyer_Cart"><path codeLine="420" d="M3262.1,2385.4 C3262.1,2385.4 2849.67,2385.4 2849.67,2385.4 C2849.67,2385.4 2849.67,2693.15 2849.67,2693.15 " fill="none" id="Buyer-Cart" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="2849.67,2706.15,2853.67,2697.15,2849.67,2701.15,2845.67,2697.15,2849.67,2706.15" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="2849.67" x2="2849.67" y1="2701.15" y2="2693.15"/><polygon fill="#595959" points="3274.1,2385.4,3268.1,2381.4,3262.1,2385.4,3268.1,2389.4,3274.1,2385.4" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3259.3843" y="2391.9026">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="69" x="2873.0963" y="2680.9711">returnCart</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="2903.5963" y="2696.7704">1</text></g><!--MD5=[325dc04101b6f6dd4bf3a340a4ee6b25]
+link Cart to Buyer--><g id="link_Cart_Buyer"><path codeLine="426" d="M2871.83,2809.31 C2871.83,2809.31 2871.83,2430.4 2871.83,2430.4 C2871.83,2430.4 3261.24,2430.4 3261.24,2430.4 " fill="none" id="Cart-Buyer" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="3274.24,2430.4,3265.24,2426.4,3269.24,2430.4,3265.24,2434.4,3274.24,2430.4" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="3269.24" x2="3261.24" y1="2430.4" y2="2430.4"/><polygon fill="#595959" points="2871.83,2821.31,2875.83,2815.31,2871.83,2809.31,2867.83,2815.31,2871.83,2821.31" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="2877.8502" y="2820.5939">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="38" x="3229.7623" y="2421.3801">buyer</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3244.7623" y="2437.1794">1</text></g><!--MD5=[e303cb6bfbd05634b631739b10714102]
+link Buyer to Order--><g id="link_Buyer_Order"><path codeLine="421" d="M3376,2467.83 C3376,2467.83 3376,2540 3376,2540 " fill="none" id="Buyer-Order" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="3376,2553,3380,2544,3376,2548,3372,2544,3376,2553" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="3376" x2="3376" y1="2548" y2="2540"/><polygon fill="#595959" points="3376,2455.83,3372,2461.83,3376,2467.83,3380,2461.83,3376,2455.83" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3358.1617" y="2475.632">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="43" x="3328.6656" y="2528.1544">orders</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3346.1656" y="2543.9537">*</text></g><!--MD5=[51fc9a5d3b0877d9a9d19b5db3cc80aa]
+link Order to Buyer--><g id="link_Order_Buyer"><path codeLine="436" d="M3500.5,2541.32 C3500.5,2541.32 3500.5,2468.73 3500.5,2468.73 " fill="none" id="Order-Buyer" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="3500.5,2455.73,3496.5,2464.73,3500.5,2460.73,3504.5,2464.73,3500.5,2455.73" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="3500.5" x2="3500.5" y1="2460.73" y2="2468.73"/><polygon fill="#595959" points="3500.5,2553.32,3504.5,2547.32,3500.5,2541.32,3496.5,2547.32,3500.5,2553.32" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3492.3688" y="2543.8638">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="38" x="3461.9953" y="2475.9488">buyer</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3476.9953" y="2491.7481">1</text></g><!--MD5=[3978651b572c4b5098a0ac55cff6d968]
+link Buyer to Product--><g id="link_Buyer_Product"><path codeLine="422" d="M3347.83,1819.16 C3347.83,1819.16 3347.83,1705.4 3347.83,1705.4 C3347.83,1705.4 2817.97,1705.4 2817.97,1705.4 " fill="none" id="Buyer-Product" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="2804.97,1705.4,2813.97,1709.4,2809.97,1705.4,2813.97,1701.4,2804.97,1705.4" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="2809.97" x2="2817.97" y1="1705.4" y2="1705.4"/><polygon fill="#595959" points="3347.83,1831.16,3351.83,1825.16,3347.83,1819.16,3343.83,1825.16,3347.83,1831.16" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3335.1789" y="1821.3071">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="92" x="2811.7996" y="1691.6706">productsLiked</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="2853.7996" y="1707.4699">*</text></g><!--MD5=[2061ad5ee04129a04bd2c31da0694296]
+link Product to Buyer--><g id="link_Product_Buyer"><path codeLine="444" d="M2816.73,1681.4 C2816.73,1681.4 3444.17,1681.4 3444.17,1681.4 C3444.17,1681.4 3444.17,1818.16 3444.17,1818.16 " fill="none" id="Product-Buyer" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="3444.17,1831.16,3448.17,1822.16,3444.17,1826.16,3440.17,1822.16,3444.17,1831.16" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="3444.17" x2="3444.17" y1="1826.16" y2="1818.16"/><polygon fill="#595959" points="2804.73,1681.4,2810.73,1685.4,2816.73,1681.4,2810.73,1677.4,2804.73,1681.4" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="2811.2904" y="1688.1379">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="73" x="3368.7042" y="1806.0859">followedBy</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3401.2042" y="1821.8853">*</text></g><!--MD5=[c80e8a34a58c9f31ffa57e718199bdc1]
+link Buyer to Review--><g id="link_Buyer_Review"><path codeLine="423" d="M3262.31,2341.4 C3262.31,2341.4 1952.5,2341.4 1952.5,2341.4 C1952.5,2341.4 1952.5,2659.01 1952.5,2659.01 " fill="none" id="Buyer-Review" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="1952.5,2672.01,1956.5,2663.01,1952.5,2667.01,1948.5,2663.01,1952.5,2672.01" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="1952.5" x2="1952.5" y1="2667.01" y2="2659.01"/><polygon fill="#595959" points="3274.31,2341.4,3268.31,2337.4,3262.31,2341.4,3268.31,2345.4,3274.31,2341.4" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3259.6018" y="2346.3213">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="87" x="1863.257" y="2647.098">reviewsLiked</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="1902.757" y="2662.8973">*</text></g><!--MD5=[f73d0d6455b501d3fbf4c75ab975d674]
+link Review to Buyer--><g id="link_Review_Buyer"><path codeLine="449" d="M1857.75,2659.92 C1857.75,2659.92 1857.75,2296.4 1857.75,2296.4 C1857.75,2296.4 3261.01,2296.4 3261.01,2296.4 " fill="none" id="Review-Buyer" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="3274.01,2296.4,3265.01,2292.4,3269.01,2296.4,3265.01,2300.4,3274.01,2296.4" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="3269.01" x2="3261.01" y1="2296.4" y2="2296.4"/><polygon fill="#595959" points="1857.75,2671.92,1861.75,2665.92,1857.75,2659.92,1853.75,2665.92,1857.75,2671.92" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="1844.041" y="2662.4417">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="43" x="3224.4427" y="2282.9832">author</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3241.9427" y="2298.7825">1</text></g><!--MD5=[095ab08c7423308ec95df19222636a25]
+link Buyer to Seller--><g id="link_Buyer_Seller"><path codeLine="424" d="M3738.87,2033.4 C3738.87,2033.4 4649,2033.4 4649,2033.4 C4649,2033.4 4649,3627.02 4649,3627.02 " fill="none" id="Buyer-Seller" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="4649,3640.02,4653,3631.02,4649,3635.02,4645,3631.02,4649,3640.02" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="4649" x2="4649" y1="3635.02" y2="3627.02"/><polygon fill="#595959" points="3726.87,2033.4,3732.87,2037.4,3738.87,2033.4,3732.87,2029.4,3726.87,2033.4" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3733.5687" y="2022.852">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="79" x="4568.6547" y="3614.685">sellersLiked</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4604.1547" y="3630.4843">*</text></g><!--MD5=[1cf085fa6b04d718396d4ef968418a8b]
+link Seller to Buyer--><g id="link_Seller_Buyer"><path codeLine="451" d="M4605,3627.97 C4605,3627.97 4605,2143.4 4605,2143.4 C4605,2143.4 3739.86,2143.4 3739.86,2143.4 " fill="none" id="Seller-Buyer" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="3726.86,2143.4,3735.86,2147.4,3731.86,2143.4,3735.86,2139.4,3726.86,2143.4" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="3731.86" x2="3739.86" y1="2143.4" y2="2143.4"/><polygon fill="#595959" points="4605,3639.97,4609,3633.97,4605,3627.97,4601,3633.97,4605,3639.97" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4590.9156" y="3630.6146">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="73" x="3733.0985" y="2125.0112">followedBy</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3765.5985" y="2140.8105">*</text></g><!--MD5=[233ef0f3e9f1a470072165671d89259f]
+link Buyer to User--><g id="link_Buyer_User"><path codeLine="425" d="M3725.34,1923.4 C4104.54,1923.4 4830.33,1923.4 4830.33,1923.4 C4830.33,1923.4 4830.33,3968.22 4830.33,3968.22 " fill="none" id="Buyer-to-User" style="stroke:#000082;stroke-width:1.0;"/><polygon fill="none" points="4837.33,3968.22,4830.33,3988.22,4823.33,3968.22,4837.33,3968.22" style="stroke:#000082;stroke-width:1.0;"/></g><!--MD5=[3451170ed356d35d92157e8060a0a232]
+link Cart to Product--><g id="link_Cart_Product"><path codeLine="427" d="M2710.7,2707.48 C2710.7,2707.48 2710.7,1738.86 2710.7,1738.86 " fill="none" id="Cart-to-Product" style="stroke:#595959;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#595959" points="2710.7,1733.86,2706.7,1742.86,2710.7,1738.86,2714.7,1742.86,2710.7,1733.86" style="stroke:#595959;stroke-width:1.0;"/></g><!--MD5=[6662d5acc064eb2c3da4c9da5ac8a6b7]
+link Cart to Tuple--><g id="link_Cart_Tuple"><path codeLine="428" d="M2868.75,2951.51 C2868.75,2951.51 2868.75,3720.48 2868.75,3720.48 " fill="none" id="Cart-Tuple" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="2868.75,3733.48,2872.75,3724.48,2868.75,3728.48,2864.75,3724.48,2868.75,3733.48" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="2868.75" x2="2868.75" y1="3728.48" y2="3720.48"/><polygon fill="#595959" points="2868.75,2939.51,2864.75,2945.51,2868.75,2951.51,2872.75,2945.51,2868.75,2939.51" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="2877.727" y="2941.6344">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="57" x="2802.7539" y="3712.0704">products</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="2827.2539" y="3727.8697">*</text></g><!--MD5=[e876e774f01de328241384d4f39d81c7]
+link Client to Buyer--><g id="link_Client_Buyer"><path codeLine="429" d="M4514.68,546.4 C4213.27,546.4 3593.5,546.4 3593.5,546.4 C3593.5,546.4 3593.5,1826.13 3593.5,1826.13 " fill="none" id="Client-to-Buyer" style="stroke:#595959;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#595959" points="3593.5,1831.13,3597.5,1822.13,3593.5,1826.13,3589.5,1822.13,3593.5,1831.13" style="stroke:#595959;stroke-width:1.0;"/></g><!--MD5=[36d4c0abfff64aa42f3c2c2e24f92e65]
+link Client to Seller--><g id="link_Client_Seller"><path codeLine="430" d="M4850.75,340.16 C4850.75,366.71 4850.75,3765.4 4850.75,3765.4 C4850.75,3765.4 4807.29,3765.4 4807.29,3765.4 " fill="none" id="Client-to-Seller" style="stroke:#595959;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#595959" points="4802.29,3765.4,4811.29,3769.4,4807.29,3765.4,4811.29,3761.4,4802.29,3765.4" style="stroke:#595959;stroke-width:1.0;"/></g><!--MD5=[795196872c70672b0103118569ac41ba]
+link Client to UniShop--><g id="link_Client_UniShop"><path codeLine="431" d="M4675.5,681.43 C4675.5,681.43 4675.5,835.72 4675.5,835.72 " fill="none" id="Client-UniShop" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="4675.5,848.72,4679.5,839.72,4675.5,843.72,4671.5,839.72,4675.5,848.72" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="4675.5" x2="4675.5" y1="843.72" y2="835.72"/><polygon fill="#595959" points="4675.5,669.43,4671.5,675.43,4675.5,681.43,4679.5,675.43,4675.5,669.43" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4667.2063" y="689.5307">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="51" x="4623.1852" y="823.8033">unishop</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4644.6852" y="839.6026">1</text></g><!--MD5=[cc73ab352ebc803b91b2cacdd54dab98]
+reverse link DynamicMenuItem to Utils--><g id="link_DynamicMenuItem_Utils"><path codeLine="432" d="M5321.5,419.77 C5321.5,419.77 5321.5,747.87 5321.5,747.87 " fill="none" id="DynamicMenuItem-backto-Utils" style="stroke:#820000;stroke-width:1.0;"/><ellipse cx="5321.5" cy="412.77" fill="#FFFFFF" rx="8" ry="8" style="stroke:#820000;stroke-width:1.0;"/><line style="stroke:#820000;stroke-width:1.0;" x1="5321.5" x2="5321.5" y1="420.77" y2="404.77"/><line style="stroke:#820000;stroke-width:1.0;" x1="5313.5" x2="5329.5" y1="412.77" y2="412.77"/></g><!--MD5=[41edee915c0b4becf688dca6868ca9a8]
+link IT to Product--><g id="link_IT_Product"><path codeLine="433" d="M2495.25,1056.15 C2495.25,1056.15 2495.25,1310.06 2495.25,1310.06 " fill="none" id="IT-to-Product" style="stroke:#000082;stroke-width:1.0;"/><polygon fill="none" points="2502.25,1310.06,2495.25,1330.06,2488.25,1310.06,2502.25,1310.06" style="stroke:#000082;stroke-width:1.0;"/></g><!--MD5=[31261eb3320562295cbeb6174bbc87fb]
+link LearningResource to Product--><g id="link_LearningResource_Product"><path codeLine="434" d="M2793.75,1064.69 C2793.75,1064.69 2793.75,1310.07 2793.75,1310.07 " fill="none" id="LearningResource-to-Product" style="stroke:#000082;stroke-width:1.0;"/><polygon fill="none" points="2800.75,1310.07,2793.75,1330.07,2786.75,1310.07,2800.75,1310.07" style="stroke:#000082;stroke-width:1.0;"/></g><!--MD5=[50ac7db5195cd83b28bc099959fd8fda]
+link OfficeEquipment to Product--><g id="link_OfficeEquipment_Product"><path codeLine="435" d="M1398.75,1047.44 C1398.75,1178.2 1398.75,1532.4 1398.75,1532.4 C1398.75,1532.4 2246.03,1532.4 2246.03,1532.4 " fill="none" id="OfficeEquipment-to-Product" style="stroke:#000082;stroke-width:1.0;"/><polygon fill="none" points="2246.03,1525.4,2266.03,1532.4,2246.03,1539.4,2246.03,1525.4" style="stroke:#000082;stroke-width:1.0;"/></g><!--MD5=[ab4946417b991c9aec273b5527d3eb58]
+link Order to OrderState--><g id="link_Order_OrderState"><path codeLine="437" d="M3504.5,3104.58 C3504.5,3104.58 3504.5,3281.1 3504.5,3281.1 " fill="none" id="Order-OrderState" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="3504.5,3294.1,3508.5,3285.1,3504.5,3289.1,3500.5,3285.1,3504.5,3294.1" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="3504.5" x2="3504.5" y1="3289.1" y2="3281.1"/><polygon fill="#595959" points="3504.5,3092.58,3500.5,3098.58,3504.5,3104.58,3508.5,3098.58,3504.5,3092.58" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3496.5" y="3113.1876">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="33" x="3469.7984" y="3268.7884">state</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3482.2984" y="3284.5877">1</text></g><!--MD5=[552be62b0e65f06b69a9328561f72473]
+link Order to PayementMethod--><g id="link_Order_PayementMethod"><path codeLine="438" d="M3119.5,3104.58 C3119.5,3104.58 3119.5,3296.14 3119.5,3296.14 " fill="none" id="Order-PayementMethod" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="3119.5,3309.14,3123.5,3300.14,3119.5,3304.14,3115.5,3300.14,3119.5,3309.14" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="3119.5" x2="3119.5" y1="3304.14" y2="3296.14"/><polygon fill="#595959" points="3119.5,3092.58,3115.5,3098.58,3119.5,3104.58,3123.5,3098.58,3119.5,3092.58" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3076.0078" y="3113.1876">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="114" x="2998.5531" y="3284.0691">payementMethod</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3051.5531" y="3299.8685">1</text></g><!--MD5=[5df16df72a49edaa4f00919f1e597f76]
+link Order to Product--><g id="link_Order_Product"><path codeLine="439" d="M3090.25,2554.7 C3090.25,2230.95 3090.25,1729.4 3090.25,1729.4 C3090.25,1729.4 2809.64,1729.4 2809.64,1729.4 " fill="none" id="Order-to-Product" style="stroke:#595959;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#595959" points="2804.64,1729.4,2813.64,1733.4,2809.64,1729.4,2813.64,1725.4,2804.64,1729.4" style="stroke:#595959;stroke-width:1.0;"/></g><!--MD5=[d70542bd50d749e6f3018e9052543396]
+link Order to Seller--><g id="link_Order_Seller"><path codeLine="440" d="M4061.49,2995.4 C4061.49,2995.4 4525.67,2995.4 4525.67,2995.4 C4525.67,2995.4 4525.67,3627.17 4525.67,3627.17 " fill="none" id="Order-Seller" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="4525.67,3640.17,4529.67,3631.17,4525.67,3635.17,4521.67,3631.17,4525.67,3640.17" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="4525.67" x2="4525.67" y1="3635.17" y2="3627.17"/><polygon fill="#595959" points="4049.49,2995.4,4055.49,2999.4,4061.49,2995.4,4055.49,2991.4,4049.49,2995.4" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4056.1043" y="2998.3738">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="37" x="4480.7692" y="3614.8552">seller</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4495.2692" y="3630.6545">1</text></g><!--MD5=[5ba901dceace24f0bd27372b1f8edb11]
+link Seller to Order--><g id="link_Seller_Order"><path codeLine="452" d="M4490.33,3628.27 C4490.33,3628.27 4490.33,3053.4 4490.33,3053.4 C4490.33,3053.4 4062.4,3053.4 4062.4,3053.4 " fill="none" id="Seller-Order" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="4049.4,3053.4,4058.4,3057.4,4054.4,3053.4,4058.4,3049.4,4049.4,3053.4" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="4054.4" x2="4062.4" y1="3053.4" y2="3053.4"/><polygon fill="#595959" points="4490.33,3640.27,4494.33,3634.27,4490.33,3628.27,4486.33,3634.27,4490.33,3640.27" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4452.5949" y="3630.9764">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="72" x="4056.0939" y="3038.4945">ordersSold</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4088.0939" y="3054.2938">*</text></g><!--MD5=[3b8460d43649065ec6b873117ac06c59]
+link Order to Shipment--><g id="link_Order_Shipment"><path codeLine="441" d="M3316.5,3104.6 C3316.5,3104.6 3316.5,3669.46 3316.5,3669.46 " fill="none" id="Order-Shipment" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="3316.5,3682.46,3320.5,3673.46,3316.5,3677.46,3312.5,3673.46,3316.5,3682.46" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="3316.5" x2="3316.5" y1="3677.46" y2="3669.46"/><polygon fill="#595959" points="3316.5,3092.6,3312.5,3098.6,3316.5,3104.6,3320.5,3098.6,3316.5,3092.6" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3291.1688" y="3113.2094">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="61" x="3246.8164" y="3657.4291">shipment</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3273.3164" y="3673.2284">1</text></g><!--MD5=[abd207017f5345de824e48e6cdc32eb4]
+link Order to Ticket--><g id="link_Order_Ticket"><path codeLine="442" d="M3806.67,3104.58 C3806.67,3104.58 3806.67,3177.02 3806.67,3177.02 " fill="none" id="Order-Ticket" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="3806.67,3190.02,3810.67,3181.02,3806.67,3185.02,3802.67,3181.02,3806.67,3190.02" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="3806.67" x2="3806.67" y1="3185.02" y2="3177.02"/><polygon fill="#595959" points="3806.67,3092.58,3802.67,3098.58,3806.67,3104.58,3810.67,3098.58,3806.67,3092.58" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3826.5263" y="3113.1876">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="44" x="3749.9902" y="3164.9813">tickets</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3767.9902" y="3180.7806">*</text></g><!--MD5=[6d4438cb477ecdab2001e7c22cec9cba]
+link Ticket to Order--><g id="link_Ticket_Order"><path codeLine="458" d="M3939.33,3177.93 C3939.33,3177.93 3939.33,3105.53 3939.33,3105.53 " fill="none" id="Ticket-Order" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="3939.33,3092.53,3935.33,3101.53,3939.33,3097.53,3943.33,3101.53,3939.33,3092.53" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="3939.33" x2="3939.33" y1="3097.53" y2="3105.53"/><polygon fill="#595959" points="3939.33,3189.93,3943.33,3183.93,3939.33,3177.93,3935.33,3183.93,3939.33,3189.93" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3925.0733" y="3180.6849">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="36" x="3915.8234" y="3112.5021">order</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3929.8234" y="3128.3014">1</text></g><!--MD5=[468770be596155a6005fbc106cd093b7]
+link Order to Tuple--><g id="link_Order_Tuple"><path codeLine="443" d="M2952.5,2836.46 C2952.5,2836.46 2952.5,3720.56 2952.5,3720.56 " fill="none" id="Order-Tuple" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="2952.5,3733.56,2956.5,3724.56,2952.5,3728.56,2948.5,3724.56,2952.5,3733.56" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="2952.5" x2="2952.5" y1="3728.56" y2="3720.56"/><polygon fill="#595959" points="2952.5,2824.46,2948.5,2830.46,2952.5,2836.46,2956.5,2830.46,2952.5,2824.46" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="2936.7375" y="2820.9076">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="57" x="2963.6516" y="3708.4591">products</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="2988.1516" y="3724.2585">*</text></g><!--MD5=[5c0c66984b48f13f6f1fd84ba8e61151]
+link Product to ProductCategory--><g id="link_Product_ProductCategory"><path codeLine="445" d="M2360.3,1745.89 C2360.3,1745.89 2360.3,2051.4 2360.3,2051.4 C2360.3,2051.4 1204.07,2051.4 1204.07,2051.4 " fill="none" id="Product-ProductCategory" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="1191.07,2051.4,1200.07,2055.4,1196.07,2051.4,1200.07,2047.4,1191.07,2051.4" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="1196.07" x2="1204.07" y1="2051.4" y2="2051.4"/><polygon fill="#595959" points="2360.3,1733.89,2356.3,1739.89,2360.3,1745.89,2364.3,1739.89,2360.3,1733.89" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="2330.46" y="1753.9992">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="58" x="1130.3287" y="2028.9325">category</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="1155.3287" y="2044.7318">1</text></g><!--MD5=[ed415f936d02964f0749994fb137095e]
+link Product to Rating--><g id="link_Product_Rating"><path codeLine="446" d="M2254.13,1642.4 C2254.13,1642.4 1555.25,1642.4 1555.25,1642.4 C1555.25,1642.4 1555.25,2073.36 1555.25,2073.36 " fill="none" id="Product-Rating" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="1555.25,2086.36,1559.25,2077.36,1555.25,2081.36,1551.25,2077.36,1555.25,2086.36" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="1555.25" x2="1555.25" y1="2081.36" y2="2073.36"/><polygon fill="#595959" points="2266.13,1642.4,2260.13,1638.4,2254.13,1642.4,2260.13,1646.4,2266.13,1642.4" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="2251.5692" y="1643.5349">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="39" x="1516.1539" y="2060.8737">rating</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="1531.6539" y="2076.673">1</text></g><!--MD5=[418687281c593c8dd812c04f2d15bfcd]
+link Product to Review--><g id="link_Product_Review"><path codeLine="447" d="M2593.9,1745.75 C2593.9,1745.75 2593.9,2676.4 2593.9,2676.4 C2593.9,2676.4 2132.19,2676.4 2132.19,2676.4 " fill="none" id="Product-Review" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="2119.19,2676.4,2128.19,2680.4,2124.19,2676.4,2128.19,2672.4,2119.19,2676.4" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="2124.19" x2="2132.19" y1="2676.4" y2="2676.4"/><polygon fill="#595959" points="2593.9,1733.75,2589.9,1739.75,2593.9,1745.75,2597.9,1739.75,2593.9,1733.75" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="2592.53" y="1753.8422">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="52" x="2125.7454" y="2651.6434">reviews</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="2147.7454" y="2667.4428">*</text></g><!--MD5=[17b9041a14a9c4b80116b970cb1b8bd8]
+link Review to Product--><g id="link_Review_Product"><path codeLine="450" d="M1966.11,2665.4 C1966.11,2665.4 2477.1,2665.4 2477.1,2665.4 C2477.1,2665.4 2477.1,1746.78 2477.1,1746.78 " fill="none" id="Review-Product" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="2477.1,1733.78,2473.1,1742.78,2477.1,1738.78,2481.1,1742.78,2477.1,1733.78" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="2477.1" x2="2477.1" y1="1738.78" y2="1746.78"/><polygon fill="#595959" points="1954.11,2665.4,1960.11,2669.4,1966.11,2665.4,1960.11,2661.4,1954.11,2665.4" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="1952.6192" y="2662.6977">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="50" x="2423.8422" y="1753.7675">product</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="2444.8422" y="1769.5669">1</text></g><!--MD5=[aa2e43ce6a2cfd731b783b8b18cb200d]
+link Product to Seller--><g id="link_Product_Seller"><path codeLine="448" d="M2816.76,1610.4 C2816.76,1610.4 4737,1610.4 4737,1610.4 C4737,1610.4 4737,3626.89 4737,3626.89 " fill="none" id="Product-Seller" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="4737,3639.89,4741,3630.89,4737,3634.89,4733,3630.89,4737,3639.89" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="4737" x2="4737" y1="3634.89" y2="3626.89"/><polygon fill="#595959" points="2804.76,1610.4,2810.76,1614.4,2816.76,1610.4,2810.76,1606.4,2804.76,1610.4" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="2811.3223" y="1612.8114">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="37" x="4705.3625" y="3614.9819">seller</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4719.8625" y="3630.7812">1</text></g><!--MD5=[863dfbbd3a5ad0c759ac56a9f1e943ac]
+link Seller to Product--><g id="link_Seller_Product"><path codeLine="453" d="M4693,3628.1 C4693,3628.1 4693,1634.4 4693,1634.4 C4693,1634.4 2817.81,1634.4 2817.81,1634.4 " fill="none" id="Seller-Product" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="2804.81,1634.4,2813.81,1638.4,2809.81,1634.4,2813.81,1630.4,2804.81,1634.4" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="2809.81" x2="2817.81" y1="1634.4" y2="1634.4"/><polygon fill="#595959" points="4693,3640.1,4697,3634.1,4693,3628.1,4689,3634.1,4693,3640.1" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4689.1133" y="3630.4811">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="107" x="2811.8345" y="1618.7846">productsOffered</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="2861.3345" y="1634.5839">*</text></g><!--MD5=[3efa0ef023611879fe3412cb51ad9a53]
+link Seller to SellerMetrics--><g id="link_Seller_SellerMetrics"><path codeLine="454" d="M4601.5,3889.34 C4601.5,3889.34 4601.5,4018.18 4601.5,4018.18 " fill="none" id="Seller-to-SellerMetrics" style="stroke:#595959;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#595959" points="4601.5,4023.18,4605.5,4014.18,4601.5,4018.18,4597.5,4014.18,4601.5,4023.18" style="stroke:#595959;stroke-width:1.0;"/></g><!--MD5=[b45cf680000e9bcbe331ee93e6750713]
+link Seller to User--><g id="link_Seller_User"><path codeLine="455" d="M4811.75,3765.46 C4811.75,3765.46 4811.75,4100.32 4811.75,4100.32 " fill="none" id="Seller-to-User" style="stroke:#000082;stroke-width:1.0;"/><polygon fill="none" points="4818.75,4100.32,4811.75,4120.32,4804.75,4100.32,4818.75,4100.32" style="stroke:#000082;stroke-width:1.0;"/></g><!--MD5=[92d5e3d32eaed47e96a14289ebcdcc0d]
+link StationeryArticle to Product--><g id="link_StationeryArticle_Product"><path codeLine="456" d="M2047.25,1047.37 C2047.25,1157.92 2047.25,1422.4 2047.25,1422.4 C2047.25,1422.4 2246.29,1422.4 2246.29,1422.4 " fill="none" id="StationeryArticle-to-Product" style="stroke:#000082;stroke-width:1.0;"/><polygon fill="none" points="2246.29,1415.4,2266.29,1422.4,2246.29,1429.4,2246.29,1415.4" style="stroke:#000082;stroke-width:1.0;"/></g><!--MD5=[2fbbeb6e3883aee47cc6231a744e318d]
+link Ticket to Buyer--><g id="link_Ticket_Buyer"><path codeLine="457" d="M4107.3432,3178.06 C4107.3432,3178.06 4107.33,2364.4 4107.33,2364.4 C4107.33,2364.4 3739.68,2364.4 3739.68,2364.4 " fill="none" id="Ticket-Buyer" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="3726.68,2364.4,3735.68,2368.4,3731.68,2364.4,3735.68,2360.4,3726.68,2364.4" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="3731.68" x2="3739.68" y1="2364.4" y2="2364.4"/><polygon fill="#595959" points="4107.33,3190.06,4111.3366,3184.0644,4107.3432,3178.06,4103.3366,3184.0556,4107.33,3190.06" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4101.2108" y="3180.8317">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="38" x="3733.1654" y="2353.2144">buyer</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3748.1654" y="2369.0138">1</text></g><!--MD5=[a72c6ab13424b023c4fe1905d229cf0e]
+link Ticket to Product--><g id="link_Ticket_Product"><path codeLine="459" d="M4142.67,3191.64 C4142.67,2756.33 4142.67,1658.4 4142.67,1658.4 C4142.67,1658.4 2809.66,1658.4 2809.66,1658.4 " fill="none" id="Ticket-to-Product" style="stroke:#595959;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#595959" points="2804.66,1658.4,2813.66,1662.4,2809.66,1658.4,2813.66,1654.4,2804.66,1658.4" style="stroke:#595959;stroke-width:1.0;"/></g><!--MD5=[923173c16b7dc113638bf269d01577d5]
+link Ticket to Seller--><g id="link_Ticket_Seller"><path codeLine="460" d="M4445.5,3379.99 C4445.5,3379.99 4445.5,3750.81 4445.5,3750.81 " fill="none" id="Ticket-Seller" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="4445.5,3763.81,4449.5,3754.81,4445.5,3758.81,4441.5,3754.81,4445.5,3763.81" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="4445.5" x2="4445.5" y1="3758.81" y2="3750.81"/><polygon fill="#595959" points="4445.5,3367.99,4441.5,3373.99,4445.5,3379.99,4449.5,3373.99,4445.5,3367.99" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4439.2672" y="3364.5063">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="37" x="4408.5" y="3747.3998">seller</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4423" y="3763.1991">1</text></g><!--MD5=[691b49425186a9b05e920b946d338315]
+link Ticket to Shipment--><g id="link_Ticket_Shipment"><path codeLine="461" d="M3757.33,3554.85 C3757.33,3554.85 3757.33,3669.4 3757.33,3669.4 C3757.33,3669.4 3398.08,3669.4 3398.08,3669.4 " fill="none" id="Ticket-Shipment" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="3385.08,3669.4,3394.08,3673.4,3390.08,3669.4,3394.08,3665.4,3385.08,3669.4" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="3390.08" x2="3398.08" y1="3669.4" y2="3669.4"/><polygon fill="#595959" points="3757.33,3542.85,3753.33,3548.85,3757.33,3554.85,3761.33,3548.85,3757.33,3542.85" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3705.5717" y="3562.9937">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="104" x="3383.57" y="3651.4698">returnShipment</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3431.57" y="3667.2691">1</text></g><!--MD5=[92dddf9125406e2726e6d2ee24a44ac3]
+link Ticket to TicketCause--><g id="link_Ticket_TicketCause"><path codeLine="462" d="M4096.5,3554.63 C4096.5,3554.63 4096.5,3679.97 4096.5,3679.97 " fill="none" id="Ticket-TicketCause" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="4096.5,3692.97,4100.5,3683.97,4096.5,3687.97,4092.5,3683.97,4096.5,3692.97" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="4096.5" x2="4096.5" y1="3687.97" y2="3679.97"/><polygon fill="#595959" points="4096.5,3542.63,4092.5,3548.63,4096.5,3554.63,4100.5,3548.63,4096.5,3542.63" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4092.4375" y="3562.7428">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="38" x="4056.5406" y="3667.645">cause</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4071.5406" y="3683.4443">1</text></g><!--MD5=[15f559e81938810c37a39bf73ccbe01b]
+link Ticket to TicketState--><g id="link_Ticket_TicketState"><path codeLine="463" d="M3840.67,3554.63 C3840.67,3554.63 3840.67,3679.97 3840.67,3679.97 " fill="none" id="Ticket-TicketState" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="3840.67,3692.97,3844.67,3683.97,3840.67,3687.97,3836.67,3683.97,3840.67,3692.97" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="3840.67" x2="3840.67" y1="3687.97" y2="3679.97"/><polygon fill="#595959" points="3840.67,3542.63,3836.67,3548.63,3840.67,3554.63,3844.67,3548.63,3840.67,3542.63" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3800.6314" y="3562.7428">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="33" x="3811.3485" y="3667.645">state</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3823.8485" y="3683.4443">1</text></g><!--MD5=[db38647867d476b3f14602d33fa0d4cd]
+link Ticket to Tuple--><g id="link_Ticket_Tuple"><path codeLine="464" d="M3684.53,3509.4 C3684.53,3509.4 2988.75,3509.4 2988.75,3509.4 C2988.75,3509.4 2988.75,3750.84 2988.75,3750.84 " fill="none" id="Ticket-Tuple" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="2988.75,3763.84,2992.75,3754.84,2988.75,3758.84,2984.75,3754.84,2988.75,3763.84" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="2988.75" x2="2988.75" y1="3758.84" y2="3750.84"/><polygon fill="#595959" points="3696.53,3509.4,3690.53,3505.4,3684.53,3509.4,3690.53,3513.4,3696.53,3509.4" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3682.5252" y="3510.2276">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="57" x="2988.75" y="3778.4198">products</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3013.25" y="3794.2191">*</text></g><!--MD5=[86e00729ad837f9fa062fdfc888c0b34]
+link UniShop to Buyer--><g id="link_UniShop_Buyer"><path codeLine="465" d="M4520.53,1140.4 C4520.53,1140.4 3680.83,1140.4 3680.83,1140.4 C3680.83,1140.4 3680.83,1818.06 3680.83,1818.06 " fill="none" id="UniShop-Buyer" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="3680.83,1831.06,3684.83,1822.06,3680.83,1826.06,3676.83,1822.06,3680.83,1831.06" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="3680.83" x2="3680.83" y1="1826.06" y2="1818.06"/><polygon fill="#595959" points="4532.53,1140.4,4526.53,1136.4,4520.53,1140.4,4526.53,1144.4,4532.53,1140.4" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4518.0852" y="1145.77">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="61" x="3623.8099" y="1805.973">buyerList</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="3650.3099" y="1821.7723">*</text></g><!--MD5=[3797a7b0604d67aeee8ca2e662509b39]
+link UniShop to Product--><g id="link_UniShop_Product"><path codeLine="466" d="M4520.71,1111.4 C4520.71,1111.4 2816.25,1111.4 2816.25,1111.4 C2816.25,1111.4 2816.25,1517.31 2816.25,1517.31 " fill="none" id="UniShop-Product" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="2816.25,1530.31,2820.25,1521.31,2816.25,1525.31,2812.25,1521.31,2816.25,1530.31" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="2816.25" x2="2816.25" y1="1525.31" y2="1517.31"/><polygon fill="#595959" points="4532.71,1111.4,4526.71,1107.4,4520.71,1111.4,4526.71,1115.4,4532.71,1111.4" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4517.8316" y="1115.5106">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="48" x="2816.25" y="1513.8898">catalog</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="2836.25" y="1529.6891">*</text></g><!--MD5=[863dccb955fa4ff02527a2b7e37a6279]
+link UniShop to Seller--><g id="link_UniShop_Seller"><path codeLine="467" d="M4781,1162.4 C4781,1162.4 4781,3627.03 4781,3627.03 " fill="none" id="UniShop-Seller" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="4781,3640.03,4785,3631.03,4781,3635.03,4777,3631.03,4781,3640.03" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="4781" x2="4781" y1="3635.03" y2="3627.03"/><polygon fill="#595959" points="4781,1150.4,4777,1156.4,4781,1162.4,4785,1156.4,4781,1150.4" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4789.8109" y="1170.4752">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="60" x="4792.5633" y="3614.7063">sellerList</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4818.5633" y="3630.5056">*</text></g><!--MD5=[bb0e8bc63c2a311051a96ae7cb288c99]
+link UniShop to User--><g id="link_UniShop_User"><path codeLine="468" d="M4835.67,1013.36 C4835.67,1013.36 4835.67,3975.22 4835.67,3975.22 " fill="none" id="UniShop-User" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="4835.67,3988.22,4839.67,3979.22,4835.67,3983.22,4831.67,3979.22,4835.67,3988.22" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="4835.67" x2="4835.67" y1="3983.22" y2="3975.22"/><polygon fill="#595959" points="4835.67,1001.36,4831.67,1007.36,4835.67,1013.36,4839.67,1007.36,4835.67,1001.36" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4835.67" y="997.9098">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="79" x="4746.3515" y="3962.8136">currentUser</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4781.8515" y="3978.6129">1</text></g><!--MD5=[2e2e530a658308b38e0151c4d25adf6b]
+link User to Notification--><g id="link_User_Notification"><path codeLine="469" d="M4965.5,4267.84 C4965.5,4267.84 4965.5,4340.04 4965.5,4340.04 " fill="none" id="User-Notification" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="4965.5,4353.04,4969.5,4344.04,4965.5,4348.04,4961.5,4344.04,4965.5,4353.04" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="4965.5" x2="4965.5" y1="4348.04" y2="4340.04"/><polygon fill="#595959" points="4965.5,4255.84,4961.5,4261.84,4965.5,4267.84,4969.5,4261.84,4965.5,4255.84" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4956.7625" y="4275.4899">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="81" x="4880.0703" y="4327.915">notifications</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4916.5703" y="4343.7143">*</text></g><!--MD5=[1b3d35e004f35d7d1413417cddbf8e20]
+link User to Ticket--><g id="link_User_Ticket"><path codeLine="470" d="M4809.31,3997.4 C4809.31,3997.4 4335,3997.4 4335,3997.4 C4335,3997.4 4335,3555.84 4335,3555.84 " fill="none" id="User-Ticket" style="stroke:#595959;stroke-width:1.0;"/><polygon fill="#595959" points="4335,3542.84,4331,3551.84,4335,3547.84,4339,3551.84,4335,3542.84" style="stroke:#595959;stroke-width:1.0;"/><line style="stroke:#595959;stroke-width:1.0;" x1="4335" x2="4335" y1="3547.84" y2="3555.84"/><polygon fill="#595959" points="4821.31,3997.4,4815.31,3993.4,4809.31,3997.4,4815.31,4001.4,4821.31,3997.4" style="stroke:#595959;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4806.3401" y="4003.7234">1</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="44" x="4301.4836" y="3562.4407">tickets</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="8" x="4319.4836" y="3578.24">*</text></g><!--MD5=[af3be919c69a45ad9242810ed89091d7]
+link Utils to ValidationResult--><g id="link_Utils_ValidationResult"><path codeLine="471" d="M5277.67,1251.77 C5277.67,1251.77 5277.67,1470.73 5277.67,1470.73 " fill="none" id="Utils-to-ValidationResult" style="stroke:#595959;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#595959" points="5277.67,1475.73,5281.67,1466.73,5277.67,1470.73,5273.67,1466.73,5277.67,1475.73" style="stroke:#595959;stroke-width:1.0;"/></g><!--MD5=[d8df4a385103e964107563c7f98218cd]
+reverse link ValidationResult to Utils--><g id="link_ValidationResult_Utils"><path codeLine="472" d="M5365.33,1460.93 C5365.33,1460.93 5365.33,1251.68 5365.33,1251.68 " fill="none" id="ValidationResult-backto-Utils" style="stroke:#820000;stroke-width:1.0;"/><ellipse cx="5365.33" cy="1467.93" fill="#FFFFFF" rx="8" ry="8" style="stroke:#820000;stroke-width:1.0;"/><line style="stroke:#820000;stroke-width:1.0;" x1="5365.33" x2="5365.33" y1="1459.93" y2="1475.93"/><line style="stroke:#820000;stroke-width:1.0;" x1="5373.33" x2="5357.33" y1="1467.93" y2="1467.93"/></g><!--MD5=[1e9b0d2651caa1dac2452c37a74b89ab]
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+class BookOrManual {
+    + BookOrManual(int, int, String, String, Seller, int, String, String, String, BookOrManualGenre, LocalDate, int, int):
+    - author: String
+    - releaseDate: LocalDate
+    - isbn: String
+    - volumeNumber: int
+    - editor: String
+    - editionNumber: int
+}
+enum BookOrManualGenre << enumeration >> {
+    - BookOrManualGenre(String):
+    + toString(): String
+    + values(): BookOrManualGenre[]
+    + valueOf(String): BookOrManualGenre
+}
+class Buyer {
+    + Buyer(String, String, String, String, String, String, String):
+    - sellersLiked: ArrayList<Seller>
+    - followedBy: ArrayList<Buyer>
+    - firstName: String
+    - reviewsWritten: ArrayList<Review>
+    - fidelityPoints: int
+    - orders: ArrayList<Order>
+    - productsLiked: ArrayList<Product>
+    - returnCart: Cart
+    - reviewsLiked: ArrayList<Review>
+    - buyersLiked: ArrayList<Buyer>
+    - username: String
+    - lastName: String
+    - cart: Cart
+    + doesLike(Seller): boolean
+    + exchangeOrder(Order): void
+    + getMetrics(int): BuyerMetrics
+    + toggleLike(Review): void
+    + addReviewWritten(Review): void
+    + returnOrder(Order): void
+    + toggleLike(Seller): void
+    + orderDelivered(Order): void
+    + removeReviewWritten(Review): void
+    + toggleFollowedBy(Buyer): void
+    + addOrder(Order): void
+    + toggleLike(Product): boolean
+    + toggleLike(Buyer): void
+    + addFidelityPoints(int): void
+    + doesLike(Review): boolean
+    + cancelOrder(Order): void
+    + doesLike(Buyer): boolean
+    + removeFidelityPoints(int): void
+    + equals(Object): boolean
+    + doesLike(Product): boolean
+}
+entity BuyerMetrics << record >> {
+    + BuyerMetrics(int, int, int, int, int, int, int, int, int):
+    + numberTotalReviews(): int
+    + numberRecentProductsBought(): int
+    + numberRecentReviews(): int
+    + numberRecentOrders(): int
+    + numberTotalOrders(): int
+    + numberTotalProductsBought(): int
+    + averageTotalReviews(): int
+    + numberFollowers(): int
+    + averageRecentReviews(): int
+}
+class Cart {
+    + Cart(Buyer):
+    - cost: int
+    - numberOfProducts: int
+    - products: ArrayList<Tuple<Product, Integer>>
+    - buyer: Buyer
+    - numberOfFidelityPoints: int
+    + removeProduct(Product): void
+    + subtractProduct(Product, int): void
+    + createOrder(String, String, String, String, String, String, YearMonth, String, int, int): void
+    + addProduct(Product, int): void
+    + emptyCart(): void
+}
+class Client {
+    + Client():
+    - createAccount(): void
+    + findUser(): void
+    + sellerMenu(): void
+    + displaySeller(Seller): void
+    - findSeller(): void
+    + displayOrderShipmentMenu(Order): void
+    - buyerCreationForm(): Buyer
+    + displayBuyer(Buyer): void
+    + buyerMenu(): void
+    - searchProduct(): void
+    + offerProduct(): void
+    + updateSellerInfo(): void
+    + displayBuyerOrders(): void
+    + displayActivities(): void
+    - displayBuyerProductActions(Product): void
+    + displayPendingSellerOrders(): void
+    + displayTickets(): void
+    - displayTicket(Ticket): void
+    + displayProducts(ArrayList<Product>): void
+    - sellerCreationForm(): Seller
+    - displayReturnMenu(Order): void
+    + updateBuyerInfo(): void
+    - createTicket(Order): void
+    + displayProduct(Product): void
+    - loginForm(): void
+    - displayTicketActions(Ticket): void
+    + main(String[]): void
+    + displayOrder(Order): void
+    - findBuyer(): void
+    - displayNotifications(): void
+    + displayBuyerOrderActions(Order): void
+    - displayReviews(Product): void
+    - displayExchangeMenu(Order): void
+    - placeOrder(): void
+    + displayCart(): void
+}
+entity DynamicMenuItem << record >> {
+    + DynamicMenuItem(String, Runnable, Supplier<Boolean>):
+    + name(): String
+    + displayCondition(): Supplier<Boolean>
+    + action(): Runnable
+}
+class IT {
+    + IT(int, int, String, String, Seller, int, String, String, LocalDate, ITCategory):
+    - model: String
+    - releaseDate: LocalDate
+    - brand: String
+}
+enum ITCategory << enumeration >> {
+    - ITCategory(String):
+    + valueOf(String): ITCategory
+    + toString(): String
+    + values(): ITCategory[]
+}
+class LearningResource {
+    + LearningResource(int, int, String, String, Seller, int, int, String, LocalDate, LearningResourceType, int):
+    - isbn: int
+    - organisation: String
+    - editionNumber: int
+    - releaseDate: LocalDate
+}
+enum LearningResourceType << enumeration >> {
+    - LearningResourceType(String):
+    + valueOf(String): LearningResourceType
+    + toString(): String
+    + values(): LearningResourceType[]
+}
+class Notification {
+    + Notification(String, String):
+    - title: String
+    - id: UUID
+    - content: String
+    + equals(Object): boolean
+}
+class OfficeEquipment {
+    + OfficeEquipment(int, int, String, String, Seller, int, String, String, OfficeEquipmentCategory):
+    - model: String
+    - brand: String
+}
+enum OfficeEquipmentCategory << enumeration >> {
+    - OfficeEquipmentCategory(String):
+    + toString(): String
+    + values(): OfficeEquipmentCategory[]
+    + valueOf(String): OfficeEquipmentCategory
+}
+class Order {
+    + Order(int, int, PayementMethod, ArrayList<Tuple<Product, Integer>>, String, String, String, String, String, String, YearMonth, String, Buyer, Seller):
+    - payementMethod: PayementMethod
+    - products: ArrayList<Tuple<Product, Integer>>
+    - address: String
+    - state: OrderState
+    - numberOfFidelityPoints: int
+    - orderDate: LocalDate
+    - numberOfProducts: int
+    - creditCardNumber: String
+    - creditCardSecretDigits: String
+    - phone: String
+    - creditCardName: String
+    - shipment: Shipment
+    - cost: int
+    - email: String
+    - billingAddress: String
+    - buyer: Buyer
+    - seller: Seller
+    - tickets: ArrayList<Ticket>
+    - id: UUID
+    - creditCardExp: YearMonth
+    + setInTransit(String, String, LocalDate): void
+    + createTicket(String, ArrayList<Tuple<Product, Integer>>, TicketCause, TicketState, Order): Ticket
+    + setInProduction(): void
+    + setCancelled(): void
+    + setDelivered(): void
+    + addTicket(Ticket): void
+    + equals(Object): boolean
+    + createTicket(String, TicketCause, TicketState): void
+}
+enum OrderState << enumeration >> {
+    - OrderState(String):
+    + toString(): String
+    + values(): OrderState[]
+    + valueOf(String): OrderState
+    options: ArrayList<String>
+}
+class PayementMethod {
+    + PayementMethod(int, int, int):
+    - fidelityPointsUsed: int
+    - moneyUsed: int
+    - returnMoneyUsed: int
+}
+class Product {
+    + Product(int, int, String, String, ProductCategory, Enum<?>, Seller, int):
+    - seller: Seller
+    - reviews: ArrayList<Review>
+    - quantity: int
+    - title: String
+    - discount: int
+    - description: String
+    - bonusFidelityPoints: int
+    - subCategory: Enum<?>
+    - cost: int
+    - rating: Rating
+    - commercializationDate: LocalDate
+    - category: ProductCategory
+    - id: UUID
+    - followedBy: ArrayList<Buyer>
+    + toggleFollowedBy(Buyer): void
+    + equals(Object): boolean
+    + toString(): String
+    + addReview(Review): void
+    + getFormattedCost(int): String
+    + removeReview(Review): void
+}
+enum ProductCategory << enumeration >> {
+    - ProductCategory(String, Class<Enum<?>>):
+    + toString(): String
+    + valueOf(String): ProductCategory
+    + values(): ProductCategory[]
+    subOptions: ArrayList<String>
+    enum: Class<Enum<?>>
+    options: ArrayList<String>
+}
+class Rating {
+    + Rating():
+    - rating: int
+    + removeRating(int): void
+    + addRating(int): void
+}
+class Review {
+    + Review(String, String, Buyer, Product, int):
+    - content: String
+    - title: String
+    - product: Product
+    - likes: int
+    - rating: int
+    - reports: int
+    - author: Buyer
+    - id: UUID
+    - creationDate: LocalDate
+    + delete(): void
+    - updateAuthorPoints(): void
+    + equals(Object): boolean
+    + arePointsGiven(): boolean
+    + toString(): String
+}
+class Seller {
+    + Seller(String, String, String, String, String):
+    - name: String
+    - productsOffered: ArrayList<Product>
+    - ordersSold: ArrayList<Order>
+    - followedBy: ArrayList<Buyer>
+    + removeProductOffered(Product): void
+    + addProductOffered(Product): void
+    + addOrderSold(Order): void
+    + getMetrics(int): SellerMetrics
+    + equals(Object): boolean
+    + toggleFollowedBy(Buyer): void
+    + removeOrderSold(Order): void
+}
+entity SellerMetrics << record >> {
+    + SellerMetrics(int, int, int, int, int, int, int):
+    + recentRevenue(): int
+    + totalRevenue(): int
+    + averageTotalProductRating(): int
+    + numberTotalProductsSold(): int
+    + numberRecentProductsSold(): int
+    + averageRecentProductRating(): int
+    + numberProductsOffered(): int
+}
+class Shipment {
+    + Shipment(String, LocalDate, String):
+    - isDeliveryConfirmed: boolean
+    - trackingNumber: String
+    - creationDate: LocalDate
+    - expectedDeliveryDate: LocalDate
+    - shippingCompany: String
+    + confirmDelivery(): void
+}
+class StationeryArticle {
+    + StationeryArticle(int, int, String, String, Seller, int, String, String, StationeryArticleCategory):
+    - brand: String
+    - model: String
+}
+enum StationeryArticleCategory << enumeration >> {
+    - StationeryArticleCategory(String):
+    + toString(): String
+    + valueOf(String): StationeryArticleCategory
+    + values(): StationeryArticleCategory[]
+}
+class Ticket {
+    + Ticket(String, Order, ArrayList<Tuple<Product, Integer>>, TicketCause, TicketState, Buyer, Seller):
+    - products: ArrayList<Tuple<Product, Integer>>
+    - creationDate: LocalDate
+    - replacementShipment: Shipment
+    - suggestedSolution: String
+    - buyer: Buyer
+    - problemDescription: String
+    - order: Order
+    - cause: TicketCause
+    - id: UUID
+    - seller: Seller
+    - replacementProductDescription: String
+    - returnShipment: Shipment
+    - state: TicketState
+    + equals(Object): boolean
+    + createReplacementShipment(String, LocalDate, String): void
+    + updateState(): void
+    + createReturnShipment(String, LocalDate, String): void
+}
+enum TicketCause << enumeration >> {
+    - TicketCause(String):
+    + values(): TicketCause[]
+    + toString(): String
+    + valueOf(String): TicketCause
+    options: ArrayList<String>
+}
+enum TicketState << enumeration >> {
+    - TicketState(String):
+    + toString(): String
+    + valueOf(String): TicketState
+    + values(): TicketState[]
+    options: ArrayList<String>
+}
+class Tuple<A, B> {
+    + Tuple(A, B):
+}
+class UniShop {
+    + UniShop():
+    - sellerList: HashMap<String, Seller>
+    - catalog: ArrayList<Product>
+    - currentUser: User
+    - buyerList: HashMap<String, Buyer>
+    + loginSeller(String, String): void
+    + loadUserList(String): void
+    + addUser(Seller): void
+    + updateCatalog(): void
+    + saveUserList(String): void
+    + addUser(Buyer): void
+    + removeUser(Buyer): void
+    + removeUser(Seller): void
+    + loginBuyer(String, String): void
+    + isPasswordMatching(String): boolean
+}
+class User {
+    + User(String, String, String, String):
+    - phoneNumber: String
+    - password: int
+    - tickets: ArrayList<Ticket>
+    - notifications: ArrayList<Notification>
+    - address: String
+    - id: UUID
+    - email: String
+    + removeNotification(Notification): void
+    + addNotification(Notification): void
+    + hashCode(): int
+    + addTicket(Ticket): void
+    + updatePassword(String, String): void
+}
+class Utils {
+    + Utils():
+    # prettyMenu(String, ArrayList<String>): int
+    + validateBonusFidelityPoints(int, int): ValidationResult
+    # prettyMenuT(String, ArrayList<T>): T
+    # prettyPrompt(String, Function<String, ValidationResult>): String
+    + validatePhoneNumber(String): ValidationResult
+    + validateNumberRange(int, int, int): ValidationResult
+    # prettyPrompt(String): String
+    # prettyPromptInt(String, Function<Integer, ValidationResult>): int
+    # prettyMenu(String, ArrayList<ArrayList<String>>, String): int
+    # quit(UniShop): void
+    # prettyPromptCurrency(String): int
+    # prettyPromptDate(String): LocalDate
+    + validateNotEmpty(String): ValidationResult
+    + validateName(String): ValidationResult
+    + waitForKey(): void
+    + validateISBN(String): ValidationResult
+    # prettyPromptBool(String): boolean
+    + validateEmail(String): ValidationResult
+    # prettify(String): String
+    + prettyDynamicMenu(String, String, ArrayList<DynamicMenuItem>, Runnable): void
+    + prettyPaginationMenu(List<T>, int, String, Consumer<T>, Function<T, String>, Consumer<T>): void
+    # logout(UniShop): void
+    # prettyMenu(String, String[]): int
+    # clearConsole(): void
+    # prettyPromptInt(String): int
+    # prettyMenu(String, Class<T>): T
+}
+entity ValidationResult << record >> {
+    + ValidationResult(boolean, String):
+    - isValid: boolean
+    + message(): String
+}
+
+BookOrManual               -[#000082,plain]-^  Product
+Buyer                     "1" *-[#595959,plain]-> "buyersLiked\n*" Buyer
+Buyer                      -[#595959,dashed]->  BuyerMetrics
+Buyer                     "1" *-[#595959,plain]-> "returnCart\n1" Cart
+Buyer                     "1" *-[#595959,plain]-> "orders\n*" Order
+Buyer                     "1" *-[#595959,plain]-> "productsLiked\n*" Product
+Buyer                     "1" *-[#595959,plain]-> "reviewsLiked\n*" Review
+Buyer                     "1" *-[#595959,plain]-> "sellersLiked\n*" Seller
+Buyer                      -[#000082,plain]-^  User
+Cart                      "1" *-[#595959,plain]-> "buyer\n1" Buyer
+Cart                       -[#595959,dashed]->  Product
+Cart                      "1" *-[#595959,plain]-> "products\n*" Tuple
+Client                     -[#595959,dashed]->  Buyer
+Client                     -[#595959,dashed]->  Seller
+Client                    "1" *-[#595959,plain]-> "unishop\n1" UniShop
+DynamicMenuItem            +-[#820000,plain]-  Utils
+IT                         -[#000082,plain]-^  Product
+LearningResource           -[#000082,plain]-^  Product
+OfficeEquipment            -[#000082,plain]-^  Product
+Order                     "1" *-[#595959,plain]-> "buyer\n1" Buyer
+Order                     "1" *-[#595959,plain]-> "state\n1" OrderState
+Order                     "1" *-[#595959,plain]-> "payementMethod\n1" PayementMethod
+Order                      -[#595959,dashed]->  Product
+Order                     "1" *-[#595959,plain]-> "seller\n1" Seller
+Order                     "1" *-[#595959,plain]-> "shipment\n1" Shipment
+Order                     "1" *-[#595959,plain]-> "tickets\n*" Ticket
+Order                     "1" *-[#595959,plain]-> "products\n*" Tuple
+Product                   "1" *-[#595959,plain]-> "followedBy\n*" Buyer
+Product                   "1" *-[#595959,plain]-> "category\n1" ProductCategory
+Product                   "1" *-[#595959,plain]-> "rating\n1" Rating
+Product                   "1" *-[#595959,plain]-> "reviews\n*" Review
+Product                   "1" *-[#595959,plain]-> "seller\n1" Seller
+Review                    "1" *-[#595959,plain]-> "author\n1" Buyer
+Review                    "1" *-[#595959,plain]-> "product\n1" Product
+Seller                    "1" *-[#595959,plain]-> "followedBy\n*" Buyer
+Seller                    "1" *-[#595959,plain]-> "ordersSold\n*" Order
+Seller                    "1" *-[#595959,plain]-> "productsOffered\n*" Product
+Seller                     -[#595959,dashed]->  SellerMetrics
+Seller                     -[#000082,plain]-^  User
+StationeryArticle          -[#000082,plain]-^  Product
+Ticket                    "1" *-[#595959,plain]-> "buyer\n1" Buyer
+Ticket                    "1" *-[#595959,plain]-> "order\n1" Order
+Ticket                     -[#595959,dashed]->  Product
+Ticket                    "1" *-[#595959,plain]-> "seller\n1" Seller
+Ticket                    "1" *-[#595959,plain]-> "returnShipment\n1" Shipment
+Ticket                    "1" *-[#595959,plain]-> "cause\n1" TicketCause
+Ticket                    "1" *-[#595959,plain]-> "state\n1" TicketState
+Ticket                    "1" *-[#595959,plain]-> "products\n*" Tuple
+UniShop                   "1" *-[#595959,plain]-> "buyerList\n*" Buyer
+UniShop                   "1" *-[#595959,plain]-> "catalog\n*" Product
+UniShop                   "1" *-[#595959,plain]-> "sellerList\n*" Seller
+UniShop                   "1" *-[#595959,plain]-> "currentUser\n1" User
+User                      "1" *-[#595959,plain]-> "notifications\n*" Notification
+User                      "1" *-[#595959,plain]-> "tickets\n*" Ticket
+Utils                      -[#595959,dashed]->  ValidationResult
+ValidationResult           +-[#820000,plain]-  Utils
+@enduml
+
+@startuml
+
+
+
+
+
+
+
+
+<style>
+  root {
+    BackgroundColor white
+    FontColor black
+    FontName Verdana
+    HyperLinkColor blue
+    LineColor black
+    LineThickness 1
+    Margin 5
+  }
+  caption {
+    LineThickness 0
+  }
+  footer {
+    LineThickness 0
+  }
+  header {
+    LineThickness 0
+  }
+  node {
+    MaximumWidth 300
+  }
+  title {
+    FontSize 22
+    LineThickness 0
+  }
+</style>
+
+skinparam ArrowLollipopColor black
+skinparam BackgroundColor white
+skinparam DefaultFontName Verdana
+skinparam DefaultMonospacedFontName Courier
+skinparam LifelineStrategy nosolid
+skinparam ParticipantPadding 10
+skinparam SequenceLifeLineBorderColor black
+skinparam Shadowing false
+skinparam UseBetaStyle true
+
+skinparam Activity {
+  BackgroundColor white
+  BarColor black
+  BorderColor black
+  FontColor black
+  FontName Verdana
+}
+skinparam Boundary {
+  FontColor black
+}
+skinparam Box {
+  Padding 5
+}
+skinparam CircledCharacter {
+  FontColor black
+  FontName Courier
+  Radius 9
+}
+skinparam Class {
+  BackgroundColor white
+  BorderColor black
+  FontColor black
+  FontName Verdana
+}
+skinparam ClassAttribute {
+  FontColor black
+  FontName Verdana
+}
+skinparam ClassStereotype {
+  FontColor black
+  FontName Verdana
+}
+skinparam Footer {
+  FontColor black
+  FontName Verdana
+}
+skinparam Header {
+  FontColor black
+  FontName Verdana
+}
+skinparam Hyperlink {
+  Color blue
+}
+skinparam IconPackage {
+  Color black
+  BackgroundColor white
+}
+skinparam IconPrivate {
+  Color black
+  BackgroundColor white
+}
+skinparam IconProtected {
+  Color black
+  BackgroundColor white
+}
+skinparam IconPublic {
+  Color black
+  BackgroundColor white
+}
+skinparam Note {
+  FontColor black
+  FontName Verdana
+}
+skinparam Object {
+  BorderColor black
+}
+skinparam Package {
+  BorderColor black
+  FontColor black
+  FontName Verdana
+}
+skinparam State {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeA {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeC {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeE {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeI {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeN {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam UseCaseStereoType {
+  FontColor black
+  FontName Verdana
+}
+top to bottom direction
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+class BookOrManual {
+    + BookOrManual(int, int, String, String, Seller, int, String, String, String, BookOrManualGenre, LocalDate, int, int):
+    - author: String
+    - releaseDate: LocalDate
+    - isbn: String
+    - volumeNumber: int
+    - editor: String
+    - editionNumber: int
+}
+enum BookOrManualGenre << enumeration >> {
+    - BookOrManualGenre(String):
+    + toString(): String
+    + values(): BookOrManualGenre[]
+    + valueOf(String): BookOrManualGenre
+}
+class Buyer {
+    + Buyer(String, String, String, String, String, String, String):
+    - sellersLiked: ArrayList<Seller>
+    - followedBy: ArrayList<Buyer>
+    - firstName: String
+    - reviewsWritten: ArrayList<Review>
+    - fidelityPoints: int
+    - orders: ArrayList<Order>
+    - productsLiked: ArrayList<Product>
+    - returnCart: Cart
+    - reviewsLiked: ArrayList<Review>
+    - buyersLiked: ArrayList<Buyer>
+    - username: String
+    - lastName: String
+    - cart: Cart
+    + doesLike(Seller): boolean
+    + exchangeOrder(Order): void
+    + getMetrics(int): BuyerMetrics
+    + toggleLike(Review): void
+    + addReviewWritten(Review): void
+    + returnOrder(Order): void
+    + toggleLike(Seller): void
+    + orderDelivered(Order): void
+    + removeReviewWritten(Review): void
+    + toggleFollowedBy(Buyer): void
+    + addOrder(Order): void
+    + toggleLike(Product): boolean
+    + toggleLike(Buyer): void
+    + addFidelityPoints(int): void
+    + doesLike(Review): boolean
+    + cancelOrder(Order): void
+    + doesLike(Buyer): boolean
+    + removeFidelityPoints(int): void
+    + equals(Object): boolean
+    + doesLike(Product): boolean
+}
+entity BuyerMetrics << record >> {
+    + BuyerMetrics(int, int, int, int, int, int, int, int, int):
+    + numberTotalReviews(): int
+    + numberRecentProductsBought(): int
+    + numberRecentReviews(): int
+    + numberRecentOrders(): int
+    + numberTotalOrders(): int
+    + numberTotalProductsBought(): int
+    + averageTotalReviews(): int
+    + numberFollowers(): int
+    + averageRecentReviews(): int
+}
+class Cart {
+    + Cart(Buyer):
+    - cost: int
+    - numberOfProducts: int
+    - products: ArrayList<Tuple<Product, Integer>>
+    - buyer: Buyer
+    - numberOfFidelityPoints: int
+    + removeProduct(Product): void
+    + subtractProduct(Product, int): void
+    + createOrder(String, String, String, String, String, String, YearMonth, String, int, int): void
+    + addProduct(Product, int): void
+    + emptyCart(): void
+}
+class Client {
+    + Client():
+    - createAccount(): void
+    + findUser(): void
+    + sellerMenu(): void
+    + displaySeller(Seller): void
+    - findSeller(): void
+    + displayOrderShipmentMenu(Order): void
+    - buyerCreationForm(): Buyer
+    + displayBuyer(Buyer): void
+    + buyerMenu(): void
+    - searchProduct(): void
+    + offerProduct(): void
+    + updateSellerInfo(): void
+    + displayBuyerOrders(): void
+    + displayActivities(): void
+    - displayBuyerProductActions(Product): void
+    + displayPendingSellerOrders(): void
+    + displayTickets(): void
+    - displayTicket(Ticket): void
+    + displayProducts(ArrayList<Product>): void
+    - sellerCreationForm(): Seller
+    - displayReturnMenu(Order): void
+    + updateBuyerInfo(): void
+    - createTicket(Order): void
+    + displayProduct(Product): void
+    - loginForm(): void
+    - displayTicketActions(Ticket): void
+    + main(String[]): void
+    + displayOrder(Order): void
+    - findBuyer(): void
+    - displayNotifications(): void
+    + displayBuyerOrderActions(Order): void
+    - displayReviews(Product): void
+    - displayExchangeMenu(Order): void
+    - placeOrder(): void
+    + displayCart(): void
+}
+entity DynamicMenuItem << record >> {
+    + DynamicMenuItem(String, Runnable, Supplier<Boolean>):
+    + name(): String
+    + displayCondition(): Supplier<Boolean>
+    + action(): Runnable
+}
+class IT {
+    + IT(int, int, String, String, Seller, int, String, String, LocalDate, ITCategory):
+    - model: String
+    - releaseDate: LocalDate
+    - brand: String
+}
+enum ITCategory << enumeration >> {
+    - ITCategory(String):
+    + valueOf(String): ITCategory
+    + toString(): String
+    + values(): ITCategory[]
+}
+class LearningResource {
+    + LearningResource(int, int, String, String, Seller, int, int, String, LocalDate, LearningResourceType, int):
+    - isbn: int
+    - organisation: String
+    - editionNumber: int
+    - releaseDate: LocalDate
+}
+enum LearningResourceType << enumeration >> {
+    - LearningResourceType(String):
+    + valueOf(String): LearningResourceType
+    + toString(): String
+    + values(): LearningResourceType[]
+}
+class Notification {
+    + Notification(String, String):
+    - title: String
+    - id: UUID
+    - content: String
+    + equals(Object): boolean
+}
+class OfficeEquipment {
+    + OfficeEquipment(int, int, String, String, Seller, int, String, String, OfficeEquipmentCategory):
+    - model: String
+    - brand: String
+}
+enum OfficeEquipmentCategory << enumeration >> {
+    - OfficeEquipmentCategory(String):
+    + toString(): String
+    + values(): OfficeEquipmentCategory[]
+    + valueOf(String): OfficeEquipmentCategory
+}
+class Order {
+    + Order(int, int, PayementMethod, ArrayList<Tuple<Product, Integer>>, String, String, String, String, String, String, YearMonth, String, Buyer, Seller):
+    - payementMethod: PayementMethod
+    - products: ArrayList<Tuple<Product, Integer>>
+    - address: String
+    - state: OrderState
+    - numberOfFidelityPoints: int
+    - orderDate: LocalDate
+    - numberOfProducts: int
+    - creditCardNumber: String
+    - creditCardSecretDigits: String
+    - phone: String
+    - creditCardName: String
+    - shipment: Shipment
+    - cost: int
+    - email: String
+    - billingAddress: String
+    - buyer: Buyer
+    - seller: Seller
+    - tickets: ArrayList<Ticket>
+    - id: UUID
+    - creditCardExp: YearMonth
+    + setInTransit(String, String, LocalDate): void
+    + createTicket(String, ArrayList<Tuple<Product, Integer>>, TicketCause, TicketState, Order): Ticket
+    + setInProduction(): void
+    + setCancelled(): void
+    + setDelivered(): void
+    + addTicket(Ticket): void
+    + equals(Object): boolean
+    + createTicket(String, TicketCause, TicketState): void
+}
+enum OrderState << enumeration >> {
+    - OrderState(String):
+    + toString(): String
+    + values(): OrderState[]
+    + valueOf(String): OrderState
+    options: ArrayList<String>
+}
+class PayementMethod {
+    + PayementMethod(int, int, int):
+    - fidelityPointsUsed: int
+    - moneyUsed: int
+    - returnMoneyUsed: int
+}
+class Product {
+    + Product(int, int, String, String, ProductCategory, Enum<?>, Seller, int):
+    - seller: Seller
+    - reviews: ArrayList<Review>
+    - quantity: int
+    - title: String
+    - discount: int
+    - description: String
+    - bonusFidelityPoints: int
+    - subCategory: Enum<?>
+    - cost: int
+    - rating: Rating
+    - commercializationDate: LocalDate
+    - category: ProductCategory
+    - id: UUID
+    - followedBy: ArrayList<Buyer>
+    + toggleFollowedBy(Buyer): void
+    + equals(Object): boolean
+    + toString(): String
+    + addReview(Review): void
+    + getFormattedCost(int): String
+    + removeReview(Review): void
+}
+enum ProductCategory << enumeration >> {
+    - ProductCategory(String, Class<Enum<?>>):
+    + toString(): String
+    + valueOf(String): ProductCategory
+    + values(): ProductCategory[]
+    subOptions: ArrayList<String>
+    enum: Class<Enum<?>>
+    options: ArrayList<String>
+}
+class Rating {
+    + Rating():
+    - rating: int
+    + removeRating(int): void
+    + addRating(int): void
+}
+class Review {
+    + Review(String, String, Buyer, Product, int):
+    - content: String
+    - title: String
+    - product: Product
+    - likes: int
+    - rating: int
+    - reports: int
+    - author: Buyer
+    - id: UUID
+    - creationDate: LocalDate
+    + delete(): void
+    - updateAuthorPoints(): void
+    + equals(Object): boolean
+    + arePointsGiven(): boolean
+    + toString(): String
+}
+class Seller {
+    + Seller(String, String, String, String, String):
+    - name: String
+    - productsOffered: ArrayList<Product>
+    - ordersSold: ArrayList<Order>
+    - followedBy: ArrayList<Buyer>
+    + removeProductOffered(Product): void
+    + addProductOffered(Product): void
+    + addOrderSold(Order): void
+    + getMetrics(int): SellerMetrics
+    + equals(Object): boolean
+    + toggleFollowedBy(Buyer): void
+    + removeOrderSold(Order): void
+}
+entity SellerMetrics << record >> {
+    + SellerMetrics(int, int, int, int, int, int, int):
+    + recentRevenue(): int
+    + totalRevenue(): int
+    + averageTotalProductRating(): int
+    + numberTotalProductsSold(): int
+    + numberRecentProductsSold(): int
+    + averageRecentProductRating(): int
+    + numberProductsOffered(): int
+}
+class Shipment {
+    + Shipment(String, LocalDate, String):
+    - isDeliveryConfirmed: boolean
+    - trackingNumber: String
+    - creationDate: LocalDate
+    - expectedDeliveryDate: LocalDate
+    - shippingCompany: String
+    + confirmDelivery(): void
+}
+class StationeryArticle {
+    + StationeryArticle(int, int, String, String, Seller, int, String, String, StationeryArticleCategory):
+    - brand: String
+    - model: String
+}
+enum StationeryArticleCategory << enumeration >> {
+    - StationeryArticleCategory(String):
+    + toString(): String
+    + valueOf(String): StationeryArticleCategory
+    + values(): StationeryArticleCategory[]
+}
+class Ticket {
+    + Ticket(String, Order, ArrayList<Tuple<Product, Integer>>, TicketCause, TicketState, Buyer, Seller):
+    - products: ArrayList<Tuple<Product, Integer>>
+    - creationDate: LocalDate
+    - replacementShipment: Shipment
+    - suggestedSolution: String
+    - buyer: Buyer
+    - problemDescription: String
+    - order: Order
+    - cause: TicketCause
+    - id: UUID
+    - seller: Seller
+    - replacementProductDescription: String
+    - returnShipment: Shipment
+    - state: TicketState
+    + equals(Object): boolean
+    + createReplacementShipment(String, LocalDate, String): void
+    + updateState(): void
+    + createReturnShipment(String, LocalDate, String): void
+}
+enum TicketCause << enumeration >> {
+    - TicketCause(String):
+    + values(): TicketCause[]
+    + toString(): String
+    + valueOf(String): TicketCause
+    options: ArrayList<String>
+}
+enum TicketState << enumeration >> {
+    - TicketState(String):
+    + toString(): String
+    + valueOf(String): TicketState
+    + values(): TicketState[]
+    options: ArrayList<String>
+}
+class Tuple<A, B> {
+    + Tuple(A, B):
+}
+class UniShop {
+    + UniShop():
+    - sellerList: HashMap<String, Seller>
+    - catalog: ArrayList<Product>
+    - currentUser: User
+    - buyerList: HashMap<String, Buyer>
+    + loginSeller(String, String): void
+    + loadUserList(String): void
+    + addUser(Seller): void
+    + updateCatalog(): void
+    + saveUserList(String): void
+    + addUser(Buyer): void
+    + removeUser(Buyer): void
+    + removeUser(Seller): void
+    + loginBuyer(String, String): void
+    + isPasswordMatching(String): boolean
+}
+class User {
+    + User(String, String, String, String):
+    - phoneNumber: String
+    - password: int
+    - tickets: ArrayList<Ticket>
+    - notifications: ArrayList<Notification>
+    - address: String
+    - id: UUID
+    - email: String
+    + removeNotification(Notification): void
+    + addNotification(Notification): void
+    + hashCode(): int
+    + addTicket(Ticket): void
+    + updatePassword(String, String): void
+}
+class Utils {
+    + Utils():
+    # prettyMenu(String, ArrayList<String>): int
+    + validateBonusFidelityPoints(int, int): ValidationResult
+    # prettyMenuT(String, ArrayList<T>): T
+    # prettyPrompt(String, Function<String, ValidationResult>): String
+    + validatePhoneNumber(String): ValidationResult
+    + validateNumberRange(int, int, int): ValidationResult
+    # prettyPrompt(String): String
+    # prettyPromptInt(String, Function<Integer, ValidationResult>): int
+    # prettyMenu(String, ArrayList<ArrayList<String>>, String): int
+    # quit(UniShop): void
+    # prettyPromptCurrency(String): int
+    # prettyPromptDate(String): LocalDate
+    + validateNotEmpty(String): ValidationResult
+    + validateName(String): ValidationResult
+    + waitForKey(): void
+    + validateISBN(String): ValidationResult
+    # prettyPromptBool(String): boolean
+    + validateEmail(String): ValidationResult
+    # prettify(String): String
+    + prettyDynamicMenu(String, String, ArrayList<DynamicMenuItem>, Runnable): void
+    + prettyPaginationMenu(List<T>, int, String, Consumer<T>, Function<T, String>, Consumer<T>): void
+    # logout(UniShop): void
+    # prettyMenu(String, String[]): int
+    # clearConsole(): void
+    # prettyPromptInt(String): int
+    # prettyMenu(String, Class<T>): T
+}
+entity ValidationResult << record >> {
+    + ValidationResult(boolean, String):
+    - isValid: boolean
+    + message(): String
+}
+
+BookOrManual               -[#000082,plain]-^  Product
+Buyer                     "1" *-[#595959,plain]-> "buyersLiked\n*" Buyer
+Buyer                      -[#595959,dashed]->  BuyerMetrics
+Buyer                     "1" *-[#595959,plain]-> "returnCart\n1" Cart
+Buyer                     "1" *-[#595959,plain]-> "orders\n*" Order
+Buyer                     "1" *-[#595959,plain]-> "productsLiked\n*" Product
+Buyer                     "1" *-[#595959,plain]-> "reviewsLiked\n*" Review
+Buyer                     "1" *-[#595959,plain]-> "sellersLiked\n*" Seller
+Buyer                      -[#000082,plain]-^  User
+Cart                      "1" *-[#595959,plain]-> "buyer\n1" Buyer
+Cart                       -[#595959,dashed]->  Product
+Cart                      "1" *-[#595959,plain]-> "products\n*" Tuple
+Client                     -[#595959,dashed]->  Buyer
+Client                     -[#595959,dashed]->  Seller
+Client                    "1" *-[#595959,plain]-> "unishop\n1" UniShop
+DynamicMenuItem            +-[#820000,plain]-  Utils
+IT                         -[#000082,plain]-^  Product
+LearningResource           -[#000082,plain]-^  Product
+OfficeEquipment            -[#000082,plain]-^  Product
+Order                     "1" *-[#595959,plain]-> "buyer\n1" Buyer
+Order                     "1" *-[#595959,plain]-> "state\n1" OrderState
+Order                     "1" *-[#595959,plain]-> "payementMethod\n1" PayementMethod
+Order                      -[#595959,dashed]->  Product
+Order                     "1" *-[#595959,plain]-> "seller\n1" Seller
+Order                     "1" *-[#595959,plain]-> "shipment\n1" Shipment
+Order                     "1" *-[#595959,plain]-> "tickets\n*" Ticket
+Order                     "1" *-[#595959,plain]-> "products\n*" Tuple
+Product                   "1" *-[#595959,plain]-> "followedBy\n*" Buyer
+Product                   "1" *-[#595959,plain]-> "category\n1" ProductCategory
+Product                   "1" *-[#595959,plain]-> "rating\n1" Rating
+Product                   "1" *-[#595959,plain]-> "reviews\n*" Review
+Product                   "1" *-[#595959,plain]-> "seller\n1" Seller
+Review                    "1" *-[#595959,plain]-> "author\n1" Buyer
+Review                    "1" *-[#595959,plain]-> "product\n1" Product
+Seller                    "1" *-[#595959,plain]-> "followedBy\n*" Buyer
+Seller                    "1" *-[#595959,plain]-> "ordersSold\n*" Order
+Seller                    "1" *-[#595959,plain]-> "productsOffered\n*" Product
+Seller                     -[#595959,dashed]->  SellerMetrics
+Seller                     -[#000082,plain]-^  User
+StationeryArticle          -[#000082,plain]-^  Product
+Ticket                    "1" *-[#595959,plain]-> "buyer\n1" Buyer
+Ticket                    "1" *-[#595959,plain]-> "order\n1" Order
+Ticket                     -[#595959,dashed]->  Product
+Ticket                    "1" *-[#595959,plain]-> "seller\n1" Seller
+Ticket                    "1" *-[#595959,plain]-> "returnShipment\n1" Shipment
+Ticket                    "1" *-[#595959,plain]-> "cause\n1" TicketCause
+Ticket                    "1" *-[#595959,plain]-> "state\n1" TicketState
+Ticket                    "1" *-[#595959,plain]-> "products\n*" Tuple
+UniShop                   "1" *-[#595959,plain]-> "buyerList\n*" Buyer
+UniShop                   "1" *-[#595959,plain]-> "catalog\n*" Product
+UniShop                   "1" *-[#595959,plain]-> "sellerList\n*" Seller
+UniShop                   "1" *-[#595959,plain]-> "currentUser\n1" User
+User                      "1" *-[#595959,plain]-> "notifications\n*" Notification
+User                      "1" *-[#595959,plain]-> "tickets\n*" Ticket
+Utils                      -[#595959,dashed]->  ValidationResult
+ValidationResult           +-[#820000,plain]-  Utils
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 13:01:30 EDT 2022)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: CA
+--></g></svg>
