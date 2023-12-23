@@ -14,5 +14,5 @@ jobs:
           cache: maven
 
       - name: Test with Maven
-        working-directory: ./NullPointerException/ClientCLI
-        run: mvn --batch-mode --update-snapshots test
+        run: ls
+        run: mvn --batch-mode --update-snapshots -f ../NullPointerException/ClientCLI/pom.xml test
