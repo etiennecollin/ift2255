@@ -11,7 +11,7 @@ public class OrderTest {
     @Test
     public void testSetInTransit() {
         // Create a mock Order for testing
-        Order order = new Order(0, 0, PaymentMethod.CASH,
+        Order order = new Order(0, 0, new PayementMethod(0,0,0),
                 new ArrayList<>(), "", "", "", "", "", "", YearMonth.of(2023, 12), "",
                 new Buyer("", ""), new Seller("", ""));
         // Set the order in transit for the first time
@@ -42,6 +42,50 @@ public class OrderTest {
         assertEquals(secondTrackingNumber, order.getShipment().getTrackingNumber()); // Check if tracking number is updated correctly in the second call
         assertEquals(secondExpectedDeliveryDate, order.getShipment().getExpectedDeliveryDate()); // Check if expected delivery date is updated correctly in the second call
         assertEquals(2, order.getBuyer().getNotifications().size()); // Check if a new notification is added to the buyer in the second call
+    }
+
+
+    @Test
+    public void testSetInProduction() {
+        // Create a mock Order for testing
+        Order order = new Order(0, 0, new PayementMethod(0,0,0),
+                new ArrayList<>(), "", "", "", "", "", "", YearMonth.of(2023, 12), "",
+                new Buyer("", ""), new Seller("", ""));
+
+        // Set the order in production
+        order.setInProduction();
+
+        // Assertions to check the state
+        assertEquals(OrderState.InProduction, order.getState()); // Check if the order state is set to InProduction
+
+        // Assertions for the notificatiouns
+        assertEquals(1, order.getBuyer().getNotifications().size()); // Check if a notification is added to the buyer
+        assertEquals("Your order is now in production", order.getBuyer().getNotifications().get(0).getTitle());
+
+
+
+    }
+
+    @Test
+    public void testSetDelivered() {
+        // Create a mock Order for testing
+        Order order = new Order(0, 0, new PayementMethod(0,0,0),
+                new ArrayList<>(), "", "", "", "", "", "", YearMonth.of(2023, 12), "",
+                new Buyer("", ""), new Seller("", ""));
+
+        // Set the order as delivered
+        order.setDelivered();
+
+        // Assertions to check the state
+        assertEquals(OrderState.Delivered, order.getState()); // Check if the order state is set to Delivered
+
+        // Notification Assertion
+        assertEquals(1, order.getBuyer().getNotifications().size());
+        assertEquals("Your order is now delivered", order.getBuyer().getNotifications().get(0).getTitle());
+
+
+
+
     }
 }
 
