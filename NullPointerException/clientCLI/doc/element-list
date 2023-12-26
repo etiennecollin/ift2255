@@ -1,0 +1,9 @@
+module:clientCLI
+com.etiennecollin.ift2255.clientCLI
+com.etiennecollin.ift2255.clientCLI.classes
+com.etiennecollin.ift2255.clientCLI.controllers
+com.etiennecollin.ift2255.clientCLI.model
+com.etiennecollin.ift2255.clientCLI.model.data
+com.etiennecollin.ift2255.clientCLI.model.data.products
+com.etiennecollin.ift2255.clientCLI.views
+com.etiennecollin.ift2255.clientCLI.views.productDisplay
