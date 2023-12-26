@@ -9,6 +9,7 @@
  *     <li>{@code com.etiennecollin.ift2255.clientCLI.controllers}</li>
  *     <li>{@code com.etiennecollin.ift2255.clientCLI.models}</li>
  *     <li>{@code com.etiennecollin.ift2255.clientCLI.models.data}</li>
+ *     <li>{@code com.etiennecollin.ift2255.clientCLI.models.data.products}</li>
  *     <li>{@code com.etiennecollin.ift2255.clientCLI.views}</li>
  *     <li>{@code com.etiennecollin.ift2255.clientCLI.views.productDisplay}</li>
  * </ul>
@@ -21,6 +22,7 @@ module clientCLI {
     exports com.etiennecollin.ift2255.clientCLI.controllers;
     exports com.etiennecollin.ift2255.clientCLI.models;
     exports com.etiennecollin.ift2255.clientCLI.models.data;
+    exports com.etiennecollin.ift2255.clientCLI.models.data.products;
     exports com.etiennecollin.ift2255.clientCLI.views;
     exports com.etiennecollin.ift2255.clientCLI.views.productDisplay;
 }
