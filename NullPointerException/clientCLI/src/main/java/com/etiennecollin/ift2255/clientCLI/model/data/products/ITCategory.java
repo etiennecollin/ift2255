@@ -6,14 +6,51 @@ package com.etiennecollin.ift2255.clientCLI.model.data.products;
 
 import java.io.Serializable;
 
+/**
+ * Represents the categories of IT (Information Technology) products.
+ * <p>
+ * This enum includes categories such as Computer, Mouse, Keyboard, External Hard Drive, and Other.
+ */
 public enum ITCategory implements Serializable {
-    Computer("Computer"), Mouse("Mouse"), Keyboard("Keyboard"), ExternalHardDrive("External Hard Drive"), Other("Other");
+    /**
+     * The category for computers.
+     */
+    Computer("Computer"),
+    /**
+     * The category for mice (computer mice).
+     */
+    Mouse("Mouse"),
+    /**
+     * The category for keyboards.
+     */
+    Keyboard("Keyboard"),
+    /**
+     * The category for external hard drives.
+     */
+    ExternalHardDrive("External Hard Drive"),
+    /**
+     * The category for other IT products not covered by specific categories.
+     */
+    Other("Other");
+    /**
+     * The name associated with the IT category.
+     */
     private final String name;
 
+    /**
+     * Constructs an ITCategory enum with a specified name.
+     *
+     * @param name The name associated with the IT category.
+     */
     ITCategory(String name) {
         this.name = name;
     }
 
+    /**
+     * Returns the name of the IT category.
+     *
+     * @return The name of the IT category.
+     */
     @Override
     public String toString() {
         return this.name;

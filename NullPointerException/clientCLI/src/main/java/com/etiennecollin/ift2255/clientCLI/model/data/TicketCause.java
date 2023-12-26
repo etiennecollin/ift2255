@@ -6,10 +6,28 @@ package com.etiennecollin.ift2255.clientCLI.model.data;
 
 import java.io.Serializable;
 
+/**
+ * Enum representing the possible causes of a ticket.
+ */
 public enum TicketCause implements Serializable {
-    MalfunctioningProduct("Malfunctioning product"), Other("Other");
+    /**
+     * Ticket cause: Malfunctioning Product
+     */
+    MalfunctioningProduct("Malfunctioning product"),
+    /**
+     * Ticket cause: Other
+     */
+    Other("Other");
+    /**
+     * The name associated with the ticket cause.
+     */
     private final String name;
 
+    /**
+     * Constructs a TicketCause enum with the specified name.
+     *
+     * @param name The name associated with the ticket cause.
+     */
     TicketCause(String name) {
         this.name = name;
     }
@@ -22,6 +40,11 @@ public enum TicketCause implements Serializable {
     //        return options;
     //    }
 
+    /**
+     * Gets the string representation of the ticket cause.
+     *
+     * @return The string representation of the ticket cause.
+     */
     @Override
     public String toString() {
         return this.name;

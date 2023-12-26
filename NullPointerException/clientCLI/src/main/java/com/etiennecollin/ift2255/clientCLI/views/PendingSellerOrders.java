@@ -116,8 +116,8 @@ public class PendingSellerOrders extends View {
         System.out.println(prettify("Number of products: " + order.getProducts().size()));
         Seller seller = profileController.getSeller(order.getSellerId());
         System.out.println(prettify("Seller: " + seller.getName()));
-        System.out.println(prettify("Fidelity points used to pay: " + order.getPayementMethod().getFidelityPointsUsed()));
-        System.out.println(prettify("Money used to pay: " + Utils.formatMoney(order.getPayementMethod().getMoneyUsed())));
+        System.out.println(prettify("Fidelity points used to pay: " + order.getPaymentMethod().getFidelityPointsUsed()));
+        System.out.println(prettify("Money used to pay: " + Utils.formatMoney(order.getPaymentMethod().getMoneyUsed())));
         System.out.println(prettify("Shipping Address: " + order.getAddress()));
         if (order.getState().equals(OrderState.InTransit)) {
             System.out.println(prettify("Shipping company: " + order.getShipment().getShippingCompany()));

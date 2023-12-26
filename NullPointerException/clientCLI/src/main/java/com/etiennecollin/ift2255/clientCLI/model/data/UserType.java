@@ -4,6 +4,9 @@
 
 package com.etiennecollin.ift2255.clientCLI.model.data;
 
+/**
+ * Enum representing user types, including "Buyer" and "Seller".
+ */
 public enum UserType {
     Buyer, Seller
 }

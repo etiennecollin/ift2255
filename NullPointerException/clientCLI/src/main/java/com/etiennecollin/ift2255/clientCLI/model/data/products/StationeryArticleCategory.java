@@ -6,14 +6,46 @@ package com.etiennecollin.ift2255.clientCLI.model.data.products;
 
 import java.io.Serializable;
 
+/**
+ * Enum representing different categories of stationery articles.
+ * Each constant in this enum corresponds to a specific category with a name.
+ */
 public enum StationeryArticleCategory implements Serializable {
-    Notebook("Notebook"), Pencil("Pencil"), Highlighter("Highlighter"), Other("Other");
+    /**
+     * Category representing a notebook.
+     */
+    Notebook("Notebook"),
+    /**
+     * Category representing a pencil.
+     */
+    Pencil("Pencil"),
+    /**
+     * Category representing a highlighter.
+     */
+    Highlighter("Highlighter"),
+    /**
+     * Category representing other stationery articles.
+     */
+    Other("Other");
+    /**
+     * The name associated with each category.
+     */
     private final String name;
 
+    /**
+     * Constructs a StationeryArticleCategory with the specified name.
+     *
+     * @param name The name of the category.
+     */
     StationeryArticleCategory(String name) {
         this.name = name;
     }
 
+    /**
+     * Returns the name associated with the category.
+     *
+     * @return The name of the category.
+     */
     @Override
     public String toString() {
         return this.name;

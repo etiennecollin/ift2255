@@ -140,10 +140,10 @@
 //                subTotalFidelityPoints += (subTotalCost / 100 + product.getBonusFidelityPoints()) * quantity;
 //            }
 //
-//            PayementMethod payementMethod = new PayementMethod(subTotalCost, fidelityPointsToUse, 0);
+//            PaymentMethod paymentMethod = new PaymentMethod(subTotalCost, fidelityPointsToUse, 0);
 //
 //            // Create the sub-order
-//            Order order = new Order(subTotalCost, subTotalFidelityPoints, payementMethod, tuples, email, phone, address, billingAddress, creditCardName, creditCardNumber, creditCardExp, creditCardSecretDigits, this.buyer, seller);
+//            Order order = new Order(subTotalCost, subTotalFidelityPoints, paymentMethod, tuples, email, phone, address, billingAddress, creditCardName, creditCardNumber, creditCardExp, creditCardSecretDigits, this.buyer, seller);
 //            this.buyer.addOrder(order);
 //            seller.addOrderSold(order);
 //

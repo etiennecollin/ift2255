@@ -14,9 +14,18 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+/**
+ * Implementation of the Database interface using Java serialization for data storage.
+ */
 public class JavaSerializedDatabase implements Database {
+    /**
+     * The path where the serialized data is stored.
+     */
     public final String savePath;
 
+    /**
+     * Constructs a JavaSerializedDatabase object.
+     */
     public JavaSerializedDatabase() {
         try {
             // Inspired by https://stackoverflow.com/a/3627527
@@ -26,6 +35,15 @@ public class JavaSerializedDatabase implements Database {
         }
     }
 
+    /**
+     * Gets a specific object from the database based on its ID.
+     *
+     * @param dataMap The DataMap for the type of object.
+     * @param id      The ID of the object.
+     * @param <T>     The type of object which extends {@link DatabaseObject}.
+     *
+     * @return The object with the specified ID, or null if not found.
+     */
     public <T extends DatabaseObject> T get(DataMap dataMap, UUID id) {
         String path = dataMap.getFilename();
 
@@ -40,6 +58,15 @@ public class JavaSerializedDatabase implements Database {
         return null;
     }
 
+    /**
+     * Gets a list of objects from the database based on a filter.
+     *
+     * @param dataMap The DataMap for the type of object.
+     * @param filter  The filter predicate.
+     * @param <T>     The type of object which extends {@link DatabaseObject}.
+     *
+     * @return A list of objects that match the filter.
+     */
     public <T extends DatabaseObject> List<T> get(DataMap dataMap, Predicate<T> filter) {
         String path = dataMap.getFilename();
 
@@ -51,6 +78,15 @@ public class JavaSerializedDatabase implements Database {
         return new ArrayList<>();
     }
 
+    /**
+     * Adds a single object to the database.
+     *
+     * @param dataMap The DataMap for the type of object.
+     * @param object  The object to add.
+     * @param <T>     The type of object which extends {@link DatabaseObject}.
+     *
+     * @return True if the addition was successful, false otherwise.
+     */
     public <T extends DatabaseObject> boolean add(DataMap dataMap, T object) {
         String path = dataMap.getFilename();
 
@@ -69,6 +105,15 @@ public class JavaSerializedDatabase implements Database {
         }
     }
 
+    /**
+     * Adds a list of objects to the database.
+     *
+     * @param dataMap The DataMap for the type of object.
+     * @param objects The list of objects to add.
+     * @param <T>     The type of object which extends {@link DatabaseObject}.
+     *
+     * @return True if the addition was successful, false otherwise.
+     */
     public <T extends DatabaseObject> boolean add(DataMap dataMap, List<T> objects) {
         String path = dataMap.getFilename();
 
@@ -87,6 +132,16 @@ public class JavaSerializedDatabase implements Database {
         }
     }
 
+    /**
+     * Updates a single object in the database.
+     *
+     * @param dataMap The DataMap for the type of object.
+     * @param update  The update operation to perform on the object.
+     * @param id      The ID of the object to update.
+     * @param <T>     The type of object which extends {@link DatabaseObject}.
+     *
+     * @return True if the update was successful, false otherwise.
+     */
     public <T extends DatabaseObject> boolean update(DataMap dataMap, Consumer<T> update, UUID id) {
         String path = dataMap.getFilename();
 
@@ -103,6 +158,16 @@ public class JavaSerializedDatabase implements Database {
         return false;
     }
 
+    /**
+     * Updates multiple objects in the database based on a filter.
+     *
+     * @param dataMap The DataMap for the type of object.
+     * @param update  The update operation to perform on matching objects.
+     * @param filter  The filter predicate.
+     * @param <T>     The type of object which extends {@link DatabaseObject}.
+     *
+     * @return True if the update was successful, false otherwise.
+     */
     public <T extends DatabaseObject> boolean update(DataMap dataMap, Consumer<T> update, Predicate<T> filter) {
         String path = dataMap.getFilename();
 
@@ -117,6 +182,15 @@ public class JavaSerializedDatabase implements Database {
         return false;
     }
 
+    /**
+     * Removes a single object from the database based on its ID.
+     *
+     * @param dataMap The DataMap for the type of object.
+     * @param id      The ID of the object to remove.
+     * @param <T>     The type of object which extends {@link DatabaseObject}.
+     *
+     * @return True if the removal was successful, false otherwise.
+     */
     public <T extends DatabaseObject> boolean remove(DataMap dataMap, UUID id) {
         String path = dataMap.getFilename();
 
@@ -130,6 +204,15 @@ public class JavaSerializedDatabase implements Database {
         return false;
     }
 
+    /**
+     * Removes multiple objects from the database based on a filter.
+     *
+     * @param dataMap The DataMap for the type of object.
+     * @param filter  The filter predicate.
+     * @param <T>     The type of object which extends {@link DatabaseObject}.
+     *
+     * @return True if the removal was successful, false otherwise.
+     */
     public <T extends DatabaseObject> boolean remove(DataMap dataMap, Predicate<T> filter) {
         String path = dataMap.getFilename();
 
@@ -148,6 +231,7 @@ public class JavaSerializedDatabase implements Database {
      *
      * @param data     Some data to store to the file.
      * @param filename The file name to which data needs to be saved.
+     * @param <T>      The type of data.
      */
     protected <T> void save(T data, String filename) {
         File file = new File(savePath + filename);
@@ -171,6 +255,7 @@ public class JavaSerializedDatabase implements Database {
      * Loads data from the specified file path.
      *
      * @param filename The file name from which data needs to be loaded.
+     * @param <T>      The type of data.
      *
      * @return The data in the file.
      */

@@ -33,12 +33,12 @@
 //    private String creditCardSecretDigits;
 //    private OrderState state;
 //    private Shipment shipment;
-//    private PayementMethod payementMethod;
+//    private PaymentMethod paymentMethod;
 //
-//    public Order(int cost, int numberOfFidelityPoints, PayementMethod payementMethod, ArrayList<Tuple<Product, Integer>> products, String email, String phone, String address, String billingAddress, String creditCardName, String creditCardNumber, YearMonth creditCardExp, String creditCardSecretDigits, Buyer buyer, Seller seller) {
+//    public Order(int cost, int numberOfFidelityPoints, PaymentMethod paymentMethod, ArrayList<Tuple<Product, Integer>> products, String email, String phone, String address, String billingAddress, String creditCardName, String creditCardNumber, YearMonth creditCardExp, String creditCardSecretDigits, Buyer buyer, Seller seller) {
 //        this.cost = cost;
 //        this.numberOfFidelityPoints = numberOfFidelityPoints;
-//        this.payementMethod = payementMethod;
+//        this.paymentMethod = paymentMethod;
 //        this.products = products;
 //        this.email = email;
 //        this.phone = phone;
@@ -88,12 +88,12 @@
 //        return tickets;
 //    }
 //
-//    public PayementMethod getPayementMethod() {
-//        return payementMethod;
+//    public PaymentMethod getPaymentMethod() {
+//        return paymentMethod;
 //    }
 //
-//    public void setPayementMethod(PayementMethod payementMethod) {
-//        this.payementMethod = payementMethod;
+//    public void setPaymentMethod(PaymentMethod paymentMethod) {
+//        this.paymentMethod = paymentMethod;
 //    }
 //
 //    public int getNumberOfProducts() {

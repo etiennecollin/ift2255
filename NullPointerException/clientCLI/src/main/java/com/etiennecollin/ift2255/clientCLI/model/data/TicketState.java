@@ -6,10 +6,48 @@ package com.etiennecollin.ift2255.clientCLI.model.data;
 
 import java.io.Serializable;
 
+/**
+ * Enum representing the possible states of a ticket.
+ */
 public enum TicketState implements Serializable {
-    OpenManual("Open"), OpenAuto("Open"), ReturnInTransit("Return in transit"), ReturnReceived("Return received"), ReplacementInTransit("Replacement in transit"), Closed("Closed"), Cancelled("Cancelled");
+    /**
+     * Ticket state: Open (Manual)
+     */
+    OpenManual("Open"),
+    /**
+     * Ticket state: Open (Auto)
+     */
+    OpenAuto("Open"),
+    /**
+     * Ticket state: Return in Transit
+     */
+    ReturnInTransit("Return in transit"),
+    /**
+     * Ticket state: Return Received
+     */
+    ReturnReceived("Return received"),
+    /**
+     * Ticket state: Replacement in Transit
+     */
+    ReplacementInTransit("Replacement in transit"),
+    /**
+     * Ticket state: Closed
+     */
+    Closed("Closed"),
+    /**
+     * Ticket state: Cancelled
+     */
+    Cancelled("Cancelled");
+    /**
+     * The name associated with the ticket state.
+     */
     private final String name;
 
+    /**
+     * Constructs a TicketState enum with the specified name.
+     *
+     * @param name The name associated with the ticket state.
+     */
     TicketState(String name) {
         this.name = name;
     }
@@ -22,6 +60,11 @@ public enum TicketState implements Serializable {
     //        return options;
     //    }
 
+    /**
+     * Gets the string representation of the ticket state.
+     *
+     * @return The string representation of the ticket state.
+     */
     @Override
     public String toString() {
         return this.name;

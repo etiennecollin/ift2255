@@ -417,8 +417,8 @@ public class Client {
     //        System.out.println(prettify("Number of products: " + order.getProducts().size()));
     //        System.out.println(prettify("Buyer: " + order.getBuyer().getUsername()));
     //        System.out.println(prettify("Seller: " + order.getSeller().getName()));
-    //        System.out.println(prettify("Fidelity points used to pay: " + order.getPayementMethod().getFidelityPointsUsed()));
-    //        System.out.println(prettify("Money used to pay: " + order.getPayementMethod().getMoneyUsed() / 100 + "." + order.getPayementMethod().getMoneyUsed() % 100 + "$"));
+    //        System.out.println(prettify("Fidelity points used to pay: " + order.getPaymentMethod().getFidelityPointsUsed()));
+    //        System.out.println(prettify("Money used to pay: " + order.getPaymentMethod().getMoneyUsed() / 100 + "." + order.getPaymentMethod().getMoneyUsed() % 100 + "$"));
     //        System.out.println(prettify("Shipping Address: " + order.getAddress()));
     //        if (order.getState().equals(OrderState.InTransit)) {
     //            System.out.println(prettify("Shipping company: " + order.getShipment().getShippingCompany()));

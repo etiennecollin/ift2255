@@ -13,13 +13,33 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * The {@code SocialModel} class represents the model for handling social interactions and user engagement in the CLI application.
+ * It includes methods for toggling likes on products, reviews, sellers, and buyers, as well as methods for retrieving likes,
+ * reviews, and managing user interactions.
+ */
 public class SocialModel {
+    /**
+     * The underlying database used by the model.
+     */
     private final Database db;
 
+    /**
+     * Constructs a new {@code SocialModel} with the specified database.
+     *
+     * @param database The database used by the model to store social interaction-related data.
+     */
     public SocialModel(Database database) {
         this.db = database;
     }
 
+    /**
+     * Toggles the like status of a product by the current user.
+     *
+     * @param productId The unique identifier of the product.
+     *
+     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     */
     public OperationResult toggleLikeProduct(UUID productId) {
         UUID userId = Session.getInstance().getUserId();
         Product product = db.get(DataMap.PRODUCTS, productId);
@@ -40,10 +60,25 @@ public class SocialModel {
         return new OperationResult(false, "Product does not exist.");
     }
 
+    /**
+     * Checks whether a user has liked a specific entity (product, review, seller, or buyer).
+     *
+     * @param likedEntity The unique identifier of the liked entity.
+     * @param likedByUser The unique identifier of the user who liked the entity.
+     *
+     * @return {@code true} if the user has liked the entity, {@code false} otherwise.
+     */
     public boolean isLiked(UUID likedEntity, UUID likedByUser) {
         return db.<Like>get(DataMap.CARTS, (entry) -> entry.getLikedEntityId() == likedEntity && entry.getUserId() == likedByUser).size() > 0;
     }
 
+    /**
+     * Toggles the like status of a review by the current user.
+     *
+     * @param reviewId The unique identifier of the review.
+     *
+     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     */
     public OperationResult toggleLikeReview(UUID reviewId) {
         UUID userId = Session.getInstance().getUserId();
         Review review = db.get(DataMap.REVIEWS, reviewId);
@@ -70,6 +105,13 @@ public class SocialModel {
         return new OperationResult(false, "Seller no longer exists.");
     }
 
+    /**
+     * Toggles the like status of a seller by the current user.
+     *
+     * @param sellerId The unique identifier of the seller.
+     *
+     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     */
     public OperationResult toggleLikeSeller(UUID sellerId) {
         UUID userId = Session.getInstance().getUserId();
         Seller seller = db.get(DataMap.SELLERS, sellerId);
@@ -90,6 +132,13 @@ public class SocialModel {
         return new OperationResult(false, "Seller no longer exists.");
     }
 
+    /**
+     * Toggles the follow status of a buyer by the current user.
+     *
+     * @param buyerId The unique identifier of the buyer.
+     *
+     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     */
     public OperationResult toggleFollowBuyer(UUID buyerId) {
         UUID userId = Session.getInstance().getUserId();
         Buyer buyer = db.get(DataMap.BUYERS, buyerId);
@@ -112,18 +161,51 @@ public class SocialModel {
         return new OperationResult(false, "Seller no longer exists.");
     }
 
+    /**
+     * Retrieves a list of likes based on specified criteria.
+     *
+     * @param likee The unique identifier of the entity being liked (can be {@code null}).
+     * @param liker The unique identifier of the user who liked the entity (can be {@code null}).
+     * @param type  The type of entity being liked (can be {@code null}).
+     *
+     * @return A list of likes that match the specified criteria.
+     */
     public List<Like> getLikes(UUID likee, UUID liker, LikeType type) {
         return db.get(DataMap.LIKES, (like) -> (likee == null || like.getLikedEntityId() == likee) && (liker == null || like.getUserId() == liker) && (type == null || like.getLikeType() == type));
     }
 
+    /**
+     * Retrieves a list of reviews associated with a specific product.
+     *
+     * @param productId The unique identifier of the product.
+     *
+     * @return A list of reviews associated with the specified product.
+     */
     public List<Review> getReviewsByProduct(UUID productId) {
         return db.get(DataMap.REVIEWS, (review) -> review.getProductId() == productId);
     }
 
+    /**
+     * Retrieves a list of reviews written by a specific author.
+     *
+     * @param authorId The unique identifier of the review author.
+     *
+     * @return A list of reviews written by the specified author.
+     */
     public List<Review> getReviewsByAuthor(UUID authorId) {
         return db.get(DataMap.REVIEWS, (review) -> review.getAuthorId() == authorId);
     }
 
+    /**
+     * Adds a review for a specific product by the current user.
+     *
+     * @param productId The unique identifier of the product.
+     * @param authorId  The unique identifier of the review author.
+     * @param content   The content of the review.
+     * @param rating    The rating given to the product in the review.
+     *
+     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     */
     public OperationResult addReview(UUID productId, UUID authorId, String content, int rating) {
         if (getReview(productId, authorId) != null) {
             return new OperationResult(false, "You have already rated this product.");
@@ -135,6 +217,14 @@ public class SocialModel {
         return new OperationResult(true, "Rating added.");
     }
 
+    /**
+     * Retrieves a review written by a specific author for a specific product.
+     *
+     * @param productId The unique identifier of the product.
+     * @param authorId  The unique identifier of the review author.
+     *
+     * @return The review written by the specified author for the specified product, or {@code null} if not found.
+     */
     public Review getReview(UUID productId, UUID authorId) {
         List<Review> reviews = db.get(DataMap.REVIEWS, (r) -> r.getAuthorId() == authorId && r.getProductId() == productId);
         if (reviews.size() == 0) {
@@ -144,6 +234,11 @@ public class SocialModel {
         }
     }
 
+    /**
+     * Updates the rating of a product based on the average rating of its associated reviews.
+     *
+     * @param productId The unique identifier of the product.
+     */
     private void updateProductRating(UUID productId) {
         List<Review> reviews = db.get(DataMap.REVIEWS, (review) -> review.getProductId() == productId);
         int totalRating = reviews.stream().map(Review::getRating).reduce(0, Integer::sum);

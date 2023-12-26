@@ -6,6 +6,24 @@ package com.etiennecollin.ift2255.clientCLI.model.data;
 
 import java.io.Serializable;
 
+/**
+ * Represents the types of entities that can receive likes, extending Serializable.
+ */
 public enum LikeType implements Serializable {
-    Seller, Buyer, Product, Review
+    /**
+     * Represents a like on a seller.
+     */
+    Seller,
+    /**
+     * Represents a like on a buyer.
+     */
+    Buyer,
+    /**
+     * Represents a like on a product.
+     */
+    Product,
+    /**
+     * Represents a like on a review.
+     */
+    Review
 }

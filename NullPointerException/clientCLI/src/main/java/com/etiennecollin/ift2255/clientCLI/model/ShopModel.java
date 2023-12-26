@@ -14,9 +14,21 @@ import java.time.YearMonth;
 import java.util.*;
 import java.util.function.Predicate;
 
+/**
+ * The {@code ShopModel} class represents the model for managing shopping-related operations in the CLI application.
+ * It includes methods for retrieving products, adding products to the cart, processing orders, and handling order-related tasks.
+ */
 public class ShopModel {
+    /**
+     * The underlying database used by the model.
+     */
     private final Database db;
 
+    /**
+     * Constructs a new {@code ShopModel} with the specified database.
+     *
+     * @param database The database used by the model to store shopping-related data.
+     */
     public ShopModel(Database database) {
         this.db = database;
     }
@@ -30,18 +42,58 @@ public class ShopModel {
         return null;
     }
 
+    /**
+     * Retrieves a list of all products in the database.
+     *
+     * @return A list containing all products.
+     */
     public List<Product> getProducts() {
         return db.get(DataMap.PRODUCTS, (product) -> true);
     }
 
+    /**
+     * Retrieves a list of products based on specified criteria.
+     *
+     * @param category    The product category (can be {@code null}).
+     * @param subCategory The product sub-category (can be {@code null}).
+     * @param sellerId    The unique identifier of the seller (can be {@code null}).
+     *
+     * @return A list of products that match the specified criteria.
+     */
     public List<Product> getProducts(ProductCategory category, Enum<?> subCategory, UUID sellerId) {
         return db.get(DataMap.PRODUCTS, (product) -> (category == null || product.getCategory() == category) && (subCategory == null || product.getSubCategory() == subCategory) && (sellerId == null || product.getSellerId() == sellerId));
     }
 
+    /**
+     * Searches for products based on a custom predicate.
+     *
+     * @param predicate The predicate used to filter products.
+     *
+     * @return A list of products that match the specified predicate.
+     */
     public List<Product> searchProducts(Predicate<Product> predicate) {
         return db.get(DataMap.PRODUCTS, predicate);
     }
 
+    /**
+     * Creates a new book or manual product and adds it to the database.
+     *
+     * @param sellerId       The unique identifier of the seller.
+     * @param price          The price of the product.
+     * @param quantity       The quantity of the product.
+     * @param title          The title of the product.
+     * @param description    The description of the product.
+     * @param fidelityPoints The fidelity points associated with the product.
+     * @param isbn           The ISBN of the book or manual.
+     * @param author         The author of the book or manual.
+     * @param editor         The editor of the book or manual.
+     * @param genre          The genre of the book or manual.
+     * @param releaseDate    The release date of the book or manual.
+     * @param editionNumber  The edition number of the book or manual.
+     * @param volumeNumber   The volume number of the book or manual.
+     *
+     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     */
     public OperationResult createNewBookOrManual(UUID sellerId, int price, int quantity, String title, String description, int fidelityPoints, String isbn, String author, String editor, BookOrManualGenre genre, LocalDate releaseDate, int editionNumber, int volumeNumber) {
         BookOrManual book = new BookOrManual(price, quantity, title, description, sellerId, fidelityPoints, isbn, author, editor, genre, releaseDate, editionNumber, volumeNumber);
         boolean result = db.add(DataMap.PRODUCTS, book);
@@ -53,6 +105,22 @@ public class ShopModel {
         }
     }
 
+    /**
+     * Creates a new IT product and adds it to the database.
+     *
+     * @param sellerId       The unique identifier of the seller.
+     * @param price          The price of the product.
+     * @param quantity       The quantity of the product.
+     * @param title          The title of the product.
+     * @param description    The description of the product.
+     * @param fidelityPoints The fidelity points associated with the product.
+     * @param brand          The brand of the IT product.
+     * @param model          The model of the IT product.
+     * @param releaseDate    The release date of the IT product.
+     * @param subCategory    The sub-category of the IT product.
+     *
+     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     */
     public OperationResult createNewITProduct(UUID sellerId, int price, int quantity, String title, String description, int fidelityPoints, String brand, String model, LocalDate releaseDate, ITCategory subCategory) {
         IT it = new IT(price, quantity, title, description, sellerId, fidelityPoints, brand, model, releaseDate, subCategory);
         boolean result = db.add(DataMap.PRODUCTS, it);
@@ -64,6 +132,23 @@ public class ShopModel {
         }
     }
 
+    /**
+     * Creates a new learning resource product and adds it to the database.
+     *
+     * @param sellerId       The unique identifier of the seller.
+     * @param price          The price of the product.
+     * @param quantity       The quantity of the product.
+     * @param title          The title of the product.
+     * @param description    The description of the product.
+     * @param fidelityPoints The fidelity points associated with the product.
+     * @param isbn           The ISBN of the learning resource.
+     * @param organisation   The organization associated with the learning resource.
+     * @param releaseDate    The release date of the learning resource.
+     * @param type           The type of the learning resource.
+     * @param editionNumber  The edition number of the learning resource.
+     *
+     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     */
     public OperationResult createNewLearningResource(UUID sellerId, int price, int quantity, String title, String description, int fidelityPoints, String isbn, String organisation, LocalDate releaseDate, LearningResourceType type, int editionNumber) {
         LearningResource learningResource = new LearningResource(price, quantity, title, description, sellerId, fidelityPoints, isbn, organisation, releaseDate, type, editionNumber);
         boolean result = db.add(DataMap.PRODUCTS, learningResource);
@@ -75,6 +160,21 @@ public class ShopModel {
         }
     }
 
+    /**
+     * Creates a new office equipment product and adds it to the database.
+     *
+     * @param sellerId       The unique identifier of the seller.
+     * @param price          The price of the product.
+     * @param quantity       The quantity of the product.
+     * @param title          The title of the product.
+     * @param description    The description of the product.
+     * @param fidelityPoints The fidelity points associated with the product.
+     * @param brand          The brand of the office equipment.
+     * @param model          The model of the office equipment.
+     * @param subCategory    The sub-category of the office equipment.
+     *
+     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     */
     public OperationResult createNewOfficeEquipment(UUID sellerId, int price, int quantity, String title, String description, int fidelityPoints, String brand, String model, OfficeEquipmentCategory subCategory) {
         OfficeEquipment officeEquipment = new OfficeEquipment(price, quantity, title, description, sellerId, fidelityPoints, brand, model, subCategory);
         boolean result = db.add(DataMap.PRODUCTS, officeEquipment);
@@ -86,6 +186,21 @@ public class ShopModel {
         }
     }
 
+    /**
+     * Creates a new stationery article product and adds it to the database.
+     *
+     * @param sellerId       The unique identifier of the seller.
+     * @param price          The price of the product.
+     * @param quantity       The quantity of the product.
+     * @param title          The title of the product.
+     * @param description    The description of the product.
+     * @param fidelityPoints The fidelity points associated with the product.
+     * @param brand          The brand of the stationery article.
+     * @param model          The model of the stationery article.
+     * @param subCategory    The sub-category of the stationery article.
+     *
+     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     */
     public OperationResult createNewStationeryArticle(UUID sellerId, int price, int quantity, String title, String description, int fidelityPoints, String brand, String model, StationeryArticleCategory subCategory) {
         StationeryArticle stationeryArticle = new StationeryArticle(price, quantity, title, description, sellerId, fidelityPoints, brand, model, subCategory);
         boolean result = db.add(DataMap.PRODUCTS, stationeryArticle);
@@ -97,6 +212,15 @@ public class ShopModel {
         }
     }
 
+    /**
+     * Adds a specified quantity of a product to the user's cart.
+     *
+     * @param buyerId   The unique identifier of the buyer.
+     * @param productId The unique identifier of the product.
+     * @param quantity  The quantity to add to the cart.
+     *
+     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     */
     public OperationResult addToCart(UUID buyerId, UUID productId, int quantity) {
         Product product = db.get(DataMap.PRODUCTS, productId);
         if (product == null) {
@@ -106,7 +230,7 @@ public class ShopModel {
         boolean result;
 
         List<CartProduct> existingEntries = db.get(DataMap.CARTS, (cartProd) -> cartProd.getBuyerId() == buyerId && cartProd.getProductId() == productId);
-        if (existingEntries.size() > 0) {
+        if (!existingEntries.isEmpty()) {
             CartProduct existingEntry = existingEntries.get(0);
             int newQuantity = existingEntry.getQuantity() + quantity;
 
@@ -130,6 +254,16 @@ public class ShopModel {
         }
     }
 
+    /**
+     * Validates the specified quantity for a product, checking if it is greater than 0
+     * and does not exceed the available stock.
+     *
+     * @param product  The product to validate the quantity for.
+     * @param quantity The quantity to validate.
+     *
+     * @return An {@code OperationResult} indicating the validation result.
+     *         If the quantity is valid, the result is marked as successful; otherwise, it contains an error message.
+     */
     private OperationResult validateQuantity(Product product, int quantity) {
         if (quantity <= 0) {
             return new OperationResult(false, "Quantity must be greater than 0.");
@@ -146,6 +280,14 @@ public class ShopModel {
         return new OperationResult(false, "");
     }
 
+    /**
+     * Removes a specified quantity of a product from the user's cart.
+     *
+     * @param cartProductId The unique identifier of the cart product.
+     * @param quantity      The quantity to remove from the cart.
+     *
+     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     */
     public OperationResult removeFromCart(UUID cartProductId, int quantity) {
         CartProduct cartProduct = db.get(DataMap.CARTS, cartProductId);
 
@@ -174,10 +316,10 @@ public class ShopModel {
     /**
      * Calculates the remaining cost left to pay and the unused fidelity points.
      *
-     * @param cost           - The amount to pay.
-     * @param fidelityPoints - The amount of fidelity points available.
+     * @param cost           The amount to pay.
+     * @param fidelityPoints The amount of fidelity points available.
      *
-     * @return Tuple.first = remaining cost, Tuple.second = remaining fidelity points.
+     * @return A tuple containing the remaining cost and the remaining fidelity points.
      */
     public Tuple<Integer, Integer> costAfterFidelityPoints(int cost, int fidelityPoints) {
         int fidelityPointsUsed = 0;
@@ -196,6 +338,22 @@ public class ShopModel {
         return new Tuple<>(remainingCost, remainingFidelityPoints);
     }
 
+    /**
+     * Processes the creation of orders based on the items in the user's cart.
+     *
+     * @param buyerId              The unique identifier of the buyer.
+     * @param email                The email address for order communication.
+     * @param phone                The phone number for order communication.
+     * @param shippingAddress      The shipping address for the order.
+     * @param billingAddress       The billing address for the order.
+     * @param creditCardName       The name on the credit card used for payment.
+     * @param creditCardNumber     The credit card number used for payment.
+     * @param creditCardExpiration The expiration date of the credit card.
+     * @param creditCardCVC        The CVC code of the credit card.
+     * @param fidelityPointsUsed   The amount of fidelity points used in the order.
+     *
+     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     */
     public OperationResult createOrders(UUID buyerId, String email, String phone, String shippingAddress, String billingAddress, String creditCardName, String creditCardNumber, YearMonth creditCardExpiration, String creditCardCVC, int fidelityPointsUsed) {
         int paidWithFidelityPoints = fidelityPointsUsed * 2; // This is in cents
 
@@ -246,10 +404,10 @@ public class ShopModel {
                 subTotalFidelityPoints += (subTotalCost / 100 + product.getBonusFidelityPoints()) * quantity;
             }
 
-            PayementMethod payementMethod = new PayementMethod(subTotalCost, fidelityPointsUsed, 0);
+            PaymentMethod paymentMethod = new PaymentMethod(subTotalCost, fidelityPointsUsed, 0);
 
             // Create the sub-order
-            Order order = new Order(tuples, subTotalCost, subTotalFidelityPoints, payementMethod, email, phone, shippingAddress, billingAddress, creditCardName, creditCardNumber, creditCardExpiration, creditCardCVC, buyerId, sellerId);
+            Order order = new Order(tuples, subTotalCost, subTotalFidelityPoints, paymentMethod, email, phone, shippingAddress, billingAddress, creditCardName, creditCardNumber, creditCardExpiration, creditCardCVC, buyerId, sellerId);
             db.add(DataMap.ORDERS, order);
             // TODO add order products
 
@@ -266,11 +424,25 @@ public class ShopModel {
         return new OperationResult(true, "Your order has been placed successfully");
     }
 
+    /**
+     * Retrieves the products in the user's cart along with associated details.
+     *
+     * @param buyerId The unique identifier of the buyer.
+     *
+     * @return A list of tuples containing cart product details and associated product information.
+     */
     public List<Tuple<CartProduct, Product>> getCart(UUID buyerId) {
         List<CartProduct> cartProductList = db.get(DataMap.CARTS, (cartProduct -> cartProduct.getBuyerId() == buyerId));
         return cartProductList.stream().map((cartProd) -> new Tuple<CartProduct, Product>(cartProd, db.get(DataMap.PRODUCTS, cartProd.getProductId()))).toList();
     }
 
+    /**
+     * Empties the user's cart.
+     *
+     * @param buyerId The unique identifier of the buyer.
+     *
+     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     */
     public OperationResult emptyCart(UUID buyerId) {
         boolean result = db.<CartProduct>remove(DataMap.CARTS, (cartProduct) -> cartProduct.getBuyerId() == buyerId);
         if (result) {
@@ -280,6 +452,14 @@ public class ShopModel {
         }
     }
 
+    /**
+     * Retrieves orders based on specified criteria.
+     *
+     * @param buyerId  The unique identifier of the buyer (can be {@code null}).
+     * @param sellerId The unique identifier of the seller (can be {@code null}).
+     *
+     * @return A list of orders that match the specified criteria.
+     */
     public List<Order> getOrders(UUID buyerId, UUID sellerId) {
         return db.get(DataMap.ORDERS, (order) -> {
             if (order.getBuyerId() == buyerId && sellerId == null) {
@@ -292,10 +472,27 @@ public class ShopModel {
         });
     }
 
+    /**
+     * Retrieves orders based on a custom predicate.
+     *
+     * @param predicate The predicate used to filter orders.
+     *
+     * @return A list of orders that match the specified predicate.
+     */
     public List<Order> getOrders(Predicate<Order> predicate) {
         return db.get(DataMap.ORDERS, predicate);
     }
 
+    /**
+     * Updates the shipment information for a specific order, marking it as in transit.
+     *
+     * @param orderId              The unique identifier of the order.
+     * @param shippingCompany      The shipping company used for the shipment.
+     * @param trackingNumber       The tracking number associated with the shipment.
+     * @param expectedDeliveryDate The expected delivery date of the shipment.
+     *
+     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     */
     public OperationResult shipOrder(UUID orderId, String shippingCompany, String trackingNumber, LocalDate expectedDeliveryDate) {
         Order order = db.get(DataMap.ORDERS, orderId);
         if (order == null) {
@@ -313,6 +510,13 @@ public class ShopModel {
         }
     }
 
+    /**
+     * Marks a specific order as delivered.
+     *
+     * @param orderId The unique identifier of the order.
+     *
+     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     */
     public OperationResult confirmDelivery(UUID orderId) {
         Order order = db.get(DataMap.ORDERS, orderId);
         if (order == null) {
@@ -327,6 +531,13 @@ public class ShopModel {
         }
     }
 
+    /**
+     * Cancels a specific order that is still in production.
+     *
+     * @param orderId The unique identifier of the order.
+     *
+     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     */
     public OperationResult cancelOrder(UUID orderId) {
         Order order = db.get(DataMap.ORDERS, orderId);
         if (order == null) {
@@ -341,6 +552,14 @@ public class ShopModel {
         }
     }
 
+    /**
+     * Validates the quantity for a specified product.
+     *
+     * @param productId The unique identifier of the product.
+     * @param quantity  The quantity to validate.
+     *
+     * @return An {@code OperationResult} indicating the validity of the quantity.
+     */
     public OperationResult validateQuantity(UUID productId, int quantity) {
         Product product = db.get(DataMap.PRODUCTS, productId);
         return validateQuantity(product, quantity);
