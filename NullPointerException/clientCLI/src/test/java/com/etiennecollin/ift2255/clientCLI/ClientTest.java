@@ -6,8 +6,6 @@ package com.etiennecollin.ift2255.clientCLI;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 /**
  * The `ClientTest` class contains test cases for the client methods in the `Client` class.
  * It uses JUnit 5 to create and run the tests.
