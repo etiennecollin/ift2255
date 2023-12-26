@@ -26,20 +26,15 @@ public class ViewRenderer {
     }
 
     public void renderViews() {
-        while (viewHistory.size() > 0) {
+        while (!viewHistory.isEmpty()) {
             if (nextView != null) {
                 View next = nextView;
                 nextView = null;
                 next.render();
-            }
-            else {
+            } else {
                 int lastIndex = viewHistory.size() - 1;
-                viewHistory.get(lastIndex).first.render();
-                if (nextView == null) {
-                    while (!viewHistory.get(viewHistory.size() - 1).second) {
-                        viewHistory.remove(viewHistory.size() - 1);
-                    }
-                }
+                nextView = viewHistory.get(lastIndex - 1).first;
+                viewHistory.remove(lastIndex);
             }
         }
     }
