@@ -12,29 +12,19 @@
 ---
 
 ## Table des matières
-
 - [Table des matières](#table-des-matières)
 - [Information générale](#information-générale)
 - [Distribution des tâches](#distribution-des-tâches)
 - [Hypothèses](#hypothèses)
-- [Tâche 1 - Analyse](#tâche-1---analyse)
-- [Tâche 2 - Diagrammes d'activités UML](#tâche-2---diagrammes-dactivités-uml)
-    - [Confirmer une commande](#confirmer-une-commande)
-    - [Créer une commande](#créer-une-commande)
-    - [Menus principaux](#menus-principaux)
-    - [Offrir un produit](#offrir-un-produit)
-    - [Retourner ou échanger une commande](#retourner-ou-échanger-une-commande)
-    - [Évaluer un produit](#évaluer-un-produit)
-- [Tâche 3 - Diagramme de classes UML](#tâche-3---diagramme-de-classes-uml)
-- [Tâche 4 - Diagrammes de séquence UML](#tâche-4---diagrammes-de-séquence-uml)
-    - [Créer une commande](#créer-une-commande-1)
-    - [Offrir un produit](#offrir-un-produit-1)
-    - [Confirmer la réception d'une commande](#confirmer-la-réception-dune-commande)
-    - [Retourner ou échanger une commande](#retourner-ou-échanger-une-commande-1)
-    - [Évaluer un produit](#évaluer-un-produit-1)
+- [Tests](#tests)
+- [GitHub Action - Java Maven Tests](#github-action---java-maven-tests)
+- [JavaDoc](#javadoc)
+- [README](#readme)
+- [Diagramme de classes UML](#diagramme-de-classes-uml)
 - [GitHub Insights](#github-insights)
     - [Pulse:](#pulse)
     - [Contributors](#contributors)
+
 
 ## Information générale
 
@@ -42,13 +32,13 @@
 
 [Lien vers le repository sur GitHub](https://github.com/etiennecollin/ift2255/)
 
-[Lien vers la release sur GitHub](https://github.com/etiennecollin/ift2255/releases/tag/v0.1.0)
+[Lien vers la release sur GitHub](https://github.com/etiennecollin/ift2255/releases/tag/v0.3.0)
 
 | Nom                     | Matricule | Courriel                             | Temps |
 | :---------------------- | :-------: | :----------------------------------- | :---: |
-| Etienne Collin          | 20237904  | etienne.collin@umontreal.ca          |  10+  |
-| Charlotte Locas         | 20211755  | nicholas.cooper@umontreal.ca         |  5+   |
-| Nicholas Cooper         | 20241729  | charlotte.locas@umontreal.ca         |  15+  |
+| Etienne Collin          | 20237904  | etienne.collin@umontreal.ca          |  20+  |
+| Charlotte Locas         | 20211755  | nicholas.cooper@umontreal.ca         |  10+  |
+| Nicholas Cooper         | 20241729  | charlotte.locas@umontreal.ca         |  20+  |
 | Aboubakre Walid Diongue | 20198446  | aboubakre.walid.diongue@umontreal.ca | 7.5+  |
 
 ## Distribution des tâches
@@ -57,10 +47,13 @@
 
 |      Tâches | Etienne | Charlotte | Nicholas | Walid |
 | ----------: | :------ | :-------- | :------- | :---- |
-|       Tests | 25      | 25        | 25       | 25    |
+|       Tests | 0       | 50        | 0        | 50    |
 |      README | 100     | 0         | 0        | 0     |
 |     Rapport | 100     | 0         | 0        | 0     |
+|     JavaDoc | 100     | 0         | 0        | 0     |
 | Refactoring | 0       | 0         | 100      | 0     |
+
+> Il faut se fier au temps passé sur le devoir pour interpréter la charge de travail de chaque membre de l'équipe. Certaines tâches étaient plus lourdes que d'autres.
 
 ## Hypothèses
 
@@ -70,74 +63,35 @@ Voici quelques hypothèses, des choses qu'UniShop assume pour le bon fonctionnem
 -   Les utilisateurs ont accès à internet
 -   On suppose que les acheteurs vont marquer leurs commandes comme livrées
 -   On suppose que les acheteurs et vendeurs sont honnêtes et intègres
+-   On suppose que les vendeurs vendrons des produits qui sont logiques et conformes aux lois.
 
-## Tâche 1 - Analyse
+## Tests
 
-Pour mettre en opération le système UniShop, les parties informatisées incluront la gestion des profils d'acheteurs et de revendeurs, le catalogue de produits, les commandes, les évaluations, les notifications, le suivi des membres, et les promotions. Les données seront stockées localement dans des fichiers texte d'objets Java sérialisés. Aucun matériel spécifique n'est nécessaire, car le système fonctionnera sur des machines standards avec accès à Internet. L'interaction se cantonnera à la simulation des services de paiement et de livraison, intégrée au sein du système UniShop. Les utilisateurs interagiront avec le système via une interface en ligne de commande, effectuant des actions telles que l'inscription, la recherche de produits et la gestion de commandes directement depuis le terminal.
+Comme on peut le remarquer, tous les tests JUnit passent:
 
-## Tâche 2 - Diagrammes d'activités UML
+![Résultat des tests](assets/tests.png)
 
-Voici nos 5 diagrammes d'activités UML.
+## GitHub Action - Java Maven Tests
 
-### Confirmer une commande
+Voici le résultat de l'exécution de l'action GitHub _Java Maven Tests_.
 
-![Diagramme d'activités UML 1](assets/activity-diagrams/confirm_order.svg)
+![Résultat de l'action github _Java Maven Tests_](assets/tests_action.png)
 
-### Créer une commande
+## JavaDoc
 
-![Diagramme d'activités UML 2](assets/activity-diagrams/create_order.svg)
+La javadoc est disponible à l'adresse suivante: [etiennecollin.com/ift2255](https://etiennecollin.com/ift2255). La source est disponible sur [GitHub](https://github.com/etiennecollin/ift2255/tree/main/doc).
 
-### Menus principaux
+## README
 
-![Diagramme d'activités UML 3](assets/activity-diagrams/main_menus.svg)
+Le fichier `README.md` est disponible sur la [release GitHub](https://github.com/etiennecollin/ift2255/releases/tag/v0.3.0)
 
-### Offrir un produit
+## Diagramme de classes UML
 
-![Diagramme d'activités UML 4](assets/activity-diagrams/offer_product.svg)
+Voici notre diagramme de classes UML.
 
-### Retourner ou échanger une commande
+![Diagramme de classes UML](assets/class-diagram/diagram.svg)
 
-![Diagramme d'activités UML 5](assets/activity-diagrams/order_return_exchange.svg)
-
-### Évaluer un produit
-
-![Diagramme d'activités UML 6](assets/activity-diagrams/product_evaluate.svg)
-
-> Source disponible sur la [release GitHub](https://github.com/etiennecollin/ift2255/releases/tag/v0.2.0)
-
-## Tâche 3 - Diagramme de classes UML
-
-Voici notre diagramme de classe UML.
-
-![Diagramme de classe UML](assets/class-diagram/diagram.svg)
-
-> Source disponible sur la [release GitHub](https://github.com/etiennecollin/ift2255/releases/tag/v0.2.0)
-
-## Tâche 4 - Diagrammes de séquence UML
-
-Voici nos 5 diagrammes de séquence UML.
-
-### Créer une commande
-
-![Diagramme de séquence UML 1](assets/sequence-diagrams/create_order.svg)
-
-### Offrir un produit
-
-![Diagramme de séquence UML 2](assets/sequence-diagrams/offer_product.svg)
-
-### Confirmer la réception d'une commande
-
-![Diagramme de séquence UML 3](assets/sequence-diagrams/order_confirm_reception.svg)
-
-### Retourner ou échanger une commande
-
-![Diagramme de séquence UML 4](assets/sequence-diagrams/order_return_and_exchange.svg)
-
-### Évaluer un produit
-
-![Diagramme de séquence UML 5](assets/sequence-diagrams/rate_product.svg)
-
-> Source disponible sur la [release GitHub](https://github.com/etiennecollin/ift2255/releases/tag/v0.2.0)
+> Source disponible sur la [release GitHub](https://github.com/etiennecollin/ift2255/releases/tag/v0.3.0)
 
 ## GitHub Insights
 
@@ -145,6 +99,10 @@ Voici nos 5 diagrammes de séquence UML.
 
 ![Pulse](assets/pulse.png)
 
+> [Source](https://github.com/etiennecollin/ift2255/pulse/monthly)
+
 ### Contributors
 
 ![Contributors](assets/contributors.png)
+
+> [Source](https://github.com/etiennecollin/ift2255/graphs/contributors)
