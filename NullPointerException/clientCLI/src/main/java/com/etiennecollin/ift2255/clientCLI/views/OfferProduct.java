@@ -13,13 +13,33 @@ import java.time.LocalDate;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
+/**
+ * The OfferProduct class represents a view for offering a new product in the client CLI application.
+ * It allows the seller to input details of the product, such as title, category, description, price, and quantity,
+ * and submit the product to the shop for sale.
+ * <p>
+ * The class extends the {@link View} class.
+ */
 public class OfferProduct extends View {
-    private ShopController shopController;
+    /**
+     * The ShopController used for managing shop-related functionalities.
+     */
+    private final ShopController shopController;
 
+    /**
+     * Constructs an OfferProduct with the specified ShopController.
+     *
+     * @param shopController the ShopController used for managing shop-related functionalities.
+     */
     public OfferProduct(ShopController shopController) {
         this.shopController = shopController;
     }
 
+    /**
+     * Renders the OfferProduct view, allowing the seller to input details of a new product
+     * and submit it to the shop for sale. The view supports different product categories,
+     * such as BookOrManual, IT, LearningResource, OfficeEquipment, and StationeryArticle.
+     */
     @Override
     public void render() {
         clearConsole();

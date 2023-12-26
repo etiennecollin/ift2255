@@ -15,17 +15,43 @@ import java.util.List;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
+/**
+ * The SellersDisplay class represents a view for displaying information about sellers and interacting with seller-related functionalities.
+ * It allows the user to view details about a seller, toggle following the seller, and view the seller's products.
+ * <p>
+ * The class extends the {@link View} class.
+ */
 public class SellersDisplay extends View {
+    /**
+     * The ProfileController instance for interacting with profile-related functionalities.
+     */
     private final ProfileController profileController;
+    /**
+     * The ShopController instance for handling shop-related functionalities.
+     */
     private final ShopController shopController;
+    /**
+     * The list of sellers to be displayed.
+     */
     private final List<Seller> sellerList;
 
+    /**
+     * Constructs a SellersDisplay with the specified ProfileController, ShopController, and list of sellers.
+     *
+     * @param profileController the ProfileController used for interacting with profile-related functionalities.
+     * @param shopController    the ShopController used for interacting with shop-related functionalities.
+     * @param sellerList        the list of sellers to be displayed.
+     */
     public SellersDisplay(ProfileController profileController, ShopController shopController, List<Seller> sellerList) {
         this.profileController = profileController;
         this.shopController = shopController;
         this.sellerList = sellerList;
     }
 
+    /**
+     * Renders the SellersDisplay view, allowing the user to interact with information about sellers.
+     * The user can select a seller, view details, toggle following the seller, and display the seller's products.
+     */
     @Override
     public void render() {
         ArrayList<String> matchListString = new ArrayList<>();

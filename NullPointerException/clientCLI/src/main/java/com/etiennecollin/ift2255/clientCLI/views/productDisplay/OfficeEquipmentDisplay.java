@@ -12,11 +12,27 @@ import java.util.UUID;
 import static com.etiennecollin.ift2255.clientCLI.Utils.prettify;
 import static com.etiennecollin.ift2255.clientCLI.Utils.waitForKey;
 
+/**
+ * The {@code OfficeEquipmentDisplay} class is responsible for displaying information about an office equipment product
+ * in the CLI application. It extends the {@link ProductDisplay} class and provides specific rendering for office equipment products.
+ * <p>
+ * The class retrieves the office equipment product information from the {@link ShopController} and displays details such as
+ * brand, model, and common product information through the superclass. It includes specific rendering for office equipment details.
+ */
 public class OfficeEquipmentDisplay extends ProductDisplay {
+    /**
+     * Constructs a new {@code OfficeEquipmentDisplay} with the specified product ID and shop controller.
+     *
+     * @param productId      The unique identifier of the office equipment product.
+     * @param shopController The controller responsible for shop-related actions.
+     */
     public OfficeEquipmentDisplay(UUID productId, ShopController shopController) {
         super(productId, shopController);
     }
 
+    /**
+     * Renders the display for the office equipment product, showing both common product information and specific details for office equipment.
+     */
     @Override
     public void render() {
         OfficeEquipment oe = shopController.getProduct(OfficeEquipment.class, productId);

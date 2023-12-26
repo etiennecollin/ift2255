@@ -9,10 +9,19 @@ import com.etiennecollin.ift2255.clientCLI.model.data.products.BookOrManual;
 
 import java.util.UUID;
 
-import static com.etiennecollin.ift2255.clientCLI.Utils.*;
+import static com.etiennecollin.ift2255.clientCLI.Utils.prettify;
+import static com.etiennecollin.ift2255.clientCLI.Utils.waitForKey;
 
+/**
+ * The {@code BookOrManualDisplay} class represents a view for displaying detailed information about a book or a manual
+ * in the CLI application. It extends the {@link ProductDisplay} class and is specifically designed to handle
+ * instances of the {@link BookOrManual} class.
+ * <p>
+ * The class provides methods to render information about a book or manual, including its author, editor, edition number,
+ * volume number, and release date. Additionally, it inherits methods from the {@link ProductDisplay} class for rendering
+ * general product information and actions.
+ */
 public class BookOrManualDisplay extends ProductDisplay {
-
     public BookOrManualDisplay(UUID productId, ShopController shopController) {
         super(productId, shopController);
     }

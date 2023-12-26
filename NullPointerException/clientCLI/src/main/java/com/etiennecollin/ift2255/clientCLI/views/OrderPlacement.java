@@ -5,8 +5,8 @@
 package com.etiennecollin.ift2255.clientCLI.views;
 
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
-import com.etiennecollin.ift2255.clientCLI.Utils;
 import com.etiennecollin.ift2255.clientCLI.Tuple;
+import com.etiennecollin.ift2255.clientCLI.Utils;
 import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
 import com.etiennecollin.ift2255.clientCLI.model.data.Buyer;
@@ -19,15 +19,35 @@ import java.time.format.DateTimeParseException;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
+/**
+ * The OrderPlacement class represents a view for placing an order in the client CLI application.
+ * It allows the buyer to enter payment details, shipping address, and confirm the order placement.
+ */
 public class OrderPlacement extends View {
+    /**
+     * The ShopController used for managing shop-related functionalities.
+     */
     private final ShopController shopController;
+    /**
+     * The ProfileController used for managing profile-related functionalities.
+     */
     private final ProfileController profileController;
 
+    /**
+     * Constructs an OrderPlacement with the specified ShopController and ProfileController.
+     *
+     * @param shopController    the ShopController used for managing shop-related functionalities.
+     * @param profileController the ProfileController used for managing profile-related functionalities.
+     */
     public OrderPlacement(ShopController shopController, ProfileController profileController) {
         this.shopController = shopController;
         this.profileController = profileController;
     }
 
+    /**
+     * Renders the OrderPlacement view, allowing the buyer to enter payment details, shipping address,
+     * and confirm the order placement. The view also displays the total cost of the products in the cart.
+     */
     @Override
     public void render() {
         Buyer buyer = profileController.getBuyer();

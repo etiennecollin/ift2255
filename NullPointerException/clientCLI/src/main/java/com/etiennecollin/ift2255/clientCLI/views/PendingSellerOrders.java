@@ -19,15 +19,36 @@ import java.util.List;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
+/**
+ * The PendingSellerOrders class represents a view for displaying and managing pending orders
+ * from buyers to be shipped by the logged-in seller. It allows the seller to select an order,
+ * enter shipment details, and ship the selected order.
+ */
 public class PendingSellerOrders extends View {
+    /**
+     * The ShopController used for managing shop-related functionalities.
+     */
     private final ShopController shopController;
+    /**
+     * The ProfileController used for managing profile-related functionalities.
+     */
     private final ProfileController profileController;
 
+    /**
+     * Constructs a PendingSellerOrders with the specified ShopController and ProfileController.
+     *
+     * @param shopController    the ShopController used for managing shop-related functionalities.
+     * @param profileController the ProfileController used for managing profile-related functionalities.
+     */
     public PendingSellerOrders(ShopController shopController, ProfileController profileController) {
         this.shopController = shopController;
         this.profileController = profileController;
     }
 
+    /**
+     * Renders the PendingSellerOrders view, displaying pending orders from buyers to be shipped by the seller.
+     * It provides an interactive menu for the seller to select an order, view order details, and enter shipment details.
+     */
     @Override
     public void render() {
         List<Order> orders = shopController.getPendingSellerOrders();
@@ -55,6 +76,11 @@ public class PendingSellerOrders extends View {
         }, (order) -> "Order #" + order.getId() + " - " + order.getOrderDate(), this::displayOrderShipmentMenu);
     }
 
+    /**
+     * Displays the order shipment menu, allowing the seller to enter shipment details and ship the selected order.
+     *
+     * @param order the Order to be shipped.
+     */
     public void displayOrderShipmentMenu(Order order) {
         clearConsole();
         if (order.getState() != OrderState.InProduction) {
@@ -76,6 +102,11 @@ public class PendingSellerOrders extends View {
         }
     }
 
+    /**
+     * Displays detailed information about the specified order.
+     *
+     * @param order the Order for which detailed information is displayed.
+     */
     private void displayOrder(Order order) {
         clearConsole();
         System.out.println(prettify("Order date: " + order.getOrderDate()));

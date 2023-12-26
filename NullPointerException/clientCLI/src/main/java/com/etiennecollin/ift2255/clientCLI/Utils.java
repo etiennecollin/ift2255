@@ -22,7 +22,9 @@ import java.util.regex.Pattern;
  * It includes methods for handling user input, formatting strings, and creating menus.
  */
 public class Utils {
-
+    /**
+     * The input scanner used by utils.
+     */
     private static final Scanner scanner = new Scanner(System.in); // Prevents closing the System.in stream
 
     /**
@@ -235,6 +237,16 @@ public class Utils {
         }
     }
 
+    /**
+     * Displays a menu with choices to the user and expects a numeric selection.
+     * It keeps prompting until a valid selection is made.
+     *
+     * @param <T>     The type of elements in the menu.
+     * @param prompt  The message to display as the prompt.
+     * @param choices An ArrayList of elements representing the menu choices.
+     *
+     * @return The selected element from the menu based on the numeric input.
+     */
     protected static <T> T prettyMenuT(String prompt, ArrayList<T> choices) {
         // Instantiate the variables used to store the answer and its parsed version
         int index;
@@ -341,6 +353,15 @@ public class Utils {
         }
     }
 
+    /**
+     * Displays a dynamic menu with choices to the user and expects a numeric selection.
+     * It keeps prompting until a valid selection is made.
+     *
+     * @param prompt             The message to display as the prompt.
+     * @param backName           The name associated with the "go back" option.
+     * @param menuItems          An ArrayList of DynamicMenuItems representing the menu choices.
+     * @param topOfLoopDisplayer A Runnable providing functionality to be displayed at the top of the menu loop.
+     */
     public static void prettyDynamicMenu(String prompt, String backName, ArrayList<DynamicMenuItem> menuItems, Runnable topOfLoopDisplayer) {
 
         while (true) {
@@ -370,12 +391,26 @@ public class Utils {
         }
     }
 
+    /**
+     * Clears the console screen by printing empty lines.
+     */
     public static void clearConsole() {
         for (int i = 0; i < 100; i++) {
             System.out.println();
         }
     }
 
+    /**
+     * Displays a paginated menu for a list of items, allowing the user to perform actions on the items.
+     *
+     * @param <T>           The type of elements in the menu.
+     * @param items         The list of items to be displayed in the menu.
+     * @param itemsPerPage  The number of items to display per page.
+     * @param actionName    The name of the action to perform on selected items.
+     * @param itemDisplayer A Consumer that displays an individual item.
+     * @param itemMenuName  A Function that returns a string representing the menu name for an individual item.
+     * @param action        A Consumer that defines the action to be performed on selected items.
+     */
     public static <T> void prettyPaginationMenu(List<T> items, int itemsPerPage, String actionName, Consumer<T> itemDisplayer, Function<T, String> itemMenuName, Consumer<T> action) {
         outerLoop:
         for (int i = 0; i < items.size(); i += itemsPerPage) {
@@ -423,26 +458,45 @@ public class Utils {
         }
     }
 
+    /**
+     * Formats a currency amount in cents to a string representation in dollars and cents.
+     *
+     * @param cents The amount in cents to be formatted.
+     *
+     * @return The formatted currency string (e.g., "12.34$").
+     */
     public static String formatMoney(int cents) {
         return cents / 100 + "." + cents % 100 + "$";
     }
 
+    /**
+     * Closes the scanner, releasing system resources.
+     */
     public static void quit() {
         scanner.close();
     }
 
-//    protected static void quit(UniShop unishop) {
-//        System.out.println(prettify("Saving app state..."));
-//        unishop.saveUserList(Client.savePath);
-//        System.out.println(prettify("Quitting UniShop"));
-//        scanner.close();
-//    }
+    //    protected static void quit(UniShop unishop) {
+    //        System.out.println(prettify("Saving app state..."));
+    //        unishop.saveUserList(Client.savePath);
+    //        System.out.println(prettify("Quitting UniShop"));
+    //        scanner.close();
+    //    }
 
-//    protected static void logout(UniShop uniShop) {
-//        System.out.println(prettify("Logging-out..."));
-//        uniShop.setCurrentUser(null);
-//    }
+    //    protected static void logout(UniShop uniShop) {
+    //        System.out.println(prettify("Logging-out..."));
+    //        uniShop.setCurrentUser(null);
+    //    }
 
+    /**
+     * Validates a name to ensure it contains only letters and optional spaces or hyphens.
+     *
+     * @param s The name to be validated.
+     *
+     * @return An OperationResult indicating whether the name is valid, along with an error message if invalid.
+     *
+     * @throws RuntimeException If the validation process encounters an exception.
+     */
     public static OperationResult validateName(String s) throws RuntimeException {
         if (!s.matches("[a-zA-Z]+[\\s-]?[a-zA-Z]*")) {
             return new OperationResult(false, "Your name should only contains letters");
@@ -450,6 +504,15 @@ public class Utils {
         return new OperationResult(true, "");
     }
 
+    /**
+     * Validates an email address using a regular expression.
+     *
+     * @param s The email address to be validated.
+     *
+     * @return An OperationResult indicating whether the email address is valid, along with an error message if invalid.
+     *
+     * @throws RuntimeException If the validation process encounters an exception.
+     */
     public static OperationResult validateEmail(String s) throws RuntimeException {
         if (!s.matches("[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}")) {
             return new OperationResult(false, "Your email has a wrong format");
@@ -457,8 +520,17 @@ public class Utils {
         return new OperationResult(true, "");
     }
 
-    // regex took from https://www.baeldung.com/java-regex-validate-phone-numbers
-    // accept format xxx xxx xxxx  , xxx-xxx-xxxx and xxxxxxxxxx where x are digits
+    /**
+     * Validates a phone number using a regular expression that accepts formats xxx xxx xxxx, xxx-xxx-xxxx, and xxxxxxxxxx.
+     * <p>
+     * regex taken from <a href="https://www.baeldung.com/java-regex-validate-phone-numbers">https://www.baeldung.com/java-regex-validate-phone-numbers</a>
+     *
+     * @param s The phone number to be validated.
+     *
+     * @return An OperationResult indicating whether the phone number is valid, along with an error message if invalid.
+     *
+     * @throws RuntimeException If the validation process encounters an exception.
+     */
     public static OperationResult validatePhoneNumber(String s) throws RuntimeException {
         if (!s.matches("(\\(\\d{3}\\)|\\d{3})[- ]?\\d{3}[- ]?\\d{4}")) {
             return new OperationResult(false, "Your phone number has a wrong format");
@@ -466,6 +538,15 @@ public class Utils {
         return new OperationResult(true, "");
     }
 
+    /**
+     * Validates an ISBN (International Standard Book Number) using a regular expression.
+     *
+     * @param s The ISBN to be validated.
+     *
+     * @return An OperationResult indicating whether the ISBN is valid, along with an error message if invalid.
+     *
+     * @throws RuntimeException If the validation process encounters an exception.
+     */
     public static OperationResult validateISBN(String s) throws RuntimeException {
         if (!s.matches("\\d{13}")) {
             return new OperationResult(false, "Your ISBN has a wrong format");
@@ -473,6 +554,14 @@ public class Utils {
         return new OperationResult(true, "");
     }
 
+    /**
+     * Validates bonus fidelity points based on the provided bonus points and the price of a product.
+     *
+     * @param bonusPoints The bonus points to be validated.
+     * @param price       The price of the product.
+     *
+     * @return An OperationResult indicating whether the bonus points are valid, along with an error message if invalid.
+     */
     public static OperationResult validateBonusFidelityPoints(int bonusPoints, int price) {
         int dollars = price / 100;
         int maxBonusPoints = 19 * dollars;
@@ -485,6 +574,15 @@ public class Utils {
         }
     }
 
+    /**
+     * Validates a number to ensure it falls within a specified range.
+     *
+     * @param number     The number to be validated.
+     * @param lowerBound The lower bound of the valid range.
+     * @param upperBound The upper bound of the valid range.
+     *
+     * @return An OperationResult indicating whether the number is within the specified range, along with an error message if invalid.
+     */
     public static OperationResult validateNumberRange(int number, int lowerBound, int upperBound) {
         if (number < lowerBound) {
             return new OperationResult(false, "Number must not be less than " + lowerBound);
@@ -495,6 +593,13 @@ public class Utils {
         }
     }
 
+    /**
+     * Validates that a string is not empty.
+     *
+     * @param string The string to be validated.
+     *
+     * @return An OperationResult indicating whether the string is not empty, along with an error message if empty.
+     */
     public static OperationResult validateNotEmpty(String string) {
         if (string.isEmpty()) {
             return new OperationResult(false, "This field must not be empty.");
@@ -503,6 +608,9 @@ public class Utils {
         }
     }
 
+    /**
+     * Displays a prompt and waits for the user to press any key to continue.
+     */
     public static void waitForKey() {
         prettyPrompt("Press any key to continue");
     }
@@ -520,5 +628,12 @@ public class Utils {
         return scanner.nextLine().strip();
     }
 
+    /**
+     * A record representing a dynamic menu item with a name, action, and display condition.
+     *
+     * @param name             The name of the menu item.
+     * @param action           The action to be performed when the menu item is selected.
+     * @param displayCondition The condition indicating whether the menu item should be displayed.
+     */
     public record DynamicMenuItem(String name, Runnable action, Supplier<Boolean> displayCondition) {}
 }

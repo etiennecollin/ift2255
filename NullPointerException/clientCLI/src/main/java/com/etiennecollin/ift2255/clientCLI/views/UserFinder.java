@@ -13,13 +13,28 @@ import java.util.List;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
+/**
+ * The UserFinder class represents a view for searching and displaying information about buyers and sellers.
+ * It allows the user to search for buyers and sellers based on different criteria such as name, phone number, and email.
+ * <p>
+ * The class extends the {@link View} class.
+ */
 public class UserFinder extends View {
     private final ProfileController profileController;
 
+    /**
+     * Constructs a UserFinder with the specified ProfileController.
+     *
+     * @param profileController the ProfileController used for interacting with profile-related functionalities.
+     */
     public UserFinder(ProfileController profileController) {
         this.profileController = profileController;
     }
 
+    /**
+     * Renders the UserFinder view, allowing the user to search for buyers and sellers based on various criteria.
+     * Overrides the render method in the View class.
+     */
     @Override
     public void render() {
         String[] options = {"Main menu", "Buyer", "Seller"};
@@ -37,6 +52,9 @@ public class UserFinder extends View {
         }
     }
 
+    /**
+     * Private method to search for buyers based on specified criteria such as name, phone number, and email.
+     */
     private void findBuyer() {
         loop:
         while (true) {
@@ -67,6 +85,9 @@ public class UserFinder extends View {
         }
     }
 
+    /**
+     * Private method to search for sellers based on specified criteria such as name, address, phone number, and email.
+     */
     private void findSeller() {
         loop:
         while (true) {

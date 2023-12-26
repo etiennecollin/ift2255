@@ -8,7 +8,9 @@ import com.etiennecollin.ift2255.clientCLI.OperationResult;
 import com.etiennecollin.ift2255.clientCLI.Utils;
 import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
-import com.etiennecollin.ift2255.clientCLI.model.data.*;
+import com.etiennecollin.ift2255.clientCLI.model.data.Order;
+import com.etiennecollin.ift2255.clientCLI.model.data.OrderState;
+import com.etiennecollin.ift2255.clientCLI.model.data.Seller;
 import com.etiennecollin.ift2255.clientCLI.model.data.products.Product;
 
 import java.time.LocalDate;
@@ -17,15 +19,37 @@ import java.util.List;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
+/**
+ * The BuyerOrdersMenu class represents the view for displaying and interacting with a buyer's order history
+ * and details in the client CLI application. Users can view order information, review products, confirm reception,
+ * report issues, return items, exchange items, and cancel orders.
+ * <p>
+ * The class extends the {@link View} class.
+ */
 public class BuyerOrdersMenu extends View {
+    /**
+     * The ShopController used for interacting with shop-related actions and operations.
+     */
     private final ShopController shopController;
+    /**
+     * The ProfileController used for interacting with buyer profiles and related actions.
+     */
     private final ProfileController profileController;
 
+    /**
+     * Constructs a BuyerOrdersMenu view with the specified ShopController and ProfileController.
+     *
+     * @param shopController    the ShopController used for interacting with shop-related actions and operations.
+     * @param profileController the ProfileController used for interacting with buyer profiles and related actions.
+     */
     public BuyerOrdersMenu(ShopController shopController, ProfileController profileController) {
         this.shopController = shopController;
         this.profileController = profileController;
     }
 
+    /**
+     * Renders the BuyerOrdersMenu view, allowing the user to view their order history and perform various actions on each order.
+     */
     @Override
     public void render() {
         clearConsole();
@@ -47,6 +71,11 @@ public class BuyerOrdersMenu extends View {
         }, order -> "Order of " + order.getOrderDate(), this::displayBuyerOrderActions);
     }
 
+    /**
+     * Displays a menu with dynamic options for the actions that can be performed on a specific buyer's order.
+     *
+     * @param order The Order object representing the buyer's order.
+     */
     private void displayBuyerOrderActions(Order order) {
         ArrayList<DynamicMenuItem> options = new ArrayList<>();
 
@@ -74,7 +103,7 @@ public class BuyerOrdersMenu extends View {
         options.add(new DynamicMenuItem("Report issue with order", () -> {
             if (prettyPromptBool("Do you really want to open a ticket for this order?")) {
                 // TODO reimplement create ticket
-//                createTicket(order);
+                //                createTicket(order);
             } else {
                 System.out.println(prettify("Action cancelled"));
             }
@@ -82,7 +111,7 @@ public class BuyerOrdersMenu extends View {
         options.add(new DynamicMenuItem("Return items", () -> {
             if (prettyPromptBool("Do you really want to return items from this order?")) {
                 // TODO reimplement return menu
-//                displayReturnMenu(order);
+                //                displayReturnMenu(order);
             } else {
                 System.out.println(prettify("Action cancelled"));
             }
@@ -90,7 +119,7 @@ public class BuyerOrdersMenu extends View {
         options.add(new DynamicMenuItem("Exchange items", () -> {
             if (prettyPromptBool("Do you really want to exchange items from this order?")) {
                 // TODO reimplement exchange menu
-//                displayExchangeMenu(order);
+                //                displayExchangeMenu(order);
             } else {
                 System.out.println(prettify("Action cancelled"));
             }
@@ -107,6 +136,11 @@ public class BuyerOrdersMenu extends View {
         prettyDynamicMenu("Select action", "Go back", options, () -> displayOrder(order));
     }
 
+    /**
+     * Displays detailed information about a specific buyer's order.
+     *
+     * @param order The Order object representing the buyer's order.
+     */
     private void displayOrder(Order order) {
         clearConsole();
         System.out.println(prettify("Order date: " + order.getOrderDate()));
@@ -126,5 +160,4 @@ public class BuyerOrdersMenu extends View {
         }
         waitForKey();
     }
-
 }

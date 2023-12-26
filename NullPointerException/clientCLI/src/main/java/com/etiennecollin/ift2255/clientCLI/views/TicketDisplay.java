@@ -17,17 +17,44 @@ import java.util.UUID;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
+/**
+ * The TicketDisplay class represents a view for displaying and performing actions on a specific ticket.
+ * It allows buyers and sellers to interact with and manage the details of a ticket, including creating return
+ * shipments, confirming the reception of replacement shipments, setting suggested solutions, and more.
+ * <p>
+ * The class extends the {@link View} class.
+ */
 public class TicketDisplay extends View {
+    /**
+     * The TicketController instance for handling ticket-related functionalities.
+     */
     private final TicketController ticketController;
+    /**
+     * The ProfileController instance for interacting with profile-related functionalities.
+     */
     private final ProfileController profileController;
+    /**
+     * The unique identifier (UUID) of the ticket associated with this TicketDisplay instance.
+     */
     private final UUID ticketId;
 
+    /**
+     * Constructs a TicketDisplay with the specified ticket ID, TicketController, and ProfileController.
+     *
+     * @param ticketId          the ID of the ticket to be displayed.
+     * @param ticketController  the TicketController used for ticket-related functionalities.
+     * @param profileController the ProfileController used for interacting with profile-related functionalities.
+     */
     public TicketDisplay(UUID ticketId, TicketController ticketController, ProfileController profileController) {
         this.ticketId = ticketId;
         this.ticketController = ticketController;
         this.profileController = profileController;
     }
 
+    /**
+     * Renders the TicketDisplay view, allowing users (buyers and sellers) to interact with and manage a specific ticket.
+     * Overrides the render method in the View class.
+     */
     @Override
     public void render() {
         Ticket ticket = ticketController.getTicket(ticketId);
@@ -115,6 +142,11 @@ public class TicketDisplay extends View {
         }
     }
 
+    /**
+     * Displays detailed information about the specified ticket.
+     *
+     * @param ticket the ticket to be displayed.
+     */
     public void displayTicket(Ticket ticket) {
         clearConsole();
         System.out.println(prettify("Creation date: " + ticket.getCreationDate()));

@@ -12,15 +12,37 @@ import java.util.List;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
+/**
+ * The TicketsMenu class represents a view for displaying and interacting with user tickets.
+ * It extends the View class.
+ * <p>
+ * The class extends the {@link View} class.
+ */
 public class TicketsMenu extends View {
+    /**
+     * The ticketController field represents the TicketController used for handling ticket-related logic.
+     */
     private final TicketController ticketController;
+    /**
+     * The profileController field represents the ProfileController used for managing user profiles in UniShop.
+     */
     private final ProfileController profileController;
 
+    /**
+     * Constructs a new TicketsMenu instance with the specified TicketController and ProfileController.
+     *
+     * @param ticketController  The TicketController for handling ticket-related logic.
+     * @param profileController The ProfileController for managing user profiles in UniShop.
+     */
     public TicketsMenu(TicketController ticketController, ProfileController profileController) {
         this.ticketController = ticketController;
         this.profileController = profileController;
     }
 
+    /**
+     * Renders the TicketsMenu view, displaying ticket information and providing interaction options.
+     * Overrides the render method in the View class.
+     */
     @Override
     public void render() {
         List<Ticket> tickets = ticketController.getTickets();

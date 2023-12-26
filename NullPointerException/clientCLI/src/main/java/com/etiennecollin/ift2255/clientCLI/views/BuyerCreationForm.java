@@ -4,19 +4,42 @@
 
 package com.etiennecollin.ift2255.clientCLI.views;
 
-import com.etiennecollin.ift2255.clientCLI.Utils;
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
+import com.etiennecollin.ift2255.clientCLI.Utils;
 import com.etiennecollin.ift2255.clientCLI.controllers.AuthenticationController;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
+/**
+ * The {@code BuyerCreationForm} class represents a view for creating a new buyer account in the CLI application.
+ * It allows users to enter their personal information such as first name, last name, username, email, password,
+ * phone number, and shipping address.
+ * <p>
+ * The class extends the {@link View} class.
+ * <p>
+ * The user input is validated using utility methods from the {@link Utils} class. The class holds a reference
+ * to an {@link AuthenticationController} for handling the creation of a new buyer account.
+ */
 public class BuyerCreationForm extends View {
-    private AuthenticationController authController;
+    /**
+     * The {@link AuthenticationController} for handling the creation of a new buyer account.
+     */
+    private final AuthenticationController authController;
 
+    /**
+     * Constructs a new {@code BuyerCreationForm} instance with the specified {@link AuthenticationController}.
+     *
+     * @param authController The {@link AuthenticationController} for handling the creation of a new buyer account.
+     */
     public BuyerCreationForm(AuthenticationController authController) {
         this.authController = authController;
     }
 
+    /**
+     * Renders the view for creating a new buyer account. The user is prompted to enter their personal information,
+     * and the input is validated. If the entered information is valid, the new buyer account is created.
+     * The process can be repeated if the user chooses to try again.
+     */
     @Override
     public void render() {
         while (true) {

@@ -12,15 +12,34 @@ import com.etiennecollin.ift2255.clientCLI.model.data.Seller;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
+/**
+ * The SellerProfile class represents a view for managing and updating a seller's profile information.
+ * It allows the seller to change their name, password, email, phone number, and address.
+ */
 public class SellerProfile extends View {
+    /**
+     * The ProfileController used for interacting with profile-related functionalities.
+     */
     private final ProfileController profileController;
+    /**
+     * The AuthenticationController used for authentication and authorization.
+     */
     private final AuthenticationController authController;
 
+    /**
+     * Constructs a SellerProfile with the specified ProfileController and AuthenticationController.
+     *
+     * @param profileController the ProfileController used for interacting with profile-related functionalities.
+     * @param authController    the AuthenticationController used for authentication and authorization.
+     */
     public SellerProfile(ProfileController profileController, AuthenticationController authController) {
         this.profileController = profileController;
         this.authController = authController;
     }
 
+    /**
+     * Renders the SellerProfile view, allowing the seller to update various aspects of their profile.
+     */
     @Override
     public void render() {
         String[] options = new String[]{"Go back", "Name", "Password", "Email", "Phone number", "Address"};
