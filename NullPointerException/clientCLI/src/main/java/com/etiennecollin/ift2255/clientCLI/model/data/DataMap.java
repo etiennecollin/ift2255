@@ -12,7 +12,8 @@ public enum DataMap {
     ORDERS ("orders.txt"),
     REVIEWS ("reviews.txt"),
     LIKES ("likes.txt"),
-    NOTIFICATIONS ("notifications.txt");
+    NOTIFICATIONS ("notifications.txt"),
+    TICKETS ("tickets.txt");
 
     private final String filename;
 

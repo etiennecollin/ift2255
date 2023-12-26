@@ -4,8 +4,6 @@
 
 package com.etiennecollin.ift2255.clientCLI;
 
-import com.etiennecollin.ift2255.clientCLI.classes.UniShop;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -68,7 +66,7 @@ public class Utils {
      *
      * @return A valid integer entered by the user.
      */
-    protected static int prettyPromptInt(String prompt) {
+    public static int prettyPromptInt(String prompt) {
         return prettyPromptInt(prompt, i -> new OperationResult(true, ""));
     }
 
@@ -81,7 +79,7 @@ public class Utils {
      *
      * @return A valid integer entered by the user.
      */
-    protected static int prettyPromptInt(String prompt, Function<Integer, OperationResult> validator) {
+    public static int prettyPromptInt(String prompt, Function<Integer, OperationResult> validator) {
         while (true) {
             System.out.println("------------");
             System.out.print(prettify(prompt) + ": ");
@@ -134,7 +132,7 @@ public class Utils {
      *
      * @throws NumberFormatException If the input provided is not a valid number.
      */
-    protected static int prettyPromptCurrency(String prompt) {
+    public static int prettyPromptCurrency(String prompt) {
         while (true) {
             System.out.println("------------");
             System.out.print(prettify(prompt) + ": ");
@@ -163,7 +161,7 @@ public class Utils {
      *
      * @return A valid LocalDate entered by the user.
      */
-    protected static LocalDate prettyPromptDate(String prompt) {
+    public static LocalDate prettyPromptDate(String prompt) {
         while (true) {
             System.out.println("------------");
             System.out.print(prettify(prompt) + " (yyyy-mm-dd): ");
@@ -197,7 +195,7 @@ public class Utils {
      *
      * @return The index of the selected choice (0-based index).
      */
-    protected static int prettyMenu(String prompt, ArrayList<String> choices) {
+    public static int prettyMenu(String prompt, ArrayList<String> choices) {
         // Instantiate the variables used to store the answer and its parsed version
         String answer;
         int answerParsed;
@@ -285,7 +283,7 @@ public class Utils {
      *
      * @return The Enum associated with the selected choice.
      */
-    protected static <T extends Enum<T>> T prettyMenu(String prompt, Class<T> enumClass) {
+    public static <T extends Enum<T>> T prettyMenu(String prompt, Class<T> enumClass) {
         var enumConstants = enumClass.getEnumConstants();
         ArrayList<String> enumNames = new ArrayList<>();
         for (var c : enumConstants) {
@@ -423,6 +421,10 @@ public class Utils {
                 }
             }
         }
+    }
+
+    public static String formatMoney(int cents) {
+        return cents / 100 + "." + cents % 100 + "$";
     }
 
     public static void quit() {

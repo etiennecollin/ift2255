@@ -2,16 +2,12 @@
  * Copyright (c) 2023. Etienne Collin #20237904, Nicholas Cooper #20241729, Aboubakre Walid Diongue #20198446, Charlotte Locas #20211755
  */
 
-package com.etiennecollin.ift2255.clientCLI.classes;
+package com.etiennecollin.ift2255.clientCLI;
 
-import com.etiennecollin.ift2255.clientCLI.controllers.AuthenticationController;
-import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
-import com.etiennecollin.ift2255.clientCLI.model.AuthenticationModel;
-import com.etiennecollin.ift2255.clientCLI.model.ProfileModel;
-import com.etiennecollin.ift2255.clientCLI.model.data.Database;
-import com.etiennecollin.ift2255.clientCLI.model.data.JavaSerializedDatabase;
-import com.etiennecollin.ift2255.clientCLI.views.MainMenu;
-import com.etiennecollin.ift2255.clientCLI.views.ViewRenderer;
+import com.etiennecollin.ift2255.clientCLI.controllers.*;
+import com.etiennecollin.ift2255.clientCLI.model.*;
+import com.etiennecollin.ift2255.clientCLI.model.data.*;
+import com.etiennecollin.ift2255.clientCLI.views.*;
 
 public class UniShop {
     private static UniShop _instance;
@@ -19,25 +15,30 @@ public class UniShop {
     private ViewRenderer renderer;
     private AuthenticationModel auth;
     private ProfileModel profile;
+    private ShopModel shop;
+    private SocialModel social;
+    private TicketingModel ticketing;
     private AuthenticationController authController;
     private ProfileController profileController;
+    private ShopController shopController;
+    private TicketController ticketController;
 
     private UniShop() {
         this.db = new JavaSerializedDatabase();
         this.auth = new AuthenticationModel(db);
         this.profile = new ProfileModel(db);
+        this.shop = new ShopModel(db);
+        this.social = new SocialModel(db);
+        this.ticketing = new TicketingModel(db);
 
         this.renderer = new ViewRenderer();
 
         this.authController = new AuthenticationController(renderer, auth);
-        this.profileController = new ProfileController(renderer, profile);
+        this.profileController = new ProfileController(renderer, profile, social);
+        this.shopController = new ShopController(renderer, shop, profile, social);
+        this.ticketController = new TicketController(renderer, ticketing);
 
         this.renderer.addNextView(new MainMenu(authController), true);
-//        this.renderer.renderViews();
-
-//        this.buyerList = new HashMap<>();
-//        this.sellerList = new HashMap<>();
-//        updateCatalog();
     }
 
     public static UniShop getInstance() {
@@ -65,6 +66,14 @@ public class UniShop {
 
     public ProfileController getProfileController() {
         return profileController;
+    }
+
+    public ShopController getShopController() {
+        return shopController;
+    }
+
+    public TicketController getTicketController() {
+        return ticketController;
     }
 
 //    public void updateCatalog() {

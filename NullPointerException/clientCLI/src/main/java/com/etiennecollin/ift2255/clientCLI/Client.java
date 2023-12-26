@@ -6,20 +6,6 @@ package com.etiennecollin.ift2255.clientCLI;
 
 //import com.etiennecollin.ift2255.clientCLI.classes.*;
 
-import com.etiennecollin.ift2255.clientCLI.classes.UniShop;
-
-import java.io.File;
-import java.net.URISyntaxException;
-import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-
-import static com.etiennecollin.ift2255.clientCLI.Utils.*;
-
 /**
  * The `Client` class serves as the main entry point for the client command-line interface (CLI).
  */

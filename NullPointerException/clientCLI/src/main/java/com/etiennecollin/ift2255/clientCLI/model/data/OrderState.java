@@ -2,22 +2,22 @@
  * Copyright (c) 2023. Etienne Collin #20237904, Nicholas Cooper #20241729, Aboubakre Walid Diongue #20198446, Charlotte Locas #20211755
  */
 
-package com.etiennecollin.ift2255.clientCLI.classes;
+package com.etiennecollin.ift2255.clientCLI.model.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public enum TicketCause implements Serializable {
-    MalfunctioningProduct("Malfunctioning product"), Other("Other");
+public enum OrderState implements Serializable {
+    InProduction("In Production"), InTransit("In Transit"), Delivered("Delivered"), Cancelled("Cancelled");
     private final String name;
 
-    TicketCause(String name) {
+    OrderState(String name) {
         this.name = name;
     }
 
     public static ArrayList<String> getOptions() {
         ArrayList<String> options = new ArrayList<>();
-        for (TicketCause option : TicketCause.values()) {
+        for (com.etiennecollin.ift2255.clientCLI.classes.OrderState option : com.etiennecollin.ift2255.clientCLI.classes.OrderState.values()) {
             options.add(option.toString());
         }
         return options;
@@ -28,3 +28,4 @@ public enum TicketCause implements Serializable {
         return this.name;
     }
 }
+

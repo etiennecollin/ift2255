@@ -6,9 +6,11 @@ package com.etiennecollin.ift2255.clientCLI.controllers;
 
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
 import com.etiennecollin.ift2255.clientCLI.Utils;
-import com.etiennecollin.ift2255.clientCLI.classes.UniShop;
+import com.etiennecollin.ift2255.clientCLI.UniShop;
 import com.etiennecollin.ift2255.clientCLI.model.AuthenticationModel;
 import com.etiennecollin.ift2255.clientCLI.views.*;
+
+import java.util.UUID;
 
 public class AuthenticationController {
     private ViewRenderer renderer;
@@ -26,7 +28,11 @@ public class AuthenticationController {
     public OperationResult loginBuyer(String username, String password) {
         OperationResult result = authModel.authenticateBuyer(username, password);
         if (result.isValid()) {
-            renderer.addNextView(new BuyerMenu(UniShop.getInstance().getProfileController()), true);
+            renderer.addNextView(new BuyerMenu(
+                    UniShop.getInstance().getProfileController(),
+                    UniShop.getInstance().getShopController(),
+                    UniShop.getInstance().getTicketController()
+            ), true);
         }
 
         return result;
@@ -39,6 +45,10 @@ public class AuthenticationController {
         }
 
         return result;
+    }
+
+    public boolean isCorrectPassword(UUID userId, String password) {
+        return authModel.isCorrectPassword(userId, password);
     }
 
     public void handleAccountCreationOptions() {
@@ -57,7 +67,11 @@ public class AuthenticationController {
         OperationResult result = authModel.registerNewBuyer(username, password, firstName, lastName, email, phoneNumber, address);
         if (result.isValid()) {
             renderer.clearViewHistory();
-            renderer.addNextView(new BuyerMenu(UniShop.getInstance().getProfileController()), true);
+            renderer.addNextView(new BuyerMenu(
+                    UniShop.getInstance().getProfileController(),
+                    UniShop.getInstance().getShopController(),
+                    UniShop.getInstance().getTicketController()
+            ), true);
         }
 
         return result;
@@ -67,7 +81,11 @@ public class AuthenticationController {
         OperationResult result = authModel.registerNewSeller(name, password, email, phoneNumber, address);
         if (result.isValid()) {
             renderer.clearViewHistory();
-            renderer.addNextView(new SellerMenu(UniShop.getInstance().getProfileController()), true);
+            renderer.addNextView(new SellerMenu(
+                    UniShop.getInstance().getProfileController(),
+                    UniShop.getInstance().getShopController(),
+                    UniShop.getInstance().getTicketController()
+            ), true);
         }
 
         return result;

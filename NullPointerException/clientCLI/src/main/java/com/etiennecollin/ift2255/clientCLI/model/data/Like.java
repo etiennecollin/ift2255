@@ -10,11 +10,13 @@ public class Like extends DatabaseObject {
     // Liked Entity could be a buyer, seller, or product.
     private final UUID likedEntityId;
     private final UUID userId;
+    private final LikeType likeType;
 
-    public Like(UUID likedEntityId, UUID userId) {
+    public Like(UUID likedEntityId, UUID userId, LikeType likeType) {
         super();
         this.likedEntityId = likedEntityId;
         this.userId = userId;
+        this.likeType = likeType;
     }
 
     public UUID getLikedEntityId() {
@@ -23,5 +25,9 @@ public class Like extends DatabaseObject {
 
     public UUID getUserId() {
         return userId;
+    }
+
+    public LikeType getLikeType() {
+        return likeType;
     }
 }

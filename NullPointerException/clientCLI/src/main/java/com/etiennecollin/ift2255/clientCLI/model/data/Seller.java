@@ -6,12 +6,10 @@ package com.etiennecollin.ift2255.clientCLI.model.data;
 
 public class Seller extends User {
     private String name; // Unique
-    private String extraParam;
 
-    public Seller(String name, int passwordHash, String email, String phoneNumber, String address, String ex) {
+    public Seller(String name, int passwordHash, String email, String phoneNumber, String address) {
         super(email, passwordHash, phoneNumber, address);
         setName(name);
-        setExtraParam(ex);
     }
 
     public String getName() {
@@ -20,13 +18,5 @@ public class Seller extends User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getExtraParam() {
-        return extraParam;
-    }
-
-    public void setExtraParam(String extraParam) {
-        this.extraParam = extraParam;
     }
 }
