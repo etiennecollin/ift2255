@@ -4,7 +4,7 @@
 
 package com.etiennecollin.ift2255.clientCLI;
 
-import com.etiennecollin.ift2255.clientCLI.classes.UniShop;
+//import com.etiennecollin.ift2255.clientCLI.classes.*;
 
 /**
  * The `Client` class serves as the main entry point for the client command-line interface (CLI).

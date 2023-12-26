@@ -8,12 +8,12 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public class LearningResource extends Product {
-    private int isbn;
+    private String isbn;
     private String organisation;
     private LocalDate releaseDate;
     private int editionNumber;
 
-    public LearningResource(int price, int quantity, String title, String description, UUID sellerId, int fidelityPoints, int isbn, String organisation, LocalDate releaseDate, LearningResourceType type, int editionNumber) throws IllegalArgumentException {
+    public LearningResource(int price, int quantity, String title, String description, UUID sellerId, int fidelityPoints, String isbn, String organisation, LocalDate releaseDate, LearningResourceType type, int editionNumber) throws IllegalArgumentException {
         super(price, quantity, title, description, ProductCategory.LearningResource, type, sellerId, fidelityPoints);
         this.isbn = isbn;
         this.organisation = organisation;
@@ -21,11 +21,11 @@ public class LearningResource extends Product {
         this.editionNumber = editionNumber;
     }
 
-    public int getIsbn() {
+    public String getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(int isbn) {
+    public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 

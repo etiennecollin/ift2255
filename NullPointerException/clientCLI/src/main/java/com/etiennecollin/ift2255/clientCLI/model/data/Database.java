@@ -5,18 +5,27 @@
 package com.etiennecollin.ift2255.clientCLI.model.data;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public interface Database {
 
-    <T> List<T> get(DataMap dataMap, Predicate<T> filter);
+    <T extends DatabaseObject> T get(DataMap dataMap, UUID id);
 
-    <T> boolean add(DataMap dataMap, T object);
+    <T extends DatabaseObject> List<T> get(DataMap dataMap, Predicate<T> filter);
 
-    <T> boolean add(DataMap dataMap, List<T> objects);
+    <T extends DatabaseObject> boolean add(DataMap dataMap, T object);
 
-    <T> boolean update(DataMap dataMap, Consumer<T> update, Predicate<T> filter);
+    <T extends DatabaseObject> boolean add(DataMap dataMap, List<T> objects);
 
-    <T> boolean remove(DataMap dataMap, Predicate<T> filter);
+    <T extends DatabaseObject> boolean update(DataMap dataMap, Consumer<T> update, UUID id);
+
+    <T extends DatabaseObject> boolean update(DataMap dataMap, Consumer<T> update, Predicate<T> filter);
+
+    <T extends DatabaseObject> boolean remove(DataMap dataMap, UUID id);
+
+    <T extends DatabaseObject> boolean remove(DataMap dataMap, Predicate<T> filter);
+
+
 }

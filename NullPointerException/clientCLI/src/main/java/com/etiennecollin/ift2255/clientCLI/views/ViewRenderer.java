@@ -4,10 +4,12 @@
 
 package com.etiennecollin.ift2255.clientCLI.views;
 
+import com.etiennecollin.ift2255.clientCLI.Tuple;
+
 import java.util.ArrayList;
 
 public class ViewRenderer {
-    private ArrayList<View> viewHistory;
+    private final ArrayList<Tuple<View, Boolean>> viewHistory;
     private View nextView;
 
     public ViewRenderer() {
@@ -16,9 +18,7 @@ public class ViewRenderer {
 
     public void addNextView(View view, boolean addToHistory) {
         this.nextView = view;
-        if (addToHistory) {
-            viewHistory.add(view);
-        }
+        viewHistory.add(new Tuple<>(view, addToHistory));
     }
 
     public void clearViewHistory() {
@@ -34,9 +34,11 @@ public class ViewRenderer {
             }
             else {
                 int lastIndex = viewHistory.size() - 1;
-                viewHistory.get(lastIndex).render();
+                viewHistory.get(lastIndex).first.render();
                 if (nextView == null) {
-                    viewHistory.remove(lastIndex);
+                    while (!viewHistory.get(viewHistory.size() - 1).second) {
+                        viewHistory.remove(viewHistory.size() - 1);
+                    }
                 }
             }
         }

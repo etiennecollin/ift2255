@@ -10,6 +10,7 @@ import java.io.*;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -25,7 +26,21 @@ public class JavaSerializedDatabase implements Database {
         }
     }
 
-    public <T> List<T> get(DataMap dataMap, Predicate<T> filter) {
+    public <T extends DatabaseObject> T get(DataMap dataMap, UUID id) {
+        String path = dataMap.getFilename();
+
+        List<T> data = load(path);
+        if (data != null) {
+            List<T> matches = data.stream().filter((entry) -> entry.getId() == id).toList();
+            if (matches.size() > 0) {
+                return matches.get(0);
+            }
+        }
+
+        return null;
+    }
+
+    public <T extends DatabaseObject> List<T> get(DataMap dataMap, Predicate<T> filter) {
         String path = dataMap.getFilename();
 
         List<T> data = load(path);
@@ -36,7 +51,7 @@ public class JavaSerializedDatabase implements Database {
         return new ArrayList<>();
     }
 
-    public <T> boolean add(DataMap dataMap, T object) {
+    public <T extends DatabaseObject> boolean add(DataMap dataMap, T object) {
         String path = dataMap.getFilename();
 
         List<T> data = load(path);
@@ -55,7 +70,7 @@ public class JavaSerializedDatabase implements Database {
         }
     }
 
-    public <T> boolean add(DataMap dataMap, List<T> objects) {
+    public <T extends DatabaseObject> boolean add(DataMap dataMap, List<T> objects) {
         String path = dataMap.getFilename();
 
         List<T> data = load(path);
@@ -74,7 +89,23 @@ public class JavaSerializedDatabase implements Database {
         }
     }
 
-    public <T> boolean update(DataMap dataMap, Consumer<T> update, Predicate<T> filter) {
+    public <T extends DatabaseObject> boolean update(DataMap dataMap, Consumer<T> update, UUID id) {
+        String path = dataMap.getFilename();
+
+        List<T> data = load(path);
+        if (data != null) {
+            List<T> filteredData = data.stream().filter((entry) -> entry.getId() == id).toList();
+            if (filteredData.size() > 0) {
+                update.accept(filteredData.get(0));
+            }
+            save(data, path);
+            return true;
+        }
+
+        return false;
+    }
+
+    public <T extends DatabaseObject> boolean update(DataMap dataMap, Consumer<T> update, Predicate<T> filter) {
         String path = dataMap.getFilename();
 
         List<T> data = load(path);
@@ -88,7 +119,20 @@ public class JavaSerializedDatabase implements Database {
         return false;
     }
 
-    public <T> boolean remove(DataMap dataMap, Predicate<T> filter) {
+    public <T extends DatabaseObject> boolean remove(DataMap dataMap, UUID id) {
+        String path = dataMap.getFilename();
+
+        List<T> data = load(path);
+        if (data != null) {
+            List<T> filteredData = data.stream().filter((v) -> v.getId() != id).toList();
+            save(filteredData, path);
+            return true;
+        }
+
+        return false;
+    }
+
+    public <T extends DatabaseObject> boolean remove(DataMap dataMap, Predicate<T> filter) {
         String path = dataMap.getFilename();
 
         List<T> data = load(path);

@@ -5,12 +5,10 @@
 package com.etiennecollin.ift2255.clientCLI.model;
 
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
-import com.etiennecollin.ift2255.clientCLI.model.data.Buyer;
-import com.etiennecollin.ift2255.clientCLI.model.data.DataMap;
-import com.etiennecollin.ift2255.clientCLI.model.data.Database;
-import com.etiennecollin.ift2255.clientCLI.model.data.Seller;
+import com.etiennecollin.ift2255.clientCLI.model.data.*;
 
 import java.util.List;
+import java.util.UUID;
 
 public class AuthenticationModel {
     private final Database db;
@@ -26,7 +24,7 @@ public class AuthenticationModel {
 
         if (matchedBuyers.size() >= 1) {
             Buyer buyer = matchedBuyers.get(0);
-            Session.createSession(buyer.getId());
+            Session.createSession(buyer.getId(), UserType.Buyer);
 
             return new OperationResult(true, "");
         }
@@ -42,7 +40,7 @@ public class AuthenticationModel {
 
         if (matchedSellers.size() >= 1) {
             Seller seller = matchedSellers.get(0);
-            Session.createSession(seller.getId());
+            Session.createSession(seller.getId(), UserType.Seller);
 
             return new OperationResult(true, "");
         }
@@ -62,7 +60,7 @@ public class AuthenticationModel {
     public OperationResult registerNewSeller(String name, String password, String email, String phoneNumber, String address) {
         // validate parameters ?
 
-        db.add(DataMap.SELLERS, new Seller(name, password.hashCode(), email, phoneNumber, address, ""));
+        db.add(DataMap.SELLERS, new Seller(name, password.hashCode(), email, phoneNumber, address));
 
         return new OperationResult(true, "");
     }
@@ -73,5 +71,19 @@ public class AuthenticationModel {
 
     public boolean isSellerNameAvailable(String name) {
         return db.<Seller>get(DataMap.SELLERS, (seller) -> seller.getName().equalsIgnoreCase(name)).size() == 0;
+    }
+
+    public boolean isCorrectPassword(UUID userId, String password) {
+        User user = db.get(DataMap.BUYERS, userId);
+        if (user != null) {
+            return user.getPasswordHash() == password.hashCode();
+        }
+
+        user = db.get(DataMap.SELLERS, userId);
+        if (user != null) {
+            return user.getPasswordHash() == password.hashCode();
+        }
+
+        return false;
     }
 }

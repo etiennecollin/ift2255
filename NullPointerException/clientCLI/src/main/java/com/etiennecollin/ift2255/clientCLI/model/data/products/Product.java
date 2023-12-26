@@ -70,7 +70,15 @@ public abstract class Product extends DatabaseObject {
         return subCategory;
     }
 
-//    public void toggleFollowedBy(Buyer buyer) {
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    //    public void toggleFollowedBy(Buyer buyer) {
 //        if (followedBy.contains(buyer)) {
 //            followedBy.remove(buyer);
 //        } else {
@@ -101,8 +109,7 @@ public abstract class Product extends DatabaseObject {
     public void setPromoEndDate(LocalDate promoEndDate) {
         this.promoEndDate = promoEndDate;
     }
-
-    //    public void setDiscount(int discount) throws IllegalArgumentException {
+    //      public void setDiscount(int discount) throws IllegalArgumentException {
 //        if (discount < 0 || discount > 100) {
 //            throw new IllegalArgumentException("The discount should be a percentage between 0% and 100%");
 //        }

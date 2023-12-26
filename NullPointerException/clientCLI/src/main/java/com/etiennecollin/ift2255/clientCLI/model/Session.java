@@ -4,6 +4,8 @@
 
 package com.etiennecollin.ift2255.clientCLI.model;
 
+import com.etiennecollin.ift2255.clientCLI.model.data.UserType;
+
 import java.util.UUID;
 
 /**
@@ -12,17 +14,19 @@ import java.util.UUID;
 public class Session {
     private static Session _instance;
     private final UUID userId;
+    private final UserType userType;
 
-    private Session(UUID userId) {
+    private Session(UUID userId, UserType userType) {
         this.userId = userId;
+        this.userType = userType;
     }
 
     public static Session getInstance() {
         return _instance;
     }
 
-    public static Session createSession(UUID userId) {
-        _instance = new Session(userId);
+    public static Session createSession(UUID userId, UserType userType) {
+        _instance = new Session(userId, userType);
         return _instance;
     }
 
@@ -32,5 +36,9 @@ public class Session {
 
     public UUID getUserId() {
         return this.userId;
+    }
+
+    public UserType getUserType() {
+        return this.userType;
     }
 }

@@ -4,8 +4,6 @@
 
 package com.etiennecollin.ift2255.clientCLI;
 
-import com.etiennecollin.ift2255.clientCLI.classes.UniShop;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -68,9 +66,9 @@ public class Utils {
      *
      * @return A valid integer entered by the user.
      */
-    /*protected static int prettyPromptInt(String prompt) {
+    public static int prettyPromptInt(String prompt) {
         return prettyPromptInt(prompt, i -> new OperationResult(true, ""));
-    }*/
+    }
 
     /**
      * Displays a formatted prompt to the console and retrieves an integer input from the user.
@@ -81,7 +79,7 @@ public class Utils {
      *
      * @return A valid integer entered by the user.
      */
-    /*protected static int prettyPromptInt(String prompt, Function<Integer, OperationResult> validator) {
+    public static int prettyPromptInt(String prompt, Function<Integer, OperationResult> validator) {
         while (true) {
             System.out.println("------------");
             System.out.print(prettify(prompt) + ": ");
@@ -97,7 +95,7 @@ public class Utils {
                 System.out.println(prettify("Please enter a whole number with no thousands symbol."));
             }
         }
-    }*/
+    }
 
     /**
      * Displays a prompt to the user and expects a yes/no response.
@@ -134,7 +132,7 @@ public class Utils {
      *
      * @throws NumberFormatException If the input provided is not a valid number.
      */
-    /*protected static int prettyPromptCurrency(String prompt) {
+    public static int prettyPromptCurrency(String prompt) {
         while (true) {
             System.out.println("------------");
             System.out.print(prettify(prompt) + ": ");
@@ -153,7 +151,7 @@ public class Utils {
                 System.out.println("Please enter a positive dollar (and cents) value with no thousands symbol. E.g. 42.99");
             }
         }
-    }*/
+    }
 
     /**
      * Displays a formatted prompt to the console and retrieves a date input from the user.
@@ -163,7 +161,7 @@ public class Utils {
      *
      * @return A valid LocalDate entered by the user.
      */
-    /*protected static LocalDate prettyPromptDate(String prompt) {
+    public static LocalDate prettyPromptDate(String prompt) {
         while (true) {
             System.out.println("------------");
             System.out.print(prettify(prompt) + " (yyyy-mm-dd): ");
@@ -173,7 +171,7 @@ public class Utils {
                 System.out.println("Please enter a date in yyyy-mm-dd format. E.g. 2023-01-01");
             }
         }
-    }*/
+    }
 
     /**
      * Displays a menu with choices to the user and expects a numeric selection.
@@ -197,7 +195,7 @@ public class Utils {
      *
      * @return The index of the selected choice (0-based index).
      */
-    protected static int prettyMenu(String prompt, ArrayList<String> choices) {
+    public static int prettyMenu(String prompt, ArrayList<String> choices) {
         // Instantiate the variables used to store the answer and its parsed version
         String answer;
         int answerParsed;
@@ -285,7 +283,7 @@ public class Utils {
      *
      * @return The Enum associated with the selected choice.
      */
-    /*protected static <T extends Enum<T>> T prettyMenu(String prompt, Class<T> enumClass) {
+    public static <T extends Enum<T>> T prettyMenu(String prompt, Class<T> enumClass) {
         var enumConstants = enumClass.getEnumConstants();
         ArrayList<String> enumNames = new ArrayList<>();
         for (var c : enumConstants) {
@@ -293,7 +291,7 @@ public class Utils {
         }
 
         return enumConstants[prettyMenu(prompt, enumNames)];
-    }*/
+    }
 
     /**
      * Displays a menu with choices to the user and expects a numeric selection.
@@ -424,6 +422,10 @@ public class Utils {
             }
         }
     }*/
+
+    public static String formatMoney(int cents) {
+        return cents / 100 + "." + cents % 100 + "$";
+    }
 
     public static void quit() {
         scanner.close();
