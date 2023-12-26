@@ -10,13 +10,19 @@ import com.etiennecollin.ift2255.clientCLI.model.data.JavaSerializedDatabase;
 import com.etiennecollin.ift2255.clientCLI.views.ViewRenderer;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * The AuthenticationControllerTest class contains unit tests for the AuthenticationController class.
+ * It ensures the proper functionality of the authentication processes for buyers and sellers.
+ */
 class AuthenticationControllerTest {
-
+    /**
+     * Tests the login functionality for buyers.
+     */
     @Test
     void testLoginBuyer() {
-        // MOCK DATAS FOR UNIT TESTS
+        // MOCK DATA FOR UNIT TESTS
         AuthenticationModel am = new AuthenticationModel(new JavaSerializedDatabase());
         am.registerNewBuyer("username", "abc123", "test", "test", "test@test.com", "8888888888", "test");
 
@@ -30,12 +36,14 @@ class AuthenticationControllerTest {
         assertEquals(new OperationResult(false, "Username or password is incorrect."), ac.loginBuyer("user", "abc123"), "BUYER: failed to refuse part of the username");
         assertEquals(new OperationResult(false, "Username or password is incorrect."), ac.loginBuyer("username", ""), "BUYER: failed to refuse an empty password");
         assertEquals(new OperationResult(false, "Username or password is incorrect."), ac.loginBuyer("username", "abc"), "BUYER: failed to refuse part of the password");
-
     }
 
+    /**
+     * Tests the login functionality for sellers.
+     */
     @Test
     void testLoginSeller() {
-        //MOCK DATAS FOR UNIT TESTS
+        // MOCK DATA FOR UNIT TESTS
         AuthenticationModel am = new AuthenticationModel(new JavaSerializedDatabase());
         am.registerNewSeller("Jane Doe", "abc123", "test@test.com", "8888888888", "test");
         am.registerNewSeller("Jane Bell", "abc12", "test@test.com", "8888888888", "test");
@@ -50,6 +58,5 @@ class AuthenticationControllerTest {
         assertEquals(new OperationResult(false, "Username or password is incorrect."), ac.loginSeller("Jane", "abc123"), "SELLER: failed to refuse part of the username");
         assertEquals(new OperationResult(false, "Username or password is incorrect."), ac.loginSeller("Jane Doe", ""), "SELLER: failed to refuse an empty password");
         assertEquals(new OperationResult(false, "Username or password is incorrect."), ac.loginSeller("Jane Doe", "abc"), "SELLER: failed to refuse part of the password");
-
     }
 }

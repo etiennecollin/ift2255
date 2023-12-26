@@ -14,7 +14,14 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * The OrderTest class contains unit tests for the Order class, focusing on the setInTransit, setInProduction, and setDelivered methods.
+ * It ensures the proper functionality of order state transitions and associated notifications.
+ */
 public class OrderTest {
+    /**
+     * Tests the setInTransit method in the Order class.
+     */
     @Test
     public void testSetInTransit() {
         // Create a mock Order for testing
@@ -31,13 +38,12 @@ public class OrderTest {
         order.setShipment(new Shipment(firstTrackingNumber, firstExpectedDeliveryDate, firstShippingCompany));
 
         // Assertions for the first call
-        order.getBuyerId();
         assertEquals(OrderState.InTransit, order.getState()); // Check if the order state is set to InTransit
         assertNotNull(order.getShipment()); // Check if the shipment object is created
         assertEquals(firstShippingCompany, order.getShipment().getShippingCompany()); // Check if shipping company is set correctly
         assertEquals(firstTrackingNumber, order.getShipment().getTrackingNumber()); // Check if tracking number is set correctly
         assertEquals(firstExpectedDeliveryDate, order.getShipment().getExpectedDeliveryDate()); // Check if expected delivery date is set correctly
-        // FIXME: Use new MVC model to test notifications
+        // TODO: Use new MVC model to test notifications
         // assertEquals(1, buyer.getNotifications().size()); // Check if a notification is added to the buyer
 
         // Set the order in transit for the second time
@@ -54,10 +60,13 @@ public class OrderTest {
         assertEquals(secondShippingCompany, order.getShipment().getShippingCompany()); // Check if shipping company is updated correctly in the second call
         assertEquals(secondTrackingNumber, order.getShipment().getTrackingNumber()); // Check if tracking number is updated correctly in the second call
         assertEquals(secondExpectedDeliveryDate, order.getShipment().getExpectedDeliveryDate()); // Check if expected delivery date is updated correctly in the second call
-        // FIXME: Use new MVC model to test notifications
+        // TODO: Use new MVC model to test notifications
         // assertEquals(2, order.getBuyer().getNotifications().size()); // Check if a new notification is added to the buyer in the second call
     }
 
+    /**
+     * Tests the setInProduction method in the Order class.
+     */
     @Test
     public void testSetInProduction() {
         // Create a mock Order for testing
@@ -73,11 +82,14 @@ public class OrderTest {
         assertEquals(OrderState.InProduction, order.getState()); // Check if the order state is set to InProduction
 
         // Assertions for the notificatiouns
-        // FIXME: Use new MVC model to test notifications
+        // TODO: Use new MVC model to test notifications
         // assertEquals(1, order.getBuyer().getNotifications().size()); // Check if a notification is added to the buyer
         // assertEquals("Your order is now in production", order.getBuyer().getNotifications().get(0).getTitle());
     }
 
+    /**
+     * Tests the setDelivered method in the Order class.
+     */
     @Test
     public void testSetDelivered() {
         // Create a mock Order for testing
@@ -93,7 +105,7 @@ public class OrderTest {
         assertEquals(OrderState.Delivered, order.getState()); // Check if the order state is set to Delivered
 
         // Notification Assertion
-        // FIXME: Use new MVC model to test notifications
+        // TODO: Use new MVC model to test notifications
         // assertEquals(1, order.getBuyer().getNotifications().size());
         // assertEquals("Your order is now delivered", order.getBuyer().getNotifications().get(0).getTitle());
     }
