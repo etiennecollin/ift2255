@@ -5,7 +5,6 @@
 package com.etiennecollin.ift2255.clientCLI.model;
 
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
-import com.etiennecollin.ift2255.clientCLI.model.data.PayementMethod;
 import com.etiennecollin.ift2255.clientCLI.Tuple;
 import com.etiennecollin.ift2255.clientCLI.model.data.*;
 import com.etiennecollin.ift2255.clientCLI.model.data.products.*;
@@ -36,11 +35,7 @@ public class ShopModel {
     }
 
     public List<Product> getProducts(ProductCategory category, Enum<?> subCategory, UUID sellerId) {
-        return db.get(DataMap.PRODUCTS, (product) ->
-                (category == null || product.getCategory() == category) &&
-                (subCategory == null || product.getSubCategory() == subCategory) &&
-                (sellerId == null || product.getSellerId() == sellerId)
-        );
+        return db.get(DataMap.PRODUCTS, (product) -> (category == null || product.getCategory() == category) && (subCategory == null || product.getSubCategory() == subCategory) && (sellerId == null || product.getSellerId() == sellerId));
     }
 
     public List<Product> searchProducts(Predicate<Product> predicate) {
@@ -53,8 +48,7 @@ public class ShopModel {
 
         if (result) {
             return new OperationResult(true, "Product added.");
-        }
-        else {
+        } else {
             return new OperationResult(false, "An error occurred when saving the product.");
         }
     }
@@ -65,8 +59,7 @@ public class ShopModel {
 
         if (result) {
             return new OperationResult(true, "Product added.");
-        }
-        else {
+        } else {
             return new OperationResult(false, "An error occurred when saving the product.");
         }
     }
@@ -77,8 +70,7 @@ public class ShopModel {
 
         if (result) {
             return new OperationResult(true, "Product added.");
-        }
-        else {
+        } else {
             return new OperationResult(false, "An error occurred when saving the product.");
         }
     }
@@ -89,8 +81,7 @@ public class ShopModel {
 
         if (result) {
             return new OperationResult(true, "Product added.");
-        }
-        else {
+        } else {
             return new OperationResult(false, "An error occurred when saving the product.");
         }
     }
@@ -101,15 +92,9 @@ public class ShopModel {
 
         if (result) {
             return new OperationResult(true, "Product added.");
-        }
-        else {
+        } else {
             return new OperationResult(false, "An error occurred when saving the product.");
         }
-    }
-
-    public List<Tuple<CartProduct, Product>> getCart(UUID buyerId) {
-        List<CartProduct> cartProductList = db.get(DataMap.CARTS, (cartProduct -> cartProduct.getBuyerId() == buyerId));
-        return cartProductList.stream().map((cartProd) -> new Tuple<CartProduct, Product>(cartProd, db.get(DataMap.PRODUCTS, cartProd.getProductId()))).toList();
     }
 
     public OperationResult addToCart(UUID buyerId, UUID productId, int quantity) {
@@ -130,8 +115,7 @@ public class ShopModel {
             }
 
             result = db.<CartProduct>update(DataMap.CARTS, (cartProd) -> cartProd.setQuantity(newQuantity), productId);
-        }
-        else {
+        } else {
             if (!validateQuantity(product, quantity).isValid()) {
                 return new OperationResult(false, "Insufficient inventory.");
             }
@@ -141,11 +125,25 @@ public class ShopModel {
 
         if (result) {
             return new OperationResult(true, "Product successfully added to cart.");
-        }
-        else {
+        } else {
             return new OperationResult(false, "Product could not be added to cart.");
         }
+    }
 
+    private OperationResult validateQuantity(Product product, int quantity) {
+        if (quantity <= 0) {
+            return new OperationResult(false, "Quantity must be greater than 0.");
+        }
+
+        if (product != null) {
+            if (quantity <= product.getQuantity()) {
+                return new OperationResult(true, "");
+            } else {
+                return new OperationResult(false, "Only " + product.getQuantity() + " of this item are left in stock.");
+            }
+        }
+
+        return new OperationResult(false, "");
     }
 
     public OperationResult removeFromCart(UUID cartProductId, int quantity) {
@@ -160,36 +158,25 @@ public class ShopModel {
             boolean result = db.<CartProduct>update(DataMap.CARTS, (cartProd) -> cartProd.setQuantity(newQuantity), cartProductId);
             if (result) {
                 return new OperationResult(true, "Item quantity updated.");
-            }
-            else {
+            } else {
                 return new OperationResult(false, "Failed to update item quantity.");
             }
-        }
-        else {
+        } else {
             boolean result = db.remove(DataMap.CARTS, cartProductId);
             if (result) {
                 return new OperationResult(true, "Item removed from cart.");
-            }
-            else {
+            } else {
                 return new OperationResult(false, "Failed to remove item.");
             }
         }
     }
 
-    public OperationResult emptyCart(UUID buyerId) {
-        boolean result = db.<CartProduct>remove(DataMap.CARTS, (cartProduct) -> cartProduct.getBuyerId() == buyerId);
-        if (result) {
-            return new OperationResult(true, "Cart emptied.");
-        }
-        else {
-            return new OperationResult(false, "The cart could not be emptied.");
-        }
-    }
-
     /**
      * Calculates the remaining cost left to pay and the unused fidelity points.
-     * @param cost - The amount to pay.
+     *
+     * @param cost           - The amount to pay.
      * @param fidelityPoints - The amount of fidelity points available.
+     *
      * @return Tuple.first = remaining cost, Tuple.second = remaining fidelity points.
      */
     public Tuple<Integer, Integer> costAfterFidelityPoints(int cost, int fidelityPoints) {
@@ -208,7 +195,6 @@ public class ShopModel {
 
         return new Tuple<>(remainingCost, remainingFidelityPoints);
     }
-
 
     public OperationResult createOrders(UUID buyerId, String email, String phone, String shippingAddress, String billingAddress, String creditCardName, String creditCardNumber, YearMonth creditCardExpiration, String creditCardCVC, int fidelityPointsUsed) {
         int paidWithFidelityPoints = fidelityPointsUsed * 2; // This is in cents
@@ -280,15 +266,27 @@ public class ShopModel {
         return new OperationResult(true, "Your order has been placed successfully");
     }
 
+    public List<Tuple<CartProduct, Product>> getCart(UUID buyerId) {
+        List<CartProduct> cartProductList = db.get(DataMap.CARTS, (cartProduct -> cartProduct.getBuyerId() == buyerId));
+        return cartProductList.stream().map((cartProd) -> new Tuple<CartProduct, Product>(cartProd, db.get(DataMap.PRODUCTS, cartProd.getProductId()))).toList();
+    }
+
+    public OperationResult emptyCart(UUID buyerId) {
+        boolean result = db.<CartProduct>remove(DataMap.CARTS, (cartProduct) -> cartProduct.getBuyerId() == buyerId);
+        if (result) {
+            return new OperationResult(true, "Cart emptied.");
+        } else {
+            return new OperationResult(false, "The cart could not be emptied.");
+        }
+    }
+
     public List<Order> getOrders(UUID buyerId, UUID sellerId) {
         return db.get(DataMap.ORDERS, (order) -> {
             if (order.getBuyerId() == buyerId && sellerId == null) {
                 return true;
-            }
-            else if (order.getSellerId() == sellerId && buyerId == null) {
+            } else if (order.getSellerId() == sellerId && buyerId == null) {
                 return true;
-            }
-            else {
+            } else {
                 return order.getBuyerId() == buyerId && order.getSellerId() == sellerId;
             }
         });
@@ -305,13 +303,12 @@ public class ShopModel {
         }
 
         if (order.getState() == OrderState.InProduction && order.getShipment() == null) {
-            db.<Order>update(DataMap.ORDERS,(o) -> {
+            db.<Order>update(DataMap.ORDERS, (o) -> {
                 o.setShipment(new Shipment(trackingNumber, expectedDeliveryDate, shippingCompany));
                 o.setState(OrderState.InTransit);
             }, orderId);
             return new OperationResult(true, "Order status updated");
-        }
-        else {
+        } else {
             return new OperationResult(false, "Order shipment information cannot be changed.");
         }
     }
@@ -325,8 +322,7 @@ public class ShopModel {
         if (order.getState() == OrderState.InTransit) {
             db.<Order>update(DataMap.ORDERS, o -> o.setState(OrderState.Delivered), orderId);
             return new OperationResult(true, "Order successfully marked as delivered");
-        }
-        else {
+        } else {
             return new OperationResult(false, "Order cannot be marked as delivered.");
         }
     }
@@ -340,8 +336,7 @@ public class ShopModel {
         if (order.getState() == OrderState.InProduction) {
             db.<Order>update(DataMap.ORDERS, o -> o.setState(OrderState.Cancelled), orderId);
             return new OperationResult(true, "Order cancelled.");
-        }
-        else {
+        } else {
             return new OperationResult(false, "Order cannot be marked as cancelled.");
         }
     }
@@ -349,22 +344,5 @@ public class ShopModel {
     public OperationResult validateQuantity(UUID productId, int quantity) {
         Product product = db.get(DataMap.PRODUCTS, productId);
         return validateQuantity(product, quantity);
-    }
-
-    private OperationResult validateQuantity(Product product, int quantity) {
-        if (quantity <= 0) {
-            return new OperationResult(false, "Quantity must be greater than 0.");
-        }
-
-        if (product != null) {
-            if (quantity <= product.getQuantity()) {
-                return new OperationResult(true, "");
-            }
-            else {
-                return new OperationResult(false, "Only " + product.getQuantity() + " of this item are left in stock.");
-            }
-        }
-
-        return new OperationResult(false, "");
     }
 }

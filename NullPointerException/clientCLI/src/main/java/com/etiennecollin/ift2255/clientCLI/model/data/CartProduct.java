@@ -7,8 +7,8 @@ package com.etiennecollin.ift2255.clientCLI.model.data;
 import java.util.UUID;
 
 public class CartProduct extends DatabaseObject {
-    private UUID buyerId;
-    private UUID productId;
+    private final UUID buyerId;
+    private final UUID productId;
     private int quantity;
 
     public CartProduct(UUID buyerId, UUID productId, int quantity) {

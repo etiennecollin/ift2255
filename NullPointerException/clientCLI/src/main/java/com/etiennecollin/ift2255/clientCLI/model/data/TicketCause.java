@@ -5,7 +5,6 @@
 package com.etiennecollin.ift2255.clientCLI.model.data;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public enum TicketCause implements Serializable {
     MalfunctioningProduct("Malfunctioning product"), Other("Other");
@@ -15,13 +14,13 @@ public enum TicketCause implements Serializable {
         this.name = name;
     }
 
-//    public static ArrayList<String> getOptions() {
-//        ArrayList<String> options = new ArrayList<>();
-//        for (TicketCause option : TicketCause.values()) {
-//            options.add(option.toString());
-//        }
-//        return options;
-//    }
+    //    public static ArrayList<String> getOptions() {
+    //        ArrayList<String> options = new ArrayList<>();
+    //        for (TicketCause option : TicketCause.values()) {
+    //            options.add(option.toString());
+    //        }
+    //        return options;
+    //    }
 
     @Override
     public String toString() {

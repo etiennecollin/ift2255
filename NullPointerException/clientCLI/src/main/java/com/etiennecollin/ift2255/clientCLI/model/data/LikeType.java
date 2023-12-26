@@ -7,5 +7,5 @@ package com.etiennecollin.ift2255.clientCLI.model.data;
 import java.io.Serializable;
 
 public enum LikeType implements Serializable {
-    Seller, Buyer, Product, Review;
+    Seller, Buyer, Product, Review
 }

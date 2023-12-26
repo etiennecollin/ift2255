@@ -5,7 +5,10 @@
 package com.etiennecollin.ift2255.clientCLI.model;
 
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
-import com.etiennecollin.ift2255.clientCLI.model.data.*;
+import com.etiennecollin.ift2255.clientCLI.model.data.Buyer;
+import com.etiennecollin.ift2255.clientCLI.model.data.DataMap;
+import com.etiennecollin.ift2255.clientCLI.model.data.Database;
+import com.etiennecollin.ift2255.clientCLI.model.data.Seller;
 
 import java.util.List;
 import java.util.UUID;
@@ -51,8 +54,7 @@ public class ProfileModel {
 
         if (result) {
             return new OperationResult(true, "Profile updated.");
-        }
-        else {
+        } else {
             return new OperationResult(false, "Profile could not be updated.");
         }
     }
@@ -91,8 +93,7 @@ public class ProfileModel {
 
         if (result) {
             return new OperationResult(true, "Profile updated.");
-        }
-        else {
+        } else {
             return new OperationResult(false, "Profile could not be updated.");
         }
     }

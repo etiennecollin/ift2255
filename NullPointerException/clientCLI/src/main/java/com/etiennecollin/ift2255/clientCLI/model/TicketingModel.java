@@ -16,14 +16,10 @@ import java.util.UUID;
 import java.util.function.Predicate;
 
 public class TicketingModel {
-    private Database db;
+    private final Database db;
 
     public TicketingModel(Database db) {
         this.db = db;
-    }
-
-    public Ticket getTicket(UUID ticketId) {
-        return db.get(DataMap.TICKETS, ticketId);
     }
 
     public List<Ticket> getTickets(Predicate<Ticket> predicate) {
@@ -43,10 +39,13 @@ public class TicketingModel {
         boolean result = db.<Ticket>update(DataMap.TICKETS, (t) -> t.setReturnShipment(new Shipment(trackingNumber, deliveryDate, shippingCompany)), ticketId);
         if (result) {
             return new OperationResult(true, "Return shipment information added.");
-        }
-        else {
+        } else {
             return new OperationResult(false, "Unable to update ticket.");
         }
+    }
+
+    public Ticket getTicket(UUID ticketId) {
+        return db.get(DataMap.TICKETS, ticketId);
     }
 
     public OperationResult createReplacementShipment(UUID ticketId, String trackingNumber, LocalDate deliveryDate, String shippingCompany) {
@@ -62,8 +61,7 @@ public class TicketingModel {
         boolean result = db.<Ticket>update(DataMap.TICKETS, (t) -> t.setReplacementShipment(new Shipment(trackingNumber, deliveryDate, shippingCompany)), ticketId);
         if (result) {
             return new OperationResult(true, "Replacement shipment information added.");
-        }
-        else {
+        } else {
             return new OperationResult(false, "Unable to update ticket.");
         }
     }

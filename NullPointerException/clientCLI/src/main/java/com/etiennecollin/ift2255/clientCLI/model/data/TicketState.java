@@ -5,7 +5,6 @@
 package com.etiennecollin.ift2255.clientCLI.model.data;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public enum TicketState implements Serializable {
     OpenManual("Open"), OpenAuto("Open"), ReturnInTransit("Return in transit"), ReturnReceived("Return received"), ReplacementInTransit("Replacement in transit"), Closed("Closed"), Cancelled("Cancelled");
@@ -15,13 +14,13 @@ public enum TicketState implements Serializable {
         this.name = name;
     }
 
-//    public static ArrayList<String> getOptions() {
-//        ArrayList<String> options = new ArrayList<>();
-//        for (TicketState option : TicketState.values()) {
-//            options.add(option.toString());
-//        }
-//        return options;
-//    }
+    //    public static ArrayList<String> getOptions() {
+    //        ArrayList<String> options = new ArrayList<>();
+    //        for (TicketState option : TicketState.values()) {
+    //            options.add(option.toString());
+    //        }
+    //        return options;
+    //    }
 
     @Override
     public String toString() {

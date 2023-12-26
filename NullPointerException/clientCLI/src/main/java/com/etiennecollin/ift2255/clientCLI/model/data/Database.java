@@ -10,7 +10,6 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public interface Database {
-
     <T extends DatabaseObject> T get(DataMap dataMap, UUID id);
 
     <T extends DatabaseObject> List<T> get(DataMap dataMap, Predicate<T> filter);
@@ -26,6 +25,4 @@ public interface Database {
     <T extends DatabaseObject> boolean remove(DataMap dataMap, UUID id);
 
     <T extends DatabaseObject> boolean remove(DataMap dataMap, Predicate<T> filter);
-
-
 }

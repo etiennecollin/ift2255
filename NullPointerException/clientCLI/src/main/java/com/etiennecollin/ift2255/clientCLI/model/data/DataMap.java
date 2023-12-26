@@ -5,16 +5,7 @@
 package com.etiennecollin.ift2255.clientCLI.model.data;
 
 public enum DataMap {
-    BUYERS ("buyers.txt"),
-    SELLERS ("sellers.txt"),
-    PRODUCTS ("products.txt"),
-    CARTS ("carts.txt"),
-    ORDERS ("orders.txt"),
-    REVIEWS ("reviews.txt"),
-    LIKES ("likes.txt"),
-    NOTIFICATIONS ("notifications.txt"),
-    TICKETS ("tickets.txt");
-
+    BUYERS("buyers.txt"), SELLERS("sellers.txt"), PRODUCTS("products.txt"), CARTS("carts.txt"), ORDERS("orders.txt"), REVIEWS("reviews.txt"), LIKES("likes.txt"), NOTIFICATIONS("notifications.txt"), TICKETS("tickets.txt");
     private final String filename;
 
     DataMap(String filename) {

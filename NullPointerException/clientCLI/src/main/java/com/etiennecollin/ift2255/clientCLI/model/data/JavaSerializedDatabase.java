@@ -63,8 +63,7 @@ public class JavaSerializedDatabase implements Database {
         try {
             save(data, path);
             return true;
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return false;
         }
@@ -82,8 +81,7 @@ public class JavaSerializedDatabase implements Database {
         try {
             save(data, path);
             return true;
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return false;
         }
@@ -146,25 +144,9 @@ public class JavaSerializedDatabase implements Database {
     }
 
     /**
-     * Loads data from the specified file path.
-     *
-     * @param filename The file name from which data needs to be loaded.
-     * @return The data in the file.
-     */
-    @SuppressWarnings("unchecked")
-    protected <T> T load(String filename) {
-        try (FileInputStream file = new FileInputStream(savePath + filename)) {
-            try (ObjectInputStream input = new ObjectInputStream(file)) {
-                return (T) input.readObject();
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            return null;
-        }
-    }
-
-    /**
      * Saves the current state of some data to the specified file path.
-     * @param data Some data to store to the file.
+     *
+     * @param data     Some data to store to the file.
      * @param filename The file name to which data needs to be saved.
      */
     protected <T> void save(T data, String filename) {
@@ -182,6 +164,24 @@ public class JavaSerializedDatabase implements Database {
             }
         } catch (IOException e) {
             throw new RuntimeException("Could not save the data");
+        }
+    }
+
+    /**
+     * Loads data from the specified file path.
+     *
+     * @param filename The file name from which data needs to be loaded.
+     *
+     * @return The data in the file.
+     */
+    @SuppressWarnings("unchecked")
+    protected <T> T load(String filename) {
+        try (FileInputStream file = new FileInputStream(savePath + filename)) {
+            try (ObjectInputStream input = new ObjectInputStream(file)) {
+                return (T) input.readObject();
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            return null;
         }
     }
 }

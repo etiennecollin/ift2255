@@ -18,33 +18,27 @@ public class AuthenticationModel {
     }
 
     public OperationResult authenticateBuyer(String username, String password) {
-        List<Buyer> matchedBuyers = this.db.get(DataMap.BUYERS,
-                (entry) -> entry.getUsername().equalsIgnoreCase(username) && entry.getPasswordHash() == password.hashCode()
-        );
+        List<Buyer> matchedBuyers = this.db.get(DataMap.BUYERS, (entry) -> entry.getUsername().equalsIgnoreCase(username) && entry.getPasswordHash() == password.hashCode());
 
         if (matchedBuyers.size() >= 1) {
             Buyer buyer = matchedBuyers.get(0);
             Session.createSession(buyer.getId(), UserType.Buyer);
 
             return new OperationResult(true, "");
-        }
-        else {
+        } else {
             return new OperationResult(false, "Username or password is incorrect.");
         }
     }
 
     public OperationResult authenticateSeller(String name, String password) {
-        List<Seller> matchedSellers = this.db.get(DataMap.SELLERS,
-                (entry) -> entry.getName().equalsIgnoreCase(name) && entry.getPasswordHash() == password.hashCode()
-        );
+        List<Seller> matchedSellers = this.db.get(DataMap.SELLERS, (entry) -> entry.getName().equalsIgnoreCase(name) && entry.getPasswordHash() == password.hashCode());
 
         if (matchedSellers.size() >= 1) {
             Seller seller = matchedSellers.get(0);
             Session.createSession(seller.getId(), UserType.Seller);
 
             return new OperationResult(true, "");
-        }
-        else {
+        } else {
             return new OperationResult(false, "Username or password is incorrect.");
         }
     }

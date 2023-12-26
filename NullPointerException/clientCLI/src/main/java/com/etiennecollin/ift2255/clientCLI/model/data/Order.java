@@ -16,21 +16,21 @@ public class Order extends DatabaseObject {
     private final LocalDate orderDate;
     private final UUID buyerId;
     private final UUID sellerId;
-    private int totalCost;
-//    private int numberOfProducts;
-    private int fidelityPointsEarned;
-    private String email;
-    private String phone;
-    private String address;
-    private String billingAddress;
-    private String creditCardName;
-    private String creditCardNumber;
-    private YearMonth creditCardExp;
-    private String creditCardSecretDigits;
+    private final int totalCost;
+    //    private int numberOfProducts;
+    private final int fidelityPointsEarned;
+    private final String email;
+    private final String phone;
+    private final String address;
+    private final String billingAddress;
+    private final String creditCardName;
+    private final String creditCardNumber;
+    private final YearMonth creditCardExp;
+    private final String creditCardSecretDigits;
     private OrderState state;
     private Shipment shipment;
-    private PayementMethod payementMethod;
-    private ArrayList<Tuple<Product, Integer>> products;
+    private final PayementMethod payementMethod;
+    private final ArrayList<Tuple<Product, Integer>> products;
 
     public Order(ArrayList<Tuple<Product, Integer>> products, int totalCost, int fidelityPointsEarned, PayementMethod payementMethod, String email, String phone, String address, String billingAddress, String creditCardName, String creditCardNumber, YearMonth creditCardExp, String creditCardSecretDigits, UUID buyerId, UUID sellerId) {
         this.products = products;

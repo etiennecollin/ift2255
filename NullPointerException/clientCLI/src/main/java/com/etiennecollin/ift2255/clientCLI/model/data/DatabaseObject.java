@@ -15,12 +15,12 @@ public abstract class DatabaseObject implements Serializable {
         this.id = UUID.randomUUID();
     }
 
-    public UUID getId() {
-        return id;
-    }
-
     @Override
     public int hashCode() {
         return Objects.hash(getId());
+    }
+
+    public UUID getId() {
+        return id;
     }
 }

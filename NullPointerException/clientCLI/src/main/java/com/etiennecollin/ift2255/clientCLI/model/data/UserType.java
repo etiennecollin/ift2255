@@ -5,5 +5,5 @@
 package com.etiennecollin.ift2255.clientCLI.model.data;
 
 public enum UserType {
-    Buyer, Seller;
+    Buyer, Seller
 }

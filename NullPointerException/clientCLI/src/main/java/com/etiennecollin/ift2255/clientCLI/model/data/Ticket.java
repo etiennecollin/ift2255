@@ -4,8 +4,8 @@
 
 package com.etiennecollin.ift2255.clientCLI.model.data;
 
-import com.etiennecollin.ift2255.clientCLI.model.data.products.Product;
 import com.etiennecollin.ift2255.clientCLI.Tuple;
+import com.etiennecollin.ift2255.clientCLI.model.data.products.Product;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class Ticket extends DatabaseObject {
     private ArrayList<Tuple<Product, Integer>> products;
     private Order order;
     private String problemDescription;
-    private String suggestedSolution;
+    private final String suggestedSolution;
     private String replacementProductDescription;
     private TicketState state;
     private TicketCause cause;
@@ -108,37 +108,37 @@ public class Ticket extends DatabaseObject {
     }
 
     public void updateState() {
-//        if (state.equals(TicketState.Cancelled) || state.equals(TicketState.Closed)) {
-//            return;
-//        }
-//
-//        boolean afterDueDate = LocalDate.now().isAfter(returnShipment.getCreationDate().plusDays(MAX_RETURN_DELAY_DAYS));
-//        if (!state.equals(TicketState.ReturnInTransit) && !state.equals(TicketState.ReturnReceived) && afterDueDate) {
-//            this.state = TicketState.Cancelled;
-//        } else if (state.equals(TicketState.ReturnInTransit) && returnShipment.isDeliveryConfirmed()) {
-//            this.state = TicketState.ReturnReceived;
-//            // Add products back to inventory if products were not malfunctioning
-//            if (!cause.equals(TicketCause.MalfunctioningProduct)) {
-//                for (Tuple<Product, Integer> tuple : products) {
-//                    Product product = tuple.first;
-//                    int quantity = tuple.second;
-//                    product.setQuantity(product.getQuantity() + quantity);
-//                }
-//            }
-//        } else if (state.equals(TicketState.ReturnReceived) && replacementShipment.isDeliveryConfirmed()) {
-//            this.state = TicketState.Closed;
-//        }
+        //        if (state.equals(TicketState.Cancelled) || state.equals(TicketState.Closed)) {
+        //            return;
+        //        }
+        //
+        //        boolean afterDueDate = LocalDate.now().isAfter(returnShipment.getCreationDate().plusDays(MAX_RETURN_DELAY_DAYS));
+        //        if (!state.equals(TicketState.ReturnInTransit) && !state.equals(TicketState.ReturnReceived) && afterDueDate) {
+        //            this.state = TicketState.Cancelled;
+        //        } else if (state.equals(TicketState.ReturnInTransit) && returnShipment.isDeliveryConfirmed()) {
+        //            this.state = TicketState.ReturnReceived;
+        //            // Add products back to inventory if products were not malfunctioning
+        //            if (!cause.equals(TicketCause.MalfunctioningProduct)) {
+        //                for (Tuple<Product, Integer> tuple : products) {
+        //                    Product product = tuple.first;
+        //                    int quantity = tuple.second;
+        //                    product.setQuantity(product.getQuantity() + quantity);
+        //                }
+        //            }
+        //        } else if (state.equals(TicketState.ReturnReceived) && replacementShipment.isDeliveryConfirmed()) {
+        //            this.state = TicketState.Closed;
+        //        }
     }
 
-//    public void createReturnShipment(String trackingNumber, LocalDate deliveryDate, String shippingCompany) {
-//        this.state = TicketState.ReturnInTransit;
-//        this.returnShipment = new Shipment(trackingNumber, deliveryDate, shippingCompany);
-//    }
-//
-//    public void createReplacementShipment(String trackingNumber, LocalDate deliveryDate, String shippingCompany) {
-//        this.state = TicketState.ReplacementInTransit;
-//        this.replacementShipment = new Shipment(trackingNumber, deliveryDate, shippingCompany);
-//    }
+    //    public void createReturnShipment(String trackingNumber, LocalDate deliveryDate, String shippingCompany) {
+    //        this.state = TicketState.ReturnInTransit;
+    //        this.returnShipment = new Shipment(trackingNumber, deliveryDate, shippingCompany);
+    //    }
+    //
+    //    public void createReplacementShipment(String trackingNumber, LocalDate deliveryDate, String shippingCompany) {
+    //        this.state = TicketState.ReplacementInTransit;
+    //        this.replacementShipment = new Shipment(trackingNumber, deliveryDate, shippingCompany);
+    //    }
 
     public ArrayList<Tuple<Product, Integer>> getProducts() {
         return products;
@@ -177,11 +177,11 @@ public class Ticket extends DatabaseObject {
     }
 
     public void setSuggestedSolution(String suggestedSolution) {
-//        this.suggestedSolution = suggestedSolution;
-//
-//        String title = "New solution for one of your tickets";
-//        String content = "Ticket: " + this.getProblemDescription() + "\nSolution suggested: " + this.getSuggestedSolution();
-//        Notification notification = new Notification(title, content);
-//        this.buyer.addNotification(notification);
+        //        this.suggestedSolution = suggestedSolution;
+        //
+        //        String title = "New solution for one of your tickets";
+        //        String content = "Ticket: " + this.getProblemDescription() + "\nSolution suggested: " + this.getSuggestedSolution();
+        //        Notification notification = new Notification(title, content);
+        //        this.buyer.addNotification(notification);
     }
 }

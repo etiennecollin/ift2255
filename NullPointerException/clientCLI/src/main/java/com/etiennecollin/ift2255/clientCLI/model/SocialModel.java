@@ -40,6 +40,10 @@ public class SocialModel {
         return new OperationResult(false, "Product does not exist.");
     }
 
+    public boolean isLiked(UUID likedEntity, UUID likedByUser) {
+        return db.<Like>get(DataMap.CARTS, (entry) -> entry.getLikedEntityId() == likedEntity && entry.getUserId() == likedByUser).size() > 0;
+    }
+
     public OperationResult toggleLikeReview(UUID reviewId) {
         UUID userId = Session.getInstance().getUserId();
         Review review = db.get(DataMap.REVIEWS, reviewId);
@@ -54,8 +58,7 @@ public class SocialModel {
                 }
                 db.add(DataMap.LIKES, new Like(reviewId, userId, LikeType.Review));
                 return new OperationResult(true, "Like removed.");
-            }
-            else {
+            } else {
                 if (likes.size() == 1 && !review.getIsReported()) {
                     db.<Buyer>update(DataMap.BUYERS, (buyer) -> buyer.setFidelityPoints(buyer.getFidelityPoints() - 10), review.getAuthorId());
                 }
@@ -78,8 +81,7 @@ public class SocialModel {
             if (likedByUser.isEmpty()) {
                 db.add(DataMap.LIKES, new Like(sellerId, userId, LikeType.Seller));
                 return new OperationResult(true, "Like removed.");
-            }
-            else {
+            } else {
                 db.remove(DataMap.LIKES, likedByUser.get().getId());
                 return new OperationResult(true, "Like added.");
             }
@@ -100,8 +102,7 @@ public class SocialModel {
                 db.add(DataMap.LIKES, new Like(buyerId, userId, LikeType.Buyer));
                 db.<Buyer>update(DataMap.BUYERS, (b) -> b.setFidelityPoints(buyer.getFidelityPoints() + 5), (b) -> b.getId() == userId || b.getId() == buyerId);
                 return new OperationResult(true, "Unfollowed. -5 fidelity points.");
-            }
-            else {
+            } else {
                 db.remove(DataMap.LIKES, likedByUser.get().getId());
                 db.<Buyer>update(DataMap.BUYERS, (b) -> b.setFidelityPoints(buyer.getFidelityPoints() - 5), (b) -> b.getId() == userId || b.getId() == buyerId);
                 return new OperationResult(true, "Following this user. +5 fidelity points.");
@@ -111,34 +112,16 @@ public class SocialModel {
         return new OperationResult(false, "Seller no longer exists.");
     }
 
-    public boolean isLiked(UUID likedEntity, UUID likedByUser) {
-        return db.<Like>get(DataMap.CARTS, (entry) -> entry.getLikedEntityId() == likedEntity && entry.getUserId() == likedByUser).size() > 0;
-    }
-
     public List<Like> getLikes(UUID likee, UUID liker, LikeType type) {
-        return db.get(DataMap.LIKES, (like) ->
-            (likee == null || like.getLikedEntityId() == likee) &&
-            (liker == null || like.getUserId() == liker) &&
-            (type == null || like.getLikeType() == type)
-        );
+        return db.get(DataMap.LIKES, (like) -> (likee == null || like.getLikedEntityId() == likee) && (liker == null || like.getUserId() == liker) && (type == null || like.getLikeType() == type));
     }
 
     public List<Review> getReviewsByProduct(UUID productId) {
-        return db.<Review>get(DataMap.REVIEWS, (review) -> review.getProductId() == productId);
+        return db.get(DataMap.REVIEWS, (review) -> review.getProductId() == productId);
     }
 
     public List<Review> getReviewsByAuthor(UUID authorId) {
-        return db.<Review>get(DataMap.REVIEWS, (review) -> review.getAuthorId() == authorId);
-    }
-
-    public Review getReview(UUID productId, UUID authorId) {
-        List<Review> reviews = db.<Review>get(DataMap.REVIEWS, (r) -> r.getAuthorId() == authorId && r.getProductId() == productId);
-        if (reviews.size() == 0) {
-            return null;
-        }
-        else {
-            return reviews.get(0);
-        }
+        return db.get(DataMap.REVIEWS, (review) -> review.getAuthorId() == authorId);
     }
 
     public OperationResult addReview(UUID productId, UUID authorId, String content, int rating) {
@@ -150,6 +133,15 @@ public class SocialModel {
         updateProductRating(productId);
 
         return new OperationResult(true, "Rating added.");
+    }
+
+    public Review getReview(UUID productId, UUID authorId) {
+        List<Review> reviews = db.get(DataMap.REVIEWS, (r) -> r.getAuthorId() == authorId && r.getProductId() == productId);
+        if (reviews.size() == 0) {
+            return null;
+        } else {
+            return reviews.get(0);
+        }
     }
 
     private void updateProductRating(UUID productId) {
