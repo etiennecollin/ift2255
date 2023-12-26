@@ -53,7 +53,6 @@ public class AuthenticationModel {
         // validate parameters ?
 
         db.add(DataMap.BUYERS, new Buyer(username, password.hashCode(), firstName, lastName, email, phoneNumber, address, 0));
-
         return new OperationResult(true, "");
     }
 
