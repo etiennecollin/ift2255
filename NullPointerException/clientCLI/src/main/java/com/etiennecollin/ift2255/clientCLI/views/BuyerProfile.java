@@ -1,0 +1,90 @@
+/*
+ * Copyright (c) 2023. Etienne Collin #20237904, Nicholas Cooper #20241729, Aboubakre Walid Diongue #20198446, Charlotte Locas #20211755
+ */
+
+package com.etiennecollin.ift2255.clientCLI.views;
+
+import com.etiennecollin.ift2255.clientCLI.OperationResult;
+import com.etiennecollin.ift2255.clientCLI.Utils;
+import com.etiennecollin.ift2255.clientCLI.controllers.AuthenticationController;
+import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
+import com.etiennecollin.ift2255.clientCLI.model.data.Buyer;
+
+import static com.etiennecollin.ift2255.clientCLI.Utils.*;
+
+public class BuyerProfile extends View {
+    private final ProfileController profileController;
+    private final AuthenticationController authController;
+
+
+    public BuyerProfile(ProfileController profileController, AuthenticationController authController) {
+        this.profileController = profileController;
+        this.authController = authController;
+    }
+
+    @Override
+    public void render() {
+        String[] options = new String[]{"Go back", "First name", "Last name", "Password", "Email", "Phone number", "Address"};
+        while (true) {
+            clearConsole();
+            Buyer buyer = profileController.getBuyer();
+
+            System.out.println(prettify("Username: " + buyer.getUsername()));
+            System.out.println(prettify("Fidelity points: " + buyer.getFidelityPoints()));
+            System.out.println(prettify("First name: " + buyer.getFirstName()));
+            System.out.println(prettify("Last name: " + buyer.getLastName()));
+            System.out.println(prettify("Email address: " + buyer.getEmail()));
+            System.out.println(prettify("Phone number: " + buyer.getPhoneNumber()));
+            System.out.println(prettify("Address: " + buyer.getAddress()));
+
+            int answer = prettyMenu("Select the information you'd like to change", options);
+
+            OperationResult result;
+
+            switch (answer) {
+                case 0 -> {
+                    return;
+                }
+                case 1 -> {
+                    String newVal = prettyPrompt("Set a new first name", Utils::validateName);
+                    result = profileController.updateBuyer(newVal, null, null, null, null, null);
+                    System.out.println(prettify(result.message()));
+                }
+                case 2 -> {
+                    String newVal = prettyPrompt("Set a new last name", Utils::validateName);
+                    result = profileController.updateBuyer(null, newVal, null, null, null, null);
+                    System.out.println(prettify(result.message()));
+                }
+                case 3 -> {
+                    while (true) {
+                        String oldPassword = prettyPrompt("Enter old password", Utils::validateNotEmpty);
+                        if (authController.isCorrectPassword(buyer.getId(), oldPassword)) {
+                            String newVal = prettyPrompt("Set a new password", Utils::validateNotEmpty);
+                            result = profileController.updateBuyer(null, null, newVal, null, null, null);
+                            System.out.println(prettify(result.message()));
+                            break;
+                        } else {
+                            System.out.println(prettify("Old password invalid"));
+                            if (!prettyPromptBool("Try again?")) break;
+                        }
+                    }
+                }
+                case 4 -> {
+                    String newVal = prettyPrompt("Set a new email address", Utils::validateEmail);
+                    result = profileController.updateBuyer(null, null, null, newVal, null, null);
+                    System.out.println(prettify(result.message()));
+                }
+                case 5 -> {
+                    String newVal = prettyPrompt("Set a new phone number", Utils::validatePhoneNumber);
+                    result = profileController.updateBuyer(null, null, null, null, newVal, null);
+                    System.out.println(prettify(result.message()));
+                }
+                case 6 -> {
+                    String newVal = prettyPrompt("Set a new address", Utils::validateNotEmpty);
+                    result = profileController.updateBuyer(null, null, null, null, null, newVal);
+                    System.out.println(prettify(result.message()));
+                }
+            }
+        }
+    }
+}
