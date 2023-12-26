@@ -22,8 +22,8 @@ import java.util.regex.Pattern;
  * It includes methods for handling user input, formatting strings, and creating menus.
  */
 public class Utils {
-    // Prevents closing the System.in stream
-    private static final Scanner scanner = new Scanner(System.in);
+
+    private static final Scanner scanner = new Scanner(System.in); // Prevents closing the System.in stream
 
     /**
      * Displays a prompt with single question and returns the user answer if valid.
