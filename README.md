@@ -14,24 +14,24 @@ transactions.
 
 Acheteur :
 
-- Pseudo: acheteur1
-- Mot de passe: password1
+-   Pseudo: acheteur1
+-   Mot de passe: password1
 
 Revendeur :
 
-- Nom: revendeur1
-- Mot de passe: password1
+-   Nom: revendeur1
+-   Mot de passe: password1
 
 ## Installation
 
 1. Assurez-vous d'avoir une version à jour de Java.
-   - Le projet a été testé avec `openjdk 21.0.1 2023-10-17`
+    - Le projet a été testé avec `openjdk 21.0.1 2023-10-17`
 2. Assurez-vous d'avoir Maven installé sur votre système.
-   - Le projet a été testé avec `Apache Maven 3.9.6`
+    - Le projet a été testé avec `Apache Maven 3.9.6`
 3. Téléchargez le projet depuis le dépôt GitHub.
-   - `git clone https://github.com/etiennecollin/ift2255`
+    - `git clone https://github.com/etiennecollin/ift2255`
 4. Naviguez vers le répertoire du projet dans le terminal.
-   - `cd .../ift2255/NullPointerException/clientCLI`
+    - `cd <...>/ift2255/NullPointerException/clientCLI`
 5. Exécutez la commande `mvn clean install` pour compiler et construire le projet.
 
 ## Exécution
@@ -41,6 +41,6 @@ d'entrée principal.
 
 ```bash
 > pwd
-.../ift2255/NullPointerException/clientCLI
+<...>/ift2255/NullPointerException/clientCLI
 > java -jar target/clientCLI-<VERSION>.jar
 ```
