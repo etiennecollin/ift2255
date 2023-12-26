@@ -235,7 +235,7 @@ public class Utils {
         }
     }
 
-    /*protected static <T> T prettyMenuT(String prompt, ArrayList<T> choices) {
+    protected static <T> T prettyMenuT(String prompt, ArrayList<T> choices) {
         // Instantiate the variables used to store the answer and its parsed version
         int index;
 
@@ -272,7 +272,7 @@ public class Utils {
 
             return choices.get(index);
         }
-    }*/
+    }
 
     /**
      * Displays a menu with choices to the user and expects a numeric selection.
@@ -304,7 +304,7 @@ public class Utils {
      *
      * @return The index associated with the selected choice in choices.
      */
-   /* protected static int prettyMenu(String prompt, ArrayList<ArrayList<String>> choices, String prefix) {
+    protected static int prettyMenu(String prompt, ArrayList<ArrayList<String>> choices, String prefix) {
         // Instantiate the variables used to store the answer and its parsed version
         String answer;
         int answerParsed;
@@ -339,9 +339,9 @@ public class Utils {
 
             return answerParsed;
         }
-    }*/
+    }
 
-    /*public static void prettyDynamicMenu(String prompt, String backName, ArrayList<DynamicMenuItem> menuItems, Runnable topOfLoopDisplayer) {
+    public static void prettyDynamicMenu(String prompt, String backName, ArrayList<DynamicMenuItem> menuItems, Runnable topOfLoopDisplayer) {
 
         while (true) {
             ArrayList<DynamicMenuItem> filteredItems = new ArrayList<>();
@@ -368,7 +368,7 @@ public class Utils {
                 filteredItems.get(answer - 1).action.run();
             }
         }
-    }*/
+    }
 
     public static void clearConsole() {
         for (int i = 0; i < 100; i++) {
@@ -376,7 +376,7 @@ public class Utils {
         }
     }
 
-    /*public static <T> void prettyPaginationMenu(List<T> items, int itemsPerPage, String actionName, Consumer<T> itemDisplayer, Function<T, String> itemMenuName, Consumer<T> action) {
+    public static <T> void prettyPaginationMenu(List<T> items, int itemsPerPage, String actionName, Consumer<T> itemDisplayer, Function<T, String> itemMenuName, Consumer<T> action) {
         outerLoop:
         for (int i = 0; i < items.size(); i += itemsPerPage) {
             int itemsOnPage = Math.min(itemsPerPage, items.size() - i);
@@ -421,7 +421,7 @@ public class Utils {
                 }
             }
         }
-    }*/
+    }
 
     public static String formatMoney(int cents) {
         return cents / 100 + "." + cents % 100 + "$";
@@ -430,6 +430,18 @@ public class Utils {
     public static void quit() {
         scanner.close();
     }
+
+//    protected static void quit(UniShop unishop) {
+//        System.out.println(prettify("Saving app state..."));
+//        unishop.saveUserList(Client.savePath);
+//        System.out.println(prettify("Quitting UniShop"));
+//        scanner.close();
+//    }
+
+//    protected static void logout(UniShop uniShop) {
+//        System.out.println(prettify("Logging-out..."));
+//        uniShop.setCurrentUser(null);
+//    }
 
     public static OperationResult validateName(String s) throws RuntimeException {
         if (!s.matches("[a-zA-Z]+[\\s-]?[a-zA-Z]*")) {
@@ -454,14 +466,14 @@ public class Utils {
         return new OperationResult(true, "");
     }
 
-/*    public static OperationResult validateISBN(String s) throws RuntimeException {
+    public static OperationResult validateISBN(String s) throws RuntimeException {
         if (!s.matches("\\d{13}")) {
             return new OperationResult(false, "Your ISBN has a wrong format");
         }
         return new OperationResult(true, "");
-    }*/
+    }
 
-/*    public static OperationResult validateBonusFidelityPoints(int bonusPoints, int price) {
+    public static OperationResult validateBonusFidelityPoints(int bonusPoints, int price) {
         int dollars = price / 100;
         int maxBonusPoints = 19 * dollars;
         if (bonusPoints < 0) {
@@ -471,9 +483,9 @@ public class Utils {
         } else {
             return new OperationResult(true, "");
         }
-    }*/
+    }
 
- /*   public static OperationResult validateNumberRange(int number, int lowerBound, int upperBound) {
+    public static OperationResult validateNumberRange(int number, int lowerBound, int upperBound) {
         if (number < lowerBound) {
             return new OperationResult(false, "Number must not be less than " + lowerBound);
         } else if (upperBound < number) {
@@ -481,7 +493,7 @@ public class Utils {
         } else {
             return new OperationResult(true, "");
         }
-    }*/
+    }
 
     public static OperationResult validateNotEmpty(String string) {
         if (string.isEmpty()) {
@@ -491,9 +503,9 @@ public class Utils {
         }
     }
 
-/*    public static void waitForKey() {
+    public static void waitForKey() {
         prettyPrompt("Press any key to continue");
-    }*/
+    }
 
     /**
      * Displays a prompt with single question and returns the user answer.
@@ -508,5 +520,5 @@ public class Utils {
         return scanner.nextLine().strip();
     }
 
-  //  public record DynamicMenuItem(String name, Runnable action, Supplier<Boolean> displayCondition) {}
+    public record DynamicMenuItem(String name, Runnable action, Supplier<Boolean> displayCondition) {}
 }
