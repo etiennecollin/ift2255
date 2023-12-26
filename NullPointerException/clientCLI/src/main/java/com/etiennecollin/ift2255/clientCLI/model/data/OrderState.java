@@ -17,7 +17,7 @@ public enum OrderState implements Serializable {
 
     public static ArrayList<String> getOptions() {
         ArrayList<String> options = new ArrayList<>();
-        for (com.etiennecollin.ift2255.clientCLI.classes.OrderState option : com.etiennecollin.ift2255.clientCLI.classes.OrderState.values()) {
+        for (OrderState option : OrderState.values()) {
             options.add(option.toString());
         }
         return options;
