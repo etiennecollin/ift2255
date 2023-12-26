@@ -8,9 +8,9 @@ import com.etiennecollin.ift2255.clientCLI.controllers.AuthenticationController;
 import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
 import com.etiennecollin.ift2255.clientCLI.controllers.TicketController;
-import com.etiennecollin.ift2255.clientCLI.model.*;
-import com.etiennecollin.ift2255.clientCLI.model.data.Database;
-import com.etiennecollin.ift2255.clientCLI.model.data.JavaSerializedDatabase;
+import com.etiennecollin.ift2255.clientCLI.models.*;
+import com.etiennecollin.ift2255.clientCLI.models.data.Database;
+import com.etiennecollin.ift2255.clientCLI.models.data.JavaSerializedDatabase;
 import com.etiennecollin.ift2255.clientCLI.views.MainMenu;
 import com.etiennecollin.ift2255.clientCLI.views.ViewRenderer;
 
@@ -113,18 +113,18 @@ public class UniShop {
     }
 
     /**
-     * Gets the authentication model associated with the UniShop instance.
+     * Gets the authentication models associated with the UniShop instance.
      *
-     * @return The authentication model.
+     * @return The authentication models.
      */
     public AuthenticationModel getAuth() {
         return auth;
     }
 
     /**
-     * Gets the profile model associated with the UniShop instance.
+     * Gets the profile models associated with the UniShop instance.
      *
-     * @return The profile model.
+     * @return The profile models.
      */
     public ProfileModel getProfile() {
         return profile;

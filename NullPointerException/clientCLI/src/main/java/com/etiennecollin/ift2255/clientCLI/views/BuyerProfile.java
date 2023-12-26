@@ -8,7 +8,7 @@ import com.etiennecollin.ift2255.clientCLI.OperationResult;
 import com.etiennecollin.ift2255.clientCLI.Utils;
 import com.etiennecollin.ift2255.clientCLI.controllers.AuthenticationController;
 import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
-import com.etiennecollin.ift2255.clientCLI.model.data.Buyer;
+import com.etiennecollin.ift2255.clientCLI.models.data.Buyer;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 

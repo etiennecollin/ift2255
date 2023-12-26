@@ -5,7 +5,7 @@
 package com.etiennecollin.ift2255.clientCLI.views.productDisplay;
 
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
-import com.etiennecollin.ift2255.clientCLI.model.data.products.LearningResource;
+import com.etiennecollin.ift2255.clientCLI.models.data.products.LearningResource;
 
 import java.util.UUID;
 

@@ -6,8 +6,8 @@ package com.etiennecollin.ift2255.clientCLI.views;
 
 import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
-import com.etiennecollin.ift2255.clientCLI.model.data.Buyer;
-import com.etiennecollin.ift2255.clientCLI.model.data.Review;
+import com.etiennecollin.ift2255.clientCLI.models.data.Buyer;
+import com.etiennecollin.ift2255.clientCLI.models.data.Review;
 
 import java.util.List;
 import java.util.UUID;

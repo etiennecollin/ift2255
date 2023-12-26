@@ -6,10 +6,10 @@ package com.etiennecollin.ift2255.clientCLI.controllers;
 
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
 import com.etiennecollin.ift2255.clientCLI.UniShop;
-import com.etiennecollin.ift2255.clientCLI.model.Session;
-import com.etiennecollin.ift2255.clientCLI.model.TicketingModel;
-import com.etiennecollin.ift2255.clientCLI.model.data.Ticket;
-import com.etiennecollin.ift2255.clientCLI.model.data.UserType;
+import com.etiennecollin.ift2255.clientCLI.models.Session;
+import com.etiennecollin.ift2255.clientCLI.models.TicketingModel;
+import com.etiennecollin.ift2255.clientCLI.models.data.Ticket;
+import com.etiennecollin.ift2255.clientCLI.models.data.UserType;
 import com.etiennecollin.ift2255.clientCLI.views.TicketDisplay;
 import com.etiennecollin.ift2255.clientCLI.views.TicketsMenu;
 import com.etiennecollin.ift2255.clientCLI.views.ViewRenderer;
@@ -27,7 +27,7 @@ public class TicketController {
      */
     private final ViewRenderer renderer;
     /**
-     * The ticketing model to interact with ticket data.
+     * The ticketing models to interact with ticket data.
      */
     private final TicketingModel ticketModel;
 
@@ -35,7 +35,7 @@ public class TicketController {
      * Constructs a new TicketController.
      *
      * @param renderer    The view renderer to display views.
-     * @param ticketModel The ticketing model to interact with ticket data.
+     * @param ticketModel The ticketing models to interact with ticket data.
      */
     public TicketController(ViewRenderer renderer, TicketingModel ticketModel) {
         this.renderer = renderer;

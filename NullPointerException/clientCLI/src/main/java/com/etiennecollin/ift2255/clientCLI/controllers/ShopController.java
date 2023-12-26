@@ -7,12 +7,12 @@ package com.etiennecollin.ift2255.clientCLI.controllers;
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
 import com.etiennecollin.ift2255.clientCLI.Tuple;
 import com.etiennecollin.ift2255.clientCLI.UniShop;
-import com.etiennecollin.ift2255.clientCLI.model.ProfileModel;
-import com.etiennecollin.ift2255.clientCLI.model.Session;
-import com.etiennecollin.ift2255.clientCLI.model.ShopModel;
-import com.etiennecollin.ift2255.clientCLI.model.SocialModel;
-import com.etiennecollin.ift2255.clientCLI.model.data.*;
-import com.etiennecollin.ift2255.clientCLI.model.data.products.*;
+import com.etiennecollin.ift2255.clientCLI.models.ProfileModel;
+import com.etiennecollin.ift2255.clientCLI.models.Session;
+import com.etiennecollin.ift2255.clientCLI.models.ShopModel;
+import com.etiennecollin.ift2255.clientCLI.models.SocialModel;
+import com.etiennecollin.ift2255.clientCLI.models.data.*;
+import com.etiennecollin.ift2255.clientCLI.models.data.products.*;
 import com.etiennecollin.ift2255.clientCLI.views.*;
 import com.etiennecollin.ift2255.clientCLI.views.productDisplay.*;
 
@@ -30,15 +30,15 @@ public class ShopController {
      */
     private final ViewRenderer renderer;
     /**
-     * The shop model to interact with shop data.
+     * The shop models to interact with shop data.
      */
     private final ShopModel shopModel;
     /**
-     * The profile model to interact with user profiles.
+     * The profile models to interact with user profiles.
      */
     private final ProfileModel profileModel;
     /**
-     * The social model to interact with social features.
+     * The social models to interact with social features.
      */
     private final SocialModel socialModel;
 
@@ -46,9 +46,9 @@ public class ShopController {
      * Constructs a new ShopController.
      *
      * @param renderer     The view renderer to display views.
-     * @param shopModel    The shop model to interact with shop data.
-     * @param profileModel The profile model to interact with user profiles.
-     * @param socialModel  The social model to interact with social features.
+     * @param shopModel    The shop models to interact with shop data.
+     * @param profileModel The profile models to interact with user profiles.
+     * @param socialModel  The social models to interact with social features.
      */
     public ShopController(ViewRenderer renderer, ShopModel shopModel, ProfileModel profileModel, SocialModel socialModel) {
         this.renderer = renderer;
@@ -426,7 +426,7 @@ public class ShopController {
      * @param description    The description of the product.
      * @param fidelityPoints The fidelity points associated with the product.
      * @param brand          The brand of the IT product.
-     * @param model          The model of the IT product.
+     * @param model          The models of the IT product.
      * @param releaseDate    The release date of the IT product.
      * @param subCategory    The sub-category of the IT product.
      *
@@ -477,7 +477,7 @@ public class ShopController {
      * @param description    The description of the product.
      * @param fidelityPoints The fidelity points associated with the product.
      * @param brand          The brand of the office equipment.
-     * @param model          The model of the office equipment.
+     * @param model          The models of the office equipment.
      * @param subCategory    The sub-category of the office equipment.
      *
      * @return An operation result indicating the success or failure of the operation.
@@ -501,7 +501,7 @@ public class ShopController {
      * @param description    The description of the product.
      * @param fidelityPoints The fidelity points associated with the product.
      * @param brand          The brand of the stationery article.
-     * @param model          The model of the stationery article.
+     * @param model          The models of the stationery article.
      * @param subCategory    The sub-category of the stationery article.
      *
      * @return An operation result indicating the success or failure of the operation.

@@ -5,8 +5,8 @@
 package com.etiennecollin.ift2255.clientCLI.views;
 
 import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
-import com.etiennecollin.ift2255.clientCLI.model.data.Buyer;
-import com.etiennecollin.ift2255.clientCLI.model.data.Seller;
+import com.etiennecollin.ift2255.clientCLI.models.data.Buyer;
+import com.etiennecollin.ift2255.clientCLI.models.data.Seller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,9 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.*;
  * The class extends the {@link View} class.
  */
 public class UserFinder extends View {
+    /**
+     * The ProfileController used for interacting with profile-related functionalities.
+     */
     private final ProfileController profileController;
 
     /**

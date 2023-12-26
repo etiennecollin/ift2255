@@ -5,7 +5,7 @@
 package com.etiennecollin.ift2255.clientCLI.views.productDisplay;
 
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
-import com.etiennecollin.ift2255.clientCLI.model.data.products.OfficeEquipment;
+import com.etiennecollin.ift2255.clientCLI.models.data.products.OfficeEquipment;
 
 import java.util.UUID;
 
@@ -17,7 +17,7 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.waitForKey;
  * in the CLI application. It extends the {@link ProductDisplay} class and provides specific rendering for office equipment products.
  * <p>
  * The class retrieves the office equipment product information from the {@link ShopController} and displays details such as
- * brand, model, and common product information through the superclass. It includes specific rendering for office equipment details.
+ * brand, models, and common product information through the superclass. It includes specific rendering for office equipment details.
  */
 public class OfficeEquipmentDisplay extends ProductDisplay {
     /**

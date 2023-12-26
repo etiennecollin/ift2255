@@ -5,7 +5,7 @@
 package com.etiennecollin.ift2255.clientCLI.views.productDisplay;
 
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
-import com.etiennecollin.ift2255.clientCLI.model.data.products.StationeryArticle;
+import com.etiennecollin.ift2255.clientCLI.models.data.products.StationeryArticle;
 
 import java.util.UUID;
 
@@ -16,7 +16,7 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.waitForKey;
  * The {@code StationeryArticleDisplay} class extends the {@link ProductDisplay} class and is responsible for rendering
  * detailed information about a stationery article product in the CLI application.
  * It provides functionality to display general product information and specific details related to stationery articles,
- * such as brand and model.
+ * such as brand and models.
  */
 public class StationeryArticleDisplay extends ProductDisplay {
     /**
@@ -31,7 +31,7 @@ public class StationeryArticleDisplay extends ProductDisplay {
 
     /**
      * Renders the detailed information about the stationery article product.
-     * Displays general product information using the parent class's method and adds specific details such as brand and model.
+     * Displays general product information using the parent class's method and adds specific details such as brand and models.
      * After rendering, it waits for user input before returning.
      */
     @Override

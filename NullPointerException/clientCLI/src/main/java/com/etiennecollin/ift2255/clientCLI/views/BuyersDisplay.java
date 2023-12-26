@@ -5,7 +5,7 @@
 package com.etiennecollin.ift2255.clientCLI.views;
 
 import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
-import com.etiennecollin.ift2255.clientCLI.model.data.Buyer;
+import com.etiennecollin.ift2255.clientCLI.models.data.Buyer;
 
 import java.util.ArrayList;
 import java.util.List;

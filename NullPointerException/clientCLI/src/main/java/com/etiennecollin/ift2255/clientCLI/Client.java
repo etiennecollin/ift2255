@@ -620,10 +620,10 @@ public class Client {
     //                }
     //                case IT -> {
     //                    String brand = prettyPrompt("Brand name", Utils::validateNotEmpty);
-    //                    String model = prettyPrompt("Model name", Utils::validateNotEmpty);
+    //                    String models = prettyPrompt("Model name", Utils::validateNotEmpty);
     //                    LocalDate releaseDate = prettyPromptDate("Release date");
     //                    ITCategory itCategory = prettyMenu("Sub-category", ITCategory.class);
-    //                    product = new IT(price, quantity, title, description, seller, fidelityPoints, brand, model, releaseDate, itCategory);
+    //                    product = new IT(price, quantity, title, description, seller, fidelityPoints, brand, models, releaseDate, itCategory);
     //                }
     //                case LearningResource -> {
     //                    String org = prettyPrompt("Organization", Utils::validateNotEmpty);
@@ -635,15 +635,15 @@ public class Client {
     //                }
     //                case OfficeEquipment -> {
     //                    String brand = prettyPrompt("Brand name", Utils::validateNotEmpty);
-    //                    String model = prettyPrompt("Model name", Utils::validateNotEmpty);
+    //                    String models = prettyPrompt("Model name", Utils::validateNotEmpty);
     //                    OfficeEquipmentCategory oeCategory = prettyMenu("Sub-category", OfficeEquipmentCategory.class);
-    //                    product = new OfficeEquipment(price, quantity, title, description, seller, fidelityPoints, brand, model, oeCategory);
+    //                    product = new OfficeEquipment(price, quantity, title, description, seller, fidelityPoints, brand, models, oeCategory);
     //                }
     //                case StationeryArticle -> {
     //                    String brand = prettyPrompt("Brand name", Utils::validateNotEmpty);
-    //                    String model = prettyPrompt("Model name", Utils::validateNotEmpty);
+    //                    String models = prettyPrompt("Model name", Utils::validateNotEmpty);
     //                    StationeryArticleCategory saCategory = prettyMenu("Sub-category", StationeryArticleCategory.class);
-    //                    product = new StationeryArticle(price, quantity, title, description, seller, fidelityPoints, brand, model, saCategory);
+    //                    product = new StationeryArticle(price, quantity, title, description, seller, fidelityPoints, brand, models, saCategory);
     //                }
     //            }
     //

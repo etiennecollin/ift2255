@@ -7,8 +7,8 @@ package com.etiennecollin.ift2255.clientCLI.views;
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
 import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
-import com.etiennecollin.ift2255.clientCLI.model.data.Seller;
-import com.etiennecollin.ift2255.clientCLI.model.data.products.Product;
+import com.etiennecollin.ift2255.clientCLI.models.data.Seller;
+import com.etiennecollin.ift2255.clientCLI.models.data.products.Product;
 
 import java.util.ArrayList;
 import java.util.List;

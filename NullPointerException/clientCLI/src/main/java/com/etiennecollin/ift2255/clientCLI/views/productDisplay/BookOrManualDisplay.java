@@ -5,7 +5,7 @@
 package com.etiennecollin.ift2255.clientCLI.views.productDisplay;
 
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
-import com.etiennecollin.ift2255.clientCLI.model.data.products.BookOrManual;
+import com.etiennecollin.ift2255.clientCLI.models.data.products.BookOrManual;
 
 import java.util.UUID;
 
@@ -22,10 +22,20 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.waitForKey;
  * general product information and actions.
  */
 public class BookOrManualDisplay extends ProductDisplay {
+    /**
+     * Constructs a new instance of {@code BookOrManualDisplay}.
+     *
+     * @param productId      The unique identifier of the Book or Manual product to display.
+     * @param shopController The controller managing interactions related to the shop.
+     */
     public BookOrManualDisplay(UUID productId, ShopController shopController) {
         super(productId, shopController);
     }
 
+    /**
+     * Renders the detailed information and actions for the displayed Book or Manual product.
+     * Overrides the {@link ProductDisplay#render()} method.
+     */
     @Override
     public void render() {
         BookOrManual book = shopController.getProduct(BookOrManual.class, productId);

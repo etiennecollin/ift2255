@@ -7,7 +7,7 @@ package com.etiennecollin.ift2255.clientCLI.controllers;
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
 import com.etiennecollin.ift2255.clientCLI.UniShop;
 import com.etiennecollin.ift2255.clientCLI.Utils;
-import com.etiennecollin.ift2255.clientCLI.model.AuthenticationModel;
+import com.etiennecollin.ift2255.clientCLI.models.AuthenticationModel;
 import com.etiennecollin.ift2255.clientCLI.views.*;
 
 import java.util.UUID;

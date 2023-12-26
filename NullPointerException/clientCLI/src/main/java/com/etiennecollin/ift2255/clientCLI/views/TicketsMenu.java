@@ -6,7 +6,7 @@ package com.etiennecollin.ift2255.clientCLI.views;
 
 import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
 import com.etiennecollin.ift2255.clientCLI.controllers.TicketController;
-import com.etiennecollin.ift2255.clientCLI.model.data.Ticket;
+import com.etiennecollin.ift2255.clientCLI.models.data.Ticket;
 
 import java.util.List;
 

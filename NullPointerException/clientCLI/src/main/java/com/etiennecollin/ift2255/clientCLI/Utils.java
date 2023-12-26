@@ -287,13 +287,14 @@ public class Utils {
     }
 
     /**
-     * Displays a menu with choices to the user and expects a numeric selection.
-     * It keeps prompting until a valid selection is made.
+     * Displays a formatted menu for selecting an option from an Enum, given a prompt.
+     * The user is prompted to choose from the available Enum constants.
      *
-     * @param prompt    The message to display as the prompt.
-     * @param enumClass The class of the Enum used to represent choices.
+     * @param prompt    The message prompting the user for input.
+     * @param enumClass The Class object representing the Enum type.
+     * @param <T>       The Enum type.
      *
-     * @return The Enum associated with the selected choice.
+     * @return The selected Enum constant.
      */
     public static <T extends Enum<T>> T prettyMenu(String prompt, Class<T> enumClass) {
         var enumConstants = enumClass.getEnumConstants();

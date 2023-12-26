@@ -6,10 +6,10 @@ package com.etiennecollin.ift2255.clientCLI.controllers;
 
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
 import com.etiennecollin.ift2255.clientCLI.UniShop;
-import com.etiennecollin.ift2255.clientCLI.model.ProfileModel;
-import com.etiennecollin.ift2255.clientCLI.model.Session;
-import com.etiennecollin.ift2255.clientCLI.model.SocialModel;
-import com.etiennecollin.ift2255.clientCLI.model.data.*;
+import com.etiennecollin.ift2255.clientCLI.models.ProfileModel;
+import com.etiennecollin.ift2255.clientCLI.models.Session;
+import com.etiennecollin.ift2255.clientCLI.models.SocialModel;
+import com.etiennecollin.ift2255.clientCLI.models.data.*;
 import com.etiennecollin.ift2255.clientCLI.views.*;
 
 import java.util.List;
@@ -22,8 +22,17 @@ import java.util.UUID;
  * these functionalities.
  */
 public class ProfileController {
+    /**
+     * The ViewRenderer responsible for rendering views.
+     */
     private final ViewRenderer renderer;
+    /**
+     * The ProfileModel providing access to profile-related functionality.
+     */
     private final ProfileModel profileModel;
+    /**
+     * The SocialModel providing access to social-related functionality.
+     */
     private final SocialModel socialModel;
 
     /**

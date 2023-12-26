@@ -5,7 +5,7 @@
 package com.etiennecollin.ift2255.clientCLI.views.productDisplay;
 
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
-import com.etiennecollin.ift2255.clientCLI.model.data.products.IT;
+import com.etiennecollin.ift2255.clientCLI.models.data.products.IT;
 
 import java.util.UUID;
 
@@ -16,7 +16,7 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.waitForKey;
  * The {@code ITProductDisplay} class is responsible for displaying information about an IT product in the CLI application.
  * It extends the {@link ProductDisplay} class and provides specific rendering for IT products.
  * <p>
- * The class retrieves the IT product information from the {@link ShopController} and displays details such as brand, model,
+ * The class retrieves the IT product information from the {@link ShopController} and displays details such as brand, models,
  * and release date. The rendering process includes showing the common product information through the superclass and
  * additional details specific to IT products.
  */

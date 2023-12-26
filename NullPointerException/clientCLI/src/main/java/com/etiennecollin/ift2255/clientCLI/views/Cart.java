@@ -8,8 +8,8 @@ import com.etiennecollin.ift2255.clientCLI.OperationResult;
 import com.etiennecollin.ift2255.clientCLI.Tuple;
 import com.etiennecollin.ift2255.clientCLI.Utils;
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
-import com.etiennecollin.ift2255.clientCLI.model.data.CartProduct;
-import com.etiennecollin.ift2255.clientCLI.model.data.products.Product;
+import com.etiennecollin.ift2255.clientCLI.models.data.CartProduct;
+import com.etiennecollin.ift2255.clientCLI.models.data.products.Product;
 
 import java.util.ArrayList;
 import java.util.List;
