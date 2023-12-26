@@ -5,24 +5,42 @@
 package com.etiennecollin.ift2255.clientCLI.views;
 
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
-import com.etiennecollin.ift2255.clientCLI.Utils;
 import com.etiennecollin.ift2255.clientCLI.Tuple;
+import com.etiennecollin.ift2255.clientCLI.Utils;
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
-import com.etiennecollin.ift2255.clientCLI.model.data.CartProduct;
-import com.etiennecollin.ift2255.clientCLI.model.data.products.Product;
+import com.etiennecollin.ift2255.clientCLI.models.data.CartProduct;
+import com.etiennecollin.ift2255.clientCLI.models.data.products.Product;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
+/**
+ * The Cart class represents the view for managing the shopping cart in the client CLI application.
+ * Users can view the products in their cart, remove products, place an order, or empty the entire cart.
+ * <p>
+ * The class extends the {@link View} class.
+ */
 public class Cart extends View {
+    /**
+     * The ShopController used for interacting with the shopping cart and order placement.
+     */
     private final ShopController shopController;
 
+    /**
+     * Constructs a Cart view with the specified ShopController.
+     *
+     * @param shopController the ShopController used for interacting with the shopping cart and order placement.
+     */
     public Cart(ShopController shopController) {
         this.shopController = shopController;
     }
 
+    /**
+     * Renders the cart view, allowing the user to view, manage, and perform actions on the products in their cart.
+     * The view includes options to go back to the main menu, remove a product, place an order, or empty the entire cart.
+     */
     @Override
     public void render() {
         while (true) {
@@ -84,7 +102,6 @@ public class Cart extends View {
                         System.out.println(prettify("Product successfully removed"));
                         break;
                     }
-
                 }
                 case 2 -> {
                     shopController.displayOrderPlacement();
