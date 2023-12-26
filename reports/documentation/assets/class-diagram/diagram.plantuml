@@ -2,473 +2,1136 @@
 
 !theme plain
 top to bottom direction
-skinparam classAttributeIconSize 0
 skinparam linetype ortho
 
+class AccountCreationOptions {
+  + AccountCreationOptions(AuthenticationController): 
+  + render(): void
+}
+class AuthenticationController {
+  + AuthenticationController(ViewRenderer, AuthenticationModel): 
+  + isCorrectPassword(UUID, String): boolean
+  + handleAccountCreationOptions(): void
+  + loginSeller(String, String): OperationResult
+  + handleLogin(): void
+  + loginBuyer(String, String): OperationResult
+  + quitApplication(): void
+  + handleSellerCreation(): void
+  + createNewBuyer(String, String, String, String, String, String, String): OperationResult
+  + handleBuyerCreation(): void
+  + createNewSeller(String, String, String, String, String): OperationResult
+}
+class AuthenticationModel {
+  + AuthenticationModel(Database): 
+  + isBuyerNameAvailable(String): boolean
+  + registerNewBuyer(String, String, String, String, String, String, String): OperationResult
+  + authenticateBuyer(String, String): OperationResult
+  + isSellerNameAvailable(String): boolean
+  + authenticateSeller(String, String): OperationResult
+  + registerNewSeller(String, String, String, String, String): OperationResult
+  + isCorrectPassword(UUID, String): boolean
+}
 class BookOrManual {
-    + BookOrManual(int, int, String, String, Seller, int, String, String, String, BookOrManualGenre, LocalDate, int, int):
-    - author: String
-    - releaseDate: LocalDate
-    - isbn: String
-    - volumeNumber: int
-    - editor: String
-    - editionNumber: int
+  + BookOrManual(int, int, String, String, UUID, int, String, String, String, BookOrManualGenre, LocalDate, int, int): 
+  - author: String
+  - releaseDate: LocalDate
+  - volumeNumber: int
+  - isbn: String
+  - editionNumber: int
+  - editor: String
+   volumeNumber: int
+   isbn: String
+   editionNumber: int
+   editor: String
+   releaseDate: LocalDate
+   author: String
+}
+class BookOrManualDisplay {
+  + BookOrManualDisplay(UUID, ShopController): 
+  + render(): void
 }
 enum BookOrManualGenre << enumeration >> {
-    - BookOrManualGenre(String):
-    + toString(): String
-    + values(): BookOrManualGenre[]
-    + valueOf(String): BookOrManualGenre
+  - BookOrManualGenre(String): 
+  + valueOf(String): BookOrManualGenre
+  + values(): BookOrManualGenre[]
+  + toString(): String
 }
 class Buyer {
-    + Buyer(String, String, String, String, String, String, String):
-    - sellersLiked: ArrayList<Seller>
-    - followedBy: ArrayList<Buyer>
-    - firstName: String
-    - reviewsWritten: ArrayList<Review>
-    - fidelityPoints: int
-    - orders: ArrayList<Order>
-    - productsLiked: ArrayList<Product>
-    - returnCart: Cart
-    - reviewsLiked: ArrayList<Review>
-    - buyersLiked: ArrayList<Buyer>
-    - username: String
-    - lastName: String
-    - cart: Cart
-    + doesLike(Seller): boolean
-    + exchangeOrder(Order): void
-    + getMetrics(int): BuyerMetrics
-    + toggleLike(Review): void
-    + addReviewWritten(Review): void
-    + returnOrder(Order): void
-    + toggleLike(Seller): void
-    + orderDelivered(Order): void
-    + removeReviewWritten(Review): void
-    + toggleFollowedBy(Buyer): void
-    + addOrder(Order): void
-    + toggleLike(Product): boolean
-    + toggleLike(Buyer): void
-    + addFidelityPoints(int): void
-    + doesLike(Review): boolean
-    + cancelOrder(Order): void
-    + doesLike(Buyer): boolean
-    + removeFidelityPoints(int): void
-    + equals(Object): boolean
-    + doesLike(Product): boolean
+  + Buyer(String, int, String, String, String, String, String, int): 
+  - lastName: String
+  - firstName: String
+  - username: String
+  - fidelityPoints: int
+   firstName: String
+   lastName: String
+   username: String
+   fidelityPoints: int
 }
-entity BuyerMetrics << record >> {
-    + BuyerMetrics(int, int, int, int, int, int, int, int, int):
-    + numberTotalReviews(): int
-    + numberRecentProductsBought(): int
-    + numberRecentReviews(): int
-    + numberRecentOrders(): int
-    + numberTotalOrders(): int
-    + numberTotalProductsBought(): int
-    + averageTotalReviews(): int
-    + numberFollowers(): int
-    + averageRecentReviews(): int
+class BuyerCreationForm {
+  + BuyerCreationForm(AuthenticationController): 
+  + render(): void
+}
+class BuyerMenu {
+  + BuyerMenu(ProfileController, ShopController, TicketController): 
+  + render(): void
+}
+class BuyerOrdersMenu {
+  + BuyerOrdersMenu(ShopController, ProfileController): 
+  + render(): void
+  - displayOrder(Order): void
+  - displayBuyerOrderActions(Order): void
+}
+class BuyerProfile {
+  + BuyerProfile(ProfileController, AuthenticationController): 
+  + render(): void
+}
+class BuyersDisplay {
+  + BuyersDisplay(ProfileController, List<Buyer>): 
+  + render(): void
 }
 class Cart {
-    + Cart(Buyer):
-    - cost: int
-    - numberOfProducts: int
-    - products: ArrayList<Tuple<Product, Integer>>
-    - buyer: Buyer
-    - numberOfFidelityPoints: int
-    + removeProduct(Product): void
-    + subtractProduct(Product, int): void
-    + createOrder(String, String, String, String, String, String, YearMonth, String, int, int): void
-    + addProduct(Product, int): void
-    + emptyCart(): void
+  + Cart(ShopController): 
+  + render(): void
+}
+class CartProduct {
+  + CartProduct(UUID, UUID, int): 
+  - productId: UUID
+  - buyerId: UUID
+  - quantity: int
+   productId: UUID
+   quantity: int
+   buyerId: UUID
 }
 class Client {
-    + Client():
-    - createAccount(): void
-    + findUser(): void
-    + sellerMenu(): void
-    + displaySeller(Seller): void
-    - findSeller(): void
-    + displayOrderShipmentMenu(Order): void
-    - buyerCreationForm(): Buyer
-    + displayBuyer(Buyer): void
-    + buyerMenu(): void
-    - searchProduct(): void
-    + offerProduct(): void
-    + updateSellerInfo(): void
-    + displayBuyerOrders(): void
-    + displayActivities(): void
-    - displayBuyerProductActions(Product): void
-    + displayPendingSellerOrders(): void
-    + displayTickets(): void
-    - displayTicket(Ticket): void
-    + displayProducts(ArrayList<Product>): void
-    - sellerCreationForm(): Seller
-    - displayReturnMenu(Order): void
-    + updateBuyerInfo(): void
-    - createTicket(Order): void
-    + displayProduct(Product): void
-    - loginForm(): void
-    - displayTicketActions(Ticket): void
-    + main(String[]): void
-    + displayOrder(Order): void
-    - findBuyer(): void
-    - displayNotifications(): void
-    + displayBuyerOrderActions(Order): void
-    - displayReviews(Product): void
-    - displayExchangeMenu(Order): void
-    - placeOrder(): void
-    + displayCart(): void
+  + Client(): 
+  + main(String[]): void
+}
+class ClientTest {
+  + ClientTest(): 
+  + testMethod(): void
+}
+enum DataMap << enumeration >> {
+  - DataMap(String): 
+  - filename: String
+  + valueOf(String): DataMap
+  + values(): DataMap[]
+   filename: String
+}
+interface Database << interface >> {
+  + add(DataMap, List<T>): boolean
+  + update(DataMap, Consumer<T>, Predicate<T>): boolean
+  + update(DataMap, Consumer<T>, UUID): boolean
+  + add(DataMap, T): boolean
+  + get(DataMap, Predicate<T>): List<T>
+  + remove(DataMap, UUID): boolean
+  + remove(DataMap, Predicate<T>): boolean
+  + get(DataMap, UUID): T
+}
+class DatabaseObject {
+  + DatabaseObject(): 
+  - id: UUID
+  + equals(Object): boolean
+  + hashCode(): int
+   id: UUID
 }
 entity DynamicMenuItem << record >> {
-    + DynamicMenuItem(String, Runnable, Supplier<Boolean>):
-    + name(): String
-    + displayCondition(): Supplier<Boolean>
-    + action(): Runnable
+  + DynamicMenuItem(String, Runnable, Supplier<Boolean>): 
+  + name(): String
+  + action(): Runnable
+  + displayCondition(): Supplier<Boolean>
 }
 class IT {
-    + IT(int, int, String, String, Seller, int, String, String, LocalDate, ITCategory):
-    - model: String
-    - releaseDate: LocalDate
-    - brand: String
+  + IT(int, int, String, String, UUID, int, String, String, LocalDate, ITCategory): 
+  - brand: String
+  - model: String
+  - releaseDate: LocalDate
+   model: String
+   releaseDate: LocalDate
+   brand: String
 }
 enum ITCategory << enumeration >> {
-    - ITCategory(String):
-    + valueOf(String): ITCategory
-    + toString(): String
-    + values(): ITCategory[]
+  - ITCategory(String): 
+  + valueOf(String): ITCategory
+  + values(): ITCategory[]
+  + toString(): String
+}
+class ITProductDisplay {
+  + ITProductDisplay(UUID, ShopController): 
+  + render(): void
+}
+class JavaSerializedDatabase {
+  + JavaSerializedDatabase(): 
+  + add(DataMap, List<T>): boolean
+  # save(T, String): void
+  # load(String): T
+  + add(DataMap, T): boolean
+  + update(DataMap, Consumer<T>, Predicate<T>): boolean
+  + remove(DataMap, Predicate<T>): boolean
+  + get(DataMap, UUID): T
+  + update(DataMap, Consumer<T>, UUID): boolean
+  + get(DataMap, Predicate<T>): List<T>
+  + remove(DataMap, UUID): boolean
 }
 class LearningResource {
-    + LearningResource(int, int, String, String, Seller, int, int, String, LocalDate, LearningResourceType, int):
-    - isbn: int
-    - organisation: String
-    - editionNumber: int
-    - releaseDate: LocalDate
+  + LearningResource(int, int, String, String, UUID, int, String, String, LocalDate, LearningResourceType, int): 
+  - organisation: String
+  - isbn: String
+  - releaseDate: LocalDate
+  - editionNumber: int
+   organisation: String
+   isbn: String
+   editionNumber: int
+   releaseDate: LocalDate
+}
+class LearningResourceDisplay {
+  + LearningResourceDisplay(UUID, ShopController): 
+  + render(): void
 }
 enum LearningResourceType << enumeration >> {
-    - LearningResourceType(String):
-    + valueOf(String): LearningResourceType
-    + toString(): String
-    + values(): LearningResourceType[]
+  - LearningResourceType(String): 
+  + valueOf(String): LearningResourceType
+  + values(): LearningResourceType[]
+  + toString(): String
+}
+class Like {
+  + Like(UUID, UUID, LikeType): 
+  - likeType: LikeType
+  - likedEntityId: UUID
+  - userId: UUID
+   likeType: LikeType
+   likedEntityId: UUID
+   userId: UUID
+}
+enum LikeType << enumeration >> {
+  + LikeType(): 
+  + valueOf(String): LikeType
+  + values(): LikeType[]
+}
+class LoginForm {
+  + LoginForm(AuthenticationController): 
+  + render(): void
+}
+class MainMenu {
+  + MainMenu(AuthenticationController): 
+  + render(): void
 }
 class Notification {
-    + Notification(String, String):
-    - title: String
-    - id: UUID
-    - content: String
-    + equals(Object): boolean
+  + Notification(UUID, String, String): 
+  - content: String
+  - userId: UUID
+  - title: String
+   content: String
+   title: String
+   userId: UUID
+}
+class OfferProduct {
+  + OfferProduct(ShopController): 
+  + render(): void
 }
 class OfficeEquipment {
-    + OfficeEquipment(int, int, String, String, Seller, int, String, String, OfficeEquipmentCategory):
-    - model: String
-    - brand: String
+  + OfficeEquipment(int, int, String, String, UUID, int, String, String, OfficeEquipmentCategory): 
+  - brand: String
+  - model: String
+   model: String
+   brand: String
 }
 enum OfficeEquipmentCategory << enumeration >> {
-    - OfficeEquipmentCategory(String):
-    + toString(): String
-    + values(): OfficeEquipmentCategory[]
-    + valueOf(String): OfficeEquipmentCategory
+  - OfficeEquipmentCategory(String): 
+  + toString(): String
+  + valueOf(String): OfficeEquipmentCategory
+  + values(): OfficeEquipmentCategory[]
+}
+class OfficeEquipmentDisplay {
+  + OfficeEquipmentDisplay(UUID, ShopController): 
+  + render(): void
+}
+entity OperationResult << record >> {
+  + OperationResult(boolean, String): 
+  - isValid: boolean
+  + message(): String
+   isValid: boolean
 }
 class Order {
-    + Order(int, int, PayementMethod, ArrayList<Tuple<Product, Integer>>, String, String, String, String, String, String, YearMonth, String, Buyer, Seller):
-    - payementMethod: PayementMethod
-    - products: ArrayList<Tuple<Product, Integer>>
-    - address: String
-    - state: OrderState
-    - numberOfFidelityPoints: int
-    - orderDate: LocalDate
-    - numberOfProducts: int
-    - creditCardNumber: String
-    - creditCardSecretDigits: String
-    - phone: String
-    - creditCardName: String
-    - shipment: Shipment
-    - cost: int
-    - email: String
-    - billingAddress: String
-    - buyer: Buyer
-    - seller: Seller
-    - tickets: ArrayList<Ticket>
-    - id: UUID
-    - creditCardExp: YearMonth
-    + setInTransit(String, String, LocalDate): void
-    + createTicket(String, ArrayList<Tuple<Product, Integer>>, TicketCause, TicketState, Order): Ticket
-    + setInProduction(): void
-    + setCancelled(): void
-    + setDelivered(): void
-    + addTicket(Ticket): void
-    + equals(Object): boolean
-    + createTicket(String, TicketCause, TicketState): void
+  + Order(ArrayList<Tuple<Product, Integer>>, int, int, PaymentMethod, String, String, String, String, String, String, YearMonth, String, UUID, UUID): 
+  - fidelityPointsEarned: int
+  - email: String
+  - buyerId: UUID
+  - address: String
+  - shipment: Shipment
+  - paymentMethod: PaymentMethod
+  - state: OrderState
+  - creditCardName: String
+  - orderDate: LocalDate
+  - phone: String
+  - creditCardExp: YearMonth
+  - creditCardSecretDigits: String
+  - totalCost: int
+  - sellerId: UUID
+  - billingAddress: String
+  - products: ArrayList<Tuple<Product, Integer>>
+  - creditCardNumber: String
+   phone: String
+   shipment: Shipment
+   address: String
+   sellerId: UUID
+   email: String
+   creditCardExp: YearMonth
+   creditCardSecretDigits: String
+   creditCardNumber: String
+   fidelityPointsEarned: int
+   orderDate: LocalDate
+   totalCost: int
+   paymentMethod: PaymentMethod
+   creditCardName: String
+   billingAddress: String
+   products: ArrayList<Tuple<Product, Integer>>
+   state: OrderState
+   buyerId: UUID
+}
+class OrderPlacement {
+  + OrderPlacement(ShopController, ProfileController): 
+  + render(): void
 }
 enum OrderState << enumeration >> {
-    - OrderState(String):
-    + toString(): String
-    + values(): OrderState[]
-    + valueOf(String): OrderState
-    options: ArrayList<String>
+  - OrderState(String): 
+  + valueOf(String): OrderState
+  + values(): OrderState[]
+  + toString(): String
+   options: ArrayList<String>
 }
-class PayementMethod {
-    + PayementMethod(int, int, int):
-    - fidelityPointsUsed: int
-    - moneyUsed: int
-    - returnMoneyUsed: int
+enum OrderState << enumeration >> {
+  - OrderState(String): 
+  + valueOf(String): OrderState
+  + toString(): String
+  + values(): OrderState[]
+   options: ArrayList<String>
+}
+class PaymentMethod {
+  + PaymentMethod(int, int, int): 
+  - moneyUsed: int
+  - fidelityPointsUsed: int
+  - returnMoneyUsed: int
+   returnMoneyUsed: int
+   moneyUsed: int
+   fidelityPointsUsed: int
+}
+class PendingSellerOrders {
+  + PendingSellerOrders(ShopController, ProfileController): 
+  + render(): void
+  - displayOrder(Order): void
+  + displayOrderShipmentMenu(Order): void
 }
 class Product {
-    + Product(int, int, String, String, ProductCategory, Enum<?>, Seller, int):
-    - seller: Seller
-    - reviews: ArrayList<Review>
-    - quantity: int
-    - title: String
-    - discount: int
-    - description: String
-    - bonusFidelityPoints: int
-    - subCategory: Enum<?>
-    - cost: int
-    - rating: Rating
-    - commercializationDate: LocalDate
-    - category: ProductCategory
-    - id: UUID
-    - followedBy: ArrayList<Buyer>
-    + toggleFollowedBy(Buyer): void
-    + equals(Object): boolean
-    + toString(): String
-    + addReview(Review): void
-    + getFormattedCost(int): String
-    + removeReview(Review): void
+  + Product(int, int, String, String, ProductCategory, Enum<?>, UUID, int): 
+  - quantity: int
+  - commercializationDate: LocalDate
+  - likes: int
+  - promoEndDate: LocalDate
+  - category: ProductCategory
+  - description: String
+  - promoDiscount: int
+  - promoFidelityPoints: int
+  - price: int
+  - sellerId: UUID
+  - subCategory: Enum<?>
+  - bonusFidelityPoints: int
+  - title: String
+  - rating: int
+  + equals(Object): boolean
+  + toString(): String
+   description: String
+   bonusFidelityPoints: int
+   category: ProductCategory
+   commercializationDate: LocalDate
+   sellerId: UUID
+   promoFidelityPoints: int
+   promoDiscount: int
+   likes: int
+   promoEndDate: LocalDate
+   price: int
+   title: String
+   rating: int
+   subCategory: Enum<?>
+   quantity: int
 }
 enum ProductCategory << enumeration >> {
-    - ProductCategory(String, Class<Enum<?>>):
-    + toString(): String
-    + valueOf(String): ProductCategory
-    + values(): ProductCategory[]
-    subOptions: ArrayList<String>
-    enum: Class<Enum<?>>
-    options: ArrayList<String>
+  - ProductCategory(String, Class<Enum<?>>): 
+  + toString(): String
+  + values(): ProductCategory[]
+  + valueOf(String): ProductCategory
+   subOptions: ArrayList<String>
+   enum: Class<Enum<?>>
+   options: ArrayList<String>
 }
-class Rating {
-    + Rating():
-    - rating: int
-    + removeRating(int): void
-    + addRating(int): void
+class ProductDisplay {
+  + ProductDisplay(UUID, ShopController): 
+  + renderProductInfo(Product): void
+  + renderProductActions(Product): void
+}
+class ProductReview {
+  + ProductReview(UUID, ShopController): 
+  + render(): void
+}
+class ProductReviews {
+  + ProductReviews(UUID, ShopController, ProfileController): 
+  + render(): void
+}
+class ProductSearch {
+  + ProductSearch(ShopController): 
+  + render(): void
+}
+class ProductsMenu {
+  + ProductsMenu(UUID, ShopController): 
+  + render(): void
+}
+class ProfileController {
+  + ProfileController(ViewRenderer, ProfileModel, SocialModel): 
+  + searchBuyerName(String): List<Buyer>
+  + getBuyer(UUID): Buyer
+  + searchBuyerEmail(String): List<Buyer>
+  + searchSellerAddress(String): List<Seller>
+  + searchSellerName(String): List<Seller>
+  + updateSeller(String, String, String, String, String): OperationResult
+  + toggleFollowBuyer(UUID): OperationResult
+  + displayBuyers(List<Buyer>): void
+  + getReviewsByAuthor(UUID): List<Review>
+  + searchBuyerPhone(String): List<Buyer>
+  + getSeller(UUID): Seller
+  + isLiked(UUID): boolean
+  + getReviewLikesByBuyer(UUID): List<Like>
+  + getProductLikesByBuyer(UUID): List<Like>
+  + searchSellerPhone(String): List<Seller>
+  + updateBuyer(String, String, String, String, String, String): OperationResult
+  + toggleLikeSeller(UUID): OperationResult
+  + logout(): void
+  + displaySellerProfile(): void
+  + searchSellerEmail(String): List<Seller>
+  + displaySellers(List<Seller>): void
+  + displayUserFinder(): void
+  + displayBuyerProfile(): void
+  + isLiked(UUID, UUID): boolean
+   buyer: Buyer
+   seller: Seller
+}
+class ProfileModel {
+  + ProfileModel(Database): 
+  + searchBuyers(Predicate<Buyer>): List<Buyer>
+  + updateBuyer(UUID, String, String, String, String, String, String): OperationResult
+  + updateSeller(UUID, String, String, String, String, String): OperationResult
+  + getBuyer(UUID): Buyer
+  + searchSellers(Predicate<Seller>): List<Seller>
+  + getSeller(UUID): Seller
+  + logout(): void
 }
 class Review {
-    + Review(String, String, Buyer, Product, int):
-    - content: String
-    - title: String
-    - product: Product
-    - likes: int
-    - rating: int
-    - reports: int
-    - author: Buyer
-    - id: UUID
-    - creationDate: LocalDate
-    + delete(): void
-    - updateAuthorPoints(): void
-    + equals(Object): boolean
-    + arePointsGiven(): boolean
-    + toString(): String
+  + Review(UUID, UUID, String, int, LocalDate): 
+  - rating: int
+  - comment: String
+  - reportedBy: UUID
+  - likes: int
+  - authorId: UUID
+  - creationDate: LocalDate
+  - productId: UUID
+   comment: String
+   creationDate: LocalDate
+   likes: int
+   reportedBy: UUID
+   rating: int
+   productId: UUID
+   isReported: boolean
+   authorId: UUID
 }
 class Seller {
-    + Seller(String, String, String, String, String):
-    - name: String
-    - productsOffered: ArrayList<Product>
-    - ordersSold: ArrayList<Order>
-    - followedBy: ArrayList<Buyer>
-    + removeProductOffered(Product): void
-    + addProductOffered(Product): void
-    + addOrderSold(Order): void
-    + getMetrics(int): SellerMetrics
-    + equals(Object): boolean
-    + toggleFollowedBy(Buyer): void
-    + removeOrderSold(Order): void
+  + Seller(String, int, String, String, String): 
+  - name: String
+   name: String
 }
-entity SellerMetrics << record >> {
-    + SellerMetrics(int, int, int, int, int, int, int):
-    + recentRevenue(): int
-    + totalRevenue(): int
-    + averageTotalProductRating(): int
-    + numberTotalProductsSold(): int
-    + numberRecentProductsSold(): int
-    + averageRecentProductRating(): int
-    + numberProductsOffered(): int
+class SellerCreationForm {
+  + SellerCreationForm(AuthenticationController): 
+  + render(): void
+}
+class SellerMenu {
+  + SellerMenu(ProfileController, ShopController, TicketController): 
+  + render(): void
+}
+class SellerProfile {
+  + SellerProfile(ProfileController, AuthenticationController): 
+  + render(): void
+}
+class SellersDisplay {
+  + SellersDisplay(ProfileController, ShopController, List<Seller>): 
+  + render(): void
+}
+class Session {
+  - Session(UUID, UserType): 
+  - userType: UserType
+  - userId: UUID
+  + createSession(UUID, UserType): Session
+  + clearSession(): void
+   instance: Session
+   userType: UserType
+   userId: UUID
 }
 class Shipment {
-    + Shipment(String, LocalDate, String):
-    - isDeliveryConfirmed: boolean
-    - trackingNumber: String
-    - creationDate: LocalDate
-    - expectedDeliveryDate: LocalDate
-    - shippingCompany: String
-    + confirmDelivery(): void
+  + Shipment(String, LocalDate, String): 
+  - isDeliveryConfirmed: boolean
+  - creationDate: LocalDate
+  - trackingNumber: String
+  - shippingCompany: String
+  - expectedDeliveryDate: LocalDate
+  + confirmDelivery(): void
+   creationDate: LocalDate
+   expectedDeliveryDate: LocalDate
+   shippingCompany: String
+   trackingNumber: String
+   isDeliveryConfirmed: boolean
+}
+class ShopController {
+  + ShopController(ViewRenderer, ShopModel, ProfileModel, SocialModel): 
+  + displayProductSearch(): void
+  + getSellerOrders(UUID): List<Order>
+  + submitNewStationeryArticle(int, int, String, String, int, String, String, StationeryArticleCategory): OperationResult
+  + searchProductsBySeller(UUID): List<Product>
+  + displayProduct(Product): void
+  + submitNewBookOrManual(int, int, String, String, int, String, String, String, BookOrManualGenre, LocalDate, int, int): OperationResult
+  + getSeller(UUID): Seller
+  + getProductReviewByUser(UUID): Review
+  + getProduct(Class<T>, UUID): T
+  + submitNewLearningResource(int, int, String, String, int, String, String, LocalDate, LearningResourceType, int): OperationResult
+  + shipOrder(UUID, String, String, LocalDate): OperationResult
+  + validateQuantity(UUID, int): OperationResult
+  + confirmDelivery(UUID): OperationResult
+  + addToCart(UUID, int): OperationResult
+  + displayCart(): void
+  + removeFromCart(UUID, int): OperationResult
+  + displayPendingSellerOrders(): void
+  + createOrder(String, String, String, String, String, String, YearMonth, String, int): OperationResult
+  + cancelOrder(UUID): OperationResult
+  + displayProductReview(UUID): void
+  + getProducts(ProductCategory, Enum<?>, UUID): List<Product>
+  + displayOfferProduct(): void
+  + displayOrderPlacement(): void
+  + displayReviews(UUID): void
+  + displayProducts(UUID): void
+  + getProductReviews(UUID): List<Review>
+  + displayBuyerOrdersMenu(): void
+  + submitNewOfficeEquipment(int, int, String, String, int, String, String, OfficeEquipmentCategory): OperationResult
+  + submitNewITProduct(int, int, String, String, int, String, String, LocalDate, ITCategory): OperationResult
+  + emptyCart(): OperationResult
+  + searchProductsTitleDescription(String): List<Product>
+  + addReview(UUID, String, int): OperationResult
+  + toggleLike(UUID): OperationResult
+  + calculateNewCost(int, int): Tuple<Integer, Integer>
+   pendingSellerOrders: List<Order>
+   buyerOrders: List<Order>
+   cart: List<Tuple<CartProduct, Product>>
+}
+class ShopModel {
+  + ShopModel(Database): 
+  + confirmDelivery(UUID): OperationResult
+  + validateQuantity(UUID, int): OperationResult
+  + createNewLearningResource(UUID, int, int, String, String, int, String, String, LocalDate, LearningResourceType, int): OperationResult
+  + createOrders(UUID, String, String, String, String, String, String, YearMonth, String, int): OperationResult
+  + getOrders(UUID, UUID): List<Order>
+  + costAfterFidelityPoints(int, int): Tuple<Integer, Integer>
+  + getOrders(Predicate<Order>): List<Order>
+  + shipOrder(UUID, String, String, LocalDate): OperationResult
+  + createNewBookOrManual(UUID, int, int, String, String, int, String, String, String, BookOrManualGenre, LocalDate, int, int): OperationResult
+  + createNewStationeryArticle(UUID, int, int, String, String, int, String, String, StationeryArticleCategory): OperationResult
+  + getCart(UUID): List<Tuple<CartProduct, Product>>
+  + cancelOrder(UUID): OperationResult
+  + getProducts(ProductCategory, Enum<?>, UUID): List<Product>
+  + createNewOfficeEquipment(UUID, int, int, String, String, int, String, String, OfficeEquipmentCategory): OperationResult
+  + createNewITProduct(UUID, int, int, String, String, int, String, String, LocalDate, ITCategory): OperationResult
+  + emptyCart(UUID): OperationResult
+  + getProduct(Class<T>, UUID): T
+  + searchProducts(Predicate<Product>): List<Product>
+  + removeFromCart(UUID, int): OperationResult
+  - validateQuantity(Product, int): OperationResult
+  + addToCart(UUID, UUID, int): OperationResult
+   products: List<Product>
+}
+class SocialModel {
+  + SocialModel(Database): 
+  + isLiked(UUID, UUID): boolean
+  + getLikes(UUID, UUID, LikeType): List<Like>
+  - updateProductRating(UUID): void
+  + toggleLikeSeller(UUID): OperationResult
+  + toggleLikeReview(UUID): OperationResult
+  + addReview(UUID, UUID, String, int): OperationResult
+  + toggleLikeProduct(UUID): OperationResult
+  + getReviewsByProduct(UUID): List<Review>
+  + toggleFollowBuyer(UUID): OperationResult
+  + getReviewsByAuthor(UUID): List<Review>
+  + getReview(UUID, UUID): Review
 }
 class StationeryArticle {
-    + StationeryArticle(int, int, String, String, Seller, int, String, String, StationeryArticleCategory):
-    - brand: String
-    - model: String
+  + StationeryArticle(int, int, String, String, UUID, int, String, String, StationeryArticleCategory): 
+  - brand: String
+  - model: String
+   model: String
+   brand: String
 }
 enum StationeryArticleCategory << enumeration >> {
-    - StationeryArticleCategory(String):
-    + toString(): String
-    + valueOf(String): StationeryArticleCategory
-    + values(): StationeryArticleCategory[]
+  - StationeryArticleCategory(String): 
+  + toString(): String
+  + valueOf(String): StationeryArticleCategory
+  + values(): StationeryArticleCategory[]
+}
+class StationeryArticleDisplay {
+  + StationeryArticleDisplay(UUID, ShopController): 
+  + render(): void
 }
 class Ticket {
-    + Ticket(String, Order, ArrayList<Tuple<Product, Integer>>, TicketCause, TicketState, Buyer, Seller):
-    - products: ArrayList<Tuple<Product, Integer>>
-    - creationDate: LocalDate
-    - replacementShipment: Shipment
-    - suggestedSolution: String
-    - buyer: Buyer
-    - problemDescription: String
-    - order: Order
-    - cause: TicketCause
-    - id: UUID
-    - seller: Seller
-    - replacementProductDescription: String
-    - returnShipment: Shipment
-    - state: TicketState
-    + equals(Object): boolean
-    + createReplacementShipment(String, LocalDate, String): void
-    + updateState(): void
-    + createReturnShipment(String, LocalDate, String): void
+  + Ticket(String, Order, ArrayList<Tuple<Product, Integer>>, TicketCause, TicketState, UUID, UUID): 
+  - cause: TicketCause
+  - replacementShipment: Shipment
+  - id: UUID
+  - problemDescription: String
+  - buyerId: UUID
+  - order: Order
+  - state: TicketState
+  - returnShipment: Shipment
+  - sellerId: UUID
+  - replacementProductDescription: String
+  - creationDate: LocalDate
+  - suggestedSolution: String
+  - products: ArrayList<Tuple<Product, Integer>>
+  + updateState(): void
+  + equals(Object): boolean
+   replacementShipment: Shipment
+   suggestedSolution: String
+   id: UUID
+   sellerId: UUID
+   order: Order
+   problemDescription: String
+   state: TicketState
+   creationDate: LocalDate
+   replacementProductDescription: String
+   cause: TicketCause
+   returnShipment: Shipment
+   products: ArrayList<Tuple<Product, Integer>>
+   buyerId: UUID
 }
 enum TicketCause << enumeration >> {
-    - TicketCause(String):
-    + values(): TicketCause[]
-    + toString(): String
-    + valueOf(String): TicketCause
-    options: ArrayList<String>
+  - TicketCause(String): 
+  + valueOf(String): TicketCause
+  + toString(): String
+  + values(): TicketCause[]
+}
+class TicketController {
+  + TicketController(ViewRenderer, TicketingModel): 
+  + createReturnShipment(UUID, String, LocalDate, String): OperationResult
+  + displayTickets(): void
+  + createReplacementShipment(UUID, String, LocalDate, String): OperationResult
+  + displayTicket(UUID): void
+  + getTicket(UUID): Ticket
+   tickets: List<Ticket>
+}
+class TicketDisplay {
+  + TicketDisplay(UUID, TicketController, ProfileController): 
+  + displayTicket(Ticket): void
+  + render(): void
 }
 enum TicketState << enumeration >> {
-    - TicketState(String):
-    + toString(): String
-    + valueOf(String): TicketState
-    + values(): TicketState[]
-    options: ArrayList<String>
+  - TicketState(String): 
+  + values(): TicketState[]
+  + valueOf(String): TicketState
+  + toString(): String
+}
+class TicketingModel {
+  + TicketingModel(Database): 
+  + getTickets(Predicate<Ticket>): List<Ticket>
+  + getTicket(UUID): Ticket
+  + createReplacementShipment(UUID, String, LocalDate, String): OperationResult
+  + createReturnShipment(UUID, String, LocalDate, String): OperationResult
+}
+class TicketsMenu {
+  + TicketsMenu(TicketController, ProfileController): 
+  + render(): void
 }
 class Tuple<A, B> {
-    + Tuple(A, B):
+  + Tuple(A, B): 
 }
 class UniShop {
-    + UniShop():
-    - sellerList: HashMap<String, Seller>
-    - catalog: ArrayList<Product>
-    - currentUser: User
-    - buyerList: HashMap<String, Buyer>
-    + loginSeller(String, String): void
-    + loadUserList(String): void
-    + addUser(Seller): void
-    + updateCatalog(): void
-    + saveUserList(String): void
-    + addUser(Buyer): void
-    + removeUser(Buyer): void
-    + removeUser(Seller): void
-    + loginBuyer(String, String): void
-    + isPasswordMatching(String): boolean
+  - UniShop(): 
+  - renderer: ViewRenderer
+  - authController: AuthenticationController
+  - profileController: ProfileController
+  - shopController: ShopController
+  - profile: ProfileModel
+  - ticketController: TicketController
+  - auth: AuthenticationModel
+   instance: UniShop
+   shopController: ShopController
+   renderer: ViewRenderer
+   auth: AuthenticationModel
+   profileController: ProfileController
+   profile: ProfileModel
+   authController: AuthenticationController
+   ticketController: TicketController
 }
 class User {
-    + User(String, String, String, String):
-    - phoneNumber: String
-    - password: int
-    - tickets: ArrayList<Ticket>
-    - notifications: ArrayList<Notification>
-    - address: String
-    - id: UUID
-    - email: String
-    + removeNotification(Notification): void
-    + addNotification(Notification): void
-    + hashCode(): int
-    + addTicket(Ticket): void
-    + updatePassword(String, String): void
+  + User(String, int, String, String): 
+  - email: String
+  - address: String
+  - passwordHash: int
+  - likes: int
+  - phoneNumber: String
+   likes: int
+   passwordHash: int
+   address: String
+   email: String
+   phoneNumber: String
+}
+class UserFinder {
+  + UserFinder(ProfileController): 
+  - findBuyer(): void
+  + render(): void
+  - findSeller(): void
+}
+enum UserType << enumeration >> {
+  + UserType(): 
+  + valueOf(String): UserType
+  + values(): UserType[]
 }
 class Utils {
-    + Utils():
-    # prettyMenu(String, ArrayList<String>): int
-    + validateBonusFidelityPoints(int, int): ValidationResult
-    # prettyMenuT(String, ArrayList<T>): T
-    # prettyPrompt(String, Function<String, ValidationResult>): String
-    + validatePhoneNumber(String): ValidationResult
-    + validateNumberRange(int, int, int): ValidationResult
-    # prettyPrompt(String): String
-    # prettyPromptInt(String, Function<Integer, ValidationResult>): int
-    # prettyMenu(String, ArrayList<ArrayList<String>>, String): int
-    # quit(UniShop): void
-    # prettyPromptCurrency(String): int
-    # prettyPromptDate(String): LocalDate
-    + validateNotEmpty(String): ValidationResult
-    + validateName(String): ValidationResult
-    + waitForKey(): void
-    + validateISBN(String): ValidationResult
-    # prettyPromptBool(String): boolean
-    + validateEmail(String): ValidationResult
-    # prettify(String): String
-    + prettyDynamicMenu(String, String, ArrayList<DynamicMenuItem>, Runnable): void
-    + prettyPaginationMenu(List<T>, int, String, Consumer<T>, Function<T, String>, Consumer<T>): void
-    # logout(UniShop): void
-    # prettyMenu(String, String[]): int
-    # clearConsole(): void
-    # prettyPromptInt(String): int
-    # prettyMenu(String, Class<T>): T
+  + Utils(): 
+  + prettify(String): String
+  + prettyPromptBool(String): boolean
+  + prettyPromptCurrency(String): int
+  + prettyMenu(String, String[]): int
+  + waitForKey(): void
+  # prettyMenuT(String, ArrayList<T>): T
+  + prettyPrompt(String, Function<String, OperationResult>): String
+  # prettyMenu(String, ArrayList<ArrayList<String>>, String): int
+  + prettyPromptInt(String, Function<Integer, OperationResult>): int
+  + validateISBN(String): OperationResult
+  + validateNumberRange(int, int, int): OperationResult
+  + prettyPaginationMenu(List<T>, int, String, Consumer<T>, Function<T, String>, Consumer<T>): void
+  + quit(): void
+  + formatMoney(int): String
+  + validateName(String): OperationResult
+  + clearConsole(): void
+  + validateBonusFidelityPoints(int, int): OperationResult
+  + validateEmail(String): OperationResult
+  + prettyMenu(String, Class<T>): T
+  + prettyDynamicMenu(String, String, ArrayList<DynamicMenuItem>, Runnable): void
+  + prettyPromptInt(String): int
+  + prettyPrompt(String): String
+  + validatePhoneNumber(String): OperationResult
+  + prettyMenu(String, ArrayList<String>): int
+  + prettyPromptDate(String): LocalDate
+  + validateNotEmpty(String): OperationResult
 }
-entity ValidationResult << record >> {
-    + ValidationResult(boolean, String):
-    - isValid: boolean
-    + message(): String
+class UtilsTest {
+  + UtilsTest(): 
+  + testPrettify(): void
+}
+class View {
+  + View(): 
+  + render(): void
+}
+class ViewRenderer {
+  + ViewRenderer(): 
+  + addNextView(View, boolean): void
+  + clearViewHistory(): void
+  + renderViews(): void
 }
 
-BookOrManual               -[#000082,plain]-^  Product
-Buyer                     "1" *-[#595959,plain]-> "buyersLiked\n*" Buyer
-Buyer                      -[#595959,dashed]->  BuyerMetrics
-Buyer                     "1" *-[#595959,plain]-> "returnCart\n1" Cart
-Buyer                     "1" *-[#595959,plain]-> "orders\n*" Order
-Buyer                     "1" *-[#595959,plain]-> "productsLiked\n*" Product
-Buyer                     "1" *-[#595959,plain]-> "reviewsLiked\n*" Review
-Buyer                     "1" *-[#595959,plain]-> "sellersLiked\n*" Seller
-Buyer                      -[#000082,plain]-^  User
-Cart                      "1" *-[#595959,plain]-> "buyer\n1" Buyer
-Cart                       -[#595959,dashed]->  Product
-Cart                      "1" *-[#595959,plain]-> "products\n*" Tuple
-Client                     -[#595959,dashed]->  Buyer
-Client                     -[#595959,dashed]->  Seller
-Client                    "1" *-[#595959,plain]-> "unishop\n1" UniShop
-DynamicMenuItem            +-[#820000,plain]-  Utils
-IT                         -[#000082,plain]-^  Product
-LearningResource           -[#000082,plain]-^  Product
-OfficeEquipment            -[#000082,plain]-^  Product
-Order                     "1" *-[#595959,plain]-> "buyer\n1" Buyer
-Order                     "1" *-[#595959,plain]-> "state\n1" OrderState
-Order                     "1" *-[#595959,plain]-> "payementMethod\n1" PayementMethod
-Order                      -[#595959,dashed]->  Product
-Order                     "1" *-[#595959,plain]-> "seller\n1" Seller
-Order                     "1" *-[#595959,plain]-> "shipment\n1" Shipment
-Order                     "1" *-[#595959,plain]-> "tickets\n*" Ticket
-Order                     "1" *-[#595959,plain]-> "products\n*" Tuple
-Product                   "1" *-[#595959,plain]-> "followedBy\n*" Buyer
-Product                   "1" *-[#595959,plain]-> "category\n1" ProductCategory
-Product                   "1" *-[#595959,plain]-> "rating\n1" Rating
-Product                   "1" *-[#595959,plain]-> "reviews\n*" Review
-Product                   "1" *-[#595959,plain]-> "seller\n1" Seller
-Review                    "1" *-[#595959,plain]-> "author\n1" Buyer
-Review                    "1" *-[#595959,plain]-> "product\n1" Product
-Seller                    "1" *-[#595959,plain]-> "followedBy\n*" Buyer
-Seller                    "1" *-[#595959,plain]-> "ordersSold\n*" Order
-Seller                    "1" *-[#595959,plain]-> "productsOffered\n*" Product
-Seller                     -[#595959,dashed]->  SellerMetrics
-Seller                     -[#000082,plain]-^  User
-StationeryArticle          -[#000082,plain]-^  Product
-Ticket                    "1" *-[#595959,plain]-> "buyer\n1" Buyer
-Ticket                    "1" *-[#595959,plain]-> "order\n1" Order
-Ticket                     -[#595959,dashed]->  Product
-Ticket                    "1" *-[#595959,plain]-> "seller\n1" Seller
-Ticket                    "1" *-[#595959,plain]-> "returnShipment\n1" Shipment
-Ticket                    "1" *-[#595959,plain]-> "cause\n1" TicketCause
-Ticket                    "1" *-[#595959,plain]-> "state\n1" TicketState
-Ticket                    "1" *-[#595959,plain]-> "products\n*" Tuple
-UniShop                   "1" *-[#595959,plain]-> "buyerList\n*" Buyer
-UniShop                   "1" *-[#595959,plain]-> "catalog\n*" Product
-UniShop                   "1" *-[#595959,plain]-> "sellerList\n*" Seller
-UniShop                   "1" *-[#595959,plain]-> "currentUser\n1" User
-User                      "1" *-[#595959,plain]-> "notifications\n*" Notification
-User                      "1" *-[#595959,plain]-> "tickets\n*" Ticket
-Utils                      -[#595959,dashed]->  ValidationResult
-ValidationResult           +-[#820000,plain]-  Utils
+AccountCreationOptions    "1" *-[#595959,plain]-> "authController\n1" AuthenticationController  
+AccountCreationOptions     -[#000082,plain]-^  View                      
+AuthenticationController  "1" *-[#595959,plain]-> "authModel\n1" AuthenticationModel       
+AuthenticationController   -[#595959,dashed]->  OperationResult           
+AuthenticationController  "1" *-[#595959,plain]-> "renderer\n1" ViewRenderer              
+AuthenticationModel        -[#595959,dashed]->  Buyer                     : "«create»"
+AuthenticationModel        -[#595959,dashed]->  DataMap                   
+AuthenticationModel       "1" *-[#595959,plain]-> "db\n1" Database                  
+AuthenticationModel        -[#595959,dashed]->  DatabaseObject            
+AuthenticationModel        -[#595959,dashed]->  OperationResult           : "«create»"
+AuthenticationModel        -[#595959,dashed]->  Seller                    : "«create»"
+AuthenticationModel        -[#595959,dashed]->  Session                   
+AuthenticationModel        -[#595959,dashed]->  User                      
+AuthenticationModel        -[#595959,dashed]->  UserType                  
+BookOrManual               -[#595959,dashed]->  BookOrManualGenre         
+BookOrManual               -[#000082,plain]-^  Product                   
+BookOrManual               -[#595959,dashed]->  ProductCategory           
+BookOrManualDisplay        -[#595959,dashed]->  BookOrManual              
+BookOrManualDisplay        -[#000082,plain]-^  ProductDisplay            
+BookOrManualDisplay        -[#595959,dashed]->  ShopController            
+BookOrManualDisplay        -[#595959,dashed]->  Utils                     
+Buyer                      -[#595959,dashed]->  Buyer                     
+Buyer                      -[#000082,plain]-^  User                      
+BuyerCreationForm         "1" *-[#595959,plain]-> "authController\n1" AuthenticationController  
+BuyerCreationForm          -[#000082,plain]-^  View                      
+BuyerMenu                 "1" *-[#595959,plain]-> "profileController\n1" ProfileController         
+BuyerMenu                 "1" *-[#595959,plain]-> "shopController\n1" ShopController            
+BuyerMenu                 "1" *-[#595959,plain]-> "ticketController\n1" TicketController          
+BuyerMenu                  -[#000082,plain]-^  View                      
+BuyerOrdersMenu            -[#595959,dashed]->  BuyerOrdersMenu           
+BuyerOrdersMenu            -[#595959,dashed]->  DatabaseObject            
+BuyerOrdersMenu            -[#595959,dashed]->  DynamicMenuItem           : "«create»"
+BuyerOrdersMenu            -[#595959,dashed]->  OperationResult           
+BuyerOrdersMenu            -[#595959,dashed]->  Order                     
+BuyerOrdersMenu            -[#595959,dashed]->  OrderState                
+BuyerOrdersMenu            -[#595959,dashed]->  PaymentMethod             
+BuyerOrdersMenu            -[#595959,dashed]->  Product                   
+BuyerOrdersMenu           "1" *-[#595959,plain]-> "profileController\n1" ProfileController         
+BuyerOrdersMenu            -[#595959,dashed]->  Seller                    
+BuyerOrdersMenu            -[#595959,dashed]->  Shipment                  
+BuyerOrdersMenu           "1" *-[#595959,plain]-> "shopController\n1" ShopController            
+BuyerOrdersMenu            -[#595959,dashed]->  Utils                     
+BuyerOrdersMenu            -[#000082,plain]-^  View                      
+BuyerProfile              "1" *-[#595959,plain]-> "authController\n1" AuthenticationController  
+BuyerProfile               -[#595959,dashed]->  Buyer                     
+BuyerProfile               -[#595959,dashed]->  DatabaseObject            
+BuyerProfile               -[#595959,dashed]->  OperationResult           
+BuyerProfile              "1" *-[#595959,plain]-> "profileController\n1" ProfileController         
+BuyerProfile               -[#595959,dashed]->  User                      
+BuyerProfile               -[#595959,dashed]->  Utils                     
+BuyerProfile               -[#000082,plain]-^  View                      
+BuyersDisplay             "1" *-[#595959,plain]-> "buyerList\n*" Buyer                     
+BuyersDisplay              -[#595959,dashed]->  DatabaseObject            
+BuyersDisplay             "1" *-[#595959,plain]-> "profileController\n1" ProfileController         
+BuyersDisplay              -[#595959,dashed]->  Utils                     
+BuyersDisplay              -[#000082,plain]-^  View                      
+Cart                       -[#595959,dashed]->  CartProduct               
+Cart                       -[#595959,dashed]->  DatabaseObject            
+Cart                       -[#595959,dashed]->  OperationResult           
+Cart                       -[#595959,dashed]->  Product                   
+Cart                      "1" *-[#595959,plain]-> "shopController\n1" ShopController            
+Cart                       -[#595959,dashed]->  Tuple                     
+Cart                       -[#595959,dashed]->  Utils                     
+Cart                       -[#000082,plain]-^  View                      
+CartProduct                -[#000082,plain]-^  DatabaseObject            
+Database                   -[#595959,dashed]->  DataMap                   
+DatabaseObject             -[#595959,dashed]->  DatabaseObject            
+DynamicMenuItem            +-[#820000,plain]-  Utils                     
+IT                         -[#595959,dashed]->  ITCategory                
+IT                         -[#000082,plain]-^  Product                   
+IT                         -[#595959,dashed]->  ProductCategory           
+ITProductDisplay           -[#595959,dashed]->  IT                        
+ITProductDisplay           -[#000082,plain]-^  ProductDisplay            
+ITProductDisplay           -[#595959,dashed]->  ShopController            
+ITProductDisplay           -[#595959,dashed]->  Utils                     
+JavaSerializedDatabase     -[#595959,dashed]->  Client                    
+JavaSerializedDatabase     -[#595959,dashed]->  DataMap                   
+JavaSerializedDatabase     -[#008200,dashed]-^  Database                  
+JavaSerializedDatabase     -[#595959,dashed]->  DatabaseObject            
+JavaSerializedDatabase     -[#595959,dashed]->  JavaSerializedDatabase    
+LearningResource           -[#595959,dashed]->  LearningResourceType      
+LearningResource           -[#000082,plain]-^  Product                   
+LearningResource           -[#595959,dashed]->  ProductCategory           
+LearningResourceDisplay    -[#595959,dashed]->  LearningResource          
+LearningResourceDisplay    -[#000082,plain]-^  ProductDisplay            
+LearningResourceDisplay    -[#595959,dashed]->  ShopController            
+LearningResourceDisplay    -[#595959,dashed]->  Utils                     
+Like                       -[#000082,plain]-^  DatabaseObject            
+Like                      "1" *-[#595959,plain]-> "likeType\n1" LikeType                  
+LoginForm                 "1" *-[#595959,plain]-> "authController\n1" AuthenticationController  
+LoginForm                  -[#000082,plain]-^  View                      
+MainMenu                  "1" *-[#595959,plain]-> "authController\n1" AuthenticationController  
+MainMenu                   -[#000082,plain]-^  View                      
+Notification               -[#000082,plain]-^  DatabaseObject            
+OfferProduct               -[#595959,dashed]->  BookOrManualGenre         
+OfferProduct               -[#595959,dashed]->  ITCategory                
+OfferProduct               -[#595959,dashed]->  LearningResourceType      
+OfferProduct               -[#595959,dashed]->  OfficeEquipmentCategory   
+OfferProduct               -[#595959,dashed]->  OperationResult           : "«create»"
+OfferProduct               -[#595959,dashed]->  ProductCategory           
+OfferProduct              "1" *-[#595959,plain]-> "shopController\n1" ShopController            
+OfferProduct               -[#595959,dashed]->  StationeryArticleCategory 
+OfferProduct               -[#595959,dashed]->  Utils                     
+OfferProduct               -[#000082,plain]-^  View                      
+OfficeEquipment            -[#595959,dashed]->  OfficeEquipmentCategory   
+OfficeEquipment            -[#000082,plain]-^  Product                   
+OfficeEquipment            -[#595959,dashed]->  ProductCategory           
+OfficeEquipmentDisplay     -[#595959,dashed]->  OfficeEquipment           
+OfficeEquipmentDisplay     -[#000082,plain]-^  ProductDisplay            
+OfficeEquipmentDisplay     -[#595959,dashed]->  ShopController            
+OfficeEquipmentDisplay     -[#595959,dashed]->  Utils                     
+Order                      -[#000082,plain]-^  DatabaseObject            
+Order                     "1" *-[#595959,plain]-> "state\n1" OrderState                
+Order                     "1" *-[#595959,plain]-> "paymentMethod\n1" PaymentMethod             
+Order                      -[#595959,dashed]->  Product                   
+Order                     "1" *-[#595959,plain]-> "shipment\n1" Shipment                  
+Order                     "1" *-[#595959,plain]-> "products\n*" Tuple                     
+OrderPlacement             -[#595959,dashed]->  Buyer                     
+OrderPlacement             -[#595959,dashed]->  CartProduct               
+OrderPlacement             -[#595959,dashed]->  OperationResult           
+OrderPlacement             -[#595959,dashed]->  Product                   
+OrderPlacement            "1" *-[#595959,plain]-> "profileController\n1" ProfileController         
+OrderPlacement            "1" *-[#595959,plain]-> "shopController\n1" ShopController            
+OrderPlacement             -[#595959,dashed]->  Tuple                     
+OrderPlacement             -[#595959,dashed]->  User                      
+OrderPlacement             -[#595959,dashed]->  Utils                     
+OrderPlacement             -[#000082,plain]-^  View                      
+OrderState                 -[#595959,dashed]->  OrderState                
+PendingSellerOrders        -[#595959,dashed]->  Buyer                     
+PendingSellerOrders        -[#595959,dashed]->  DatabaseObject            
+PendingSellerOrders        -[#595959,dashed]->  OperationResult           
+PendingSellerOrders        -[#595959,dashed]->  Order                     
+PendingSellerOrders        -[#595959,dashed]->  OrderState                
+PendingSellerOrders        -[#595959,dashed]->  PaymentMethod             
+PendingSellerOrders        -[#595959,dashed]->  PendingSellerOrders       
+PendingSellerOrders        -[#595959,dashed]->  Product                   
+PendingSellerOrders       "1" *-[#595959,plain]-> "profileController\n1" ProfileController         
+PendingSellerOrders        -[#595959,dashed]->  Seller                    
+PendingSellerOrders        -[#595959,dashed]->  Shipment                  
+PendingSellerOrders       "1" *-[#595959,plain]-> "shopController\n1" ShopController            
+PendingSellerOrders        -[#595959,dashed]->  Tuple                     
+PendingSellerOrders        -[#595959,dashed]->  Utils                     
+PendingSellerOrders        -[#000082,plain]-^  View                      
+Product                    -[#000082,plain]-^  DatabaseObject            
+Product                    -[#595959,dashed]->  Product                   
+Product                   "1" *-[#595959,plain]-> "category\n1" ProductCategory           
+ProductCategory            -[#595959,dashed]->  BookOrManualGenre         
+ProductCategory            -[#595959,dashed]->  ITCategory                
+ProductCategory            -[#595959,dashed]->  LearningResourceType      
+ProductCategory            -[#595959,dashed]->  OfficeEquipmentCategory   
+ProductCategory            -[#595959,dashed]->  ProductCategory           
+ProductCategory            -[#595959,dashed]->  StationeryArticleCategory 
+ProductDisplay             -[#595959,dashed]->  DatabaseObject            
+ProductDisplay             -[#595959,dashed]->  OperationResult           
+ProductDisplay             -[#595959,dashed]->  Product                   
+ProductDisplay             -[#595959,dashed]->  Seller                    
+ProductDisplay            "1" *-[#595959,plain]-> "shopController\n1" ShopController            
+ProductDisplay             -[#595959,dashed]->  Utils                     
+ProductDisplay             -[#000082,plain]-^  View                      
+ProductReview              -[#595959,dashed]->  Review                    
+ProductReview             "1" *-[#595959,plain]-> "shopController\n1" ShopController            
+ProductReview              -[#595959,dashed]->  Utils                     
+ProductReview              -[#000082,plain]-^  View                      
+ProductReviews             -[#595959,dashed]->  Buyer                     
+ProductReviews            "1" *-[#595959,plain]-> "profileController\n1" ProfileController         
+ProductReviews             -[#595959,dashed]->  Review                    
+ProductReviews            "1" *-[#595959,plain]-> "shopController\n1" ShopController            
+ProductReviews             -[#595959,dashed]->  Utils                     
+ProductReviews             -[#000082,plain]-^  View                      
+ProductSearch              -[#595959,dashed]->  Product                   
+ProductSearch             "1" *-[#595959,plain]-> "shopController\n1" ShopController            
+ProductSearch              -[#595959,dashed]->  Utils                     
+ProductSearch              -[#000082,plain]-^  View                      
+ProductsMenu               -[#595959,dashed]->  Product                   
+ProductsMenu               -[#595959,dashed]->  ProductCategory           
+ProductsMenu              "1" *-[#595959,plain]-> "shopController\n1" ShopController            
+ProductsMenu               -[#595959,dashed]->  Utils                     
+ProductsMenu               -[#000082,plain]-^  View                      
+ProfileController          -[#595959,dashed]->  Buyer                     
+ProfileController          -[#595959,dashed]->  BuyerProfile              : "«create»"
+ProfileController          -[#595959,dashed]->  BuyersDisplay             : "«create»"
+ProfileController          -[#595959,dashed]->  Like                      
+ProfileController          -[#595959,dashed]->  LikeType                  
+ProfileController          -[#595959,dashed]->  MainMenu                  : "«create»"
+ProfileController          -[#595959,dashed]->  OperationResult           
+ProfileController         "1" *-[#595959,plain]-> "profileModel\n1" ProfileModel              
+ProfileController          -[#595959,dashed]->  Review                    
+ProfileController          -[#595959,dashed]->  Seller                    
+ProfileController          -[#595959,dashed]->  SellerProfile             : "«create»"
+ProfileController          -[#595959,dashed]->  SellersDisplay            : "«create»"
+ProfileController          -[#595959,dashed]->  Session                   
+ProfileController         "1" *-[#595959,plain]-> "socialModel\n1" SocialModel               
+ProfileController          -[#595959,dashed]->  UniShop                   
+ProfileController          -[#595959,dashed]->  User                      
+ProfileController          -[#595959,dashed]->  UserFinder                : "«create»"
+ProfileController         "1" *-[#595959,plain]-> "renderer\n1" ViewRenderer              
+ProfileModel               -[#595959,dashed]->  Buyer                     
+ProfileModel               -[#595959,dashed]->  DataMap                   
+ProfileModel              "1" *-[#595959,plain]-> "db\n1" Database                  
+ProfileModel               -[#595959,dashed]->  DatabaseObject            
+ProfileModel               -[#595959,dashed]->  OperationResult           : "«create»"
+ProfileModel               -[#595959,dashed]->  Seller                    
+ProfileModel               -[#595959,dashed]->  Session                   
+ProfileModel               -[#595959,dashed]->  User                      
+Review                     -[#000082,plain]-^  DatabaseObject            
+Seller                     -[#595959,dashed]->  Seller                    
+Seller                     -[#000082,plain]-^  User                      
+SellerCreationForm        "1" *-[#595959,plain]-> "authController\n1" AuthenticationController  
+SellerCreationForm         -[#000082,plain]-^  View                      
+SellerMenu                "1" *-[#595959,plain]-> "profileController\n1" ProfileController         
+SellerMenu                "1" *-[#595959,plain]-> "shopController\n1" ShopController            
+SellerMenu                "1" *-[#595959,plain]-> "ticketController\n1" TicketController          
+SellerMenu                 -[#000082,plain]-^  View                      
+SellerProfile             "1" *-[#595959,plain]-> "authController\n1" AuthenticationController  
+SellerProfile              -[#595959,dashed]->  DatabaseObject            
+SellerProfile              -[#595959,dashed]->  OperationResult           
+SellerProfile             "1" *-[#595959,plain]-> "profileController\n1" ProfileController         
+SellerProfile              -[#595959,dashed]->  Seller                    
+SellerProfile              -[#595959,dashed]->  User                      
+SellerProfile              -[#595959,dashed]->  Utils                     
+SellerProfile              -[#000082,plain]-^  View                      
+SellersDisplay             -[#595959,dashed]->  DatabaseObject            
+SellersDisplay             -[#595959,dashed]->  OperationResult           
+SellersDisplay             -[#595959,dashed]->  Product                   
+SellersDisplay            "1" *-[#595959,plain]-> "profileController\n1" ProfileController         
+SellersDisplay            "1" *-[#595959,plain]-> "sellerList\n*" Seller                    
+SellersDisplay            "1" *-[#595959,plain]-> "shopController\n1" ShopController            
+SellersDisplay             -[#595959,dashed]->  User                      
+SellersDisplay             -[#595959,dashed]->  Utils                     
+SellersDisplay             -[#000082,plain]-^  View                      
+Session                    -[#595959,dashed]->  Session                   : "«create»"
+Session                   "1" *-[#595959,plain]-> "_instance\n1" Session                   
+Session                   "1" *-[#595959,plain]-> "userType\n1" UserType                  
+ShopController             -[#595959,dashed]->  BookOrManual              
+ShopController             -[#595959,dashed]->  BookOrManualDisplay       : "«create»"
+ShopController             -[#595959,dashed]->  BookOrManualGenre         
+ShopController             -[#595959,dashed]->  BuyerOrdersMenu           : "«create»"
+ShopController             -[#595959,dashed]->  Cart                      : "«create»"
+ShopController             -[#595959,dashed]->  CartProduct               
+ShopController             -[#595959,dashed]->  DatabaseObject            
+ShopController             -[#595959,dashed]->  IT                        
+ShopController             -[#595959,dashed]->  ITCategory                
+ShopController             -[#595959,dashed]->  ITProductDisplay          : "«create»"
+ShopController             -[#595959,dashed]->  LearningResource          
+ShopController             -[#595959,dashed]->  LearningResourceDisplay   : "«create»"
+ShopController             -[#595959,dashed]->  LearningResourceType      
+ShopController             -[#595959,dashed]->  OfferProduct              : "«create»"
+ShopController             -[#595959,dashed]->  OfficeEquipment           
+ShopController             -[#595959,dashed]->  OfficeEquipmentCategory   
+ShopController             -[#595959,dashed]->  OfficeEquipmentDisplay    : "«create»"
+ShopController             -[#595959,dashed]->  OperationResult           : "«create»"
+ShopController             -[#595959,dashed]->  Order                     
+ShopController             -[#595959,dashed]->  OrderPlacement            : "«create»"
+ShopController             -[#595959,dashed]->  OrderState                
+ShopController             -[#595959,dashed]->  PendingSellerOrders       : "«create»"
+ShopController             -[#595959,dashed]->  Product                   
+ShopController             -[#595959,dashed]->  ProductCategory           
+ShopController             -[#595959,dashed]->  ProductReview             : "«create»"
+ShopController             -[#595959,dashed]->  ProductReviews            : "«create»"
+ShopController             -[#595959,dashed]->  ProductSearch             : "«create»"
+ShopController             -[#595959,dashed]->  ProductsMenu              : "«create»"
+ShopController            "1" *-[#595959,plain]-> "profileModel\n1" ProfileModel              
+ShopController             -[#595959,dashed]->  Review                    
+ShopController             -[#595959,dashed]->  Seller                    
+ShopController             -[#595959,dashed]->  Session                   
+ShopController            "1" *-[#595959,plain]-> "shopModel\n1" ShopModel                 
+ShopController            "1" *-[#595959,plain]-> "socialModel\n1" SocialModel               
+ShopController             -[#595959,dashed]->  StationeryArticle         
+ShopController             -[#595959,dashed]->  StationeryArticleCategory 
+ShopController             -[#595959,dashed]->  StationeryArticleDisplay  : "«create»"
+ShopController             -[#595959,dashed]->  Tuple                     
+ShopController             -[#595959,dashed]->  UniShop                   
+ShopController            "1" *-[#595959,plain]-> "renderer\n1" ViewRenderer              
+ShopModel                  -[#595959,dashed]->  BookOrManual              : "«create»"
+ShopModel                  -[#595959,dashed]->  BookOrManualGenre         
+ShopModel                  -[#595959,dashed]->  Buyer                     
+ShopModel                  -[#595959,dashed]->  CartProduct               : "«create»"
+ShopModel                  -[#595959,dashed]->  DataMap                   
+ShopModel                 "1" *-[#595959,plain]-> "db\n1" Database                  
+ShopModel                  -[#595959,dashed]->  DatabaseObject            
+ShopModel                  -[#595959,dashed]->  IT                        : "«create»"
+ShopModel                  -[#595959,dashed]->  ITCategory                
+ShopModel                  -[#595959,dashed]->  LearningResource          : "«create»"
+ShopModel                  -[#595959,dashed]->  LearningResourceType      
+ShopModel                  -[#595959,dashed]->  Notification              : "«create»"
+ShopModel                  -[#595959,dashed]->  OfficeEquipment           : "«create»"
+ShopModel                  -[#595959,dashed]->  OfficeEquipmentCategory   
+ShopModel                  -[#595959,dashed]->  OperationResult           : "«create»"
+ShopModel                  -[#595959,dashed]->  Order                     : "«create»"
+ShopModel                  -[#595959,dashed]->  OrderState                
+ShopModel                  -[#595959,dashed]->  PaymentMethod             : "«create»"
+ShopModel                  -[#595959,dashed]->  Product                   
+ShopModel                  -[#595959,dashed]->  ProductCategory           
+ShopModel                  -[#595959,dashed]->  Shipment                  : "«create»"
+ShopModel                  -[#595959,dashed]->  ShopModel                 
+ShopModel                  -[#595959,dashed]->  StationeryArticle         : "«create»"
+ShopModel                  -[#595959,dashed]->  StationeryArticleCategory 
+ShopModel                  -[#595959,dashed]->  Tuple                     : "«create»"
+SocialModel                -[#595959,dashed]->  Buyer                     
+SocialModel                -[#595959,dashed]->  DataMap                   
+SocialModel               "1" *-[#595959,plain]-> "db\n1" Database                  
+SocialModel                -[#595959,dashed]->  DatabaseObject            
+SocialModel                -[#595959,dashed]->  Like                      : "«create»"
+SocialModel                -[#595959,dashed]->  LikeType                  
+SocialModel                -[#595959,dashed]->  OperationResult           : "«create»"
+SocialModel                -[#595959,dashed]->  Product                   
+SocialModel                -[#595959,dashed]->  Review                    : "«create»"
+SocialModel                -[#595959,dashed]->  Seller                    
+SocialModel                -[#595959,dashed]->  Session                   
+SocialModel                -[#595959,dashed]->  SocialModel               
+StationeryArticle          -[#000082,plain]-^  Product                   
+StationeryArticle          -[#595959,dashed]->  ProductCategory           
+StationeryArticle          -[#595959,dashed]->  StationeryArticleCategory 
+StationeryArticleDisplay   -[#000082,plain]-^  ProductDisplay            
+StationeryArticleDisplay   -[#595959,dashed]->  ShopController            
+StationeryArticleDisplay   -[#595959,dashed]->  StationeryArticle         
+StationeryArticleDisplay   -[#595959,dashed]->  Utils                     
+Ticket                     -[#000082,plain]-^  DatabaseObject            
+Ticket                    "1" *-[#595959,plain]-> "order\n1" Order                     
+Ticket                     -[#595959,dashed]->  Product                   
+Ticket                    "1" *-[#595959,plain]-> "returnShipment\n1" Shipment                  
+Ticket                     -[#595959,dashed]->  Ticket                    
+Ticket                    "1" *-[#595959,plain]-> "cause\n1" TicketCause               
+Ticket                    "1" *-[#595959,plain]-> "state\n1" TicketState               
+Ticket                    "1" *-[#595959,plain]-> "products\n*" Tuple                     
+TicketController           -[#595959,dashed]->  OperationResult           
+TicketController           -[#595959,dashed]->  Session                   
+TicketController           -[#595959,dashed]->  Ticket                    
+TicketController           -[#595959,dashed]->  TicketDisplay             : "«create»"
+TicketController          "1" *-[#595959,plain]-> "ticketModel\n1" TicketingModel            
+TicketController           -[#595959,dashed]->  TicketsMenu               : "«create»"
+TicketController           -[#595959,dashed]->  UniShop                   
+TicketController           -[#595959,dashed]->  UserType                  
+TicketController          "1" *-[#595959,plain]-> "renderer\n1" ViewRenderer              
+TicketDisplay              -[#595959,dashed]->  Buyer                     
+TicketDisplay              -[#595959,dashed]->  OperationResult           
+TicketDisplay              -[#595959,dashed]->  Order                     
+TicketDisplay             "1" *-[#595959,plain]-> "profileController\n1" ProfileController         
+TicketDisplay              -[#595959,dashed]->  Seller                    
+TicketDisplay              -[#595959,dashed]->  Shipment                  
+TicketDisplay              -[#595959,dashed]->  Ticket                    
+TicketDisplay             "1" *-[#595959,plain]-> "ticketController\n1" TicketController          
+TicketDisplay              -[#595959,dashed]->  TicketDisplay             
+TicketDisplay              -[#595959,dashed]->  TicketState               
+TicketDisplay              -[#595959,dashed]->  Utils                     
+TicketDisplay              -[#000082,plain]-^  View                      
+TicketingModel             -[#595959,dashed]->  DataMap                   
+TicketingModel            "1" *-[#595959,plain]-> "db\n1" Database                  
+TicketingModel             -[#595959,dashed]->  OperationResult           : "«create»"
+TicketingModel             -[#595959,dashed]->  Shipment                  : "«create»"
+TicketingModel             -[#595959,dashed]->  Ticket                    
+TicketingModel             -[#595959,dashed]->  TicketingModel            
+TicketsMenu                -[#595959,dashed]->  Buyer                     
+TicketsMenu                -[#595959,dashed]->  Order                     
+TicketsMenu               "1" *-[#595959,plain]-> "profileController\n1" ProfileController         
+TicketsMenu                -[#595959,dashed]->  Seller                    
+TicketsMenu                -[#595959,dashed]->  Ticket                    
+TicketsMenu               "1" *-[#595959,plain]-> "ticketController\n1" TicketController          
+TicketsMenu                -[#595959,dashed]->  Utils                     
+TicketsMenu                -[#000082,plain]-^  View                      
+UniShop                   "1" *-[#595959,plain]-> "authController\n1" AuthenticationController  
+UniShop                    -[#595959,dashed]->  AuthenticationController  : "«create»"
+UniShop                    -[#595959,dashed]->  AuthenticationModel       : "«create»"
+UniShop                   "1" *-[#595959,plain]-> "auth\n1" AuthenticationModel       
+UniShop                   "1" *-[#595959,plain]-> "db\n1" Database                  
+UniShop                    -[#595959,dashed]->  JavaSerializedDatabase    : "«create»"
+UniShop                    -[#595959,dashed]->  MainMenu                  : "«create»"
+UniShop                   "1" *-[#595959,plain]-> "profileController\n1" ProfileController         
+UniShop                    -[#595959,dashed]->  ProfileController         : "«create»"
+UniShop                   "1" *-[#595959,plain]-> "profile\n1" ProfileModel              
+UniShop                    -[#595959,dashed]->  ProfileModel              : "«create»"
+UniShop                    -[#595959,dashed]->  ShopController            : "«create»"
+UniShop                   "1" *-[#595959,plain]-> "shopController\n1" ShopController            
+UniShop                    -[#595959,dashed]->  ShopModel                 : "«create»"
+UniShop                   "1" *-[#595959,plain]-> "shop\n1" ShopModel                 
+UniShop                    -[#595959,dashed]->  SocialModel               : "«create»"
+UniShop                   "1" *-[#595959,plain]-> "social\n1" SocialModel               
+UniShop                    -[#595959,dashed]->  TicketController          : "«create»"
+UniShop                   "1" *-[#595959,plain]-> "ticketController\n1" TicketController          
+UniShop                   "1" *-[#595959,plain]-> "ticketing\n1" TicketingModel            
+UniShop                    -[#595959,dashed]->  TicketingModel            : "«create»"
+UniShop                   "1" *-[#595959,plain]-> "_instance\n1" UniShop                   
+UniShop                    -[#595959,dashed]->  UniShop                   : "«create»"
+UniShop                   "1" *-[#595959,plain]-> "renderer\n1" ViewRenderer              
+UniShop                    -[#595959,dashed]->  ViewRenderer              : "«create»"
+User                       -[#000082,plain]-^  DatabaseObject            
+UserFinder                 -[#595959,dashed]->  Buyer                     
+UserFinder                "1" *-[#595959,plain]-> "profileController\n1" ProfileController         
+UserFinder                 -[#595959,dashed]->  Seller                    
+UserFinder                 -[#595959,dashed]->  UserFinder                
+UserFinder                 -[#595959,dashed]->  Utils                     
+UserFinder                 -[#000082,plain]-^  View                      
+Utils                      -[#595959,dashed]->  OperationResult           
+ViewRenderer              "1" *-[#595959,plain]-> "viewHistory\n*" Tuple                     
+ViewRenderer              "1" *-[#595959,plain]-> "nextView\n1" View                      
 @enduml
