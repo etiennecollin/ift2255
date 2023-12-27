@@ -9,13 +9,31 @@ import com.etiennecollin.ift2255.clientCLI.controllers.AuthenticationController;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
+/**
+ * The LoginForm class represents the login form view of the client CLI application.
+ * It allows users to log in as either a buyer or a seller, or to go back to the main menu.
+ * <p>
+ * The class extends the {@link View} class.
+ */
 public class LoginForm extends View {
+    /**
+     * The AuthenticationController used for handling user authentication.
+     */
     private final AuthenticationController authController;
 
+    /**
+     * Constructs a LoginForm with the specified AuthenticationController.
+     *
+     * @param authController the AuthenticationController used for handling user authentication.
+     */
     public LoginForm(AuthenticationController authController) {
         this.authController = authController;
     }
 
+    /**
+     * Renders the login form view, allowing the user to choose between logging in as a buyer, a seller, or going back.
+     * The view loops until a valid choice is made, and the corresponding action is executed.
+     */
     @Override
     public void render() {
         while (true) {
@@ -39,8 +57,7 @@ public class LoginForm extends View {
 
             if (result.isValid()) {
                 break;
-            }
-            else if (!prettyPromptBool("Try again?")) {
+            } else if (!prettyPromptBool("Try again?")) {
                 break;
             }
         }

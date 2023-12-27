@@ -5,22 +5,46 @@
 package com.etiennecollin.ift2255.clientCLI.views;
 
 import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
-import com.etiennecollin.ift2255.clientCLI.model.data.Buyer;
+import com.etiennecollin.ift2255.clientCLI.models.data.Buyer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
+/**
+ * The BuyersDisplay class represents the view for displaying information about buyers in the client CLI application.
+ * Users can view details about individual buyers, such as their username, full name, following status, fidelity points,
+ * number of reviews written, number of reviews liked, and number of products liked. Users can also toggle the follow status
+ * of a buyer.
+ * <p>
+ * The class extends the {@link View} class.
+ */
 public class BuyersDisplay extends View {
+    /**
+     * The ProfileController used for interacting with buyer profiles and related actions.
+     */
     private final ProfileController profileController;
+    /**
+     * The list of buyers to be displayed.
+     */
     private final List<Buyer> buyerList;
 
+    /**
+     * Constructs a BuyersDisplay view with the specified ProfileController and list of buyers.
+     *
+     * @param profileController the ProfileController used for interacting with buyer profiles and related actions.
+     * @param buyerList         the list of buyers to be displayed.
+     */
     public BuyersDisplay(ProfileController profileController, List<Buyer> buyerList) {
         this.profileController = profileController;
         this.buyerList = buyerList;
     }
 
+    /**
+     * Renders the BuyersDisplay view, allowing the user to view details about individual buyers, toggle follow status,
+     * and go back to the previous menu.
+     */
     @Override
     public void render() {
         Buyer user = profileController.getBuyer();
@@ -60,7 +84,7 @@ public class BuyersDisplay extends View {
 
                 int numProductsLiked = profileController.getProductLikesByBuyer(buyer.getId()).size();
                 System.out.println(prettify("Number of products liked: " + numProductsLiked));
-//                System.out.println(prettify("Number of order bought: " + buyer.getOrders().size()));
+                //                System.out.println(prettify("Number of order bought: " + buyer.getOrders().size()));
 
                 String[] options = {"Go back", "Toggle follow"};
                 int answer = prettyMenu("Select action", options);

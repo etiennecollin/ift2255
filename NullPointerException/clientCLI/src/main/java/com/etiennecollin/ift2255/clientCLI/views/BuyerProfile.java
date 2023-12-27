@@ -8,20 +8,41 @@ import com.etiennecollin.ift2255.clientCLI.OperationResult;
 import com.etiennecollin.ift2255.clientCLI.Utils;
 import com.etiennecollin.ift2255.clientCLI.controllers.AuthenticationController;
 import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
-import com.etiennecollin.ift2255.clientCLI.model.data.Buyer;
+import com.etiennecollin.ift2255.clientCLI.models.data.Buyer;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
+/**
+ * The BuyerProfile class represents the view for displaying and updating buyer profile information
+ * in the client CLI application. Users can view and modify details such as first name, last name,
+ * password, email address, phone number, and address.
+ * <p>
+ * The class extends the {@link View} class.
+ */
 public class BuyerProfile extends View {
+    /**
+     * The ProfileController used for interacting with buyer profiles and related actions.
+     */
     private final ProfileController profileController;
+    /**
+     * The AuthenticationController used for authenticating the buyer and handling password-related actions.
+     */
     private final AuthenticationController authController;
 
-
+    /**
+     * Constructs a BuyerProfile view with the specified ProfileController and AuthenticationController.
+     *
+     * @param profileController the ProfileController used for interacting with buyer profiles and related actions.
+     * @param authController    the AuthenticationController used for authenticating the buyer and handling password-related actions.
+     */
     public BuyerProfile(ProfileController profileController, AuthenticationController authController) {
         this.profileController = profileController;
         this.authController = authController;
     }
 
+    /**
+     * Renders the BuyerProfile view, allowing the user to view and update various aspects of their buyer profile.
+     */
     @Override
     public void render() {
         String[] options = new String[]{"Go back", "First name", "Last name", "Password", "Email", "Phone number", "Address"};

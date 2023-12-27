@@ -5,8 +5,8 @@
 package com.etiennecollin.ift2255.clientCLI.views;
 
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
-import com.etiennecollin.ift2255.clientCLI.model.data.products.Product;
-import com.etiennecollin.ift2255.clientCLI.model.data.products.ProductCategory;
+import com.etiennecollin.ift2255.clientCLI.models.data.products.Product;
+import com.etiennecollin.ift2255.clientCLI.models.data.products.ProductCategory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,15 +14,35 @@ import java.util.UUID;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
+/**
+ * The ProductsMenu class represents a view for displaying and interacting with products.
+ * It allows the user to navigate through product categories, select subcategories, and view details of individual products.
+ */
 public class ProductsMenu extends View {
+    /**
+     * The ShopController used for managing shop-related functionalities.
+     */
     private final ShopController shopController;
+    /**
+     * The unique identifier of the seller associated with the products.
+     */
     private final UUID sellerId;
 
+    /**
+     * Constructs a ProductsMenu with the specified seller ID and ShopController.
+     *
+     * @param sellerId       the unique identifier of the seller associated with the products.
+     * @param shopController the ShopController used for managing shop-related functionalities.
+     */
     public ProductsMenu(UUID sellerId, ShopController shopController) {
         this.sellerId = sellerId;
         this.shopController = shopController;
     }
 
+    /**
+     * Renders the ProductsMenu view, allowing the user to navigate through product categories, select subcategories,
+     * and view details of individual products. The user can go back to the main menu or exit the menu at any time.
+     */
     @Override
     public void render() {
         while (true) {
@@ -84,7 +104,7 @@ public class ProductsMenu extends View {
             shopController.displayProduct(product);
             break;
 
-//            if (!prettyPromptBool("Keep browsing product?")) break;
+            //            if (!prettyPromptBool("Keep browsing product?")) break;
         }
     }
 }
