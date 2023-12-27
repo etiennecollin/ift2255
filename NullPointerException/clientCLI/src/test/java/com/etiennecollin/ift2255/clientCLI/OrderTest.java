@@ -45,15 +45,6 @@ public class OrderTest {
         assertEquals(firstTrackingNumber, order.getShipment().getTrackingNumber()); // Check if tracking number is set correctly
         assertEquals(firstExpectedDeliveryDate, order.getShipment().getExpectedDeliveryDate()); // Check if expected delivery date is set correctly
         // TODO: Use new MVC model to test notifications
-
-        // Verify Notifications
-        MockNotificationService mockNotificationService = new MockNotificationService();
-        order.setNotificationService(mockNotificationService); // Inject the mock notification service
-        order.notifyBuyer(); // Trigger the notification
-
-        assertEquals(1, mockNotificationService.notifications.size());
-        assertEquals("Your order status has changed", mockNotificationService.notifications.get(0).getTitle());
-
         // assertEquals(1, buyer.getNotifications().size()); // Check if a notification is added to the buyer
 
         // Set the order in transit for the second time
@@ -71,10 +62,6 @@ public class OrderTest {
         assertEquals(secondTrackingNumber, order.getShipment().getTrackingNumber()); // Check if tracking number is updated correctly in the second call
         assertEquals(secondExpectedDeliveryDate, order.getShipment().getExpectedDeliveryDate()); // Check if expected delivery date is updated correctly in the second call
         // TODO: Use new MVC model to test notifications
-
-        // Verify notifications for the second call
-        order.notifyBuyer(); // Trigger the notification for the second time
-        assertEquals(2, mockNotificationService.notifications.size());
         // assertEquals(2, order.getBuyer().getNotifications().size()); // Check if a new notification is added to the buyer in the second call
     }
 
@@ -97,13 +84,6 @@ public class OrderTest {
 
         // Assertions for the notificatiouns
         // TODO: Use new MVC model to test notifications
-
-        // Verify notifications
-        MockNotificationService mockNotificationService = new MockNotificationService();
-        order.setNotificationService(mockNotificationService); // Inject the mock notification service
-        order.notifyBuyer(); // Trigger the notification
-
-        assertEquals(1, mockNotificationService.notifications.size());
         // assertEquals(1, order.getBuyer().getNotifications().size()); // Check if a notification is added to the buyer
         // assertEquals("Your order is now in production", order.getBuyer().getNotifications().get(0).getTitle());
     }
@@ -127,23 +107,7 @@ public class OrderTest {
 
         // Notification Assertion
         // TODO: Use new MVC model to test notifications
-        // Verify notifications
-        MockNotificationService mockNotificationService = new MockNotificationService();
-        order.setNotificationService(mockNotificationService); // Inject the mock notification service
-        order.notifyBuyer(); // Trigger the notification
-
-
-        assertEquals(1, mockNotificationService.notifications.size());
         // assertEquals(1, order.getBuyer().getNotifications().size());
         // assertEquals("Your order is now delivered", order.getBuyer().getNotifications().get(0).getTitle());
-    }
-    // Mock NotificationService for testing
-    static class MockNotificationService implements NotificationService {
-        List<Notification> notifications = new ArrayList<>();
-
-        @Override
-        public void sendNotification(Notification notification) {
-            notifications.add(notification);
-        }
     }
 }
