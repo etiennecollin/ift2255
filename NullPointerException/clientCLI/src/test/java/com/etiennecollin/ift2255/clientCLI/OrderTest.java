@@ -4,7 +4,7 @@
 
 package com.etiennecollin.ift2255.clientCLI;
 
-import com.etiennecollin.ift2255.clientCLI.model.data.*;
+import com.etiennecollin.ift2255.clientCLI.models.data.*;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -27,8 +27,8 @@ public class OrderTest {
         // Create a mock Order for testing
         Buyer buyer = new Buyer("", "".hashCode(), "", "", "", "", "", 0);
         Seller seller = new Seller("", "".hashCode(), "", "", "");
-        PayementMethod payementMethod = new PayementMethod(0, 0, 0);
-        Order order = new Order(new ArrayList<>(), 0, 0, payementMethod, "", "", "", "", "", "", YearMonth.of(2023, 12), "", buyer.getId(), seller.getId());
+        PaymentMethod paymentMethod = new PaymentMethod(0, 0, 0);
+        Order order = new Order(new ArrayList<>(), 0, 0, paymentMethod, "", "", "", "", "", "", YearMonth.of(2023, 12), "", buyer.getId(), seller.getId());
 
         String firstShippingCompany = "FastShip";
         String firstTrackingNumber = "ABC123";
@@ -72,8 +72,8 @@ public class OrderTest {
         // Create a mock Order for testing
         Buyer buyer = new Buyer("", "".hashCode(), "", "", "", "", "", 0);
         Seller seller = new Seller("", "".hashCode(), "", "", "");
-        PayementMethod payementMethod = new PayementMethod(0, 0, 0);
-        Order order = new Order(new ArrayList<>(), 0, 0, payementMethod, "", "", "", "", "", "", YearMonth.of(2023, 12), "", buyer.getId(), seller.getId());
+        PaymentMethod paymentMethod = new PaymentMethod(0, 0, 0);
+        Order order = new Order(new ArrayList<>(), 0, 0, paymentMethod, "", "", "", "", "", "", YearMonth.of(2023, 12), "", buyer.getId(), seller.getId());
 
         // Set the order in production
         order.setState(OrderState.InProduction);
@@ -95,8 +95,8 @@ public class OrderTest {
         // Create a mock Order for testing
         Buyer buyer = new Buyer("", "".hashCode(), "", "", "", "", "", 0);
         Seller seller = new Seller("", "".hashCode(), "", "", "");
-        PayementMethod payementMethod = new PayementMethod(0, 0, 0);
-        Order order = new Order(new ArrayList<>(), 0, 0, payementMethod, "", "", "", "", "", "", YearMonth.of(2023, 12), "", buyer.getId(), seller.getId());
+        PaymentMethod paymentMethod = new PaymentMethod(0, 0, 0);
+        Order order = new Order(new ArrayList<>(), 0, 0, paymentMethod, "", "", "", "", "", "", YearMonth.of(2023, 12), "", buyer.getId(), seller.getId());
 
         // Set the order as delivered
         order.setState(OrderState.Delivered);

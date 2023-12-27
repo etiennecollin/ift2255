@@ -5,8 +5,9 @@
 package com.etiennecollin.ift2255.clientCLI.model;
 
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
-import com.etiennecollin.ift2255.clientCLI.model.data.JavaSerializedDatabase;
-import com.etiennecollin.ift2255.clientCLI.model.data.products.BookOrManualGenre;
+import com.etiennecollin.ift2255.clientCLI.models.ShopModel;
+import com.etiennecollin.ift2255.clientCLI.models.data.JavaSerializedDatabase;
+import com.etiennecollin.ift2255.clientCLI.models.data.products.BookOrManualGenre;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
