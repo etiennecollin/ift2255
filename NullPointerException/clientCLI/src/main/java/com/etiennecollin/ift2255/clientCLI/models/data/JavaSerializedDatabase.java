@@ -150,9 +150,9 @@ public class JavaSerializedDatabase implements Database {
             List<T> filteredData = data.stream().filter((entry) -> entry.getId() == id).toList();
             if (filteredData.size() > 0) {
                 update.accept(filteredData.get(0));
+                save(data, path);
+                return true;
             }
-            save(data, path);
-            return true;
         }
 
         return false;
@@ -174,9 +174,11 @@ public class JavaSerializedDatabase implements Database {
         List<T> data = load(path);
         if (data != null) {
             List<T> filteredData = data.stream().filter(filter).toList();
-            filteredData.forEach(update);
-            save(data, path);
-            return true;
+            if (filteredData.size() > 0) {
+                filteredData.forEach(update);
+                save(data, path);
+                return true;
+            }
         }
 
         return false;
@@ -197,8 +199,10 @@ public class JavaSerializedDatabase implements Database {
         List<T> data = load(path);
         if (data != null) {
             List<T> filteredData = data.stream().filter((v) -> v.getId() != id).toList();
-            save(filteredData, path);
-            return true;
+            if (filteredData.size() > 0) {
+                save(filteredData, path);
+                return true;
+            }
         }
 
         return false;
@@ -219,8 +223,10 @@ public class JavaSerializedDatabase implements Database {
         List<T> data = load(path);
         if (data != null) {
             List<T> filteredData = data.stream().filter((v) -> !filter.test(v)).toList();
-            save(filteredData, path);
-            return true;
+            if (filteredData.size() > 0) {
+                save(filteredData, path);
+                return true;
+            }
         }
 
         return false;

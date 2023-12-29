@@ -31,6 +31,10 @@ public class Shipment implements Serializable {
      * The expected delivery date of the shipment.
      */
     private LocalDate expectedDeliveryDate;
+    /**
+     * The delivery date of the shipment.
+     */
+    private LocalDate receptionDate;
 
     /**
      * Constructs a Shipment object with the given parameters.
@@ -81,6 +85,24 @@ public class Shipment implements Serializable {
      */
     public void setExpectedDeliveryDate(LocalDate expectedDeliveryDate) {
         this.expectedDeliveryDate = expectedDeliveryDate;
+    }
+
+    /**
+     * Gets the delivery date of the shipment.
+     *
+     * @return The delivery date of the shipment.
+     */
+    public LocalDate getReceptionDate() {
+        return receptionDate;
+    }
+
+    /**
+     * Sets the delivery date of the shipment.
+     *
+     * @param receptionDate The delivery date of the shipment.
+     */
+    public void setReceptionDate(LocalDate receptionDate) {
+        this.receptionDate = receptionDate;
     }
 
     /**

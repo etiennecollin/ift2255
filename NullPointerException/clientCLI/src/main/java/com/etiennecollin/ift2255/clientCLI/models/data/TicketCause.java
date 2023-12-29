@@ -11,9 +11,17 @@ import java.io.Serializable;
  */
 public enum TicketCause implements Serializable {
     /**
-     * Ticket cause: Malfunctioning Product
+     * Ticket cause: Wrong Product Received
      */
-    MalfunctioningProduct("Malfunctioning product"),
+    WrongProductReceived("Wrong product received"),
+    /**
+     * Ticket cause: Product not received
+     */
+    ProductNotReceived("Product not received"),
+    /**
+     * Ticket cause: Defective Product
+     */
+    DefectiveProduct("Defective product"),
     /**
      * Ticket cause: Other
      */

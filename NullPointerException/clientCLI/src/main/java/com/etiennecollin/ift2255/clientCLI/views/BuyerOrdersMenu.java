@@ -8,6 +8,7 @@ import com.etiennecollin.ift2255.clientCLI.OperationResult;
 import com.etiennecollin.ift2255.clientCLI.Utils;
 import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
+import com.etiennecollin.ift2255.clientCLI.controllers.TicketController;
 import com.etiennecollin.ift2255.clientCLI.models.data.Order;
 import com.etiennecollin.ift2255.clientCLI.models.data.OrderState;
 import com.etiennecollin.ift2255.clientCLI.models.data.Seller;
@@ -35,16 +36,22 @@ public class BuyerOrdersMenu extends View {
      * The ProfileController used for interacting with buyer profiles and related actions.
      */
     private final ProfileController profileController;
+    /**
+     * The ticketController field represents the TicketController used for handling ticket-related logic.
+     */
+    private final TicketController ticketController;
 
     /**
      * Constructs a BuyerOrdersMenu view with the specified ShopController and ProfileController.
      *
      * @param shopController    the ShopController used for interacting with shop-related actions and operations.
      * @param profileController the ProfileController used for interacting with buyer profiles and related actions.
+     * @param ticketController  the TicketController for handling ticket-related logic.
      */
-    public BuyerOrdersMenu(ShopController shopController, ProfileController profileController) {
+    public BuyerOrdersMenu(ShopController shopController, ProfileController profileController, TicketController ticketController) {
         this.shopController = shopController;
         this.profileController = profileController;
+        this.ticketController = ticketController;
     }
 
     /**
@@ -102,24 +109,21 @@ public class BuyerOrdersMenu extends View {
         }, () -> order.getState().equals(OrderState.InTransit)));
         options.add(new DynamicMenuItem("Report issue with order", () -> {
             if (prettyPromptBool("Do you really want to open a ticket for this order?")) {
-                // TODO reimplement create ticket
-                //                createTicket(order);
+                ticketController.displayTicketCreation(order.getId());
             } else {
                 System.out.println(prettify("Action cancelled"));
             }
         }, () -> !order.getState().equals(OrderState.Cancelled) && LocalDate.now().isBefore(order.getOrderDate().plusDays(365))));
         options.add(new DynamicMenuItem("Return items", () -> {
             if (prettyPromptBool("Do you really want to return items from this order?")) {
-                // TODO reimplement return menu
-                //                displayReturnMenu(order);
+                ticketController.displayProductReturnCreation(order.getId());
             } else {
                 System.out.println(prettify("Action cancelled"));
             }
         }, () -> !order.getState().equals(OrderState.Cancelled) && (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getExpectedDeliveryDate().plusDays(30)))));
         options.add(new DynamicMenuItem("Exchange items", () -> {
             if (prettyPromptBool("Do you really want to exchange items from this order?")) {
-                // TODO reimplement exchange menu
-                //                displayExchangeMenu(order);
+                ticketController.displayProductExchangeCreation(order.getId());
             } else {
                 System.out.println(prettify("Action cancelled"));
             }

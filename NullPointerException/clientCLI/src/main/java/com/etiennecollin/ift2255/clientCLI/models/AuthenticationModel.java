@@ -85,7 +85,9 @@ public class AuthenticationModel {
     public OperationResult registerNewBuyer(String username, String password, String firstName, String lastName, String email, String phoneNumber, String address) {
         // validate parameters ?
 
-        db.add(DataMap.BUYERS, new Buyer(username, password.hashCode(), firstName, lastName, email, phoneNumber, address, 0));
+        Buyer newBuyer = new Buyer(username, password.hashCode(), firstName, lastName, email, phoneNumber, address, 0);
+        db.add(DataMap.BUYERS, newBuyer);
+        Session.createSession(newBuyer.getId(), UserType.Buyer);
 
         return new OperationResult(true, "");
     }
@@ -102,8 +104,9 @@ public class AuthenticationModel {
      */
     public OperationResult registerNewSeller(String name, String password, String email, String phoneNumber, String address) {
         // validate parameters ?
-
-        db.add(DataMap.SELLERS, new Seller(name, password.hashCode(), email, phoneNumber, address));
+        Seller newSeller = new Seller(name, password.hashCode(), email, phoneNumber, address);
+        db.add(DataMap.SELLERS, newSeller);
+        Session.createSession(newSeller.getId(), UserType.Seller);
 
         return new OperationResult(true, "");
     }

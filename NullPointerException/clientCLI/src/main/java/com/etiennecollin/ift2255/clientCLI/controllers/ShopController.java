@@ -194,7 +194,7 @@ public class ShopController {
      * Displays the menu for buyer's orders.
      */
     public void displayBuyerOrdersMenu() {
-        renderer.addNextView(new BuyerOrdersMenu(this, UniShop.getInstance().getProfileController()), true);
+        renderer.addNextView(new BuyerOrdersMenu(this, UniShop.getInstance().getProfileController(), UniShop.getInstance().getTicketController()), true);
     }
 
     /**
@@ -277,7 +277,15 @@ public class ShopController {
      * @return The result of the operation (success or failure).
      */
     public OperationResult addToCart(UUID productId, int quantity) {
-        return shopModel.addToCart(Session.getInstance().getUserId(), productId, quantity);
+        Session session = Session.getInstance();
+        UUID userId = session.getUserId();
+
+        if (session.getIsInExchangeProcess() && session.getExchangeCart() != null) {
+            return shopModel.addToCart(userId, productId, quantity, session.getExchangeCart());
+        }
+        else {
+            return shopModel.addToCart(userId, productId, quantity, null);
+        }
     }
 
     /**
@@ -289,7 +297,14 @@ public class ShopController {
      * @return The result of the operation (success or failure).
      */
     public OperationResult removeFromCart(UUID cartProductId, int quantity) {
-        return shopModel.removeFromCart(cartProductId, quantity);
+        Session session = Session.getInstance();
+
+        if (session.getIsInExchangeProcess() && session.getExchangeCart() != null) {
+            return shopModel.removeFromCart(cartProductId, quantity, session.getExchangeCart());
+        }
+        else {
+            return shopModel.removeFromCart(cartProductId, quantity, null);
+        }
     }
 
     /**
@@ -341,6 +356,17 @@ public class ShopController {
      */
     public List<Order> getSellerOrders(UUID sellerId) {
         return shopModel.getOrders(null, sellerId);
+    }
+
+    /**
+     * Retrieves the order associated with the order ID.
+     *
+     * @param orderId The UUID of the order.
+     *
+     * @return The order associated with the order ID.
+     */
+    public Order getOrder(UUID orderId) {
+        return shopModel.getOrder(orderId);
     }
 
     /**

@@ -91,30 +91,27 @@ public abstract class ProductDisplay extends View {
      */
     public void renderProductActions(Product product) {
         String[] options = {"Go back", "Toggle like", "Display reviews", "Add to cart"};
-        while (true) {
-            clearConsole();
-            int answer = prettyMenu("Select action", options);
-            switch (answer) {
-                case 0 -> {
-                    return;
-                }
-                case 1 -> {
-                    OperationResult result = shopController.toggleLike(product.getId());
-                    System.out.println(prettify(result.message()));
-                }
-                case 2 -> {
-                    shopController.displayReviews(product.getId());
-                }
-                case 3 -> {
-                    int qty = prettyPromptInt("Quantity", (quantity) -> shopController.validateQuantity(product.getId(), quantity));
 
-                    OperationResult result = shopController.addToCart(product.getId(), qty);
-
-                    System.out.println(prettify(result.message()));
-                }
+        clearConsole();
+        int answer = prettyMenu("Select action", options);
+        switch (answer) {
+            case 0 -> {
+                return;
             }
+            case 1 -> {
+                OperationResult result = shopController.toggleLike(product.getId());
+                System.out.println(prettify(result.message()));
+            }
+            case 2 -> {
+                shopController.displayReviews(product.getId());
+            }
+            case 3 -> {
+                int qty = prettyPromptInt("Quantity", (quantity) -> shopController.validateQuantity(product.getId(), quantity));
 
-            if (!prettyPromptBool("New action?")) break;
+                OperationResult result = shopController.addToCart(product.getId(), qty);
+
+                System.out.println(prettify(result.message()));
+            }
         }
     }
 }

@@ -4,8 +4,10 @@
 
 package com.etiennecollin.ift2255.clientCLI.models;
 
-import com.etiennecollin.ift2255.clientCLI.models.data.UserType;
+import com.etiennecollin.ift2255.clientCLI.models.data.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -26,6 +28,11 @@ public class Session {
      * The type of the user associated with the session (e.g., Buyer, Seller).
      */
     private final UserType userType;
+    // TODO javadoc
+    private boolean isInExchangeProcess = false;
+    private Ticket exchangeTicket;
+    private SessionCartDatabase exchangeCart;
+    private Order exchangeOrder;
 
     /**
      * Private constructor to create a new user session.
@@ -83,5 +90,42 @@ public class Session {
      */
     public UserType getUserType() {
         return this.userType;
+    }
+
+    // TODO javadoc
+    public boolean getIsInExchangeProcess() {
+        return isInExchangeProcess;
+    }
+
+    public void setInExchangeProcess(boolean inExchangeProcess) {
+        isInExchangeProcess = inExchangeProcess;
+    }
+
+    public Ticket getExchangeTicket() {
+        return exchangeTicket;
+    }
+
+    public void setExchangeTicket(Ticket exchangeTicket) {
+        this.exchangeTicket = exchangeTicket;
+    }
+
+    public SessionCartDatabase getExchangeCart() {
+        return exchangeCart;
+    }
+
+    public void createExchangeCart() {
+        exchangeCart = new SessionCartDatabase();
+    }
+
+    public void deleteExchangeCart() {
+        this.exchangeCart = null;
+    }
+
+    public Order getExchangeOrder() {
+        return exchangeOrder;
+    }
+
+    public void setExchangeOrder(Order exchangeOrder) {
+        this.exchangeOrder = exchangeOrder;
     }
 }

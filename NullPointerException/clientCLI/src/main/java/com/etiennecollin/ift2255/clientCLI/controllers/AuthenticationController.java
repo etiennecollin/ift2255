@@ -72,7 +72,7 @@ public class AuthenticationController {
     public OperationResult loginSeller(String name, String password) {
         OperationResult result = authModel.authenticateSeller(name, password);
         if (result.isValid()) {
-            renderer.addNextView(new LoginForm(this), true);
+            renderer.addNextView(new SellerMenu(UniShop.getInstance().getProfileController(), UniShop.getInstance().getShopController(), UniShop.getInstance().getTicketController()), true);
         }
 
         return result;
