@@ -4,6 +4,7 @@
 
 package com.etiennecollin.ift2255.clientCLI.views.productDisplay;
 
+import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
 import com.etiennecollin.ift2255.clientCLI.models.data.products.BookOrManual;
 
@@ -28,8 +29,8 @@ public class BookOrManualDisplay extends ProductDisplay {
      * @param productId      The unique identifier of the Book or Manual product to display.
      * @param shopController The controller managing interactions related to the shop.
      */
-    public BookOrManualDisplay(UUID productId, ShopController shopController) {
-        super(productId, shopController);
+    public BookOrManualDisplay(UUID productId, ShopController shopController, ProfileController profileController) {
+        super(productId, shopController, profileController);
     }
 
     /**
@@ -38,20 +39,25 @@ public class BookOrManualDisplay extends ProductDisplay {
      */
     @Override
     public void render() {
-        BookOrManual book = shopController.getProduct(BookOrManual.class, productId);
+        while (true) {
+            BookOrManual book = shopController.getProduct(BookOrManual.class, productId);
 
-        super.renderProductInfo(book);
+            super.renderProductInfo(book);
 
-        if (book != null) {
-            System.out.println(prettify("Author: ") + book.getAuthor());
-            System.out.println(prettify("Editor: ") + book.getEditor());
-            System.out.println(prettify("Edition: ") + book.getEditionNumber());
-            System.out.println(prettify("Volume: ") + book.getVolumeNumber());
-            System.out.println(prettify("Release date: ") + book.getReleaseDate());
+            if (book != null) {
+                System.out.println(prettify("Author: ") + book.getAuthor());
+                System.out.println(prettify("Editor: ") + book.getEditor());
+                System.out.println(prettify("Edition: ") + book.getEditionNumber());
+                System.out.println(prettify("Volume: ") + book.getVolumeNumber());
+                System.out.println(prettify("Release date: ") + book.getReleaseDate());
 
-            waitForKey();
+                waitForKey();
 
-            super.renderProductActions(book);
+                boolean repeat = super.renderProductActions(book);
+                if (!repeat) {
+                    return;
+                }
+            }
         }
     }
 }

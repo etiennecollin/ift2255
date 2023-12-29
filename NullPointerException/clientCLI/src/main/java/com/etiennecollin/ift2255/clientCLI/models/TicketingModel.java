@@ -77,8 +77,8 @@ public class TicketingModel {
     }
 
     // TODO javadoc
-    public OperationResult createManualTicket(UUID orderId, String description, TicketCause cause) {
-        if (db.<Ticket>get(DataMap.TICKETS, (ticket) -> ticket.getOrderId() == orderId).size() != 0) {
+    public OperationResult createManualTicket(UUID orderId, ArrayList<Tuple<Product, Integer>> products, String description, TicketCause cause) {
+        if (db.<Ticket>get(DataMap.TICKETS, (ticket) -> ticket.getOrderId().equals(orderId)).size() != 0) {
             return new OperationResult(false, "A ticket has already been created for this order.");
         }
 
@@ -104,7 +104,7 @@ public class TicketingModel {
 
     // TODO javadoc
     public OperationResult createAutoTicket(UUID orderId, ArrayList<Tuple<Product, Integer>> products, TicketCause cause, UUID replacementOrderId) {
-        if (db.<Ticket>get(DataMap.TICKETS, (ticket) -> ticket.getOrderId() == orderId).size() != 0) {
+        if (db.<Ticket>get(DataMap.TICKETS, (ticket) -> ticket.getOrderId().equals(orderId)).size() != 0) {
             return new OperationResult(false, "A ticket has already been created for this order.");
         }
 
@@ -314,7 +314,7 @@ public class TicketingModel {
         boolean result = db.<Ticket>update(
                 DataMap.TICKETS,
                 t -> t.setState(TicketState.Closed),
-                t -> t.getId() == ticketId && t.getState() == TicketState.ReplacementInTransit
+                t -> t.getId().equals(ticketId) && t.getState() == TicketState.ReplacementInTransit
         );
         if (result) {
             return new OperationResult(true, "Replacement reception confirmed. Ticket closed.");

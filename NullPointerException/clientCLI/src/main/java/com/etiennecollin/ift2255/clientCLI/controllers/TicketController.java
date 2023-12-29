@@ -115,20 +115,20 @@ public class TicketController {
         UUID userId = Session.getInstance().getUserId();
 
         if (Session.getInstance().getUserType() == UserType.Buyer) {
-            return ticketModel.getTickets((ticket) -> ticket.getBuyerId() == userId);
+            return ticketModel.getTickets((ticket) -> ticket.getBuyerId().equals(userId));
         } else {
-            return ticketModel.getTickets((ticket) -> ticket.getSellerId() == userId);
+            return ticketModel.getTickets((ticket) -> ticket.getSellerId().equals(userId));
         }
     }
 
     // TODO javadoc
-    public OperationResult createManualTicket(UUID orderId, String description, TicketCause cause) {
+    public OperationResult createManualTicket(UUID orderId, ArrayList<Tuple<Product, Integer>> products, String description, TicketCause cause) {
         Order order = shopModel.getOrder(orderId);
         if (order == null) {
             return new OperationResult(false, "Cannot create ticket because the order does not exist.");
         }
 
-        return ticketModel.createManualTicket(orderId, description, cause);
+        return ticketModel.createManualTicket(orderId, products, description, cause);
     }
 
     // TODO javadoc

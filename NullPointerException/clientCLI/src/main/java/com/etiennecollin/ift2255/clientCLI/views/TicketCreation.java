@@ -29,7 +29,7 @@ public class TicketCreation extends View {
         String description = prettyPrompt("Description of problem", Utils::validateNotEmpty);
 
         if (prettyPromptBool("Do you really want to open a ticket for this order?")) {
-            OperationResult result = ticketController.createManualTicket(orderId, description, cause);
+            OperationResult result = ticketController.createManualTicket(orderId, null, description, cause);
 
             System.out.println(prettify(result.message()));
         } else {

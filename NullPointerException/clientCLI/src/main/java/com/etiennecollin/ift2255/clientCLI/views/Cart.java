@@ -105,6 +105,7 @@ public class Cart extends View {
                 }
                 case 2 -> {
                     shopController.displayOrderPlacement();
+                    return;
                 }
                 case 3 -> {
                     OperationResult result = shopController.emptyCart();

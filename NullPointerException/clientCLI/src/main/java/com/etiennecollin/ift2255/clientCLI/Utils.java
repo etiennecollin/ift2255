@@ -365,7 +365,6 @@ public class Utils {
      */
     public static void prettyDynamicMenu(String prompt, String backName, ArrayList<DynamicMenuItem> menuItems, Runnable topOfLoopDisplayer) {
 
-        while (true) {
             ArrayList<DynamicMenuItem> filteredItems = new ArrayList<>();
             for (var item : menuItems) {
                 if (item.displayCondition.get()) {
@@ -384,12 +383,9 @@ public class Utils {
             topOfLoopDisplayer.run();
 
             int answer = prettyMenu(prompt, itemNames);
-            if (answer == 0) {
-                break;
-            } else {
+            if (answer != 0) {
                 filteredItems.get(answer - 1).action.run();
             }
-        }
     }
 
     /**
@@ -449,6 +445,7 @@ public class Utils {
                         int index = prettyMenu("Select", itemMenuNames);
                         if (index == 0) break;
                         action.accept(items.get(i + index - 1));
+                        break outerLoop;
                     }
                     case 2 -> {
                         // See more
@@ -467,7 +464,7 @@ public class Utils {
      * @return The formatted currency string (e.g., "12.34$").
      */
     public static String formatMoney(int cents) {
-        return cents / 100 + "." + cents % 100 + "$";
+        return cents / 100 + "." + String.format("%02d", cents % 100) + "$";
     }
 
     /**

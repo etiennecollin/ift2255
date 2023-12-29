@@ -44,7 +44,10 @@ public class ShopModel {
      *         does not match the specified class.
      */
     public <T extends Product> T getProduct(Class<T> productClass, UUID productId) {
+        checkProductPromotion(productId);
+
         Product product = db.get(DataMap.PRODUCTS, productId);
+
         if (product.getClass().equals(productClass)) {
             return (T) product;
         }
@@ -71,7 +74,7 @@ public class ShopModel {
      * @return A list of products that match the specified criteria.
      */
     public List<Product> getProducts(ProductCategory category, Enum<?> subCategory, UUID sellerId) {
-        return db.get(DataMap.PRODUCTS, (product) -> (category == null || product.getCategory() == category) && (subCategory == null || product.getSubCategory() == subCategory) && (sellerId == null || product.getSellerId() == sellerId));
+        return db.get(DataMap.PRODUCTS, (product) -> (category == null || product.getCategory() == category) && (subCategory == null || product.getSubCategory() == subCategory) && (sellerId == null || product.getSellerId().equals(sellerId)));
     }
 
     /**
@@ -222,6 +225,28 @@ public class ShopModel {
         }
     }
 
+    public OperationResult startProductPromotion(UUID productId, int discount, int promoPoints, LocalDate endDate) {
+        Product product = db.get(DataMap.PRODUCTS, productId);
+
+        int finalDiscount = Math.min(discount, product.getPrice());
+        db.<Product>update(DataMap.PRODUCTS, p -> {
+            p.setPromoDiscount(finalDiscount);
+            p.setPromoFidelityPoints(promoPoints);
+            p.setPromoEndDate(endDate);
+        }, productId);
+        return new OperationResult(true, "");
+    }
+
+    public void checkProductPromotion(UUID productId) {
+        db.<Product>update(DataMap.PRODUCTS, p -> {
+            if (p.getPromoEndDate() != null && p.getPromoEndDate().isBefore(LocalDate.now())) {
+                p.setPromoDiscount(0);
+                p.setPromoDiscount(0);
+                p.setPromoEndDate(null);
+            }
+        }, productId);
+    }
+
     /**
      * Adds a specified quantity of a product to the user's cart.
      *
@@ -244,7 +269,7 @@ public class ShopModel {
 
         boolean result;
 
-        List<CartProduct> existingEntries = cartDb.get(DataMap.CARTS, (cartProd) -> cartProd.getBuyerId() == buyerId && cartProd.getProductId() == productId);
+        List<CartProduct> existingEntries = cartDb.get(DataMap.CARTS, (cartProd) -> cartProd.getBuyerId().equals(buyerId) && cartProd.getProductId().equals(productId));
         if (!existingEntries.isEmpty()) {
             CartProduct existingEntry = existingEntries.get(0);
             int newQuantity = existingEntry.getQuantity() + quantity;
@@ -253,7 +278,7 @@ public class ShopModel {
                 return new OperationResult(false, "Insufficient inventory.");
             }
 
-            result = cartDb.<CartProduct>update(DataMap.CARTS, (cartProd) -> cartProd.setQuantity(newQuantity), productId);
+            result = cartDb.<CartProduct>update(DataMap.CARTS, (cartProd) -> cartProd.setQuantity(newQuantity), (cartProd) -> cartProd.getProductId().equals(productId));
         } else {
             if (!validateQuantity(product, quantity).isValid()) {
                 return new OperationResult(false, "Insufficient inventory.");
@@ -454,7 +479,7 @@ public class ShopModel {
      * @return A list of tuples containing cart product details and associated product information.
      */
     public List<Tuple<CartProduct, Product>> getCart(UUID buyerId) {
-        List<CartProduct> cartProductList = db.get(DataMap.CARTS, (cartProduct -> cartProduct.getBuyerId() == buyerId));
+        List<CartProduct> cartProductList = db.get(DataMap.CARTS, (cartProduct -> cartProduct.getBuyerId().equals(buyerId)));
         return cartProductList.stream().map((cartProd) -> new Tuple<CartProduct, Product>(cartProd, db.get(DataMap.PRODUCTS, cartProd.getProductId()))).toList();
     }
 
@@ -466,7 +491,7 @@ public class ShopModel {
      * @return An {@code OperationResult} indicating the success or failure of the operation.
      */
     public OperationResult emptyCart(UUID buyerId) {
-        boolean result = db.<CartProduct>remove(DataMap.CARTS, (cartProduct) -> cartProduct.getBuyerId() == buyerId);
+        boolean result = db.<CartProduct>remove(DataMap.CARTS, (cartProduct) -> cartProduct.getBuyerId().equals(buyerId));
         if (result) {
             return new OperationResult(true, "Cart emptied.");
         } else {
@@ -495,12 +520,12 @@ public class ShopModel {
      */
     public List<Order> getOrders(UUID buyerId, UUID sellerId) {
         return db.get(DataMap.ORDERS, (order) -> {
-            if (order.getBuyerId() == buyerId && sellerId == null) {
+            if (order.getBuyerId().equals(buyerId) && sellerId == null) {
                 return true;
-            } else if (order.getSellerId() == sellerId && buyerId == null) {
+            } else if (order.getSellerId().equals(sellerId) && buyerId == null) {
                 return true;
             } else {
-                return order.getBuyerId() == buyerId && order.getSellerId() == sellerId;
+                return order.getBuyerId().equals(buyerId) && order.getSellerId().equals(sellerId);
             }
         });
     }

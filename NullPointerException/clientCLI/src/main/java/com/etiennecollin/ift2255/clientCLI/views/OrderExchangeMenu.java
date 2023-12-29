@@ -10,7 +10,6 @@ import com.etiennecollin.ift2255.clientCLI.controllers.TicketController;
 import com.etiennecollin.ift2255.clientCLI.models.data.CartProduct;
 import com.etiennecollin.ift2255.clientCLI.models.data.Ticket;
 import com.etiennecollin.ift2255.clientCLI.models.data.products.Product;
-import com.etiennecollin.ift2255.clientCLI.views.productDisplay.ProductDisplay;
 
 import java.util.List;
 

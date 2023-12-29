@@ -102,7 +102,7 @@ public class ShopController {
      * @return A list of products associated with the specified seller.
      */
     public List<Product> searchProductsBySeller(UUID sellerId) {
-        return shopModel.searchProducts((product) -> product.getSellerId() == sellerId);
+        return shopModel.searchProducts((product) -> product.getSellerId().equals(sellerId));
     }
 
     /**
@@ -123,15 +123,15 @@ public class ShopController {
      */
     public void displayProduct(Product product) {
         if (product instanceof BookOrManual) {
-            renderer.addNextView(new BookOrManualDisplay(product.getId(), this), true);
+            renderer.addNextView(new BookOrManualDisplay(product.getId(), this, UniShop.getInstance().getProfileController()), true);
         } else if (product instanceof IT) {
-            renderer.addNextView(new ITProductDisplay(product.getId(), this), true);
+            renderer.addNextView(new ITProductDisplay(product.getId(), this, UniShop.getInstance().getProfileController()), true);
         } else if (product instanceof LearningResource) {
-            renderer.addNextView(new LearningResourceDisplay(product.getId(), this), true);
+            renderer.addNextView(new LearningResourceDisplay(product.getId(), this, UniShop.getInstance().getProfileController()), true);
         } else if (product instanceof OfficeEquipment) {
-            renderer.addNextView(new OfficeEquipmentDisplay(product.getId(), this), true);
+            renderer.addNextView(new OfficeEquipmentDisplay(product.getId(), this, UniShop.getInstance().getProfileController()), true);
         } else if (product instanceof StationeryArticle) {
-            renderer.addNextView(new StationeryArticleDisplay(product.getId(), this), true);
+            renderer.addNextView(new StationeryArticleDisplay(product.getId(), this, UniShop.getInstance().getProfileController()), true);
         }
     }
 
@@ -141,7 +141,13 @@ public class ShopController {
      * @param sellerId The UUID of the seller.
      */
     public void displayProducts(UUID sellerId) {
-        renderer.addNextView(new ProductsMenu(sellerId, this), false);
+        renderer.addNextView(new ProductsMenu(sellerId, this), true);
+    }
+
+    public void displaySellerProducts() {
+        if (Session.getInstance().getUserType() == UserType.Seller) {
+            displayProducts(Session.getInstance().getUserId());
+        }
     }
 
     /**
@@ -187,7 +193,7 @@ public class ShopController {
      * @param productId The UUID of the product.
      */
     public void displayProductReview(UUID productId) {
-        renderer.addNextView(new ProductReview(productId, this), false);
+        renderer.addNextView(new ProductReview(productId, this), true);
     }
 
     /**
@@ -224,6 +230,10 @@ public class ShopController {
      */
     public Review getProductReviewByUser(UUID productId) {
         return socialModel.getReview(productId, Session.getInstance().getUserId());
+    }
+
+    public OperationResult startProductPromotion(UUID productId, int discount, int promoPoints, LocalDate endDate) {
+        return shopModel.startProductPromotion(productId, discount, promoPoints, endDate);
     }
 
     /**
@@ -412,7 +422,7 @@ public class ShopController {
      */
     public List<Order> getPendingSellerOrders() {
         UUID sellerId = Session.getInstance().getUserId();
-        return shopModel.getOrders((order) -> order.getSellerId() == sellerId && order.getState() == OrderState.InProduction);
+        return shopModel.getOrders((order) -> order.getSellerId().equals(sellerId) && order.getState() == OrderState.InProduction);
     }
 
     /**

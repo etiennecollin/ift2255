@@ -17,6 +17,7 @@ import com.etiennecollin.ift2255.clientCLI.models.data.products.Product;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
@@ -60,15 +61,15 @@ public class BuyerOrdersMenu extends View {
     @Override
     public void render() {
         clearConsole();
-        List<Order> orders = shopController.getBuyerOrders();
+        AtomicReference<List<Order>> orders = new AtomicReference<>(shopController.getBuyerOrders());
 
-        if (orders.isEmpty()) {
+        if (orders.get().isEmpty()) {
             System.out.println(prettify("No orders"));
             waitForKey();
             return;
         }
 
-        prettyPaginationMenu(orders, 3, "Display order", order -> {
+        prettyPaginationMenu(orders.get(), 3, "Display order", order -> {
             System.out.println(prettify("--------------------"));
             System.out.println(prettify("Order date: " + order.getOrderDate()));
             System.out.println(prettify("State: " + order.getState()));
@@ -120,14 +121,14 @@ public class BuyerOrdersMenu extends View {
             } else {
                 System.out.println(prettify("Action cancelled"));
             }
-        }, () -> !order.getState().equals(OrderState.Cancelled) && (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getExpectedDeliveryDate().plusDays(30)))));
+        }, () -> (order.getState() != OrderState.Cancelled) && (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getReceptionDate().plusDays(30)))));
         options.add(new DynamicMenuItem("Exchange items", () -> {
             if (prettyPromptBool("Do you really want to exchange items from this order?")) {
                 ticketController.displayProductExchangeCreation(order.getId());
             } else {
                 System.out.println(prettify("Action cancelled"));
             }
-        }, () -> !order.getState().equals(OrderState.Cancelled) && (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getExpectedDeliveryDate().plusDays(30)))));
+        }, () -> !order.getState().equals(OrderState.Cancelled) && (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getReceptionDate().plusDays(30)))));
         options.add(new DynamicMenuItem("Cancel order", () -> {
             if (prettyPromptBool("Do you really want to cancel this order?")) {
                 OperationResult result = shopController.cancelOrder(order.getId());

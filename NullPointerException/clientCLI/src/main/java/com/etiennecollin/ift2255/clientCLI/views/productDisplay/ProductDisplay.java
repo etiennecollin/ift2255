@@ -6,11 +6,14 @@ package com.etiennecollin.ift2255.clientCLI.views.productDisplay;
 
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
 import com.etiennecollin.ift2255.clientCLI.Utils;
+import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
+import com.etiennecollin.ift2255.clientCLI.models.data.Buyer;
 import com.etiennecollin.ift2255.clientCLI.models.data.Seller;
 import com.etiennecollin.ift2255.clientCLI.models.data.products.Product;
 import com.etiennecollin.ift2255.clientCLI.views.View;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
@@ -33,6 +36,7 @@ public abstract class ProductDisplay extends View {
      * The controller responsible for shop-related actions.
      */
     protected ShopController shopController;
+    protected ProfileController profileController;
 
     /**
      * Constructs a new {@code ProductDisplay} with the specified product ID and shop controller.
@@ -40,9 +44,10 @@ public abstract class ProductDisplay extends View {
      * @param productId      The unique identifier of the product.
      * @param shopController The controller responsible for shop-related actions.
      */
-    public ProductDisplay(UUID productId, ShopController shopController) {
+    public ProductDisplay(UUID productId, ShopController shopController, ProfileController profileController) {
         this.productId = productId;
         this.shopController = shopController;
+        this.profileController = profileController;
     }
 
     /**
@@ -89,21 +94,32 @@ public abstract class ProductDisplay extends View {
      *
      * @param product The product for which to render actions.
      */
-    public void renderProductActions(Product product) {
+    public boolean renderProductActions(Product product) {
+        Buyer buyer = profileController.getBuyer();
+        if (buyer != null) {
+            return displayBuyerActions(product);
+        } else {
+            return displaySellerActions(product);
+        }
+    }
+
+    public boolean displayBuyerActions(Product product) {
         String[] options = {"Go back", "Toggle like", "Display reviews", "Add to cart"};
 
         clearConsole();
         int answer = prettyMenu("Select action", options);
         switch (answer) {
             case 0 -> {
-                return;
+                return false;
             }
             case 1 -> {
                 OperationResult result = shopController.toggleLike(product.getId());
                 System.out.println(prettify(result.message()));
+                return true;
             }
             case 2 -> {
                 shopController.displayReviews(product.getId());
+                return false;
             }
             case 3 -> {
                 int qty = prettyPromptInt("Quantity", (quantity) -> shopController.validateQuantity(product.getId(), quantity));
@@ -111,6 +127,36 @@ public abstract class ProductDisplay extends View {
                 OperationResult result = shopController.addToCart(product.getId(), qty);
 
                 System.out.println(prettify(result.message()));
+                return true;
+            }
+            default -> {
+                return false;
+            }
+        }
+    }
+
+    public boolean displaySellerActions(Product product) {
+        String[] options = {"Go back", "Display reviews", "Start promotion"};
+
+        clearConsole();
+        int answer = prettyMenu("Select action", options);
+        switch (answer) {
+            case 0 -> {
+                return false;
+            }
+            case 1 -> {
+                shopController.displayReviews(product.getId());
+                return false;
+            }
+            case 2 -> {
+                int discount = prettyPromptCurrency("Promotional discount");
+                int promoPoints = prettyPromptInt("Promotional fidelity points", points -> validateBonusFidelityPoints(points + product.getBonusFidelityPoints(), product.getPrice()));
+                LocalDate endDate = prettyPromptDate("Promotion end date");
+                shopController.startProductPromotion(productId, discount, promoPoints, endDate);
+                return false;
+            }
+            default -> {
+                return false;
             }
         }
     }

@@ -41,7 +41,7 @@ public class ProfileModel {
      * @return The buyer profile or {@code null} if not found.
      */
     public Buyer getBuyer(UUID userId) {
-        List<Buyer> buyers = db.get(DataMap.BUYERS, (b) -> b.getId() == userId);
+        List<Buyer> buyers = db.get(DataMap.BUYERS, (b) -> b.getId().equals(userId));
         if (!buyers.isEmpty()) {
             return buyers.get(0);
         }
@@ -110,7 +110,7 @@ public class ProfileModel {
      * @return The seller profile or {@code null} if not found.
      */
     public Seller getSeller(UUID userId) {
-        List<Seller> sellers = db.get(DataMap.SELLERS, (b) -> b.getId() == userId);
+        List<Seller> sellers = db.get(DataMap.SELLERS, (b) -> b.getId().equals(userId));
         if (!sellers.isEmpty()) {
             return sellers.get(0);
         }

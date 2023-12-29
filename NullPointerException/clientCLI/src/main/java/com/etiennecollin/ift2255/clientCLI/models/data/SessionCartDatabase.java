@@ -19,7 +19,7 @@ public class SessionCartDatabase implements Database {
 
     @Override
     public <T extends DatabaseObject> T get(DataMap dataMap, UUID id) {
-        List<CartProduct> filteredCart = cartProducts.stream().filter((entry) -> entry.getId() == id).toList();
+        List<CartProduct> filteredCart = cartProducts.stream().filter((entry) -> entry.getId().equals(id)).toList();
         if (filteredCart.size() == 0) {
             return null;
         }
@@ -47,7 +47,7 @@ public class SessionCartDatabase implements Database {
 
     @Override
     public <T extends DatabaseObject> boolean update(DataMap dataMap, Consumer<T> update, UUID id) {
-        List<CartProduct> filteredData = cartProducts.stream().filter((entry) -> entry.getId() == id).toList();
+        List<CartProduct> filteredData = cartProducts.stream().filter((entry) -> entry.getId().equals(id)).toList();
         if (filteredData.size() > 0) {
             update.accept((T) filteredData.get(0));
             return true;

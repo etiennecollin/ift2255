@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of the Database interface using Java serialization for data storage.
@@ -49,7 +50,7 @@ public class JavaSerializedDatabase implements Database {
 
         List<T> data = load(path);
         if (data != null) {
-            List<T> matches = data.stream().filter((entry) -> entry.getId() == id).toList();
+            List<T> matches = data.stream().filter((entry) -> entry.getId().equals(id)).toList();
             if (matches.size() > 0) {
                 return matches.get(0);
             }
@@ -147,7 +148,7 @@ public class JavaSerializedDatabase implements Database {
 
         List<T> data = load(path);
         if (data != null) {
-            List<T> filteredData = data.stream().filter((entry) -> entry.getId() == id).toList();
+            List<T> filteredData = data.stream().filter((entry) -> entry.getId().equals(id)).collect(Collectors.toCollection(ArrayList::new));
             if (filteredData.size() > 0) {
                 update.accept(filteredData.get(0));
                 save(data, path);
@@ -173,7 +174,7 @@ public class JavaSerializedDatabase implements Database {
 
         List<T> data = load(path);
         if (data != null) {
-            List<T> filteredData = data.stream().filter(filter).toList();
+            List<T> filteredData = data.stream().filter(filter).collect(Collectors.toCollection(ArrayList::new));
             if (filteredData.size() > 0) {
                 filteredData.forEach(update);
                 save(data, path);
@@ -198,8 +199,8 @@ public class JavaSerializedDatabase implements Database {
 
         List<T> data = load(path);
         if (data != null) {
-            List<T> filteredData = data.stream().filter((v) -> v.getId() != id).toList();
-            if (filteredData.size() > 0) {
+            List<T> filteredData = data.stream().filter((v) -> !v.getId().equals(id)).collect(Collectors.toCollection(ArrayList::new));
+            if (data.size() > filteredData.size()) {
                 save(filteredData, path);
                 return true;
             }
@@ -222,8 +223,8 @@ public class JavaSerializedDatabase implements Database {
 
         List<T> data = load(path);
         if (data != null) {
-            List<T> filteredData = data.stream().filter((v) -> !filter.test(v)).toList();
-            if (filteredData.size() > 0) {
+            List<T> filteredData = data.stream().filter((v) -> !filter.test(v)).collect(Collectors.toCollection(ArrayList::new));
+            if (data.size() > filteredData.size()) {
                 save(filteredData, path);
                 return true;
             }
