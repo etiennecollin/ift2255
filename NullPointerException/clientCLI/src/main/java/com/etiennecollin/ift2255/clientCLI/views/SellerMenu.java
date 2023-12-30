@@ -58,7 +58,7 @@ public class SellerMenu extends View {
             case 1 -> shopController.displayPendingSellerOrders();
             //                case 2 -> displayNotifications();
             case 3 -> ticketController.displayTickets();
-            //                case 4 -> displayActivities();
+            case 4 -> profileController.displaySellerActivities();
             case 5 -> profileController.displaySellerProfile();
             case 6 -> shopController.displaySellerProducts();
             case 7 -> shopController.displayProducts(null);

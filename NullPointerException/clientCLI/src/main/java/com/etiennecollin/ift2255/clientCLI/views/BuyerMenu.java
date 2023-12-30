@@ -62,7 +62,7 @@ public class BuyerMenu extends View {
             case 4 -> shopController.displayBuyerOrdersMenu();
             //            case 5 -> displayNotifications();
             case 6 -> ticketController.displayTickets();
-            //            case 7 -> displayActivities();
+            case 7 -> profileController.displayBuyerActivities();
             case 8 -> profileController.displayBuyerProfile();
             case 9 -> {
                 System.out.println(prettify("Logging-out..."));

@@ -340,4 +340,22 @@ public class ProfileController {
         renderer.clearViewHistory();
         renderer.addNextView(new MainMenu(UniShop.getInstance().getAuthController()), true);
     }
+
+    /**
+     * Displays the seller activities view for the currently logged-in seller.
+     * The method adds the {@link SellerActivities} view to the renderer, allowing sellers to view and manage their recent and overall performance metrics,
+     * including revenue, products sold, and product ratings.
+     */
+    public void displaySellerActivities() {
+        renderer.addNextView(new SellerActivities(this, UniShop.getInstance().getShopController()), false);
+    }
+
+    /**
+     * Displays the buyer activities view for the currently logged-in buyer.
+     * The method adds the {@link BuyerActivities} view to the renderer, allowing buyers to view and manage their recent and overall performance metrics,
+     * including orders, products bought, likes, and reviews.
+     */
+    public void displayBuyerActivities() {
+        renderer.addNextView(new BuyerActivities(this, UniShop.getInstance().getShopController()), false);
+    }
 }

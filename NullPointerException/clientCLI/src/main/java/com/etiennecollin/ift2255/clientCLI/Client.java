@@ -351,7 +351,7 @@ public class Client {
     //            System.out.println(prettify("Total orders: " + metrics.numberTotalOrders()));
     //            System.out.println(prettify("Recent product bought: " + metrics.numberRecentProductsBought()));
     //            System.out.println(prettify("Total product bought: " + metrics.numberTotalProductsBought()));
-    //            System.out.println(prettify("Followers: " + metrics.numberFollowers()));
+    //            System.out.println(prettify("Followers: " + metrics.numberProductsLiked()));
     //            System.out.println(prettify("Average recent reviews: " + metrics.averageRecentReviews()));
     //            System.out.println(prettify("Average total reviews: " + metrics.averageTotalReviews()));
     //            System.out.println(prettify("Recent reviews: " + metrics.averageRecentReviews()));
