@@ -60,7 +60,7 @@ public class BuyerMenu extends View {
             case 2 -> shopController.displayCart();
             case 3 -> profileController.displayUserFinder();
             case 4 -> shopController.displayBuyerOrdersMenu();
-            //            case 5 -> displayNotifications();
+            case 5 -> profileController.displayNotifications();
             case 6 -> ticketController.displayTickets();
             case 7 -> profileController.displayBuyerActivities();
             case 8 -> profileController.displayBuyerProfile();

@@ -5,10 +5,7 @@
 package com.etiennecollin.ift2255.clientCLI.models;
 
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
-import com.etiennecollin.ift2255.clientCLI.models.data.Buyer;
-import com.etiennecollin.ift2255.clientCLI.models.data.DataMap;
-import com.etiennecollin.ift2255.clientCLI.models.data.Database;
-import com.etiennecollin.ift2255.clientCLI.models.data.Seller;
+import com.etiennecollin.ift2255.clientCLI.models.data.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,6 +28,35 @@ public class ProfileModel {
      */
     public ProfileModel(Database database) {
         this.db = database;
+    }
+
+    /**
+     * Retrieves a list of notifications associated with the specified user.
+     *
+     * @param userId The unique identifier of the user for whom notifications are retrieved.
+     *
+     * @return A list of notifications associated with the specified user.
+     */
+    public List<Notification> getNotifications(UUID userId) {
+        return db.get(DataMap.NOTIFICATIONS, (n) -> n.getUserId().equals(userId));
+    }
+
+    /**
+     * Removes a notification with the specified identifier.
+     *
+     * @param notificationId The unique identifier of the notification to be removed.
+     */
+    public void removeNotification(UUID notificationId) {
+        db.remove(DataMap.NOTIFICATIONS, (n) -> n.getId().equals(notificationId));
+    }
+
+    /**
+     * Retrieves a list of all notifications in the system.
+     *
+     * @return A list of all notifications in the system.
+     */
+    public List<Notification> getAllNotifications() {
+        return db.get(DataMap.NOTIFICATIONS, (n) -> true);
     }
 
     /**

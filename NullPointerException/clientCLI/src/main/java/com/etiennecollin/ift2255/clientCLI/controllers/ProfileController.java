@@ -95,6 +95,35 @@ public class ProfileController {
     }
 
     /**
+     * Retrieves a list of notifications for the currently authenticated user.
+     *
+     * @return A list of notifications for the currently authenticated user.
+     */
+    public List<Notification> getNotifications() {
+        return profileModel.getNotifications(Session.getInstance().getUserId());
+    }
+
+    /**
+     * Removes a notification with the specified identifier.
+     *
+     * @param notificationId The unique identifier of the notification to be removed.
+     */
+    public void removeNotification(UUID notificationId) {
+        profileModel.removeNotification(notificationId);
+    }
+
+    /**
+     * Retrieves a list of notifications for the user with the specified identifier.
+     *
+     * @param userId The unique identifier of the user for whom notifications are retrieved.
+     *
+     * @return A list of notifications for the specified user.
+     */
+    public List<Notification> getNotifications(UUID userId) {
+        return profileModel.getNotifications(userId);
+    }
+
+    /**
      * Retrieves a list of all buyers in the system.
      *
      * @return A list of {@link Buyer} objects representing all buyers.
@@ -377,5 +406,14 @@ public class ProfileController {
      */
     public void displayBuyerActivities() {
         renderer.addNextView(new BuyerActivities(this, UniShop.getInstance().getShopController()), false);
+    }
+
+    /**
+     * Displays the user notifications view, allowing users to view and manage their notifications in the CLI application.
+     * It adds a {@link UserNotifications} view to the rendering queue for user interaction.
+     * Notifications are presented in a paginated manner, and users can choose to delete specific notifications.
+     */
+    public void displayNotifications() {
+        renderer.addNextView(new UserNotifications(this), false);
     }
 }

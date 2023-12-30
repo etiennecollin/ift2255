@@ -11,6 +11,10 @@ import java.util.UUID;
  */
 public class Notification extends DatabaseObject {
     /**
+     * The unique identifier of the notification.
+     */
+    private final UUID uuid;
+    /**
      * The ID of the user to whom the notification belongs.
      */
     private final UUID userId;
@@ -34,6 +38,7 @@ public class Notification extends DatabaseObject {
         this.userId = userId;
         this.title = title;
         this.content = content;
+        this.uuid = UUID.randomUUID();
     }
 
     /**
@@ -61,5 +66,14 @@ public class Notification extends DatabaseObject {
      */
     public String getContent() {
         return content;
+    }
+
+    /**
+     * Gets the UUID of the notification.
+     *
+     * @return The UUID representing the notification.
+     */
+    public UUID getUuid() {
+        return uuid;
     }
 }
