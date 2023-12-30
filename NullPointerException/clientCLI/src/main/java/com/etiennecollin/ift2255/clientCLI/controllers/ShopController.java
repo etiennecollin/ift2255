@@ -227,6 +227,14 @@ public class ShopController {
         return socialModel.getReviewsByProduct(productId);
     }
 
+    public Review getProductReview(UUID productId, UUID authorId) {
+        return socialModel.getReview(productId, authorId);
+    }
+
+    public Review getProductReview(UUID reviewId) {
+        return socialModel.getReview(reviewId);
+    }
+
     /**
      * Retrieves a review for a specific product written by the currently logged-in user.
      *
@@ -292,7 +300,19 @@ public class ShopController {
      * @return The result of the operation (success or failure).
      */
     public OperationResult toggleLike(UUID productId) {
-        return socialModel.toggleLikeProduct(productId);
+        return socialModel.toggleLikeProduct(productId, Session.getInstance().getUserId());
+    }
+
+    public List<Like> getLikes(UUID entity) {
+        return socialModel.getLikes(entity, null, LikeType.Review);
+    }
+
+    public OperationResult toggleLikeReview(UUID reviewId) {
+        return socialModel.toggleLikeReview(reviewId, Session.getInstance().getUserId());
+    }
+
+    public OperationResult markReviewAsInappropriate(UUID reviewId) {
+        return socialModel.markReviewAsInappropriate(reviewId);
     }
 
     /**

@@ -65,11 +65,12 @@ public class BuyersDisplay extends View {
             int index = prettyMenu("Select buyer", matchListString);
             if (index == matchListString.size() - 1) break;
 
-            Buyer buyer = buyerList.get(index);
+
 
             loop:
             while (true) {
                 clearConsole();
+                Buyer buyer = profileController.getBuyer(buyerList.get(index).getId());
                 System.out.println(prettify("Username: " + buyer.getUsername()));
                 System.out.println(prettify("Full name: ") + buyer.getFirstName() + " " + buyer.getLastName());
                 System.out.println(prettify("Followed by you: " + profileController.isLiked(buyer.getId())));

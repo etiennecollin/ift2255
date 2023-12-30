@@ -40,8 +40,7 @@ public class SocialModel {
      *
      * @return An {@code OperationResult} indicating the success or failure of the operation.
      */
-    public OperationResult toggleLikeProduct(UUID productId) {
-        UUID userId = Session.getInstance().getUserId();
+    public OperationResult toggleLikeProduct(UUID productId, UUID userId) {
         Product product = db.get(DataMap.PRODUCTS, productId);
         if (product != null) {
             if (isLiked(productId, userId)) {
@@ -79,11 +78,14 @@ public class SocialModel {
      *
      * @return An {@code OperationResult} indicating the success or failure of the operation.
      */
-    public OperationResult toggleLikeReview(UUID reviewId) {
-        UUID userId = Session.getInstance().getUserId();
+    public OperationResult toggleLikeReview(UUID reviewId, UUID userId) {
         Review review = db.get(DataMap.REVIEWS, reviewId);
 
         if (review != null) {
+            if (review.getAuthorId().equals(userId)) {
+                return new OperationResult(false, "You cannot like your own review.");
+            }
+
             List<Like> likes = db.get(DataMap.LIKES, (like) -> like.getLikedEntityId().equals(reviewId));
             Optional<Like> likedByUser = likes.stream().filter((like) -> like.getUserId().equals(userId)).findFirst();
 
@@ -105,6 +107,27 @@ public class SocialModel {
         return new OperationResult(false, "Seller no longer exists.");
     }
 
+    public OperationResult markReviewAsInappropriate(UUID reviewId) {
+        Review review = db.get(DataMap.REVIEWS, reviewId);
+
+        if (review != null) {
+            if (review.getIsReported()) {
+                return new OperationResult(true, "Marked as inappropriate.");
+            }
+
+            List<Like> likes = db.get(DataMap.LIKES, (like) -> like.getLikedEntityId().equals(reviewId));
+            db.<Review>update(DataMap.REVIEWS, r -> r.setIsReported(true), reviewId);
+
+            if (likes.size() > 0) {
+                db.<Buyer>update(DataMap.BUYERS, (buyer) -> buyer.setFidelityPoints(buyer.getFidelityPoints() - 10), review.getAuthorId());
+            }
+
+            return new OperationResult(true, "Marked as inappropriate.");
+        }
+
+        return new OperationResult(false, "Review could not be modified.");
+    }
+
     /**
      * Toggles the like status of a seller by the current user.
      *
@@ -112,8 +135,7 @@ public class SocialModel {
      *
      * @return An {@code OperationResult} indicating the success or failure of the operation.
      */
-    public OperationResult toggleLikeSeller(UUID sellerId) {
-        UUID userId = Session.getInstance().getUserId();
+    public OperationResult toggleLikeSeller(UUID sellerId, UUID userId) {
         Seller seller = db.get(DataMap.SELLERS, sellerId);
 
         if (seller != null) {
@@ -139,8 +161,7 @@ public class SocialModel {
      *
      * @return An {@code OperationResult} indicating the success or failure of the operation.
      */
-    public OperationResult toggleFollowBuyer(UUID buyerId) {
-        UUID userId = Session.getInstance().getUserId();
+    public OperationResult toggleFollowBuyer(UUID buyerId, UUID userId) {
         Buyer buyer = db.get(DataMap.BUYERS, buyerId);
 
         if (buyer != null) {
@@ -194,6 +215,10 @@ public class SocialModel {
      */
     public List<Review> getReviewsByAuthor(UUID authorId) {
         return db.get(DataMap.REVIEWS, (review) -> review.getAuthorId().equals(authorId));
+    }
+
+    public Review getReview(UUID reviewId) {
+        return db.get(DataMap.REVIEWS, reviewId);
     }
 
     /**

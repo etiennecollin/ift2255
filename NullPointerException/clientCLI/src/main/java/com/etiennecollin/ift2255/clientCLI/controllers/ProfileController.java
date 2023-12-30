@@ -12,8 +12,10 @@ import com.etiennecollin.ift2255.clientCLI.models.SocialModel;
 import com.etiennecollin.ift2255.clientCLI.models.data.*;
 import com.etiennecollin.ift2255.clientCLI.views.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * The ProfileController class is responsible for managing user profiles, interactions, and social activities.
@@ -68,6 +70,7 @@ public class ProfileController {
      * @param buyers The list of buyers to display.
      */
     public void displayBuyers(List<Buyer> buyers) {
+        buyers = buyers.stream().filter(buyer -> !buyer.getId().equals(Session.getInstance().getUserId())).collect(Collectors.toCollection(ArrayList::new));
         renderer.addNextView(new BuyersDisplay(this, buyers), true);
     }
 
@@ -238,23 +241,23 @@ public class ProfileController {
     /**
      * Toggles the "like" status for a seller.
      *
-     * @param userId The UUID of the seller.
+     * @param sellerId The UUID of the seller.
      *
      * @return An operation result indicating the success or failure of the toggle.
      */
-    public OperationResult toggleLikeSeller(UUID userId) {
-        return socialModel.toggleLikeSeller(userId);
+    public OperationResult toggleLikeSeller(UUID sellerId) {
+        return socialModel.toggleLikeSeller(sellerId, Session.getInstance().getUserId());
     }
 
     /**
      * Toggles the "follow" status for a buyer.
      *
-     * @param userId The UUID of the buyer.
+     * @param buyerId The UUID of the buyer.
      *
      * @return An operation result indicating the success or failure of the toggle.
      */
-    public OperationResult toggleFollowBuyer(UUID userId) {
-        return socialModel.toggleFollowBuyer(userId);
+    public OperationResult toggleFollowBuyer(UUID buyerId) {
+        return socialModel.toggleFollowBuyer(buyerId, Session.getInstance().getUserId());
     }
 
     /**

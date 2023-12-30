@@ -68,8 +68,13 @@ public class ProductExchangeMenu extends View {
 
         TicketCause cause = prettyMenu("Select the type of issue", TicketCause.class);
 
-        OperationResult result = ticketController.startExchangeProcess(orderId, new ArrayList<>(returnProducts), cause);
-        System.out.println(prettify(result.message()));
+        if (prettyPromptBool("Do you really want to exchange this order?")) {
+            OperationResult result = ticketController.startExchangeProcess(orderId, new ArrayList<>(returnProducts), cause);
+
+            System.out.println(prettify(result.message()));
+        } else {
+            System.out.println(prettify("Cancelled exchange"));
+        }
 
         waitForKey();
     }
