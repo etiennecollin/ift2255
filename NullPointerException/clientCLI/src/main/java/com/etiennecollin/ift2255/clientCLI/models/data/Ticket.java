@@ -36,10 +36,10 @@ public class Ticket extends DatabaseObject {
      * The return shipment associated with the ticket.
      */
     private Shipment returnShipment;
-//    /**
-//     * The replacement shipment associated with the ticket.
-//     */
-//    private Shipment replacementShipment;
+    //    /**
+    //     * The replacement shipment associated with the ticket.
+    //     */
+    //    private Shipment replacementShipment;
     /**
      * The list of products and their quantities associated with the ticket.
      */
@@ -88,9 +88,9 @@ public class Ticket extends DatabaseObject {
         this.sellerId = sellerId;
         this.problemDescription = problemDescription;
         this.suggestedSolution = "";
-//        this.replacementProductDescription = "";
+        //        this.replacementProductDescription = "";
         this.returnShipment = null;
-//        this.replacementShipment = null;
+        //        this.replacementShipment = null;
         this.state = state;
         //        if (LocalDate.now().isAfter(order.getOrderDate().plusDays(30))) {
         //            this.state = TicketState.OpenAuto;
@@ -108,7 +108,18 @@ public class Ticket extends DatabaseObject {
      */
     public TicketCause getCause() {
         return cause;
-    }    /**
+    }
+
+    /**
+     * Sets the cause of the ticket.
+     *
+     * @param cause The cause of the ticket.
+     */
+    public void setCause(TicketCause cause) {
+        this.cause = cause;
+    }
+
+    /**
      * Compares this Ticket object to another object for equality.
      *
      * @param o The object to compare.
@@ -121,15 +132,6 @@ public class Ticket extends DatabaseObject {
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
         return Objects.equals(getId(), ticket.getId());
-    }
-
-    /**
-     * Sets the cause of the ticket.
-     *
-     * @param cause The cause of the ticket.
-     */
-    public void setCause(TicketCause cause) {
-        this.cause = cause;
     }
 
     /**
@@ -150,23 +152,23 @@ public class Ticket extends DatabaseObject {
         this.returnShipment = returnShipment;
     }
 
-//    /**
-//     * Gets the replacement shipment associated with the ticket.
-//     *
-//     * @return The replacement shipment associated with the ticket.
-//     */
-//    public Shipment getReplacementShipment() {
-//        return replacementShipment;
-//    }
-//
-//    /**
-//     * Sets the replacement shipment associated with the ticket.
-//     *
-//     * @param replacementShipment The replacement shipment associated with the ticket.
-//     */
-//    public void setReplacementShipment(Shipment replacementShipment) {
-//        this.replacementShipment = replacementShipment;
-//    }
+    //    /**
+    //     * Gets the replacement shipment associated with the ticket.
+    //     *
+    //     * @return The replacement shipment associated with the ticket.
+    //     */
+    //    public Shipment getReplacementShipment() {
+    //        return replacementShipment;
+    //    }
+    //
+    //    /**
+    //     * Sets the replacement shipment associated with the ticket.
+    //     *
+    //     * @param replacementShipment The replacement shipment associated with the ticket.
+    //     */
+    //    public void setReplacementShipment(Shipment replacementShipment) {
+    //        this.replacementShipment = replacementShipment;
+    //    }
 
     /**
      * Gets the creation date of the ticket.
@@ -362,8 +364,4 @@ public class Ticket extends DatabaseObject {
         //        Notification notification = new Notification(title, content);
         //        this.buyer.addNotification(notification);
     }
-
-
-
-
 }

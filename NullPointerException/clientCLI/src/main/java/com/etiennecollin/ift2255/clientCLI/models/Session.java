@@ -4,10 +4,11 @@
 
 package com.etiennecollin.ift2255.clientCLI.models;
 
-import com.etiennecollin.ift2255.clientCLI.models.data.*;
+import com.etiennecollin.ift2255.clientCLI.models.data.Order;
+import com.etiennecollin.ift2255.clientCLI.models.data.SessionCartDatabase;
+import com.etiennecollin.ift2255.clientCLI.models.data.Ticket;
+import com.etiennecollin.ift2255.clientCLI.models.data.UserType;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 /**

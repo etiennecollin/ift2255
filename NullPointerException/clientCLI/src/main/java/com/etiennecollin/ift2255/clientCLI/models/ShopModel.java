@@ -55,6 +55,16 @@ public class ShopModel {
         return null;
     }
 
+    public void checkProductPromotion(UUID productId) {
+        db.<Product>update(DataMap.PRODUCTS, p -> {
+            if (p.getPromoEndDate() != null && p.getPromoEndDate().isBefore(LocalDate.now())) {
+                p.setPromoDiscount(0);
+                p.setPromoDiscount(0);
+                p.setPromoEndDate(null);
+            }
+        }, productId);
+    }
+
     /**
      * Retrieves a list of all products in the database.
      *
@@ -237,16 +247,6 @@ public class ShopModel {
         return new OperationResult(true, "");
     }
 
-    public void checkProductPromotion(UUID productId) {
-        db.<Product>update(DataMap.PRODUCTS, p -> {
-            if (p.getPromoEndDate() != null && p.getPromoEndDate().isBefore(LocalDate.now())) {
-                p.setPromoDiscount(0);
-                p.setPromoDiscount(0);
-                p.setPromoEndDate(null);
-            }
-        }, productId);
-    }
-
     /**
      * Adds a specified quantity of a product to the user's cart.
      *
@@ -325,7 +325,7 @@ public class ShopModel {
      *
      * @param cartProductId The unique identifier of the cart product.
      * @param quantity      The quantity to remove from the cart.
-     * @param cartDb    An optional database for manipulating the cart. If null, the normal database is used.
+     * @param cartDb        An optional database for manipulating the cart. If null, the normal database is used.
      *
      * @return An {@code OperationResult} indicating the success or failure of the operation.
      */

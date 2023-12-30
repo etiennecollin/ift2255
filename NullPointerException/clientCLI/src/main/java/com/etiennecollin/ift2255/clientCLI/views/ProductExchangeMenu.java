@@ -17,7 +17,6 @@ import java.util.HashSet;
 import java.util.UUID;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
-import static com.etiennecollin.ift2255.clientCLI.Utils.waitForKey;
 
 // TODO javadoc
 public class ProductExchangeMenu extends View {
@@ -33,7 +32,6 @@ public class ProductExchangeMenu extends View {
         this.shopController = shopController;
         this.orderId = orderId;
     }
-
 
     @Override
     public void render() {

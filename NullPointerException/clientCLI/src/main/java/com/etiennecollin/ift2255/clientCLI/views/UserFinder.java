@@ -45,7 +45,6 @@ public class UserFinder extends View {
         int answer = prettyMenu("Search for", options);
         switch (answer) {
             case 0 -> {
-                return;
             }
             case 1 -> findBuyer();
             case 2 -> findSeller();
@@ -82,7 +81,6 @@ public class UserFinder extends View {
 
         profileController.displayBuyers(matchList);
     }
-
 
     /**
      * Private method to search for sellers based on specified criteria such as name, address, phone number, and email.

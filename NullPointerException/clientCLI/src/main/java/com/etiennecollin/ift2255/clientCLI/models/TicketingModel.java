@@ -48,32 +48,19 @@ public class TicketingModel {
     }
 
     /**
-     * Retrieves the ticket with the specified ID from the database.
-     *
-     * @param ticketId The unique identifier of the ticket.
-     * @return The ticket with the specified ID, or {@code null} if the ticket does not exist.
-     */
-    public Ticket getTicket(UUID ticketId) {
-        return db.get(DataMap.TICKETS, ticketId);
-    }
-
-    /**
      * Retrieves a list of tickets that satisfy the given predicate.
      *
      * @param predicate The predicate used to filter tickets.
+     *
      * @return A list of tickets that satisfy the given predicate.
      */
     public List<Ticket> getTickets(Predicate<Ticket> predicate) {
         updateTickets();
-         return db.get(DataMap.TICKETS, predicate);
+        return db.get(DataMap.TICKETS, predicate);
     }
 
     public void updateTickets() {
-        db.<Ticket>update(
-                DataMap.TICKETS,
-                t -> t.setState(TicketState.Cancelled),
-                t -> t.getState() == TicketState.ReturnInTransit && LocalDate.now().isAfter(t.getReturnShipment().getCreationDate().plusDays(MAX_RETURN_DELAY_DAYS))
-        );
+        db.<Ticket>update(DataMap.TICKETS, t -> t.setState(TicketState.Cancelled), t -> t.getState() == TicketState.ReturnInTransit && LocalDate.now().isAfter(t.getReturnShipment().getCreationDate().plusDays(MAX_RETURN_DELAY_DAYS)));
     }
 
     // TODO javadoc
@@ -85,19 +72,16 @@ public class TicketingModel {
         Order order = db.get(DataMap.ORDERS, orderId);
         if (order == null) {
             return new OperationResult(false, "Order does not exist.");
-        }
-        else if (order.getState() == OrderState.Cancelled) {
+        } else if (order.getState() == OrderState.Cancelled) {
             return new OperationResult(false, "Cannot create a ticket for a cancelled order.");
-        }
-        else if (!LocalDate.now().isBefore(order.getOrderDate().plusDays(MAX_ISSUE_DELAY_DAYS))) {
+        } else if (!LocalDate.now().isBefore(order.getOrderDate().plusDays(MAX_ISSUE_DELAY_DAYS))) {
             return new OperationResult(false, "The ticketing window for this order has passed.");
         }
 
         boolean result = db.add(DataMap.TICKETS, new Ticket(description, orderId, null, cause, TicketState.OpenManual, order.getBuyerId(), order.getSellerId()));
         if (result) {
             return new OperationResult(true, "Ticket successfully opened.");
-        }
-        else {
+        } else {
             return new OperationResult(false, "Ticket could not be created.");
         }
     }
@@ -111,11 +95,9 @@ public class TicketingModel {
         Order order = db.get(DataMap.ORDERS, orderId);
         if (order == null) {
             return new OperationResult(false, "Order does not exist.");
-        }
-        else if (order.getState() == OrderState.Cancelled) {
+        } else if (order.getState() == OrderState.Cancelled) {
             return new OperationResult(false, "Cannot create a ticket for a cancelled order.");
-        }
-        else if (order.getShipment() != null && !LocalDate.now().isBefore(order.getShipment().getReceptionDate().plusDays(MAX_RETURN_ELIGIBILITY_DAYS))) {
+        } else if (order.getShipment() != null && !LocalDate.now().isBefore(order.getShipment().getReceptionDate().plusDays(MAX_RETURN_ELIGIBILITY_DAYS))) {
             return new OperationResult(false, "The return window for this order has passed.");
         }
 
@@ -128,8 +110,7 @@ public class TicketingModel {
         boolean result = db.add(DataMap.TICKETS, newTicket);
         if (result) {
             return new OperationResult(true, solution);
-        }
-        else {
+        } else {
             return new OperationResult(false, "Ticket could not be created.");
         }
     }
@@ -162,10 +143,7 @@ public class TicketingModel {
 
             PaymentMethod paymentMethod = new PaymentMethod(Math.max(totalReplacementCost - totalReturnValue, 0), 0, Math.min(totalReturnValue, totalReplacementCost));
 
-            Order replacementOrder = new Order(productTupleList, totalReplacementCost, totalFidelityPointsEarned, paymentMethod, originalOrder.getEmail(),
-                    originalOrder.getPhone(), originalOrder.getAddress(), originalOrder.getBillingAddress(), originalOrder.getCreditCardName(),
-                    originalOrder.getCreditCardNumber(), originalOrder.getCreditCardExp(), originalOrder.getCreditCardSecretDigits(),
-                    originalOrder.getBuyerId(), originalOrder.getSellerId());
+            Order replacementOrder = new Order(productTupleList, totalReplacementCost, totalFidelityPointsEarned, paymentMethod, originalOrder.getEmail(), originalOrder.getPhone(), originalOrder.getAddress(), originalOrder.getBillingAddress(), originalOrder.getCreditCardName(), originalOrder.getCreditCardNumber(), originalOrder.getCreditCardExp(), originalOrder.getCreditCardSecretDigits(), originalOrder.getBuyerId(), originalOrder.getSellerId());
 
             ticket.setReplacementOrderId(replacementOrder.getId());
 
@@ -186,14 +164,14 @@ public class TicketingModel {
      * @param trackingNumber  The tracking number of the replacement shipment.
      * @param deliveryDate    The expected delivery date of the replacement shipment.
      * @param shippingCompany The shipping company responsible for the replacement shipment.
+     *
      * @return An {@code OperationResult} indicating the success or failure of the operation.
      */
     public OperationResult createReplacementShipment(UUID ticketId, String description, String trackingNumber, LocalDate deliveryDate, String shippingCompany) {
         Ticket ticket = getTicket(ticketId);
         if (ticket == null) {
             return new OperationResult(false, "Ticket does not exist.");
-        }
-        else if (ticket.getState() == TicketState.Cancelled || ticket.getState() == TicketState.Closed) {
+        } else if (ticket.getState() == TicketState.Cancelled || ticket.getState() == TicketState.Closed) {
             return new OperationResult(false, "Ticket cannot be updated.");
         }
 
@@ -201,8 +179,7 @@ public class TicketingModel {
         Order replacementOrder = db.get(DataMap.ORDERS, replacementOrderId);
         if (replacementOrder == null) {
             return new OperationResult(false, "Ticket's replacement order not found.");
-        }
-        else if (replacementOrder.getShipment() != null) {
+        } else if (replacementOrder.getShipment() != null) {
             return new OperationResult(false, "Ticket already has a replacement shipment.");
         }
 
@@ -220,36 +197,47 @@ public class TicketingModel {
         return new OperationResult(false, "Unable to update ticket.");
     }
 
-//    /**
-//     * Creates a return shipment for the specified ticket with the given information.
-//     *
-//     * @param ticketId        The unique identifier of the ticket.
-//     * @param trackingNumber  The tracking number of the return shipment.
-//     * @param deliveryDate    The expected delivery date of the return shipment.
-//     * @param shippingCompany The shipping company responsible for the return shipment.
-//     * @return An {@code OperationResult} indicating the success or failure of the operation.
-//     */
-//    public OperationResult createReturnShipment(UUID ticketId, String solution, String trackingNumber, LocalDate deliveryDate, String shippingCompany) {
-//        Ticket ticket = getTicket(ticketId);
-//        if (ticket == null) {
-//            return new OperationResult(false, "Ticket does not exist.");
-//        }
-//
-//        if (ticket.getReturnShipment() != null) {
-//            return new OperationResult(false, "Ticket already has a return shipment.");
-//        }
-//
-//        boolean result = db.<Ticket>update(DataMap.TICKETS, (t) -> {
-//            t.setState(TicketState.ReturnInTransit);
-//            t.setSuggestedSolution(solution);
-//            t.setReturnShipment(new Shipment(trackingNumber, deliveryDate, shippingCompany));
-//        }, ticketId);
-//        if (result) {
-//            return new OperationResult(true, "Return shipment information added.");
-//        } else {
-//            return new OperationResult(false, "Unable to update ticket.");
-//        }
-//    }
+    /**
+     * Retrieves the ticket with the specified ID from the database.
+     *
+     * @param ticketId The unique identifier of the ticket.
+     *
+     * @return The ticket with the specified ID, or {@code null} if the ticket does not exist.
+     */
+    public Ticket getTicket(UUID ticketId) {
+        return db.get(DataMap.TICKETS, ticketId);
+    }
+
+    //    /**
+    //     * Creates a return shipment for the specified ticket with the given information.
+    //     *
+    //     * @param ticketId        The unique identifier of the ticket.
+    //     * @param trackingNumber  The tracking number of the return shipment.
+    //     * @param deliveryDate    The expected delivery date of the return shipment.
+    //     * @param shippingCompany The shipping company responsible for the return shipment.
+    //     * @return An {@code OperationResult} indicating the success or failure of the operation.
+    //     */
+    //    public OperationResult createReturnShipment(UUID ticketId, String solution, String trackingNumber, LocalDate deliveryDate, String shippingCompany) {
+    //        Ticket ticket = getTicket(ticketId);
+    //        if (ticket == null) {
+    //            return new OperationResult(false, "Ticket does not exist.");
+    //        }
+    //
+    //        if (ticket.getReturnShipment() != null) {
+    //            return new OperationResult(false, "Ticket already has a return shipment.");
+    //        }
+    //
+    //        boolean result = db.<Ticket>update(DataMap.TICKETS, (t) -> {
+    //            t.setState(TicketState.ReturnInTransit);
+    //            t.setSuggestedSolution(solution);
+    //            t.setReturnShipment(new Shipment(trackingNumber, deliveryDate, shippingCompany));
+    //        }, ticketId);
+    //        if (result) {
+    //            return new OperationResult(true, "Return shipment information added.");
+    //        } else {
+    //            return new OperationResult(false, "Unable to update ticket.");
+    //        }
+    //    }
 
     public OperationResult changeTicketToReplacement(UUID ticketId, String solution, boolean requireReturn, String trackingNumber, String shippingCompany) {
         Ticket ticket = db.get(DataMap.TICKETS, ticketId);
@@ -266,10 +254,7 @@ public class TicketingModel {
 
             Order originalOrder = db.get(DataMap.ORDERS, ticket.getOrderId());
 
-            Order replacementOrder = new Order(ticket.getProducts(), totalCost, fidelityPointsEarned,
-                    new PaymentMethod(0, 0, totalCost), originalOrder.getEmail(), originalOrder.getPhone(), originalOrder.getAddress(),
-                    originalOrder.getBillingAddress(), originalOrder.getCreditCardName(), originalOrder.getCreditCardNumber(),
-                    originalOrder.getCreditCardExp(), originalOrder.getCreditCardSecretDigits(), originalOrder.getBuyerId(), originalOrder.getSellerId());
+            Order replacementOrder = new Order(ticket.getProducts(), totalCost, fidelityPointsEarned, new PaymentMethod(0, 0, totalCost), originalOrder.getEmail(), originalOrder.getPhone(), originalOrder.getAddress(), originalOrder.getBillingAddress(), originalOrder.getCreditCardName(), originalOrder.getCreditCardNumber(), originalOrder.getCreditCardExp(), originalOrder.getCreditCardSecretDigits(), originalOrder.getBuyerId(), originalOrder.getSellerId());
 
             db.add(DataMap.ORDERS, replacementOrder);
 
@@ -278,8 +263,7 @@ public class TicketingModel {
                 if (requireReturn) {
                     t.setReturnShipment(new Shipment(trackingNumber, null, shippingCompany));
                     t.setState(TicketState.ReturnInTransit);
-                }
-                else {
+                } else {
                     t.setState(TicketState.ReturnReceived);
                     refundOrChargeBuyer(ticketId);
                 }
@@ -288,70 +272,6 @@ public class TicketingModel {
             return new OperationResult(true, "Ticket closed.");
         }
         return new OperationResult(false, "Ticket could not be modified.");
-    }
-
-    public OperationResult changeTicketToNoReplacement(UUID ticketId, String solution, boolean requireReturn, String trackingNumber, String shippingCompany) {
-        Ticket ticket = db.get(DataMap.TICKETS, ticketId);
-        if (ticket != null && ticket.getState() == TicketState.OpenManual) {
-            db.<Ticket>update(DataMap.TICKETS, t -> {
-                t.setSuggestedSolution(solution);
-                if (requireReturn) {
-                    t.setReturnShipment(new Shipment(trackingNumber, null, shippingCompany));
-                    t.setState(TicketState.ReturnInTransit);
-                }
-                else {
-                    t.setState(TicketState.Closed);
-                    refundOrChargeBuyer(ticketId);
-                }
-            }, ticketId);
-
-            return new OperationResult(true, "Ticket closed.");
-        }
-        return new OperationResult(false, "Ticket could not be modified.");
-    }
-
-    public OperationResult confirmReceptionOfReplacement(UUID ticketId) {
-        boolean result = db.<Ticket>update(
-                DataMap.TICKETS,
-                t -> t.setState(TicketState.Closed),
-                t -> t.getId().equals(ticketId) && t.getState() == TicketState.ReplacementInTransit
-        );
-        if (result) {
-            return new OperationResult(true, "Replacement reception confirmed. Ticket closed.");
-        }
-        else {
-            return new OperationResult(false, "Unable to confirm replacement reception.");
-        }
-    }
-
-    public OperationResult confirmReceptionOfReturn(UUID ticketId) {
-        Ticket ticket = db.get(DataMap.TICKETS, ticketId);
-
-        if (ticket.getState() == TicketState.ReturnInTransit && ticket.getReturnShipment() != null) {
-            if (ticket.getReplacementOrderId() != null) {
-                db.<Ticket>update(DataMap.TICKETS, t -> {
-                    t.setState(TicketState.ReturnReceived);
-                    t.getReturnShipment().setReceptionDate(LocalDate.now());
-                }, ticketId);
-            }
-            else {
-                db.<Ticket>update(DataMap.TICKETS, t -> {
-                    t.setState(TicketState.Closed);
-                    t.getReturnShipment().setReceptionDate(LocalDate.now());
-                }, ticketId);
-            }
-
-            if (ticket.getCause() != TicketCause.DefectiveProduct) {
-                for (Tuple<Product, Integer> productTuple : ticket.getProducts()) {
-                    int quantity = productTuple.second;
-                    db.<Product>update(DataMap.PRODUCTS, p -> p.setQuantity(p.getQuantity() + quantity), productTuple.first.getId());
-                }
-            }
-
-            refundOrChargeBuyer(ticketId);
-        }
-
-        return new OperationResult(true, "Return reception confirmed.");
     }
 
     private void refundOrChargeBuyer(UUID ticketId) {
@@ -405,5 +325,62 @@ public class TicketingModel {
 
         refundAmount -= fidelityPointsToRefund;
         // refund remaining to credit card
+    }
+
+    public OperationResult changeTicketToNoReplacement(UUID ticketId, String solution, boolean requireReturn, String trackingNumber, String shippingCompany) {
+        Ticket ticket = db.get(DataMap.TICKETS, ticketId);
+        if (ticket != null && ticket.getState() == TicketState.OpenManual) {
+            db.<Ticket>update(DataMap.TICKETS, t -> {
+                t.setSuggestedSolution(solution);
+                if (requireReturn) {
+                    t.setReturnShipment(new Shipment(trackingNumber, null, shippingCompany));
+                    t.setState(TicketState.ReturnInTransit);
+                } else {
+                    t.setState(TicketState.Closed);
+                    refundOrChargeBuyer(ticketId);
+                }
+            }, ticketId);
+
+            return new OperationResult(true, "Ticket closed.");
+        }
+        return new OperationResult(false, "Ticket could not be modified.");
+    }
+
+    public OperationResult confirmReceptionOfReplacement(UUID ticketId) {
+        boolean result = db.<Ticket>update(DataMap.TICKETS, t -> t.setState(TicketState.Closed), t -> t.getId().equals(ticketId) && t.getState() == TicketState.ReplacementInTransit);
+        if (result) {
+            return new OperationResult(true, "Replacement reception confirmed. Ticket closed.");
+        } else {
+            return new OperationResult(false, "Unable to confirm replacement reception.");
+        }
+    }
+
+    public OperationResult confirmReceptionOfReturn(UUID ticketId) {
+        Ticket ticket = db.get(DataMap.TICKETS, ticketId);
+
+        if (ticket.getState() == TicketState.ReturnInTransit && ticket.getReturnShipment() != null) {
+            if (ticket.getReplacementOrderId() != null) {
+                db.<Ticket>update(DataMap.TICKETS, t -> {
+                    t.setState(TicketState.ReturnReceived);
+                    t.getReturnShipment().setReceptionDate(LocalDate.now());
+                }, ticketId);
+            } else {
+                db.<Ticket>update(DataMap.TICKETS, t -> {
+                    t.setState(TicketState.Closed);
+                    t.getReturnShipment().setReceptionDate(LocalDate.now());
+                }, ticketId);
+            }
+
+            if (ticket.getCause() != TicketCause.DefectiveProduct) {
+                for (Tuple<Product, Integer> productTuple : ticket.getProducts()) {
+                    int quantity = productTuple.second;
+                    db.<Product>update(DataMap.PRODUCTS, p -> p.setQuantity(p.getQuantity() + quantity), productTuple.first.getId());
+                }
+            }
+
+            refundOrChargeBuyer(ticketId);
+        }
+
+        return new OperationResult(true, "Return reception confirmed.");
     }
 }

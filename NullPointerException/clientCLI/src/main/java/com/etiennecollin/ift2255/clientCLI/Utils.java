@@ -365,27 +365,27 @@ public class Utils {
      */
     public static void prettyDynamicMenu(String prompt, String backName, ArrayList<DynamicMenuItem> menuItems, Runnable topOfLoopDisplayer) {
 
-            ArrayList<DynamicMenuItem> filteredItems = new ArrayList<>();
-            for (var item : menuItems) {
-                if (item.displayCondition.get()) {
-                    filteredItems.add(item);
-                }
+        ArrayList<DynamicMenuItem> filteredItems = new ArrayList<>();
+        for (var item : menuItems) {
+            if (item.displayCondition.get()) {
+                filteredItems.add(item);
             }
+        }
 
-            ArrayList<String> itemNames = new ArrayList<>();
-            itemNames.add(backName);
-            for (var item : filteredItems) {
-                itemNames.add(item.name);
-            }
+        ArrayList<String> itemNames = new ArrayList<>();
+        itemNames.add(backName);
+        for (var item : filteredItems) {
+            itemNames.add(item.name);
+        }
 
-            // Setup action menu
-            clearConsole();
-            topOfLoopDisplayer.run();
+        // Setup action menu
+        clearConsole();
+        topOfLoopDisplayer.run();
 
-            int answer = prettyMenu(prompt, itemNames);
-            if (answer != 0) {
-                filteredItems.get(answer - 1).action.run();
-            }
+        int answer = prettyMenu(prompt, itemNames);
+        if (answer != 0) {
+            filteredItems.get(answer - 1).action.run();
+        }
     }
 
     /**

@@ -54,8 +54,7 @@ public class OrderExchangeMenu extends View {
 
         if (totalReplacementValue > totalReturnValue) {
             System.out.println(prettify("Your credit card will be charged " + formatMoney(totalReplacementValue - totalReturnValue)));
-        }
-        else {
+        } else {
             System.out.println(prettify("Your credit card and fidelity will be refunded the equivalent of " + formatMoney(totalReturnValue - totalReplacementValue)));
         }
 
@@ -70,7 +69,6 @@ public class OrderExchangeMenu extends View {
                 shopController.displayProducts(null);
             }
             case 2 -> {
-                return;
             }
         }
     }

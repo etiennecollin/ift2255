@@ -10,7 +10,6 @@ import com.etiennecollin.ift2255.clientCLI.models.data.*;
 import java.util.List;
 import java.util.UUID;
 
-
 /**
  * The {@code AuthenticationModel} class provides methods for authenticating users,
  * registering new buyers and sellers, and checking the availability of usernames.
@@ -35,6 +34,7 @@ public class AuthenticationModel {
      *
      * @param username The buyer's username.
      * @param password The buyer's password.
+     *
      * @return An {@code OperationResult} indicating the success or failure of the authentication.
      */
     public OperationResult authenticateBuyer(String username, String password) {
@@ -55,6 +55,7 @@ public class AuthenticationModel {
      *
      * @param name     The seller's name.
      * @param password The seller's password.
+     *
      * @return An {@code OperationResult} indicating the success or failure of the authentication.
      */
     public OperationResult authenticateSeller(String name, String password) {
@@ -80,6 +81,7 @@ public class AuthenticationModel {
      * @param email       The buyer's email.
      * @param phoneNumber The buyer's phone number.
      * @param address     The buyer's address.
+     *
      * @return An {@code OperationResult} indicating the success or failure of the registration.
      */
     public OperationResult registerNewBuyer(String username, String password, String firstName, String lastName, String email, String phoneNumber, String address) {
@@ -100,6 +102,7 @@ public class AuthenticationModel {
      * @param email       The seller's email.
      * @param phoneNumber The seller's phone number.
      * @param address     The seller's address.
+     *
      * @return An {@code OperationResult} indicating the success or failure of the registration.
      */
     public OperationResult registerNewSeller(String name, String password, String email, String phoneNumber, String address) {
@@ -115,6 +118,7 @@ public class AuthenticationModel {
      * Checks if a buyer username is available.
      *
      * @param username The buyer's username to check.
+     *
      * @return {@code true} if the username is available, {@code false} otherwise.
      */
     public boolean isBuyerNameAvailable(String username) {
@@ -125,6 +129,7 @@ public class AuthenticationModel {
      * Checks if a seller name is available.
      *
      * @param name The seller's name to check.
+     *
      * @return {@code true} if the name is available, {@code false} otherwise.
      */
     public boolean isSellerNameAvailable(String name) {
@@ -136,6 +141,7 @@ public class AuthenticationModel {
      *
      * @param userId   The unique identifier of the user.
      * @param password The password to check.
+     *
      * @return {@code true} if the password is correct, {@code false} otherwise.
      */
     public boolean isCorrectPassword(UUID userId, String password) {

@@ -22,8 +22,7 @@ public class SessionCartDatabase implements Database {
         List<CartProduct> filteredCart = cartProducts.stream().filter((entry) -> entry.getId().equals(id)).toList();
         if (filteredCart.size() == 0) {
             return null;
-        }
-        else {
+        } else {
             return (T) filteredCart.get(0);
         }
     }
@@ -51,8 +50,7 @@ public class SessionCartDatabase implements Database {
         if (filteredData.size() > 0) {
             update.accept((T) filteredData.get(0));
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

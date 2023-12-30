@@ -76,7 +76,6 @@ public class SellersDisplay extends View {
         boolean liked = profileController.isLiked(seller.getId());
         int numOrders = shopController.getSellerOrders(seller.getId()).size();
 
-
         clearConsole();
         System.out.println(prettify("Name: " + seller.getName()));
         System.out.println(prettify("Email: " + seller.getEmail()));
@@ -90,7 +89,6 @@ public class SellersDisplay extends View {
         int answer = prettyMenu("Select action", options);
         switch (answer) {
             case 0 -> {
-                return;
             }
             case 1 -> {
                 OperationResult result = profileController.toggleLikeSeller(seller.getId());
@@ -99,6 +97,5 @@ public class SellersDisplay extends View {
             }
             case 2 -> shopController.displayProducts(seller.getId());
         }
-
     }
 }

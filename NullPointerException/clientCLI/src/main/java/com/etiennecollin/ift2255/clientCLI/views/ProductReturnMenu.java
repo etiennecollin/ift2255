@@ -9,9 +9,7 @@ import com.etiennecollin.ift2255.clientCLI.Tuple;
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
 import com.etiennecollin.ift2255.clientCLI.controllers.TicketController;
 import com.etiennecollin.ift2255.clientCLI.models.data.Order;
-import com.etiennecollin.ift2255.clientCLI.models.data.Ticket;
 import com.etiennecollin.ift2255.clientCLI.models.data.TicketCause;
-import com.etiennecollin.ift2255.clientCLI.models.data.TicketState;
 import com.etiennecollin.ift2255.clientCLI.models.data.products.Product;
 
 import java.util.ArrayList;
