@@ -50,7 +50,7 @@ public class JavaSerializedDatabase implements Database {
 
         List<T> data = load(path);
         if (data != null) {
-            List<T> matches = data.stream().filter((entry) -> entry.getId().equals(id)).toList();
+            List<T> matches = data.stream().filter((entry) -> entry.getId().equals(id)).collect(Collectors.toCollection(ArrayList::new));
             if (matches.size() > 0) {
                 return matches.get(0);
             }
@@ -73,7 +73,7 @@ public class JavaSerializedDatabase implements Database {
 
         List<T> data = load(path);
         if (data != null) {
-            return data.stream().filter(filter).toList();
+            return data.stream().filter(filter).collect(Collectors.toCollection(ArrayList::new));
         }
 
         return new ArrayList<>();

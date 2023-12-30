@@ -62,9 +62,10 @@ public class ProductReturnMenu extends View {
                 productTuple -> System.out.println(prettify(productTuple.first + " x" + productTuple.second)),
                 productTuple -> productTuple.first + " x" + productTuple.second,
                 productTuple ->  {
-                    returnProducts.add(productTuple);
+                    returnProducts.add(new Tuple<>(productTuple.first, productTuple.second.intValue()));
+                    productTuple.second = 0;
                     return true;
-                }
+                }, null
         );
 
         if (returnProducts.isEmpty()) {

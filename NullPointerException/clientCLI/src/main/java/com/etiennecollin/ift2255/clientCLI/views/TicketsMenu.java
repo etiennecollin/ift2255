@@ -80,7 +80,7 @@ public class TicketsMenu extends View {
                     (ticket) -> {
                         ticketController.displayTicket(ticket.getId());
                         return false;
-                    }
+                    }, null
             );
         }
     }

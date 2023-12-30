@@ -25,6 +25,7 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.*;
  * enter shipment details, and ship the selected order.
  */
 public class PendingSellerOrders extends View {
+    private final List<Order> filteredOrders;
     /**
      * The ShopController used for managing shop-related functionalities.
      */
@@ -40,7 +41,8 @@ public class PendingSellerOrders extends View {
      * @param shopController    the ShopController used for managing shop-related functionalities.
      * @param profileController the ProfileController used for managing profile-related functionalities.
      */
-    public PendingSellerOrders(ShopController shopController, ProfileController profileController) {
+    public PendingSellerOrders(List<Order> filteredOrders, ShopController shopController, ProfileController profileController) {
+        this.filteredOrders = filteredOrders;
         this.shopController = shopController;
         this.profileController = profileController;
     }
@@ -51,7 +53,10 @@ public class PendingSellerOrders extends View {
      */
     @Override
     public void render() {
-        List<Order> orders = shopController.getPendingSellerOrders();
+        List<Order> orders = filteredOrders;
+        if (filteredOrders == null) {
+            orders = shopController.getPendingSellerOrders();
+        }
 
         clearConsole();
 
@@ -78,7 +83,7 @@ public class PendingSellerOrders extends View {
                 (order) -> {
                     displayOrderShipmentMenu(order);
                     return true;
-                }
+                }, (order) -> shopController.getOrder(order.getId())
         );
     }
 

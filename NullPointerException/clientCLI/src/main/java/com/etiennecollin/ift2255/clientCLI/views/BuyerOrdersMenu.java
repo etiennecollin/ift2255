@@ -9,10 +9,7 @@ import com.etiennecollin.ift2255.clientCLI.Utils;
 import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
 import com.etiennecollin.ift2255.clientCLI.controllers.TicketController;
-import com.etiennecollin.ift2255.clientCLI.models.data.Order;
-import com.etiennecollin.ift2255.clientCLI.models.data.OrderState;
-import com.etiennecollin.ift2255.clientCLI.models.data.Seller;
-import com.etiennecollin.ift2255.clientCLI.models.data.Ticket;
+import com.etiennecollin.ift2255.clientCLI.models.data.*;
 import com.etiennecollin.ift2255.clientCLI.models.data.products.Product;
 
 import java.time.LocalDate;
@@ -30,6 +27,7 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.*;
  * The class extends the {@link View} class.
  */
 public class BuyerOrdersMenu extends View {
+    private final List<Order> filteredOrders;
     /**
      * The ShopController used for interacting with shop-related actions and operations.
      */
@@ -50,7 +48,8 @@ public class BuyerOrdersMenu extends View {
      * @param profileController the ProfileController used for interacting with buyer profiles and related actions.
      * @param ticketController  the TicketController for handling ticket-related logic.
      */
-    public BuyerOrdersMenu(ShopController shopController, ProfileController profileController, TicketController ticketController) {
+    public BuyerOrdersMenu(List<Order> filteredOrders, ShopController shopController, ProfileController profileController, TicketController ticketController) {
+        this.filteredOrders = filteredOrders;
         this.shopController = shopController;
         this.profileController = profileController;
         this.ticketController = ticketController;
@@ -62,7 +61,13 @@ public class BuyerOrdersMenu extends View {
     @Override
     public void render() {
         clearConsole();
-        AtomicReference<List<Order>> orders = new AtomicReference<>(shopController.getBuyerOrders());
+        AtomicReference<List<Order>> orders;
+        if (filteredOrders == null) {
+            orders = new AtomicReference<>(shopController.getBuyerOrders());
+        } else {
+            orders = new AtomicReference<>(filteredOrders);
+        }
+
 
         if (orders.get().isEmpty()) {
             System.out.println(prettify("No orders"));
@@ -82,7 +87,7 @@ public class BuyerOrdersMenu extends View {
                 order -> {
                     displayBuyerOrderActions(order);
                     return false;
-                }
+                }, order -> shopController.getOrder(order.getId())
         );
     }
 
@@ -96,6 +101,8 @@ public class BuyerOrdersMenu extends View {
 
         Ticket existingTicket = ticketController.getTicketForOrder(order.getId());
         boolean orderTicketExists = existingTicket != null;
+        Ticket ticketForReplacement = ticketController.getTicketForReplacementOrder(order.getId());
+        boolean orderIsReplacementInTicket = ticketForReplacement != null;
 
         options.add(new DynamicMenuItem("Review a product", () -> {
             prettyPaginationMenu(order.getProducts(), 3, "Review product",
@@ -103,17 +110,22 @@ public class BuyerOrdersMenu extends View {
                         Product product = tuple.first;
                         int quantity = tuple.second;
                         String totalPrice = Utils.formatMoney((product.getPrice() - product.getPromoDiscount()) * quantity);
+                        Review review = shopController.getProductReviewByUser(product.getId());
 
                         System.out.println(prettify("--------------------"));
                         System.out.println(prettify("Product name: " + product.getTitle()));
                         System.out.println(prettify("Quantity: " + quantity));
                         System.out.println(prettify("Unit price: " + Utils.formatMoney(product.getPrice() - product.getPromoDiscount())));
                         System.out.println(prettify("Total price: " + totalPrice));
+                        if (review != null) {
+                            System.out.println(prettify("Your review: " + review.getRating() + "/100"));
+                            System.out.println(prettify(review.getComment()));
+                        }
                     }, tuple -> tuple.first.getTitle(),
                     tuple -> {
                         shopController.displayProductReview(tuple.first.getId());
                         return false;
-                    }
+                    }, null
             );
         }, () -> order.getState().equals(OrderState.Delivered)));
         options.add(new DynamicMenuItem("Confirm reception of order", () -> {
@@ -160,6 +172,11 @@ public class BuyerOrdersMenu extends View {
                 ticketController.displayTicket(existingTicket.getId());
             }
         }, () -> orderTicketExists));
+        options.add(new DynamicMenuItem("View ticket for this replacement order", () -> {
+            if (ticketForReplacement != null) {
+                ticketController.displayTicket(ticketForReplacement.getId());
+            }
+        }, () -> orderIsReplacementInTicket));
 
         prettyDynamicMenu("Select action", "Go back", options, () -> displayOrder(order));
     }

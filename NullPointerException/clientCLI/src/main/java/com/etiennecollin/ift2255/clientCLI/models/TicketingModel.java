@@ -175,7 +175,7 @@ public class TicketingModel {
             PaymentMethod paymentMethod = new PaymentMethod(Math.max(totalReplacementCost - totalReturnValue, 0), 0, Math.min(totalReturnValue, totalReplacementCost));
 
             Order replacementOrder = new Order(productTupleList, totalReplacementCost, totalFidelityPointsEarned, paymentMethod, originalOrder.getEmail(), originalOrder.getPhone(), originalOrder.getAddress(), originalOrder.getBillingAddress(), originalOrder.getCreditCardName(), originalOrder.getCreditCardNumber(), originalOrder.getCreditCardExp(), originalOrder.getCreditCardSecretDigits(), originalOrder.getBuyerId(), originalOrder.getSellerId());
-
+            replacementOrder.setState(OrderState.PendingTicket);
             ticket.setReplacementOrderId(replacementOrder.getId());
 
             db.add(DataMap.ORDERS, replacementOrder);
@@ -214,7 +214,10 @@ public class TicketingModel {
             return new OperationResult(false, "Ticket already has a replacement shipment.");
         }
 
-        boolean result1 = db.<Order>update(DataMap.ORDERS, o -> o.setShipment(new Shipment(trackingNumber, deliveryDate, shippingCompany)), replacementOrderId);
+        boolean result1 = db.<Order>update(DataMap.ORDERS, o -> {
+            o.setShipment(new Shipment(trackingNumber, deliveryDate, shippingCompany));
+            o.setState(OrderState.InTransit);
+        }, replacementOrderId);
         if (result1) {
             boolean result2 = db.<Ticket>update(DataMap.TICKETS, t -> {
                 t.setState(TicketState.ReplacementInTransit);
@@ -297,7 +300,9 @@ public class TicketingModel {
             Order originalOrder = db.get(DataMap.ORDERS, ticket.getOrderId());
 
             Order replacementOrder = new Order(ticket.getProducts(), totalCost, fidelityPointsEarned, new PaymentMethod(0, 0, totalCost), originalOrder.getEmail(), originalOrder.getPhone(), originalOrder.getAddress(), originalOrder.getBillingAddress(), originalOrder.getCreditCardName(), originalOrder.getCreditCardNumber(), originalOrder.getCreditCardExp(), originalOrder.getCreditCardSecretDigits(), originalOrder.getBuyerId(), originalOrder.getSellerId());
-
+            if (requireReturn) {
+                replacementOrder.setState(OrderState.PendingTicket);
+            }
             db.add(DataMap.ORDERS, replacementOrder);
 
             db.<Ticket>update(DataMap.TICKETS, t -> {
@@ -412,7 +417,9 @@ public class TicketingModel {
      * @return The result of the operation (success or failure).
      */
     public OperationResult confirmReceptionOfReplacement(UUID ticketId) {
+        Ticket ticket = db.get(DataMap.TICKETS, ticketId);
         boolean result = db.<Ticket>update(DataMap.TICKETS, t -> t.setState(TicketState.Closed), t -> t.getId().equals(ticketId) && t.getState() == TicketState.ReplacementInTransit);
+        db.<Order>update(DataMap.ORDERS, o -> o.setState(OrderState.Delivered), ticket.getReplacementOrderId());
         if (result) {
             return new OperationResult(true, "Replacement reception confirmed. Ticket closed.");
         } else {
@@ -436,6 +443,7 @@ public class TicketingModel {
                     t.setState(TicketState.ReturnReceived);
                     t.getReturnShipment().setReceptionDate(LocalDate.now());
                 }, ticketId);
+                db.<Order>update(DataMap.ORDERS, o -> o.setState(OrderState.InProduction), ticket.getReplacementOrderId());
             } else {
                 db.<Ticket>update(DataMap.TICKETS, t -> {
                     t.setState(TicketState.Closed);

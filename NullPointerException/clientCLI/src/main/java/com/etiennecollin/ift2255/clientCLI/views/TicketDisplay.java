@@ -18,6 +18,7 @@ import com.etiennecollin.ift2255.clientCLI.models.data.products.Product;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
@@ -95,11 +96,23 @@ public class TicketDisplay extends View {
 
         ArrayList<DynamicMenuItem> options = new ArrayList<>();
 
+        options.add(new DynamicMenuItem("View related orders", () -> {
+            List<Order> orderList = new ArrayList<>();
+            orderList.add(shopController.getOrder(ticket.getOrderId()));
+
+            if (ticket.getReplacementOrderId() != null) {
+                orderList.add(shopController.getOrder(ticket.getReplacementOrderId()));
+                System.out.println(prettify("Problem order is first. Replacement order is second."));
+                waitForKey();
+            }
+            shopController.displayBuyerOrdersMenu(orderList);
+        }, () -> true));
         options.add(new DynamicMenuItem("Confirm reception of replacement shipment", () -> {
             boolean confirmation = prettyPromptBool("Do you really want to confirm the reception of the replacement shipment");
             if (confirmation) {
                 OperationResult result = ticketController.confirmReceptionOfReplacement(ticketId);
                 System.out.println(prettify(result.message()));
+                waitForKey();
             } else {
                 System.out.println(prettify("Action cancelled"));
                 waitForKey();
@@ -137,6 +150,18 @@ public class TicketDisplay extends View {
     public void displaySellerActions(Ticket ticket) {
         ArrayList<DynamicMenuItem> options = new ArrayList<>();
 
+        options.add(new DynamicMenuItem("View related orders", () -> {
+            List<Order> orderList = new ArrayList<>();
+            orderList.add(shopController.getOrder(ticket.getOrderId()));
+
+            if (ticket.getReplacementOrderId() != null) {
+                orderList.add(shopController.getOrder(ticket.getReplacementOrderId()));
+                System.out.println(prettify("Problem order is first. Replacement order is second."));
+                waitForKey();
+            }
+            shopController.displayPendingSellerOrders(orderList);
+        }, () -> true));
+
         options.add(new DynamicMenuItem("Set suggested solution", () -> {
             boolean requireReturn = Utils.prettyPromptBool("Request that the buyer return the product(s)?");
             boolean offerReplacement = Utils.prettyPromptBool("Offer to replace the product(s)?");
@@ -147,17 +172,18 @@ public class TicketDisplay extends View {
                 String trackingNumber = prettyPrompt("Tracking number of replacement shipment", Utils::validateNotEmpty);
 
                 if (offerReplacement) {
-                    ticketController.changeTicketToReturnAndReplace(ticketId, suggestedSolution, shippingCompany, trackingNumber);
+                    System.out.println(prettify(ticketController.changeTicketToReturnAndReplace(ticketId, suggestedSolution, shippingCompany, trackingNumber).message()));
                 } else {
-                    ticketController.changeTicketToReturnWithoutReplace(ticketId, suggestedSolution, shippingCompany, trackingNumber);
+                    System.out.println(prettify(ticketController.changeTicketToReturnWithoutReplace(ticketId, suggestedSolution, shippingCompany, trackingNumber).message()));
                 }
             } else {
                 if (offerReplacement) {
-                    ticketController.changeTicketToReplaceWithoutReturn(ticketId, suggestedSolution);
+                    System.out.println(prettify(ticketController.changeTicketToReplaceWithoutReturn(ticketId, suggestedSolution).message()));
                 } else {
-                    ticketController.changeTicketToNoReturnNoReplace(ticketId, suggestedSolution);
+                    System.out.println(prettify(ticketController.changeTicketToNoReturnNoReplace(ticketId, suggestedSolution).message()));
                 }
             }
+            waitForKey();
         }, () -> ticket.getState() == TicketState.OpenManual));
 
         options.add(new DynamicMenuItem("Confirm reception of return shipment", () -> {
@@ -165,6 +191,7 @@ public class TicketDisplay extends View {
             if (confirmation) {
                 OperationResult result = ticketController.confirmReceptionOfReturn(ticketId);
                 System.out.println(prettify(result.message()));
+                waitForKey();
             } else {
                 System.out.println(prettify("Action cancelled"));
                 waitForKey();
@@ -179,6 +206,7 @@ public class TicketDisplay extends View {
 
             OperationResult result = ticketController.createReplacementShipment(ticketId, replacementProductDescription, trackingNumber, expectedDeliveryDate, shippingCompany);
             System.out.println(prettify(result.message()));
+            waitForKey();
         }, () -> ticket.getState() == TicketState.ReturnReceived));
 
         prettyDynamicMenu("Select action", "Go back", options, () -> displayTicket(ticket));

@@ -206,14 +206,32 @@ public class ShopController {
      * Displays the menu for buyer's orders.
      */
     public void displayBuyerOrdersMenu() {
-        renderer.addNextView(new BuyerOrdersMenu(this, UniShop.getInstance().getProfileController(), UniShop.getInstance().getTicketController()), true);
+        renderer.addNextView(new BuyerOrdersMenu(null, this, UniShop.getInstance().getProfileController(), UniShop.getInstance().getTicketController()), true);
+    }
+
+    /**
+     * Displays the menu for buyer's orders.
+     *
+     * @param orders The specific orders to display.
+     */
+    public void displayBuyerOrdersMenu(List<Order> orders) {
+        renderer.addNextView(new BuyerOrdersMenu(orders, this, UniShop.getInstance().getProfileController(), UniShop.getInstance().getTicketController()), true);
     }
 
     /**
      * Displays pending orders for the seller.
      */
     public void displayPendingSellerOrders() {
-        renderer.addNextView(new PendingSellerOrders(this, UniShop.getInstance().getProfileController()), true);
+        renderer.addNextView(new PendingSellerOrders(null, this, UniShop.getInstance().getProfileController()), true);
+    }
+
+    /**
+     * Displays pending orders for the seller.
+     *
+     * @param orders The specific orders to display.
+     */
+    public void displayPendingSellerOrders(List<Order> orders) {
+        renderer.addNextView(new PendingSellerOrders(orders, this, UniShop.getInstance().getProfileController()), true);
     }
 
     /**

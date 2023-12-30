@@ -112,6 +112,15 @@ public class TicketController {
         }
     }
 
+    public Ticket getTicketForReplacementOrder(UUID orderId) {
+        List<Ticket> matches = ticketModel.getTickets(t -> t.getReplacementOrderId().equals(orderId));
+        if (matches.isEmpty()) {
+            return null;
+        } else {
+            return matches.get(0);
+        }
+    }
+
     /**
      * Retrieves the exchange ticket associated with an ongoing exchange process.
      *
