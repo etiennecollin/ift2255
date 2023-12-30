@@ -149,7 +149,7 @@ public class JavaSerializedDatabase implements Database {
         List<T> data = load(path);
         if (data != null) {
             List<T> filteredData = data.stream().filter((entry) -> entry.getId().equals(id)).collect(Collectors.toCollection(ArrayList::new));
-            if (filteredData.size() > 0) {
+            if (!filteredData.isEmpty()) {
                 update.accept(filteredData.get(0));
                 save(data, path);
                 return true;
@@ -175,7 +175,7 @@ public class JavaSerializedDatabase implements Database {
         List<T> data = load(path);
         if (data != null) {
             List<T> filteredData = data.stream().filter(filter).collect(Collectors.toCollection(ArrayList::new));
-            if (filteredData.size() > 0) {
+            if (!filteredData.isEmpty()) {
                 filteredData.forEach(update);
                 save(data, path);
                 return true;
@@ -266,7 +266,6 @@ public class JavaSerializedDatabase implements Database {
      *
      * @return The data in the file.
      */
-    @SuppressWarnings("unchecked")
     protected <T> T load(String filename) {
         try (FileInputStream file = new FileInputStream(savePath + filename)) {
             try (ObjectInputStream input = new ObjectInputStream(file)) {
