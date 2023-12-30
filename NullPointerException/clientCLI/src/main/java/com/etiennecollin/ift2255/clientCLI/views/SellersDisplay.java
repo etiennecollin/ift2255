@@ -78,7 +78,6 @@ public class SellersDisplay extends View {
                 boolean liked = profileController.isLiked(seller.getId());
                 int numOrders = shopController.getSellerOrders(seller.getId()).size();
 
-
                 clearConsole();
                 System.out.println(prettify("Name: " + seller.getName()));
                 System.out.println(prettify("Email: " + seller.getEmail()));
@@ -90,7 +89,7 @@ public class SellersDisplay extends View {
 
                 if (profileController.isUserASeller()) {
                     waitForKey();
-                    break loop;
+                    break;
                 }
 
                 String[] options = {"Go back", "Toggle follow", "Display seller's products"};

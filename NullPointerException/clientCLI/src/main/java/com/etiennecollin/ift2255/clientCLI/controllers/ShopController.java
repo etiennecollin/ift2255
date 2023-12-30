@@ -245,10 +245,25 @@ public class ShopController {
         return socialModel.getReviewsByProduct(productId);
     }
 
+    /**
+     * Retrieves a specific review associated with a product and author.
+     *
+     * @param productId The unique identifier of the product.
+     * @param authorId  The unique identifier of the author (buyer) of the review.
+     *
+     * @return A {@link Review} object representing the review associated with the specified product and author.
+     */
     public Review getProductReview(UUID productId, UUID authorId) {
         return socialModel.getReview(productId, authorId);
     }
 
+    /**
+     * Retrieves a specific review based on its unique identifier.
+     *
+     * @param reviewId The unique identifier of the review.
+     *
+     * @return A {@link Review} object representing the review with the specified unique identifier.
+     */
     public Review getProductReview(UUID reviewId) {
         return socialModel.getReview(reviewId);
     }
@@ -321,14 +336,35 @@ public class ShopController {
         return socialModel.toggleLikeProduct(productId, Session.getInstance().getUserId());
     }
 
+    /**
+     * Retrieves a list of likes associated with a specified entity (e.g., review).
+     *
+     * @param entity The unique identifier of the entity.
+     *
+     * @return A list of {@link Like} objects representing likes associated with the specified entity.
+     */
     public List<Like> getLikes(UUID entity) {
         return socialModel.getLikes(entity, null, LikeType.Review);
     }
 
+    /**
+     * Toggles the like status for a review.
+     *
+     * @param reviewId The unique identifier of the review.
+     *
+     * @return An {@link OperationResult} indicating the success or failure of the operation.
+     */
     public OperationResult toggleLikeReview(UUID reviewId) {
         return socialModel.toggleLikeReview(reviewId, Session.getInstance().getUserId());
     }
 
+    /**
+     * Marks a review as inappropriate.
+     *
+     * @param reviewId The unique identifier of the review.
+     *
+     * @return An {@link OperationResult} indicating the success or failure of marking the review.
+     */
     public OperationResult markReviewAsInappropriate(UUID reviewId) {
         return socialModel.markReviewAsInappropriate(reviewId);
     }

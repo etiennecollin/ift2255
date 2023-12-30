@@ -103,7 +103,6 @@ public class ProductsMenu extends View {
             Product product = matchedProducts.get(answer - 2);
             shopController.displayProduct(product);
             break;
-
         }
     }
 }

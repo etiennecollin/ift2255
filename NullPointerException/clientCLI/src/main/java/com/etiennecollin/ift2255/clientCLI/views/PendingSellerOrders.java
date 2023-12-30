@@ -25,6 +25,10 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.*;
  * enter shipment details, and ship the selected order.
  */
 public class PendingSellerOrders extends View {
+    /**
+     * The list of filtered orders that meet specific criteria for display or interaction within the menu.
+     * It is used to present a focused view of orders based on applied filters or conditions.
+     */
     private final List<Order> filteredOrders;
     /**
      * The ShopController used for managing shop-related functionalities.
@@ -38,6 +42,7 @@ public class PendingSellerOrders extends View {
     /**
      * Constructs a PendingSellerOrders with the specified ShopController and ProfileController.
      *
+     * @param filteredOrders    The list of filtered orders to be displayed in the menu.
      * @param shopController    the ShopController used for managing shop-related functionalities.
      * @param profileController the ProfileController used for managing profile-related functionalities.
      */
@@ -66,25 +71,22 @@ public class PendingSellerOrders extends View {
             return;
         }
 
-        prettyPaginationMenu(orders, 2, "Select order to ship",
-                (order) -> {
-                    System.out.println(prettify("--------------------"));
-                    String buyerName = profileController.getBuyer(order.getBuyerId()).getUsername();
-                    System.out.println(prettify("ID: " + order.getId()));
-                    System.out.println(prettify("Order date: " + order.getOrderDate()));
-                    System.out.println(prettify("Buyer username: " + buyerName));
-                    System.out.println(prettify("Address: " + order.getAddress()));
-                    System.out.println(prettify("State: " + order.getState()));
-                    System.out.println(prettify("Products:"));
-                    for (Tuple<Product, Integer> productTuple : order.getProducts()) {
-                        System.out.println(prettify(productTuple.second + "x " + productTuple.first.getTitle()));
-                    }
-                }, (order) -> "Order #" + order.getId() + " - " + order.getOrderDate(),
-                (order) -> {
-                    displayOrderShipmentMenu(order);
-                    return true;
-                }, (order) -> shopController.getOrder(order.getId())
-        );
+        prettyPaginationMenu(orders, 2, "Select order to ship", (order) -> {
+            System.out.println(prettify("--------------------"));
+            String buyerName = profileController.getBuyer(order.getBuyerId()).getUsername();
+            System.out.println(prettify("ID: " + order.getId()));
+            System.out.println(prettify("Order date: " + order.getOrderDate()));
+            System.out.println(prettify("Buyer username: " + buyerName));
+            System.out.println(prettify("Address: " + order.getAddress()));
+            System.out.println(prettify("State: " + order.getState()));
+            System.out.println(prettify("Products:"));
+            for (Tuple<Product, Integer> productTuple : order.getProducts()) {
+                System.out.println(prettify(productTuple.second + "x " + productTuple.first.getTitle()));
+            }
+        }, (order) -> "Order #" + order.getId() + " - " + order.getOrderDate(), (order) -> {
+            displayOrderShipmentMenu(order);
+            return true;
+        }, (order) -> shopController.getOrder(order.getId()));
     }
 
     /**

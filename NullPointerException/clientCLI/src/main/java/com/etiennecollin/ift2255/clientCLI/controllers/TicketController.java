@@ -103,6 +103,13 @@ public class TicketController {
         return ticketModel.getTicket(ticketId);
     }
 
+    /**
+     * Retrieves the ticket associated with a specific order.
+     *
+     * @param orderId The unique identifier of the order.
+     *
+     * @return A {@link Ticket} object representing the ticket associated with the specified order.
+     */
     public Ticket getTicketForOrder(UUID orderId) {
         List<Ticket> matches = ticketModel.getTickets(t -> t.getOrderId().equals(orderId));
         if (matches.isEmpty()) {
@@ -112,6 +119,13 @@ public class TicketController {
         }
     }
 
+    /**
+     * Retrieves the ticket associated with a replacement order in an exchange process.
+     *
+     * @param orderId The unique identifier of the replacement order.
+     *
+     * @return A {@link Ticket} object representing the ticket associated with the specified replacement order.
+     */
     public Ticket getTicketForReplacementOrder(UUID orderId) {
         List<Ticket> matches = ticketModel.getTickets(t -> t.getReplacementOrderId().equals(orderId));
         if (matches.isEmpty()) {
@@ -202,7 +216,9 @@ public class TicketController {
     }
 
     /**
-     * Cancels the ongoing product exchange process.
+     * Cancels the ongoing exchange process, clearing associated session data.
+     *
+     * @return An {@link OperationResult} indicating the success or failure of the cancellation.
      */
     public OperationResult cancelExchangeProcess() {
         Session session = Session.getInstance();
@@ -214,7 +230,9 @@ public class TicketController {
     }
 
     /**
-     * Completes the ongoing product exchange process and activates the exchange ticket.
+     * Completes the ongoing exchange process, activating the exchange ticket and updating relevant data.
+     *
+     * @return An {@link OperationResult} indicating the success or failure of completing the exchange process.
      */
     public OperationResult completeExchangeProcess() {
         Session session = Session.getInstance();

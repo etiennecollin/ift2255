@@ -38,10 +38,11 @@ public class TicketCreation extends View {
     private final UUID orderId;
 
     /**
-     * Constructs a new TicketCreation view with the specified order ID and ticket controller.
+     * Constructs a new {@code TicketCreation} view with the specified order ID, ticket controller, and shop controller.
      *
      * @param orderId          The ID of the order associated with the ticket.
      * @param ticketController The controller responsible for handling tickets.
+     * @param shopController   The controller responsible for shop-related actions.
      */
     public TicketCreation(UUID orderId, TicketController ticketController, ShopController shopController) {
         this.orderId = orderId;
@@ -58,15 +59,11 @@ public class TicketCreation extends View {
         Order order = shopController.getOrder(orderId);
 
         HashSet<Tuple<Product, Integer>> returnProducts = new HashSet<>();
-        prettyPaginationMenu(order.getProducts(), 5, "Select item with problem",
-                productTuple -> System.out.println(prettify(productTuple.first + " x" + productTuple.second)),
-                productTuple -> productTuple.first + " x" + productTuple.second,
-                productTuple ->  {
-                    returnProducts.add(new Tuple<>(productTuple.first, productTuple.second.intValue()));
-                    productTuple.second = 0;
-                    return true;
-                }, null
-        );
+        prettyPaginationMenu(order.getProducts(), 5, "Select item with problem", productTuple -> System.out.println(prettify(productTuple.first + " x" + productTuple.second)), productTuple -> productTuple.first + " x" + productTuple.second, productTuple -> {
+            returnProducts.add(new Tuple<>(productTuple.first, productTuple.second.intValue()));
+            productTuple.second = 0;
+            return true;
+        }, null);
 
         if (returnProducts.isEmpty()) {
             System.out.println(prettify("No products selected to return"));

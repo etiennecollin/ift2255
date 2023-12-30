@@ -94,10 +94,20 @@ public class ProfileController {
         return profileModel.getBuyer(buyerId);
     }
 
+    /**
+     * Retrieves a list of all buyers in the system.
+     *
+     * @return A list of {@link Buyer} objects representing all buyers.
+     */
     public List<Buyer> getBuyers() {
         return profileModel.searchBuyers(buyer -> true);
     }
 
+    /**
+     * Checks if the current user is identified as a buyer.
+     *
+     * @return {@code true} if the current user is a buyer; otherwise, {@code false}.
+     */
     public boolean isUserABuyer() {
         return Session.getInstance().getUserType() == UserType.Buyer;
     }
@@ -187,10 +197,20 @@ public class ProfileController {
         return profileModel.getSeller(sellerId);
     }
 
+    /**
+     * Retrieves a list of all sellers in the system.
+     *
+     * @return A list of {@link Seller} objects representing all sellers.
+     */
     public List<Seller> getSellers() {
         return profileModel.searchSellers(seller -> true);
     }
 
+    /**
+     * Checks if the current user is identified as a seller.
+     *
+     * @return {@code true} if the current user is a seller; otherwise, {@code false}.
+     */
     public boolean isUserASeller() {
         return Session.getInstance().getUserType() == UserType.Seller;
     }

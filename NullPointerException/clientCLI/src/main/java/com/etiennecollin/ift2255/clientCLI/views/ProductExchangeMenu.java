@@ -58,15 +58,11 @@ public class ProductExchangeMenu extends View {
         Order order = shopController.getOrder(orderId);
 
         HashSet<Tuple<Product, Integer>> returnProducts = new HashSet<>();
-        prettyPaginationMenu(order.getProducts(), 5, "Select item with problem",
-                productTuple -> System.out.println(prettify(productTuple.first + " x" + productTuple.second)),
-                productTuple -> productTuple.first + " x" + productTuple.second,
-                productTuple ->  {
-                    returnProducts.add(new Tuple<>(productTuple.first, productTuple.second.intValue()));
-                    productTuple.second = 0;
-                    return true;
-                }, null
-        );
+        prettyPaginationMenu(order.getProducts(), 5, "Select item with problem", productTuple -> System.out.println(prettify(productTuple.first + " x" + productTuple.second)), productTuple -> productTuple.first + " x" + productTuple.second, productTuple -> {
+            returnProducts.add(new Tuple<>(productTuple.first, productTuple.second.intValue()));
+            productTuple.second = 0;
+            return true;
+        }, null);
 
         if (returnProducts.isEmpty()) {
             System.out.println(prettify("No products selected to return"));

@@ -65,8 +65,6 @@ public class BuyersDisplay extends View {
             int index = prettyMenu("Select buyer", matchListString);
             if (index == matchListString.size() - 1) break;
 
-
-
             loop:
             while (true) {
                 clearConsole();
@@ -89,7 +87,7 @@ public class BuyersDisplay extends View {
 
                 if (profileController.isUserASeller()) {
                     waitForKey();
-                    break loop;
+                    break;
                 }
 
                 String[] options = {"Go back", "Toggle follow"};

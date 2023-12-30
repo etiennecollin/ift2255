@@ -71,33 +71,30 @@ public class ProductReviews extends View {
 
             ArrayList<String> reviewStrings = new ArrayList<>();
 
-//            prettyPaginationMenu(reviewBuyerList, 3, "Select action",
-//                    reviewBuyer -> {
-//                        System.out.println(prettify("--------------------"));
-//                        System.out.println(prettify(reviewBuyer.second.getFirstName() + " " + reviewBuyer.second.getLastName() + " - " + review.getRating() + "/100"));
-//                        System.out.println(prettify(reviewBuyer.first.getComment()));
-//                    }, reviewBuyer -> reviewBuyer.second.getFirstName() + " " + reviewBuyer.second.getLastName(),
-//                    this::reviewActions,
-//                    reviewBuyer -> new Tuple<>(shopController.getReview(reviewBuyer.first.getId())));
-//            for (Review review : reviews) {
-//                Buyer buyerAuthor = profileController.getBuyer(review.getId());
-//                if (buyerAuthor != null) {
-//                    reviewStrings.add(
-//                            prettify("--------------------") + "\n" +
-//                            prettify(buyerAuthor.getFirstName() + " " + buyerAuthor.getLastName() + " - " + review.getRating() + "/100") + "\n" +
-//                            prettify(review.getComment())
-//                    );
-//                }
-//                else {
-//                    Seller sellerAu
-//                }
-//            }
+            //            prettyPaginationMenu(reviewBuyerList, 3, "Select action",
+            //                    reviewBuyer -> {
+            //                        System.out.println(prettify("--------------------"));
+            //                        System.out.println(prettify(reviewBuyer.second.getFirstName() + " " + reviewBuyer.second.getLastName() + " - " + review.getRating() + "/100"));
+            //                        System.out.println(prettify(reviewBuyer.first.getComment()));
+            //                    }, reviewBuyer -> reviewBuyer.second.getFirstName() + " " + reviewBuyer.second.getLastName(),
+            //                    this::reviewActions,
+            //                    reviewBuyer -> new Tuple<>(shopController.getReview(reviewBuyer.first.getId())));
+            //            for (Review review : reviews) {
+            //                Buyer buyerAuthor = profileController.getBuyer(review.getId());
+            //                if (buyerAuthor != null) {
+            //                    reviewStrings.add(
+            //                            prettify("--------------------") + "\n" +
+            //                            prettify(buyerAuthor.getFirstName() + " " + buyerAuthor.getLastName() + " - " + review.getRating() + "/100") + "\n" +
+            //                            prettify(review.getComment())
+            //                    );
+            //                }
+            //                else {
+            //                    Seller sellerAu
+            //                }
+            //            }
 
             for (Tuple<Review, Buyer> reviewBuyerTuple : reviewBuyerList) {
-                reviewStrings.add(
-                        reviewBuyerTuple.second.getFirstName() + " " + reviewBuyerTuple.second.getLastName() + " - " + reviewBuyerTuple.first.getRating() + "/100" + "\n" +
-                        prettify(reviewBuyerTuple.first.getComment()) + "\n"
-                );
+                reviewStrings.add(reviewBuyerTuple.second.getFirstName() + " " + reviewBuyerTuple.second.getLastName() + " - " + reviewBuyerTuple.first.getRating() + "/100" + "\n" + prettify(reviewBuyerTuple.first.getComment()) + "\n");
             }
 
             reviewStrings.add("Go back");
@@ -108,6 +105,14 @@ public class ProductReviews extends View {
         }
     }
 
+    /**
+     * Displays the available actions for a specific product review and allows user interaction.
+     * This method presents information about the review, including the author, rating, comment, and likes.
+     * Users are provided with options such as toggling likes, marking the review as inappropriate, and navigating back.
+     * The method handles user input and performs corresponding actions using the {@link ShopController} and {@link ProfileController}.
+     *
+     * @param reviewId The unique identifier of the product review for which to display actions.
+     */
     public void displayActions(UUID reviewId) {
         loop:
         while (true) {
@@ -133,8 +138,7 @@ public class ProductReviews extends View {
                 System.out.println(prettify("No actions available on your own review."));
                 waitForKey();
                 break;
-            }
-            else {
+            } else {
                 String[] options = {"Go back", "Toggle like", "Mark as inappropriate"};
                 int answer = prettyMenu("Select action", options);
                 switch (answer) {

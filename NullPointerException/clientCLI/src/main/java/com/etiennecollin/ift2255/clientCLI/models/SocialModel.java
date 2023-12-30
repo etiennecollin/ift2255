@@ -34,11 +34,12 @@ public class SocialModel {
     }
 
     /**
-     * Toggles the like status of a product by the current user.
+     * Toggles the like status for a product and adjusts the like count accordingly.
      *
      * @param productId The unique identifier of the product.
+     * @param userId    The unique identifier of the user performing the action.
      *
-     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     * @return An {@link OperationResult} indicating the success or failure of the toggle action.
      */
     public OperationResult toggleLikeProduct(UUID productId, UUID userId) {
         Product product = db.get(DataMap.PRODUCTS, productId);
@@ -72,11 +73,12 @@ public class SocialModel {
     }
 
     /**
-     * Toggles the like status of a review by the current user.
+     * Toggles the like status for a review and adjusts fidelity points accordingly.
      *
      * @param reviewId The unique identifier of the review.
+     * @param userId   The unique identifier of the user performing the action.
      *
-     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     * @return An {@link OperationResult} indicating the success or failure of the toggle action.
      */
     public OperationResult toggleLikeReview(UUID reviewId, UUID userId) {
         Review review = db.get(DataMap.REVIEWS, reviewId);
@@ -107,6 +109,13 @@ public class SocialModel {
         return new OperationResult(false, "Seller no longer exists.");
     }
 
+    /**
+     * Marks a review as inappropriate and adjusts fidelity points accordingly.
+     *
+     * @param reviewId The unique identifier of the review to be marked as inappropriate.
+     *
+     * @return An {@link OperationResult} indicating the success or failure of marking the review.
+     */
     public OperationResult markReviewAsInappropriate(UUID reviewId) {
         Review review = db.get(DataMap.REVIEWS, reviewId);
 
@@ -129,11 +138,12 @@ public class SocialModel {
     }
 
     /**
-     * Toggles the like status of a seller by the current user.
+     * Toggles the like status for a seller.
      *
      * @param sellerId The unique identifier of the seller.
+     * @param userId   The unique identifier of the user performing the action.
      *
-     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     * @return An {@link OperationResult} indicating the success or failure of the toggle action.
      */
     public OperationResult toggleLikeSeller(UUID sellerId, UUID userId) {
         Seller seller = db.get(DataMap.SELLERS, sellerId);
@@ -155,11 +165,12 @@ public class SocialModel {
     }
 
     /**
-     * Toggles the follow status of a buyer by the current user.
+     * Toggles the follow status for a buyer and adjusts fidelity points accordingly.
      *
-     * @param buyerId The unique identifier of the buyer.
+     * @param buyerId The unique identifier of the buyer to be followed/unfollowed.
+     * @param userId  The unique identifier of the user performing the action.
      *
-     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     * @return An {@link OperationResult} indicating the success or failure of the toggle action.
      */
     public OperationResult toggleFollowBuyer(UUID buyerId, UUID userId) {
         Buyer buyer = db.get(DataMap.BUYERS, buyerId);
@@ -217,6 +228,13 @@ public class SocialModel {
         return db.get(DataMap.REVIEWS, (review) -> review.getAuthorId().equals(authorId));
     }
 
+    /**
+     * Retrieves a specific review based on its unique identifier.
+     *
+     * @param reviewId The unique identifier of the review.
+     *
+     * @return A {@link Review} object representing the review with the specified unique identifier.
+     */
     public Review getReview(UUID reviewId) {
         return db.get(DataMap.REVIEWS, reviewId);
     }
