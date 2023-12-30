@@ -87,6 +87,11 @@ public class BuyersDisplay extends View {
                 System.out.println(prettify("Number of products liked: " + numProductsLiked));
                 //                System.out.println(prettify("Number of order bought: " + buyer.getOrders().size()));
 
+                if (profileController.isUserASeller()) {
+                    waitForKey();
+                    break loop;
+                }
+
                 String[] options = {"Go back", "Toggle follow"};
                 int answer = prettyMenu("Select action", options);
                 switch (answer) {

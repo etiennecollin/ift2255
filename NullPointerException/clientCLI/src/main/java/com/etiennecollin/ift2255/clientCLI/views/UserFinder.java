@@ -57,7 +57,7 @@ public class UserFinder extends View {
     private void findBuyer() {
 
         clearConsole();
-        String[] searchBy = {"Go Back", "Name", "Phone number", "email"};
+        String[] searchBy = {"Go Back", "Name", "Phone number", "Email", "All"};
         int search = prettyMenu("Search buyer by", searchBy);
 
         List<Buyer> matchList = new ArrayList<>();
@@ -77,6 +77,9 @@ public class UserFinder extends View {
                 String email = prettyPrompt("Email").toLowerCase();
                 matchList = profileController.searchBuyerEmail(email);
             }
+            case 4 -> {
+                matchList = profileController.getBuyers();
+            }
         }
 
         profileController.displayBuyers(matchList);
@@ -87,7 +90,7 @@ public class UserFinder extends View {
      */
     private void findSeller() {
         clearConsole();
-        String[] searchBy = {"Go back", "Name", "Address", "Phone number", "email"};
+        String[] searchBy = {"Go back", "Name", "Address", "Phone number", "Email", "All"};
         int search = prettyMenu("Search seller by", searchBy);
 
         List<Seller> matchList = new ArrayList<>();
@@ -110,6 +113,9 @@ public class UserFinder extends View {
             case 4 -> {
                 String email = prettyPrompt("Email").toLowerCase();
                 matchList = profileController.searchSellerEmail(email);
+            }
+            case 5 -> {
+                matchList = profileController.getSellers();
             }
         }
 

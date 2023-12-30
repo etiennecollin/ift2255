@@ -88,6 +88,11 @@ public class SellersDisplay extends View {
                 System.out.println(prettify("Number of orders sold: " + numOrders));
                 System.out.println(prettify(liked ? "You are following this seller." : "You are not following this seller."));
 
+                if (profileController.isUserASeller()) {
+                    waitForKey();
+                    break loop;
+                }
+
                 String[] options = {"Go back", "Toggle follow", "Display seller's products"};
                 int answer = prettyMenu("Select action", options);
                 switch (answer) {

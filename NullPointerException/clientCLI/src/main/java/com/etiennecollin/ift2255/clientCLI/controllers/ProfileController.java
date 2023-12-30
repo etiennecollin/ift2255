@@ -94,6 +94,14 @@ public class ProfileController {
         return profileModel.getBuyer(buyerId);
     }
 
+    public List<Buyer> getBuyers() {
+        return profileModel.searchBuyers(buyer -> true);
+    }
+
+    public boolean isUserABuyer() {
+        return Session.getInstance().getUserType() == UserType.Buyer;
+    }
+
     /**
      * Searches for buyers based on their name.
      *
@@ -177,6 +185,14 @@ public class ProfileController {
      */
     public Seller getSeller(UUID sellerId) {
         return profileModel.getSeller(sellerId);
+    }
+
+    public List<Seller> getSellers() {
+        return profileModel.searchSellers(seller -> true);
+    }
+
+    public boolean isUserASeller() {
+        return Session.getInstance().getUserType() == UserType.Seller;
     }
 
     /**

@@ -50,7 +50,7 @@ public class BuyerMenu extends View {
      */
     @Override
     public void render() {
-        String[] buyerMenu = {"Display catalog", "Search a product", "Display cart", "Find user", "Display orders", "Display notifications", "Display tickets", "Display activities", "Account information", "Log out"};
+        String[] buyerMenu = {"Display catalog", "Search for a product", "Display cart", "Find user", "Display orders", "Display notifications", "Display tickets", "Display activities", "Account information", "Log out"};
 
         clearConsole();
         int buyerAnswer = prettyMenu("Main menu", buyerMenu);

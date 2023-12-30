@@ -14,6 +14,7 @@ import com.etiennecollin.ift2255.clientCLI.models.data.products.Product;
 import com.etiennecollin.ift2255.clientCLI.views.View;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
@@ -162,29 +163,45 @@ public abstract class ProductDisplay extends View {
      * @return True if the action was successfully performed; false otherwise.
      */
     public boolean displaySellerActions(Product product) {
-        String[] options = {"Go back", "Display reviews", "Start promotion"};
+        ArrayList<DynamicMenuItem> options = new ArrayList<>();
 
-        clearConsole();
-        int answer = prettyMenu("Select action", options);
-        switch (answer) {
-            case 0 -> {
-                return false;
-            }
-            case 1 -> {
-                shopController.displayReviews(product.getId());
-                return false;
-            }
-            case 2 -> {
-                int discount = prettyPromptCurrency("Promotional discount");
-                int promoPoints = prettyPromptInt("Promotional fidelity points", points -> validateBonusFidelityPoints(points + product.getBonusFidelityPoints(), product.getPrice()));
-                LocalDate endDate = prettyPromptDate("Promotion end date");
-                System.out.println(prettify(shopController.startProductPromotion(productId, discount, promoPoints, endDate).message()));
-                waitForKey();
-                return false;
-            }
-            default -> {
-                return false;
-            }
-        }
+        options.add(new DynamicMenuItem("Display reviews", () -> {
+            shopController.displayReviews(product.getId());
+        }, () -> true));
+        options.add(new DynamicMenuItem("Start promotion", () -> {
+            int discount = prettyPromptCurrency("Promotional discount");
+            int promoPoints = prettyPromptInt("Promotional fidelity points", points -> validateBonusFidelityPoints(points + product.getBonusFidelityPoints(), product.getPrice()));
+            LocalDate endDate = prettyPromptDate("Promotion end date");
+            System.out.println(prettify(shopController.startProductPromotion(productId, discount, promoPoints, endDate).message()));
+            waitForKey();
+        }, () -> product.getSellerId().equals(profileController.getSeller().getId())));
+
+        prettyDynamicMenu("Select action", "Go back", options, () -> {return;});
+        
+        return false;
+//        String[] options = {"Go back", "Display reviews", "Start promotion"};
+//
+//        clearConsole();
+//        int answer = prettyMenu("Select action", options);
+//        switch (answer) {
+//            case 0 -> {
+//                return false;
+//            }
+//            case 1 -> {
+//                shopController.displayReviews(product.getId());
+//                return false;
+//            }
+//            case 2 -> {
+//                int discount = prettyPromptCurrency("Promotional discount");
+//                int promoPoints = prettyPromptInt("Promotional fidelity points", points -> validateBonusFidelityPoints(points + product.getBonusFidelityPoints(), product.getPrice()));
+//                LocalDate endDate = prettyPromptDate("Promotion end date");
+//                System.out.println(prettify(shopController.startProductPromotion(productId, discount, promoPoints, endDate).message()));
+//                waitForKey();
+//                return false;
+//            }
+//            default -> {
+//                return false;
+//            }
+//        }
     }
 }
