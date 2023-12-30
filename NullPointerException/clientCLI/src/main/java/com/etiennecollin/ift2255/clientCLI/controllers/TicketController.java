@@ -71,7 +71,7 @@ public class TicketController {
      * @param orderId The UUID of the order for which to create a ticket.
      */
     public void displayTicketCreation(UUID orderId) {
-        renderer.addNextView(new TicketCreation(orderId, this), false);
+        renderer.addNextView(new TicketCreation(orderId, this, UniShop.getInstance().getShopController()), false);
     }
 
     /**
@@ -89,7 +89,7 @@ public class TicketController {
      * @param orderId The UUID of the order for which to create an exchange ticket.
      */
     public void displayProductExchangeCreation(UUID orderId) {
-        renderer.addNextView(new ProductExchangeMenu(orderId, this, UniShop.getInstance().getShopController()), true);
+        renderer.addNextView(new ProductExchangeMenu(orderId, this, UniShop.getInstance().getShopController()), false);
     }
 
     /**
@@ -101,6 +101,15 @@ public class TicketController {
      */
     public Ticket getTicket(UUID ticketId) {
         return ticketModel.getTicket(ticketId);
+    }
+
+    public Ticket getTicketForOrder(UUID orderId) {
+        List<Ticket> matches = ticketModel.getTickets(t -> t.getOrderId().equals(orderId));
+        if (matches.isEmpty()) {
+            return null;
+        } else {
+            return matches.get(0);
+        }
     }
 
     /**
@@ -186,18 +195,19 @@ public class TicketController {
     /**
      * Cancels the ongoing product exchange process.
      */
-    public void cancelExchangeProcess() {
+    public OperationResult cancelExchangeProcess() {
         Session session = Session.getInstance();
         session.setInExchangeProcess(false);
         session.deleteExchangeCart();
         session.setExchangeTicket(null);
         session.setExchangeOrder(null);
+        return new OperationResult(true, "Exchange cancelled.");
     }
 
     /**
      * Completes the ongoing product exchange process and activates the exchange ticket.
      */
-    public void completeExchangeProcess() {
+    public OperationResult completeExchangeProcess() {
         Session session = Session.getInstance();
 
         if (session.getIsInExchangeProcess()) {
@@ -206,7 +216,9 @@ public class TicketController {
 
             ticketModel.activateExchangeTicket(session.getExchangeTicket(), originalOrder, getExchangeCart());
             cancelExchangeProcess();
+            return new OperationResult(true, "Exchange request placed.");
         }
+        return new OperationResult(false, "You cannot perform that action.");
     }
 
     /**

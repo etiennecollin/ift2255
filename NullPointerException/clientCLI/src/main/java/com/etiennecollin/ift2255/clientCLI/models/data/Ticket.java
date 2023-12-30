@@ -31,7 +31,7 @@ public class Ticket extends DatabaseObject {
     /**
      * The suggested solution for the ticket.
      */
-    private final String suggestedSolution;
+    private String suggestedSolution;
     /**
      * The return shipment associated with the ticket.
      */
@@ -357,11 +357,6 @@ public class Ticket extends DatabaseObject {
      * @param suggestedSolution The suggested solution for the ticket.
      */
     public void setSuggestedSolution(String suggestedSolution) {
-        //        this.suggestedSolution = suggestedSolution;
-        //
-        //        String title = "New solution for one of your tickets";
-        //        String content = "Ticket: " + this.getProblemDescription() + "\nSolution suggested: " + this.getSuggestedSolution();
-        //        Notification notification = new Notification(title, content);
-        //        this.buyer.addNotification(notification);
+        this.suggestedSolution = suggestedSolution;
     }
 }

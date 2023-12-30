@@ -406,9 +406,9 @@ public class Utils {
      * @param actionName    The name of the action to perform on selected items.
      * @param itemDisplayer A Consumer that displays an individual item.
      * @param itemMenuName  A Function that returns a string representing the menu name for an individual item.
-     * @param action        A Consumer that defines the action to be performed on selected items.
+     * @param action        A Consumer that defines the action to be performed on selected items. Return false to quit menu, true to continue in menu.
      */
-    public static <T> void prettyPaginationMenu(List<T> items, int itemsPerPage, String actionName, Consumer<T> itemDisplayer, Function<T, String> itemMenuName, Consumer<T> action) {
+    public static <T> void prettyPaginationMenu(List<T> items, int itemsPerPage, String actionName, Consumer<T> itemDisplayer, Function<T, String> itemMenuName, Function<T, Boolean> action) {
         outerLoop:
         for (int i = 0; i < items.size(); i += itemsPerPage) {
             int itemsOnPage = Math.min(itemsPerPage, items.size() - i);
@@ -444,8 +444,10 @@ public class Utils {
                     case 1 -> {
                         int index = prettyMenu("Select", itemMenuNames);
                         if (index == 0) break;
-                        action.accept(items.get(i + index - 1));
-                        break outerLoop;
+                        boolean continueMenu = action.apply(items.get(i + index - 1));
+                        if (!continueMenu) {
+                            break outerLoop;
+                        }
                     }
                     case 2 -> {
                         // See more

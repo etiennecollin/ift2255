@@ -47,6 +47,9 @@ public class ShopModel {
         checkProductPromotion(productId);
 
         Product product = db.get(DataMap.PRODUCTS, productId);
+        if (Product.class.equals(productClass)) {
+            return (T) product;
+        }
 
         if (product.getClass().equals(productClass)) {
             return (T) product;
@@ -259,7 +262,7 @@ public class ShopModel {
             p.setPromoFidelityPoints(promoPoints);
             p.setPromoEndDate(endDate);
         }, productId);
-        return new OperationResult(true, "");
+        return new OperationResult(true, "Promotion started.");
     }
 
     /**

@@ -67,7 +67,7 @@ public class OrderExchangeMenu extends View {
             Product product = shopController.getProduct(Product.class, cartProduct.getProductId());
             if (product != null) {
                 System.out.println(prettify(cartProduct.getQuantity() + "x " + product.getTitle()));
-                totalReturnValue += (product.getPrice() - product.getPromoDiscount()) * cartProduct.getQuantity();
+                totalReplacementValue += (product.getPrice() - product.getPromoDiscount()) * cartProduct.getQuantity();
             }
         }
         System.out.println(prettify("Replacement total: " + formatMoney(totalReplacementValue)));
@@ -75,7 +75,7 @@ public class OrderExchangeMenu extends View {
         if (totalReplacementValue > totalReturnValue) {
             System.out.println(prettify("Your credit card will be charged " + formatMoney(totalReplacementValue - totalReturnValue)));
         } else {
-            System.out.println(prettify("Your credit card and fidelity will be refunded the equivalent of " + formatMoney(totalReturnValue - totalReplacementValue)));
+            System.out.println(prettify("Your credit card and fidelity points will be refunded the equivalent of " + formatMoney(totalReturnValue - totalReplacementValue)));
         }
 
         String[] options = {"Complete exchange", "Add more items", "Cancel exchange"};
@@ -83,12 +83,15 @@ public class OrderExchangeMenu extends View {
         int answer = prettyMenu("Select action", options);
         switch (answer) {
             case 0 -> {
-                ticketController.completeExchangeProcess();
+                System.out.println(prettify(ticketController.completeExchangeProcess().message()));
+                waitForKey();
             }
             case 1 -> {
                 shopController.displayProducts(null);
             }
             case 2 -> {
+                System.out.println(prettify(ticketController.cancelExchangeProcess().message()));
+                waitForKey();
             }
         }
     }

@@ -91,7 +91,7 @@ public class TicketingModel {
             return new OperationResult(false, "The ticketing window for this order has passed.");
         }
 
-        boolean result = db.add(DataMap.TICKETS, new Ticket(description, orderId, null, cause, TicketState.OpenManual, order.getBuyerId(), order.getSellerId()));
+        boolean result = db.add(DataMap.TICKETS, new Ticket(description, orderId, products, cause, TicketState.OpenManual, order.getBuyerId(), order.getSellerId()));
         if (result) {
             return new OperationResult(true, "Ticket successfully opened.");
         } else {

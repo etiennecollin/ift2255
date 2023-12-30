@@ -91,6 +91,7 @@ public abstract class ProductDisplay extends View {
 
         Seller seller = shopController.getSeller(product.getSellerId());
         System.out.println(prettify("Sold by: ") + seller.getName());
+        System.out.println(prettify("Remaining stock: " + product.getQuantity()));
 
         System.out.println(prettify("Commercialization date: ") + product.getCommercializationDate());
     }
@@ -131,6 +132,7 @@ public abstract class ProductDisplay extends View {
             case 1 -> {
                 OperationResult result = shopController.toggleLike(product.getId());
                 System.out.println(prettify(result.message()));
+                waitForKey();
                 return true;
             }
             case 2 -> {
@@ -143,6 +145,7 @@ public abstract class ProductDisplay extends View {
                 OperationResult result = shopController.addToCart(product.getId(), qty);
 
                 System.out.println(prettify(result.message()));
+                waitForKey();
                 return true;
             }
             default -> {
@@ -175,7 +178,8 @@ public abstract class ProductDisplay extends View {
                 int discount = prettyPromptCurrency("Promotional discount");
                 int promoPoints = prettyPromptInt("Promotional fidelity points", points -> validateBonusFidelityPoints(points + product.getBonusFidelityPoints(), product.getPrice()));
                 LocalDate endDate = prettyPromptDate("Promotion end date");
-                shopController.startProductPromotion(productId, discount, promoPoints, endDate);
+                System.out.println(prettify(shopController.startProductPromotion(productId, discount, promoPoints, endDate).message()));
+                waitForKey();
                 return false;
             }
             default -> {

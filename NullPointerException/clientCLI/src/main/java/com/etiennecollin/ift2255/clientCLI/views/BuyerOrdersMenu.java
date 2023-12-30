@@ -12,6 +12,7 @@ import com.etiennecollin.ift2255.clientCLI.controllers.TicketController;
 import com.etiennecollin.ift2255.clientCLI.models.data.Order;
 import com.etiennecollin.ift2255.clientCLI.models.data.OrderState;
 import com.etiennecollin.ift2255.clientCLI.models.data.Seller;
+import com.etiennecollin.ift2255.clientCLI.models.data.Ticket;
 import com.etiennecollin.ift2255.clientCLI.models.data.products.Product;
 
 import java.time.LocalDate;
@@ -69,14 +70,20 @@ public class BuyerOrdersMenu extends View {
             return;
         }
 
-        prettyPaginationMenu(orders.get(), 3, "Display order", order -> {
-            System.out.println(prettify("--------------------"));
-            System.out.println(prettify("Order date: " + order.getOrderDate()));
-            System.out.println(prettify("State: " + order.getState()));
-            System.out.println(prettify("Cost: " + Utils.formatMoney(order.getTotalCost())));
-            System.out.println(prettify("Fidelity points earned: " + order.getFidelityPointsEarned()));
-            System.out.println(prettify("Number of products: " + order.getProducts().size()));
-        }, order -> "Order of " + order.getOrderDate(), this::displayBuyerOrderActions);
+        prettyPaginationMenu(orders.get(), 3, "Display order",
+                order -> {
+                    System.out.println(prettify("--------------------"));
+                    System.out.println(prettify("Order date: " + order.getOrderDate()));
+                    System.out.println(prettify("State: " + order.getState()));
+                    System.out.println(prettify("Cost: " + Utils.formatMoney(order.getTotalCost())));
+                    System.out.println(prettify("Fidelity points earned: " + order.getFidelityPointsEarned()));
+                    System.out.println(prettify("Number of products: " + order.getProducts().size()));
+                }, order -> "Order of " + order.getOrderDate(),
+                order -> {
+                    displayBuyerOrderActions(order);
+                    return false;
+                }
+        );
     }
 
     /**
@@ -87,18 +94,27 @@ public class BuyerOrdersMenu extends View {
     private void displayBuyerOrderActions(Order order) {
         ArrayList<DynamicMenuItem> options = new ArrayList<>();
 
-        options.add(new DynamicMenuItem("Review a product", () -> {
-            prettyPaginationMenu(order.getProducts(), 3, "Review product", (tuple) -> {
-                Product product = tuple.first;
-                int quantity = tuple.second;
-                String totalPrice = Utils.formatMoney((product.getPrice() - product.getPromoDiscount()) * quantity);
+        Ticket existingTicket = ticketController.getTicketForOrder(order.getId());
+        boolean orderTicketExists = existingTicket != null;
 
-                System.out.println(prettify("--------------------"));
-                System.out.println(prettify("Product name: " + product.getTitle()));
-                System.out.println(prettify("Quantity: " + quantity));
-                System.out.println(prettify("Unit price: " + Utils.formatMoney(product.getPrice() - product.getPromoDiscount())));
-                System.out.println(prettify("Total price: " + totalPrice));
-            }, tuple -> tuple.first.getTitle(), tuple -> shopController.displayProductReview(tuple.first.getId()));
+        options.add(new DynamicMenuItem("Review a product", () -> {
+            prettyPaginationMenu(order.getProducts(), 3, "Review product",
+                    (tuple) -> {
+                        Product product = tuple.first;
+                        int quantity = tuple.second;
+                        String totalPrice = Utils.formatMoney((product.getPrice() - product.getPromoDiscount()) * quantity);
+
+                        System.out.println(prettify("--------------------"));
+                        System.out.println(prettify("Product name: " + product.getTitle()));
+                        System.out.println(prettify("Quantity: " + quantity));
+                        System.out.println(prettify("Unit price: " + Utils.formatMoney(product.getPrice() - product.getPromoDiscount())));
+                        System.out.println(prettify("Total price: " + totalPrice));
+                    }, tuple -> tuple.first.getTitle(),
+                    tuple -> {
+                        shopController.displayProductReview(tuple.first.getId());
+                        return false;
+                    }
+            );
         }, () -> order.getState().equals(OrderState.Delivered)));
         options.add(new DynamicMenuItem("Confirm reception of order", () -> {
             if (prettyPromptBool("Do you really want to mark this order as delivered?")) {
@@ -114,21 +130,21 @@ public class BuyerOrdersMenu extends View {
             } else {
                 System.out.println(prettify("Action cancelled"));
             }
-        }, () -> !order.getState().equals(OrderState.Cancelled) && LocalDate.now().isBefore(order.getOrderDate().plusDays(365))));
+        }, () -> !orderTicketExists && !order.getState().equals(OrderState.Cancelled) && LocalDate.now().isBefore(order.getOrderDate().plusDays(365))));
         options.add(new DynamicMenuItem("Return items", () -> {
             if (prettyPromptBool("Do you really want to return items from this order?")) {
                 ticketController.displayProductReturnCreation(order.getId());
             } else {
                 System.out.println(prettify("Action cancelled"));
             }
-        }, () -> (order.getState() != OrderState.Cancelled) && (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getReceptionDate().plusDays(30)))));
+        }, () -> !orderTicketExists && !order.getState().equals(OrderState.Cancelled) && (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getReceptionDate().plusDays(30)))));
         options.add(new DynamicMenuItem("Exchange items", () -> {
             if (prettyPromptBool("Do you really want to exchange items from this order?")) {
                 ticketController.displayProductExchangeCreation(order.getId());
             } else {
                 System.out.println(prettify("Action cancelled"));
             }
-        }, () -> !order.getState().equals(OrderState.Cancelled) && (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getReceptionDate().plusDays(30)))));
+        }, () -> !orderTicketExists && !order.getState().equals(OrderState.Cancelled) && (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getReceptionDate().plusDays(30)))));
         options.add(new DynamicMenuItem("Cancel order", () -> {
             if (prettyPromptBool("Do you really want to cancel this order?")) {
                 OperationResult result = shopController.cancelOrder(order.getId());
@@ -136,7 +152,12 @@ public class BuyerOrdersMenu extends View {
             } else {
                 System.out.println(prettify("Action cancelled"));
             }
-        }, () -> order.getState().equals(OrderState.InProduction)));
+        }, () -> !orderTicketExists && order.getState().equals(OrderState.InProduction)));
+        options.add(new DynamicMenuItem("View attached ticket", () -> {
+            if (existingTicket != null) {
+                ticketController.displayTicket(existingTicket.getId());
+            }
+        }, () -> orderTicketExists));
 
         prettyDynamicMenu("Select action", "Go back", options, () -> displayOrder(order));
     }

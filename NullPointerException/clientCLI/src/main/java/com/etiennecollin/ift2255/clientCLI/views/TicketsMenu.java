@@ -60,22 +60,28 @@ public class TicketsMenu extends View {
             System.out.println(prettify("No tickets"));
             waitForKey();
         } else {
-            prettyPaginationMenu(tickets, 3, "Display ticket", (ticket) -> {
-                System.out.println(prettify("--------------------"));
-                System.out.println(prettify("Creation date: " + ticket.getCreationDate()));
-                System.out.println(prettify("State: " + ticket.getState()));
+            prettyPaginationMenu(tickets, 3, "Display ticket",
+                    (ticket) -> {
+                        System.out.println(prettify("--------------------"));
+                        System.out.println(prettify("Creation date: " + ticket.getCreationDate()));
+                        System.out.println(prettify("State: " + ticket.getState()));
 
-                LocalDate orderDate = shopController.getOrder(ticket.getOrderId()).getOrderDate();
-                System.out.println(prettify("For order placed on: " + orderDate));
+                        LocalDate orderDate = shopController.getOrder(ticket.getOrderId()).getOrderDate();
+                        System.out.println(prettify("For order placed on: " + orderDate));
 
-                String buyerName = profileController.getBuyer(ticket.getBuyerId()).getUsername();
-                System.out.println(prettify("Buyer: " + buyerName));
+                        String buyerName = profileController.getBuyer(ticket.getBuyerId()).getUsername();
+                        System.out.println(prettify("Buyer: " + buyerName));
 
-                String sellerName = profileController.getSeller(ticket.getSellerId()).getName();
-                System.out.println(prettify("Seller: " + sellerName));
+                        String sellerName = profileController.getSeller(ticket.getSellerId()).getName();
+                        System.out.println(prettify("Seller: " + sellerName));
 
-                System.out.println(prettify("Number of products in ticket: " + ticket.getProducts().size()));
-            }, (ticket) -> "Ticket of " + ticket.getCreationDate(), (ticket) -> ticketController.displayTicket(ticket.getId()));
+                        System.out.println(prettify("Number of products in ticket: " + ticket.getProducts().size()));
+                    }, (ticket) -> "Ticket of " + ticket.getCreationDate(),
+                    (ticket) -> {
+                        ticketController.displayTicket(ticket.getId());
+                        return false;
+                    }
+            );
         }
     }
 }

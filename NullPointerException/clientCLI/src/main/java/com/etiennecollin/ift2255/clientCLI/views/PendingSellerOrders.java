@@ -61,19 +61,25 @@ public class PendingSellerOrders extends View {
             return;
         }
 
-        prettyPaginationMenu(orders, 2, "Select order to ship", (order) -> {
-            System.out.println(prettify("--------------------"));
-            String buyerName = profileController.getBuyer(order.getBuyerId()).getUsername();
-            System.out.println(prettify("ID: " + order.getId()));
-            System.out.println(prettify("Order date: " + order.getOrderDate()));
-            System.out.println(prettify("Buyer username: " + buyerName));
-            System.out.println(prettify("Address: " + order.getAddress()));
-            System.out.println(prettify("State: " + order.getState()));
-            System.out.println(prettify("Products:"));
-            for (Tuple<Product, Integer> productTuple : order.getProducts()) {
-                System.out.println(prettify(productTuple.second + "x " + productTuple.first.getTitle()));
-            }
-        }, (order) -> "Order #" + order.getId() + " - " + order.getOrderDate(), this::displayOrderShipmentMenu);
+        prettyPaginationMenu(orders, 2, "Select order to ship",
+                (order) -> {
+                    System.out.println(prettify("--------------------"));
+                    String buyerName = profileController.getBuyer(order.getBuyerId()).getUsername();
+                    System.out.println(prettify("ID: " + order.getId()));
+                    System.out.println(prettify("Order date: " + order.getOrderDate()));
+                    System.out.println(prettify("Buyer username: " + buyerName));
+                    System.out.println(prettify("Address: " + order.getAddress()));
+                    System.out.println(prettify("State: " + order.getState()));
+                    System.out.println(prettify("Products:"));
+                    for (Tuple<Product, Integer> productTuple : order.getProducts()) {
+                        System.out.println(prettify(productTuple.second + "x " + productTuple.first.getTitle()));
+                    }
+                }, (order) -> "Order #" + order.getId() + " - " + order.getOrderDate(),
+                (order) -> {
+                    displayOrderShipmentMenu(order);
+                    return true;
+                }
+        );
     }
 
     /**

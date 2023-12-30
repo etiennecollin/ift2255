@@ -104,7 +104,6 @@ public class ProductsMenu extends View {
             shopController.displayProduct(product);
             break;
 
-            //            if (!prettyPromptBool("Keep browsing product?")) break;
         }
     }
 }
