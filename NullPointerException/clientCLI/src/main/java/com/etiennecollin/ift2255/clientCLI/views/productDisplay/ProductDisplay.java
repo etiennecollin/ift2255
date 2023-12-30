@@ -36,13 +36,19 @@ public abstract class ProductDisplay extends View {
      * The controller responsible for shop-related actions.
      */
     protected ShopController shopController;
+    /**
+     * The controller responsible for profile-related actions.
+     */
     protected ProfileController profileController;
 
     /**
-     * Constructs a new {@code ProductDisplay} with the specified product ID and shop controller.
+     * Constructs a new {@code ProductDisplay} with the specified product ID, shop controller, and profile controller.
+     * This serves as the base constructor for all classes extending {@code ProductDisplay}.
+     * It initializes the unique identifier of the product, the shop controller, and the profile controller for further use.
      *
-     * @param productId      The unique identifier of the product.
-     * @param shopController The controller responsible for shop-related actions.
+     * @param productId         The unique identifier of the product.
+     * @param shopController    The controller responsible for shop-related actions.
+     * @param profileController The controller responsible for profile-related actions.
      */
     public ProductDisplay(UUID productId, ShopController shopController, ProfileController profileController) {
         this.productId = productId;
@@ -91,8 +97,11 @@ public abstract class ProductDisplay extends View {
 
     /**
      * Renders the product-specific actions menu, allowing the user to perform actions such as toggling likes, displaying reviews, and adding to the cart.
+     * This method serves as a central point for rendering actions based on the user type (Buyer or Seller) and delegates to specific methods accordingly.
      *
      * @param product The product for which to render actions.
+     *
+     * @return {@code true} if the rendering was successful and the user chose an action, {@code false} otherwise.
      */
     public boolean renderProductActions(Product product) {
         Buyer buyer = profileController.getBuyer();
@@ -103,6 +112,13 @@ public abstract class ProductDisplay extends View {
         }
     }
 
+    /**
+     * Displays buyer-specific actions for a given product, such as toggling likes, displaying reviews, and adding to the cart.
+     *
+     * @param product The product for which to display buyer actions.
+     *
+     * @return True if the action was successfully performed; false otherwise.
+     */
     public boolean displayBuyerActions(Product product) {
         String[] options = {"Go back", "Toggle like", "Display reviews", "Add to cart"};
 
@@ -135,6 +151,13 @@ public abstract class ProductDisplay extends View {
         }
     }
 
+    /**
+     * Displays seller-specific actions for a given product, such as displaying reviews and starting a promotion.
+     *
+     * @param product The product for which to display seller actions.
+     *
+     * @return True if the action was successfully performed; false otherwise.
+     */
     public boolean displaySellerActions(Product product) {
         String[] options = {"Go back", "Display reviews", "Start promotion"};
 

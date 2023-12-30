@@ -81,6 +81,12 @@ public class TicketDisplay extends View {
         }
     }
 
+    /**
+     * Displays the available actions for a buyer related to the specified ticket.
+     * Allows the buyer to confirm the reception of a replacement shipment.
+     *
+     * @param ticket The ticket for which actions are displayed.
+     */
     public void displayBuyerActions(Ticket ticket) {
         //        String[] options = {"Go back", "Confirm reception of replacement shipment"};
 
@@ -121,6 +127,13 @@ public class TicketDisplay extends View {
         //        }
     }
 
+    /**
+     * Displays the available actions for a seller related to the specified ticket.
+     * Allows the seller to set a suggested solution, confirm the reception of a return shipment,
+     * and create a replacement shipment.
+     *
+     * @param ticket The ticket for which actions are displayed.
+     */
     public void displaySellerActions(Ticket ticket) {
         ArrayList<DynamicMenuItem> options = new ArrayList<>();
 

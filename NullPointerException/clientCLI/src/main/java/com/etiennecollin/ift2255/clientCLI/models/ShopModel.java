@@ -55,6 +55,11 @@ public class ShopModel {
         return null;
     }
 
+    /**
+     * Checks and updates the promotion status of a product based on its promotion end date.
+     *
+     * @param productId The unique identifier of the product to check for promotion.
+     */
     public void checkProductPromotion(UUID productId) {
         db.<Product>update(DataMap.PRODUCTS, p -> {
             if (p.getPromoEndDate() != null && p.getPromoEndDate().isBefore(LocalDate.now())) {
@@ -235,6 +240,16 @@ public class ShopModel {
         }
     }
 
+    /**
+     * Initiates a promotion for a product with the specified product ID.
+     *
+     * @param productId   The unique identifier of the product to promote.
+     * @param discount    The discount percentage to apply to the product's price.
+     * @param promoPoints The amount of promotional fidelity points to award with the purchase of this product during the promotion.
+     * @param endDate     The end date of the promotion.
+     *
+     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     */
     public OperationResult startProductPromotion(UUID productId, int discount, int promoPoints, LocalDate endDate) {
         Product product = db.get(DataMap.PRODUCTS, productId);
 

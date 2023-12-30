@@ -13,16 +13,35 @@ import java.util.UUID;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
-// TODO javadoc
+/**
+ * The TicketCreation class represents a view for creating a ticket in the client CLI.
+ * Users can select the type of issue, provide a description, and confirm or cancel the ticket creation process.
+ */
 public class TicketCreation extends View {
+    /**
+     * The controller responsible for handling tickets.
+     */
     private final TicketController ticketController;
+    /**
+     * The ID of the order associated with the ticket.
+     */
     private final UUID orderId;
 
+    /**
+     * Constructs a new TicketCreation view with the specified order ID and ticket controller.
+     *
+     * @param orderId          The ID of the order associated with the ticket.
+     * @param ticketController The controller responsible for handling tickets.
+     */
     public TicketCreation(UUID orderId, TicketController ticketController) {
         this.orderId = orderId;
         this.ticketController = ticketController;
     }
 
+    /**
+     * Renders the ticket creation menu, allowing users to select the type of issue,
+     * provide a description, and confirm or cancel the ticket creation process.
+     */
     @Override
     public void render() {
         TicketCause cause = prettyMenu("Select the type of issue", TicketCause.class);

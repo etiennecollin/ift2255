@@ -23,10 +23,13 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.waitForKey;
  */
 public class LearningResourceDisplay extends ProductDisplay {
     /**
-     * Constructs a new {@code LearningResourceDisplay} with the specified product ID and shop controller.
+     * Constructs a new {@code LearningResourceDisplay} with the specified product ID, shop controller, and profile controller.
+     * This class is responsible for displaying detailed information about a learning resource product in the CLI application.
+     * It extends the {@link ProductDisplay} class and provides specific functionality for rendering learning resource details and actions.
      *
-     * @param productId      The unique identifier of the learning resource product.
-     * @param shopController The controller responsible for shop-related actions.
+     * @param productId         The unique identifier of the learning resource product.
+     * @param shopController    The controller responsible for shop-related actions.
+     * @param profileController The controller responsible for profile-related actions.
      */
     public LearningResourceDisplay(UUID productId, ShopController shopController, ProfileController profileController) {
         super(productId, shopController, profileController);

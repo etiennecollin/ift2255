@@ -137,17 +137,23 @@ public class ShopController {
 
     /**
      * Displays a menu with a list of products associated with a specific seller.
+     * This method is intended for sellers to view and manage their products.
+     * The menu allows the seller to perform actions such as editing, removing, and viewing details of their products.
+     * Accessible only for users with the role of Seller.
+     */
+    public void displaySellerProducts() {
+        if (Session.getInstance().getUserType() == UserType.Seller) {
+            displayProducts(Session.getInstance().getUserId());
+        }
+    }
+
+    /**
+     * Displays a menu with a list of products associated with a specific seller.
      *
      * @param sellerId The UUID of the seller.
      */
     public void displayProducts(UUID sellerId) {
         renderer.addNextView(new ProductsMenu(sellerId, this), true);
-    }
-
-    public void displaySellerProducts() {
-        if (Session.getInstance().getUserType() == UserType.Seller) {
-            displayProducts(Session.getInstance().getUserId());
-        }
     }
 
     /**
@@ -232,6 +238,17 @@ public class ShopController {
         return socialModel.getReview(productId, Session.getInstance().getUserId());
     }
 
+    /**
+     * Initiates a promotion for a specific product, providing a discount, promotional points, and an end date.
+     * Sellers can use this method to start promotions for their products.
+     *
+     * @param productId   The UUID of the product to be promoted.
+     * @param discount    The discount percentage to apply during the promotion.
+     * @param promoPoints The promotional points awarded during the promotion.
+     * @param endDate     The end date of the promotion.
+     *
+     * @return The result of the operation, indicating whether the promotion was successfully started or not.
+     */
     public OperationResult startProductPromotion(UUID productId, int discount, int promoPoints, LocalDate endDate) {
         return shopModel.startProductPromotion(productId, discount, promoPoints, endDate);
     }
@@ -292,8 +309,7 @@ public class ShopController {
 
         if (session.getIsInExchangeProcess() && session.getExchangeCart() != null) {
             return shopModel.addToCart(userId, productId, quantity, session.getExchangeCart());
-        }
-        else {
+        } else {
             return shopModel.addToCart(userId, productId, quantity, null);
         }
     }
@@ -311,8 +327,7 @@ public class ShopController {
 
         if (session.getIsInExchangeProcess() && session.getExchangeCart() != null) {
             return shopModel.removeFromCart(cartProductId, quantity, session.getExchangeCart());
-        }
-        else {
+        } else {
             return shopModel.removeFromCart(cartProductId, quantity, null);
         }
     }

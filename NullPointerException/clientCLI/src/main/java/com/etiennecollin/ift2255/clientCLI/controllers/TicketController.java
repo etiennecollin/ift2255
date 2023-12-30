@@ -67,18 +67,27 @@ public class TicketController {
 
     /**
      * Displays the ticket creation view.
+     *
      * @param orderId The UUID of the order for which to create a ticket.
      */
     public void displayTicketCreation(UUID orderId) {
         renderer.addNextView(new TicketCreation(orderId, this), false);
     }
 
-    // TODO javadoc
+    /**
+     * Displays the product return creation menu.
+     *
+     * @param orderId The UUID of the order for which to create a return ticket.
+     */
     public void displayProductReturnCreation(UUID orderId) {
         renderer.addNextView(new ProductReturnMenu(orderId, this, UniShop.getInstance().getShopController()), false);
     }
 
-    // TODO javadoc
+    /**
+     * Displays the product exchange creation menu.
+     *
+     * @param orderId The UUID of the order for which to create an exchange ticket.
+     */
     public void displayProductExchangeCreation(UUID orderId) {
         renderer.addNextView(new ProductExchangeMenu(orderId, this, UniShop.getInstance().getShopController()), true);
     }
@@ -94,16 +103,13 @@ public class TicketController {
         return ticketModel.getTicket(ticketId);
     }
 
+    /**
+     * Retrieves the exchange ticket associated with an ongoing exchange process.
+     *
+     * @return The exchange ticket for the ongoing exchange process.
+     */
     public Ticket getExchangeTicket() {
         return Session.getInstance().getExchangeTicket();
-    }
-
-    public List<CartProduct> getExchangeCart() {
-        Database exchangeCart = Session.getInstance().getExchangeCart();
-        if (exchangeCart == null) {
-            return new ArrayList<>();
-        }
-        return exchangeCart.get(null, (p) -> true);
     }
 
     /**
@@ -121,7 +127,16 @@ public class TicketController {
         }
     }
 
-    // TODO javadoc
+    /**
+     * Creates a manual ticket for a specific order.
+     *
+     * @param orderId     The UUID of the order for which to create a manual ticket.
+     * @param products    The list of products and quantities involved in the ticket.
+     * @param description The description of the issue leading to the ticket creation.
+     * @param cause       The cause of the ticket (e.g., damaged, wrong item).
+     *
+     * @return The result of the operation (success or failure).
+     */
     public OperationResult createManualTicket(UUID orderId, ArrayList<Tuple<Product, Integer>> products, String description, TicketCause cause) {
         Order order = shopModel.getOrder(orderId);
         if (order == null) {
@@ -131,11 +146,28 @@ public class TicketController {
         return ticketModel.createManualTicket(orderId, products, description, cause);
     }
 
-    // TODO javadoc
+    /**
+     * Creates a return ticket for a specific order.
+     *
+     * @param orderId  The UUID of the order for which to create a return ticket.
+     * @param products The list of products and quantities involved in the return ticket.
+     * @param cause    The cause of the return ticket (e.g., damaged, wrong item).
+     *
+     * @return The result of the operation (success or failure).
+     */
     public OperationResult createReturnTicket(UUID orderId, ArrayList<Tuple<Product, Integer>> products, TicketCause cause) {
         return ticketModel.createAutoTicket(orderId, products, cause, null);
     }
 
+    /**
+     * Initiates the process of exchanging products for a specific order.
+     *
+     * @param orderId  The UUID of the order for which to initiate the exchange process.
+     * @param products The list of products and quantities involved in the exchange process.
+     * @param cause    The cause of the exchange process (e.g., damaged, wrong item).
+     *
+     * @return The result of the operation (success or failure).
+     */
     public OperationResult startExchangeProcess(UUID orderId, ArrayList<Tuple<Product, Integer>> products, TicketCause cause) {
         cancelExchangeProcess();
 
@@ -151,6 +183,9 @@ public class TicketController {
         return new OperationResult(true, "Please select the replacement items for the exchange.");
     }
 
+    /**
+     * Cancels the ongoing product exchange process.
+     */
     public void cancelExchangeProcess() {
         Session session = Session.getInstance();
         session.setInExchangeProcess(false);
@@ -159,6 +194,9 @@ public class TicketController {
         session.setExchangeOrder(null);
     }
 
+    /**
+     * Completes the ongoing product exchange process and activates the exchange ticket.
+     */
     public void completeExchangeProcess() {
         Session session = Session.getInstance();
 
@@ -171,44 +209,106 @@ public class TicketController {
         }
     }
 
+    /**
+     * Retrieves the exchange cart containing products selected for an ongoing exchange process.
+     *
+     * @return The exchange cart with products selected for exchange.
+     */
+    public List<CartProduct> getExchangeCart() {
+        Database exchangeCart = Session.getInstance().getExchangeCart();
+        if (exchangeCart == null) {
+            return new ArrayList<>();
+        }
+        return exchangeCart.get(null, (p) -> true);
+    }
 
+    /**
+     * Changes a ticket to indicate both return and replacement.
+     *
+     * @param ticketId        The UUID of the ticket to modify.
+     * @param solution        The proposed solution for the ticket.
+     * @param shippingCompany The shipping company used for the return and replacement.
+     * @param trackingNumber  The tracking number of the return and replacement shipment.
+     *
+     * @return The result of the operation (success or failure).
+     */
     public OperationResult changeTicketToReturnAndReplace(UUID ticketId, String solution, String shippingCompany, String trackingNumber) {
         return ticketModel.changeTicketToReplacement(ticketId, solution, true, trackingNumber, shippingCompany);
     }
 
+    /**
+     * Changes a ticket to indicate return without replacement.
+     *
+     * @param ticketId        The UUID of the ticket to modify.
+     * @param solution        The proposed solution for the ticket.
+     * @param shippingCompany The shipping company used for the return.
+     * @param trackingNumber  The tracking number of the return shipment.
+     *
+     * @return The result of the operation (success or failure).
+     */
     public OperationResult changeTicketToReturnWithoutReplace(UUID ticketId, String solution, String shippingCompany, String trackingNumber) {
         return ticketModel.changeTicketToNoReplacement(ticketId, solution, true, trackingNumber, shippingCompany);
     }
 
+    /**
+     * Changes a ticket to indicate replacement without return.
+     *
+     * @param ticketId The UUID of the ticket to modify.
+     * @param solution The proposed solution for the ticket.
+     *
+     * @return The result of the operation (success or failure).
+     */
     public OperationResult changeTicketToReplaceWithoutReturn(UUID ticketId, String solution) {
         return ticketModel.changeTicketToReplacement(ticketId, solution, false, null, null);
     }
 
+    /**
+     * Changes a ticket to indicate neither return nor replacement.
+     *
+     * @param ticketId The UUID of the ticket to modify.
+     * @param solution The proposed solution for the ticket.
+     *
+     * @return The result of the operation (success or failure).
+     */
     public OperationResult changeTicketToNoReturnNoReplace(UUID ticketId, String solution) {
         return ticketModel.changeTicketToNoReplacement(ticketId, solution, false, null, null);
     }
 
+    /**
+     * Confirms the reception of a replacement associated with a ticket.
+     *
+     * @param ticketId The UUID of the ticket for which to confirm the reception of replacement.
+     *
+     * @return The result of the operation (success or failure).
+     */
     public OperationResult confirmReceptionOfReplacement(UUID ticketId) {
         return ticketModel.confirmReceptionOfReplacement(ticketId);
     }
 
+    /**
+     * Confirms the reception of a return associated with a ticket.
+     *
+     * @param ticketId The UUID of the ticket for which to confirm the reception of return.
+     *
+     * @return The result of the operation (success or failure).
+     */
     public OperationResult confirmReceptionOfReturn(UUID ticketId) {
         return ticketModel.confirmReceptionOfReturn(ticketId);
     }
 
-//    /**
-//     * Creates a return shipment for a ticket.
-//     *
-//     * @param ticketId        The UUID of the ticket for which to create a return shipment.
-//     * @param trackingNumber  The tracking number of the return shipment.
-//     * @param deliveryDate    The delivery date of the return shipment.
-//     * @param shippingCompany The shipping company used for the return shipment.
-//     *
-//     * @return The result of the operation (success or failure).
-//     */
-//    public OperationResult createReturnShipment(UUID ticketId, String trackingNumber, String shippingCompany) {
-//        return ticketModel.createReturnShipment(ticketId, trackingNumber, null, shippingCompany);
-//    }
+    //    /**
+    //     * Creates a return shipment for a ticket.
+    //     *
+    //     * @param ticketId        The UUID of the ticket for which to create a return shipment.
+    //     * @param trackingNumber  The tracking number of the return shipment.
+    //     * @param deliveryDate    The delivery date of the return shipment.
+    //     * @param shippingCompany The shipping company used for the return shipment.
+    //     *
+    //     * @return The result of the operation (success or failure).
+    //     */
+    //    public OperationResult createReturnShipment(UUID ticketId, String trackingNumber, String shippingCompany) {
+    //        return ticketModel.createReturnShipment(ticketId, trackingNumber, null, shippingCompany);
+    //    }
 
     /**
      * Creates a replacement shipment for a ticket.

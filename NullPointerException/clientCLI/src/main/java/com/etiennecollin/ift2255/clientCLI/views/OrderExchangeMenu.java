@@ -15,16 +15,36 @@ import java.util.List;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
-// TODO javadoc
+/**
+ * The OrderExchangeMenu class represents a view for handling order exchanges in the client CLI.
+ * Users can view products to return, replacement products, and the associated financial details.
+ * Additionally, users can choose to complete the exchange, add more items, or cancel the exchange.
+ */
 public class OrderExchangeMenu extends View {
+    /**
+     * The controller responsible for handling tickets.
+     */
     private final TicketController ticketController;
+    /**
+     * The controller responsible for handling shop-related operations.
+     */
     private final ShopController shopController;
 
+    /**
+     * Constructs a new OrderExchangeMenu with the specified ticket controller and shop controller.
+     *
+     * @param ticketController The controller responsible for handling tickets.
+     * @param shopController   The controller responsible for handling shop-related operations.
+     */
     public OrderExchangeMenu(TicketController ticketController, ShopController shopController) {
         this.ticketController = ticketController;
         this.shopController = shopController;
     }
 
+    /**
+     * Renders the order exchange menu, allowing users to view products to return, replacement products,
+     * and associated financial details. Users can choose to complete the exchange, add more items, or cancel the exchange.
+     */
     @Override
     public void render() {
         clearConsole();

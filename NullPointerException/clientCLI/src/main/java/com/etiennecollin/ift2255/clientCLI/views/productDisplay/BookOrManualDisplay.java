@@ -24,10 +24,13 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.waitForKey;
  */
 public class BookOrManualDisplay extends ProductDisplay {
     /**
-     * Constructs a new instance of {@code BookOrManualDisplay}.
+     * Constructs a new {@code BookOrManualDisplay} with the specified product ID, shop controller, and profile controller.
+     * This class is responsible for displaying detailed information about a Book or Manual product in the CLI application.
+     * It extends the {@link ProductDisplay} class and provides specific functionality for rendering Book or Manual product details and actions.
      *
-     * @param productId      The unique identifier of the Book or Manual product to display.
-     * @param shopController The controller managing interactions related to the shop.
+     * @param productId         The unique identifier of the Book or Manual product.
+     * @param shopController    The controller responsible for shop-related actions.
+     * @param profileController The controller responsible for profile-related actions.
      */
     public BookOrManualDisplay(UUID productId, ShopController shopController, ProfileController profileController) {
         super(productId, shopController, profileController);

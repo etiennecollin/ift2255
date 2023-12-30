@@ -29,10 +29,22 @@ public class Session {
      * The type of the user associated with the session (e.g., Buyer, Seller).
      */
     private final UserType userType;
-    // TODO javadoc
+    /**
+     * Flag indicating whether the session is in an exchange process.
+     * Default value is {@code false}.
+     */
     private boolean isInExchangeProcess = false;
+    /**
+     * The exchange ticket associated with the session.
+     */
     private Ticket exchangeTicket;
+    /**
+     * The exchange cart associated with the session.
+     */
     private SessionCartDatabase exchangeCart;
+    /**
+     * The exchange order associated with the session.
+     */
     private Order exchangeOrder;
 
     /**
@@ -93,39 +105,79 @@ public class Session {
         return this.userType;
     }
 
-    // TODO javadoc
+    /**
+     * Gets the status indicating whether the session is in an exchange process.
+     *
+     * @return {@code true} if the session is in an exchange process; {@code false} otherwise.
+     */
     public boolean getIsInExchangeProcess() {
         return isInExchangeProcess;
     }
 
+    /**
+     * Sets the status indicating whether the session is in an exchange process.
+     *
+     * @param inExchangeProcess {@code true} if the session is in an exchange process; {@code false} otherwise.
+     */
     public void setInExchangeProcess(boolean inExchangeProcess) {
         isInExchangeProcess = inExchangeProcess;
     }
 
+    /**
+     * Gets the exchange ticket associated with the session.
+     *
+     * @return The exchange ticket.
+     */
     public Ticket getExchangeTicket() {
         return exchangeTicket;
     }
 
+    /**
+     * Sets the exchange ticket associated with the session.
+     *
+     * @param exchangeTicket The exchange ticket to set.
+     */
     public void setExchangeTicket(Ticket exchangeTicket) {
         this.exchangeTicket = exchangeTicket;
     }
 
+    /**
+     * Gets the exchange cart associated with the session.
+     *
+     * @return The exchange cart.
+     */
     public SessionCartDatabase getExchangeCart() {
         return exchangeCart;
     }
 
+    /**
+     * Creates a new exchange cart for the session.
+     */
     public void createExchangeCart() {
         exchangeCart = new SessionCartDatabase();
     }
 
+    /**
+     * Deletes the exchange cart associated with the session.
+     */
     public void deleteExchangeCart() {
         this.exchangeCart = null;
     }
 
+    /**
+     * Gets the exchange order associated with the session.
+     *
+     * @return The exchange order.
+     */
     public Order getExchangeOrder() {
         return exchangeOrder;
     }
 
+    /**
+     * Sets the exchange order associated with the session.
+     *
+     * @param exchangeOrder The exchange order to set.
+     */
     public void setExchangeOrder(Order exchangeOrder) {
         this.exchangeOrder = exchangeOrder;
     }

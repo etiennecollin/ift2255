@@ -59,11 +59,24 @@ public class TicketingModel {
         return db.get(DataMap.TICKETS, predicate);
     }
 
+    /**
+     * Updates the state of tickets based on specific criteria, such as canceling tickets that are overdue for return shipments.
+     * This method is responsible for maintaining the consistency of ticket states in the system.
+     */
     public void updateTickets() {
         db.<Ticket>update(DataMap.TICKETS, t -> t.setState(TicketState.Cancelled), t -> t.getState() == TicketState.ReturnInTransit && LocalDate.now().isAfter(t.getReturnShipment().getCreationDate().plusDays(MAX_RETURN_DELAY_DAYS)));
     }
 
-    // TODO javadoc
+    /**
+     * Creates a manual ticket for the specified order, products, description, and cause.
+     *
+     * @param orderId     The unique identifier of the order.
+     * @param products    The list of products and quantities associated with the ticket.
+     * @param description The description of the ticket.
+     * @param cause       The cause or reason for creating the manual ticket.
+     *
+     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     */
     public OperationResult createManualTicket(UUID orderId, ArrayList<Tuple<Product, Integer>> products, String description, TicketCause cause) {
         if (db.<Ticket>get(DataMap.TICKETS, (ticket) -> ticket.getOrderId().equals(orderId)).size() != 0) {
             return new OperationResult(false, "A ticket has already been created for this order.");
@@ -86,7 +99,16 @@ public class TicketingModel {
         }
     }
 
-    // TODO javadoc
+    /**
+     * Creates an automatic ticket for the specified order, products, cause, and replacement order ID.
+     *
+     * @param orderId            The unique identifier of the order.
+     * @param products           The list of products and quantities associated with the ticket.
+     * @param cause              The cause or reason for creating the automatic ticket.
+     * @param replacementOrderId The unique identifier of the replacement order, if applicable.
+     *
+     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     */
     public OperationResult createAutoTicket(UUID orderId, ArrayList<Tuple<Product, Integer>> products, TicketCause cause, UUID replacementOrderId) {
         if (db.<Ticket>get(DataMap.TICKETS, (ticket) -> ticket.getOrderId().equals(orderId)).size() != 0) {
             return new OperationResult(false, "A ticket has already been created for this order.");
@@ -115,6 +137,15 @@ public class TicketingModel {
         }
     }
 
+    /**
+     * Activates an exchange ticket, updating the ticket state and creating a replacement order if applicable.
+     *
+     * @param ticket          The exchange ticket to be activated.
+     * @param originalOrder   The original order associated with the exchange ticket.
+     * @param cartProductList The list of products in the exchange cart.
+     *
+     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     */
     public OperationResult activateExchangeTicket(Ticket ticket, Order originalOrder, List<CartProduct> cartProductList) {
         Session session = Session.getInstance();
 
@@ -239,6 +270,17 @@ public class TicketingModel {
     //        }
     //    }
 
+    /**
+     * Changes a ticket to indicate replacement with or without return.
+     *
+     * @param ticketId        The UUID of the ticket to modify.
+     * @param solution        The proposed solution for the ticket.
+     * @param requireReturn   Whether the replacement requires a return shipment.
+     * @param trackingNumber  The tracking number of the return shipment.
+     * @param shippingCompany The shipping company responsible for the return shipment.
+     *
+     * @return The result of the operation (success or failure).
+     */
     public OperationResult changeTicketToReplacement(UUID ticketId, String solution, boolean requireReturn, String trackingNumber, String shippingCompany) {
         Ticket ticket = db.get(DataMap.TICKETS, ticketId);
         if (ticket != null && ticket.getState() == TicketState.OpenManual) {
@@ -274,6 +316,11 @@ public class TicketingModel {
         return new OperationResult(false, "Ticket could not be modified.");
     }
 
+    /**
+     * Refunds or charges the buyer based on the ticket information.
+     *
+     * @param ticketId The UUID of the ticket for which the refund or charge operation is performed.
+     */
     private void refundOrChargeBuyer(UUID ticketId) {
         Ticket ticket = db.get(DataMap.TICKETS, ticketId);
         if (ticket == null) {
@@ -327,6 +374,17 @@ public class TicketingModel {
         // refund remaining to credit card
     }
 
+    /**
+     * Changes a ticket to indicate no replacement, with or without return.
+     *
+     * @param ticketId        The UUID of the ticket to modify.
+     * @param solution        The proposed solution for the ticket.
+     * @param requireReturn   Whether the replacement requires a return shipment.
+     * @param trackingNumber  The tracking number of the return shipment.
+     * @param shippingCompany The shipping company responsible for the return shipment.
+     *
+     * @return The result of the operation (success or failure).
+     */
     public OperationResult changeTicketToNoReplacement(UUID ticketId, String solution, boolean requireReturn, String trackingNumber, String shippingCompany) {
         Ticket ticket = db.get(DataMap.TICKETS, ticketId);
         if (ticket != null && ticket.getState() == TicketState.OpenManual) {
@@ -346,6 +404,13 @@ public class TicketingModel {
         return new OperationResult(false, "Ticket could not be modified.");
     }
 
+    /**
+     * Confirms the reception of a replacement for the specified ticket.
+     *
+     * @param ticketId The UUID of the ticket for which the replacement reception is confirmed.
+     *
+     * @return The result of the operation (success or failure).
+     */
     public OperationResult confirmReceptionOfReplacement(UUID ticketId) {
         boolean result = db.<Ticket>update(DataMap.TICKETS, t -> t.setState(TicketState.Closed), t -> t.getId().equals(ticketId) && t.getState() == TicketState.ReplacementInTransit);
         if (result) {
@@ -355,6 +420,13 @@ public class TicketingModel {
         }
     }
 
+    /**
+     * Confirms the reception of a return for the specified ticket.
+     *
+     * @param ticketId The UUID of the ticket for which the return reception is confirmed.
+     *
+     * @return The result of the operation (success or failure).
+     */
     public OperationResult confirmReceptionOfReturn(UUID ticketId) {
         Ticket ticket = db.get(DataMap.TICKETS, ticketId);
 

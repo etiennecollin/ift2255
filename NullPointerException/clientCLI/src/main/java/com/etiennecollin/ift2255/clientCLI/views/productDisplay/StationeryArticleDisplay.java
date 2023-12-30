@@ -21,10 +21,11 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.waitForKey;
  */
 public class StationeryArticleDisplay extends ProductDisplay {
     /**
-     * Constructs a new {@code StationeryArticleDisplay} with the specified product ID and shop controller.
+     * Constructs a new {@code StationeryArticleDisplay} with the specified product ID, shop controller, and profile controller.
      *
-     * @param productId      The unique identifier of the stationery article product.
-     * @param shopController The controller responsible for shop-related actions.
+     * @param productId         The unique identifier of the stationery article product.
+     * @param shopController    The controller responsible for shop-related actions.
+     * @param profileController The controller responsible for profile-related actions.
      */
     public StationeryArticleDisplay(UUID productId, ShopController shopController, ProfileController profileController) {
         super(productId, shopController, profileController);

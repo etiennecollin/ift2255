@@ -22,10 +22,13 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.waitForKey;
  */
 public class OfficeEquipmentDisplay extends ProductDisplay {
     /**
-     * Constructs a new {@code OfficeEquipmentDisplay} with the specified product ID and shop controller.
+     * Constructs a new {@code OfficeEquipmentDisplay} with the specified product ID, shop controller, and profile controller.
+     * This class is responsible for displaying detailed information about an office equipment product in the CLI application.
+     * It extends the {@link ProductDisplay} class and provides specific functionality for rendering office equipment details and actions.
      *
-     * @param productId      The unique identifier of the office equipment product.
-     * @param shopController The controller responsible for shop-related actions.
+     * @param productId         The unique identifier of the office equipment product.
+     * @param shopController    The controller responsible for shop-related actions.
+     * @param profileController The controller responsible for profile-related actions.
      */
     public OfficeEquipmentDisplay(UUID productId, ShopController shopController, ProfileController profileController) {
         super(productId, shopController, profileController);

@@ -23,10 +23,13 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.waitForKey;
  */
 public class ITProductDisplay extends ProductDisplay {
     /**
-     * Constructs a new {@code ITProductDisplay} with the specified product ID and shop controller.
+     * Constructs a new {@code ITProductDisplay} with the specified product ID, shop controller, and profile controller.
+     * This class is responsible for displaying detailed information about an IT product in the CLI application.
+     * It extends the {@link ProductDisplay} class and provides specific functionality for rendering IT product details and actions.
      *
-     * @param productId      The unique identifier of the IT product.
-     * @param shopController The controller responsible for shop-related actions.
+     * @param productId         The unique identifier of the IT product.
+     * @param shopController    The controller responsible for shop-related actions.
+     * @param profileController The controller responsible for profile-related actions.
      */
     public ITProductDisplay(UUID productId, ShopController shopController, ProfileController profileController) {
         super(productId, shopController, profileController);
