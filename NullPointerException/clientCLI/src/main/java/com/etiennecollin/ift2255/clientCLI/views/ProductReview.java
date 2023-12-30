@@ -46,7 +46,7 @@ public class ProductReview extends View {
         Review existingReview = shopController.getProductReviewByUser(productId);
 
         if (existingReview != null) {
-            System.out.println(prettify("This product has already been reviewed"));
+            System.out.println(prettify("You have already review this product."));
             waitForKey();
             return;
         }

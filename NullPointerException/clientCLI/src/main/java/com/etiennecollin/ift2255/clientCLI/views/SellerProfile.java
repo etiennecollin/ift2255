@@ -64,6 +64,7 @@ public class SellerProfile extends View {
                     String newVal = prettyPrompt("Set a new name", Utils::validateName);
                     result = profileController.updateSeller(newVal, null, null, null, null);
                     System.out.println(prettify(result.message()));
+                    waitForKey();
                 }
                 case 2 -> {
                     while (true) {
@@ -72,6 +73,7 @@ public class SellerProfile extends View {
                             String newVal = prettyPrompt("Set a new password", Utils::validateNotEmpty);
                             result = profileController.updateSeller(null, newVal, null, null, null);
                             System.out.println(prettify(result.message()));
+                            waitForKey();
                             break;
                         } else {
                             System.out.println(prettify("Old password invalid"));
@@ -83,16 +85,19 @@ public class SellerProfile extends View {
                     String newVal = prettyPrompt("Set a new email address", Utils::validateEmail);
                     result = profileController.updateSeller(null, null, newVal, null, null);
                     System.out.println(prettify(result.message()));
+                    waitForKey();
                 }
                 case 4 -> {
                     String newVal = prettyPrompt("Set a new phone number", Utils::validatePhoneNumber);
                     result = profileController.updateSeller(null, null, null, newVal, null);
                     System.out.println(prettify(result.message()));
+                    waitForKey();
                 }
                 case 5 -> {
                     String newVal = prettyPrompt("Set a new address", Utils::validateNotEmpty);
                     result = profileController.updateSeller(null, null, null, null, newVal);
                     System.out.println(prettify(result.message()));
+                    waitForKey();
                 }
             }
         }

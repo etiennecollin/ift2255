@@ -94,13 +94,13 @@ public class SocialModel {
                     db.<Buyer>update(DataMap.BUYERS, (buyer) -> buyer.setFidelityPoints(buyer.getFidelityPoints() + 10), review.getAuthorId());
                 }
                 db.add(DataMap.LIKES, new Like(reviewId, userId, LikeType.Review));
-                return new OperationResult(true, "Like removed.");
+                return new OperationResult(true, "Like added.");
             } else {
                 if (likes.size() == 1 && !review.getIsReported()) {
                     db.<Buyer>update(DataMap.BUYERS, (buyer) -> buyer.setFidelityPoints(buyer.getFidelityPoints() - 10), review.getAuthorId());
                 }
                 db.remove(DataMap.LIKES, likedByUser.get().getId());
-                return new OperationResult(true, "Like added.");
+                return new OperationResult(true, "Like removed.");
             }
         }
 

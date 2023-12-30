@@ -108,7 +108,7 @@ public class UserFinder extends View {
                 matchList = profileController.searchSellerPhone(phoneNumber);
             }
             case 4 -> {
-                String email = prettyPrompt("email").toLowerCase();
+                String email = prettyPrompt("Email").toLowerCase();
                 matchList = profileController.searchSellerEmail(email);
             }
         }

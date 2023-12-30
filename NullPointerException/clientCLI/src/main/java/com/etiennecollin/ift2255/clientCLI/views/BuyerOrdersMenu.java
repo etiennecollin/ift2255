@@ -120,6 +120,7 @@ public class BuyerOrdersMenu extends View {
             if (prettyPromptBool("Do you really want to mark this order as delivered?")) {
                 OperationResult result = shopController.confirmDelivery(order.getId());
                 System.out.println(prettify(result.message()));
+                waitForKey();
             } else {
                 System.out.println(prettify("Action cancelled"));
             }
@@ -149,6 +150,7 @@ public class BuyerOrdersMenu extends View {
             if (prettyPromptBool("Do you really want to cancel this order?")) {
                 OperationResult result = shopController.cancelOrder(order.getId());
                 System.out.println(prettify(result.message()));
+                waitForKey();
             } else {
                 System.out.println(prettify("Action cancelled"));
             }

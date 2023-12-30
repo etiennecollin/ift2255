@@ -95,9 +95,8 @@ public class ProductReviews extends View {
 
             for (Tuple<Review, Buyer> reviewBuyerTuple : reviewBuyerList) {
                 reviewStrings.add(
-                        prettify("--------------------") + "\n" +
-                        prettify(reviewBuyerTuple.second.getFirstName() + " " + reviewBuyerTuple.second.getLastName() + " - " + reviewBuyerTuple.first.getRating() + "/100") + "\n" +
-                        prettify(reviewBuyerTuple.first.getComment())
+                        reviewBuyerTuple.second.getFirstName() + " " + reviewBuyerTuple.second.getLastName() + " - " + reviewBuyerTuple.first.getRating() + "/100" + "\n" +
+                        prettify(reviewBuyerTuple.first.getComment()) + "\n"
                 );
             }
 
@@ -112,6 +111,7 @@ public class ProductReviews extends View {
     public void displayActions(UUID reviewId) {
         loop:
         while (true) {
+            clearConsole();
             // Get the review and author again in case it was updated.
             Review review = shopController.getProductReview(reviewId);
             Buyer author = profileController.getBuyer(review.getAuthorId());
@@ -120,7 +120,7 @@ public class ProductReviews extends View {
 
             System.out.println(prettify(author.getFirstName() + " " + author.getLastName() + " - " + review.getRating() + "/100"));
             System.out.println(prettify(review.getComment()));
-            System.out.println("Likes: " + likes.size());
+            System.out.println(prettify("Likes: " + likes.size()));
 
             if (isLikedByUser) {
                 System.out.println(prettify("You like this review."));
@@ -129,9 +129,10 @@ public class ProductReviews extends View {
                 System.out.println(prettify("This review have been marked as inappropriate."));
             }
 
-            if (author.getId().equals(profileController.getBuyer().getId())) {
+            if (profileController.getBuyer() != null && author.getId().equals(profileController.getBuyer().getId())) {
                 System.out.println(prettify("No actions available on your own review."));
                 waitForKey();
+                break;
             }
             else {
                 String[] options = {"Go back", "Toggle like", "Mark as inappropriate"};

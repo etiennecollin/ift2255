@@ -106,6 +106,7 @@ public class PendingSellerOrders extends View {
         } else {
             System.out.println("Order status change cancelled");
         }
+        waitForKey();
     }
 
     /**
