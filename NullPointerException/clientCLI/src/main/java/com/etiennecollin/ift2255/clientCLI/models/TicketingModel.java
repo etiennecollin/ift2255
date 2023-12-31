@@ -93,6 +93,11 @@ public class TicketingModel {
 
         boolean result = db.add(DataMap.TICKETS, new Ticket(description, orderId, products, cause, TicketState.OpenManual, order.getBuyerId(), order.getSellerId()));
         if (result) {
+            String title = "New ticket opened on one of your orders";
+            String content = "Order ID: " + order.getId() + "\nBuyer: " + order.getBuyerId() + "\nDescription: " + description;
+            Notification notification = new Notification(order.getSellerId(), title, content);
+            db.add(DataMap.NOTIFICATIONS, notification);
+
             return new OperationResult(true, "Ticket successfully opened.");
         } else {
             return new OperationResult(false, "Ticket could not be created.");
@@ -131,6 +136,11 @@ public class TicketingModel {
 
         boolean result = db.add(DataMap.TICKETS, newTicket);
         if (result) {
+            String title = "New ticket opened on one of your orders";
+            String content = "Order ID: " + order.getId() + "\nBuyer: " + order.getBuyerId() + "\nSolution suggested: " + solution;
+            Notification notification = new Notification(order.getSellerId(), title, content);
+            db.add(DataMap.NOTIFICATIONS, notification);
+
             return new OperationResult(true, solution);
         } else {
             return new OperationResult(false, "Ticket could not be created.");
@@ -307,6 +317,11 @@ public class TicketingModel {
 
             db.<Ticket>update(DataMap.TICKETS, t -> {
                 t.setSuggestedSolution(solution);
+
+                String title = "New solution for one of your tickets";
+                String content = "Ticket: " + t.getProblemDescription() + "\nSolution suggested: " + solution;
+                Notification notification = new Notification(t.getBuyerId(), title, content);
+
                 if (requireReturn) {
                     t.setReturnShipment(new Shipment(trackingNumber, null, shippingCompany));
                     t.setState(TicketState.ReturnInTransit);
@@ -395,6 +410,11 @@ public class TicketingModel {
         if (ticket != null && ticket.getState() == TicketState.OpenManual) {
             db.<Ticket>update(DataMap.TICKETS, t -> {
                 t.setSuggestedSolution(solution);
+
+                String title = "New solution for one of your tickets";
+                String content = "Ticket: " + t.getProblemDescription() + "\nSolution suggested: " + solution;
+                Notification notification = new Notification(t.getBuyerId(), title, content);
+
                 if (requireReturn) {
                     t.setReturnShipment(new Shipment(trackingNumber, null, shippingCompany));
                     t.setState(TicketState.ReturnInTransit);

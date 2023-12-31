@@ -255,6 +255,7 @@ public class ShopModel {
      */
     public OperationResult startProductPromotion(UUID productId, int discount, int promoPoints, LocalDate endDate) {
         Product product = db.get(DataMap.PRODUCTS, productId);
+        Seller seller = db.get(DataMap.SELLERS, product.getSellerId());
 
         int finalDiscount = Math.min(discount, product.getPrice());
         db.<Product>update(DataMap.PRODUCTS, p -> {
@@ -262,6 +263,35 @@ public class ShopModel {
             p.setPromoFidelityPoints(promoPoints);
             p.setPromoEndDate(endDate);
         }, productId);
+
+        // Send notification to buyers who follow this seller
+        String title = "New promotion added on a product sold by followed seller";
+        String content = "Seller: " + seller.getName() + "\nProduct: " + product.getTitle() + "\nPrice: " + product.getPrice() + "\nPromotion: " + discount + "$\nPromotional fidelity points: " + promoPoints + "\nEnd date: " + endDate + "\n\n" + "Check it out now!";
+
+        // Prevent sending duplicate of notifications
+        HashSet<Like> sendTo = new HashSet<>();
+
+        // Send to buyers who follow the seller
+        List<Like> sellerFollowers = db.get(DataMap.LIKES, (Like like) -> like.getLikedEntityId().equals(seller.getId()));
+        sendTo.addAll(sellerFollowers);
+
+        // Send to buyers who follow the product
+        List<Like> productFollowers = db.get(DataMap.LIKES, (Like like) -> like.getLikedEntityId().equals(product.getId()));
+        sendTo.addAll(productFollowers);
+
+        // Send to buyers who follow a buyer who follows the product
+        productFollowers.forEach((like) -> {
+            UUID userId = like.getUserId();
+            List<Like> followersOfFollowers = db.get(DataMap.LIKES, (Like like2) -> like2.getLikedEntityId().equals(userId));
+            sendTo.addAll(followersOfFollowers);
+        });
+
+        // Send notifications
+        for (Like like : sendTo) {
+            Notification notification = new Notification(like.getUserId(), title, content);
+            db.add(DataMap.NOTIFICATIONS, notification);
+        }
+
         return new OperationResult(true, "Promotion started.");
     }
 
@@ -579,6 +609,12 @@ public class ShopModel {
             db.<Order>update(DataMap.ORDERS, (o) -> {
                 o.setShipment(new Shipment(trackingNumber, expectedDeliveryDate, shippingCompany));
                 o.setState(OrderState.InTransit);
+
+                // Send notification
+                String title = "Your order is now shipped";
+                String content = "Order: " + o.getId() + "\nShipped by: " + shippingCompany + "\nTracking number: " + trackingNumber;
+                Notification notification = new Notification(o.getBuyerId(), title, content);
+                db.add(DataMap.NOTIFICATIONS, notification);
             }, orderId);
             return new OperationResult(true, "Order status updated");
         } else {
@@ -603,6 +639,12 @@ public class ShopModel {
             db.<Order>update(DataMap.ORDERS, o -> {
                 o.setState(OrderState.Delivered);
                 o.getShipment().setReceptionDate(LocalDate.now());
+
+                // Send notification
+                String title = "Your order is now delivered";
+                String content = "Order: " + o.getId();
+                Notification notification = new Notification(o.getBuyerId(), title, content);
+                db.add(DataMap.NOTIFICATIONS, notification);
             }, orderId);
             return new OperationResult(true, "Order successfully marked as delivered");
         } else {
@@ -624,7 +666,15 @@ public class ShopModel {
         }
 
         if (order.getState() == OrderState.InProduction) {
-            db.<Order>update(DataMap.ORDERS, o -> o.setState(OrderState.Cancelled), orderId);
+            db.<Order>update(DataMap.ORDERS, o -> {
+                o.setState(OrderState.Cancelled);
+
+                // Send notification
+                String title = "Your order was cancelled";
+                String content = "Order: " + o.getId();
+                Notification notification = new Notification(o.getBuyerId(), title, content);
+                db.add(DataMap.NOTIFICATIONS, notification);
+            }, orderId);
             return new OperationResult(true, "Order cancelled.");
         } else {
             return new OperationResult(false, "Order cannot be marked as cancelled.");

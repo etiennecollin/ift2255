@@ -10,7 +10,6 @@ import java.util.UUID;
  * Represents a like given by a user to a specific entity, extending DatabaseObject.
  */
 public class Like extends DatabaseObject {
-    //
     /**
      * The unique identifier of the entity that has been liked.
      * <p>

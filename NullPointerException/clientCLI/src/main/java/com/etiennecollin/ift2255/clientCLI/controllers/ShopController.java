@@ -7,6 +7,7 @@ package com.etiennecollin.ift2255.clientCLI.controllers;
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
 import com.etiennecollin.ift2255.clientCLI.Tuple;
 import com.etiennecollin.ift2255.clientCLI.UniShop;
+import com.etiennecollin.ift2255.clientCLI.Utils;
 import com.etiennecollin.ift2255.clientCLI.models.ProfileModel;
 import com.etiennecollin.ift2255.clientCLI.models.Session;
 import com.etiennecollin.ift2255.clientCLI.models.ShopModel;
@@ -639,6 +640,21 @@ public class ShopController {
         }
 
         return result;
+    }
+
+    private void newProductNotification(String title, int price) {
+        UUID sellerId = Session.getInstance().getUserId();
+        String sellerName = profileModel.getSeller(sellerId).getName();
+        // Send notification to buyers who follow this seller
+        String notificationTitle = "New product added by followed seller";
+        String notificationContent = "Seller: " + sellerName + "\nNew Product: " + title + "\nPrice: " + Utils.formatMoney(price);
+
+        // Get users who follow this seller
+        List<Like> followedBy = socialModel.getLikes(sellerId, null, null);
+        for (Like like : followedBy) {
+            Notification notification = new Notification(like.getUserId(), notificationTitle, notificationContent);
+            profileModel.addNotification(notification);
+        }
     }
 
     /**

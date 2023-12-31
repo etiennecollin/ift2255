@@ -147,6 +147,7 @@ public class SocialModel {
      */
     public OperationResult toggleLikeSeller(UUID sellerId, UUID userId) {
         Seller seller = db.get(DataMap.SELLERS, sellerId);
+        Buyer user = db.get(DataMap.BUYERS, userId);
 
         if (seller != null) {
             List<Like> likes = db.get(DataMap.LIKES, (like) -> like.getLikedEntityId().equals(sellerId));
@@ -154,6 +155,12 @@ public class SocialModel {
 
             if (likedByUser.isEmpty()) {
                 db.add(DataMap.LIKES, new Like(sellerId, userId, LikeType.Seller));
+
+                String title = "New follower";
+                String content = "You are now followed by: " + user.getFirstName() + " " + user.getLastName();
+                Notification notification = new Notification(sellerId, title, content);
+                db.add(DataMap.NOTIFICATIONS, notification);
+
                 return new OperationResult(true, "Like removed.");
             } else {
                 db.remove(DataMap.LIKES, likedByUser.get().getId());
@@ -174,6 +181,7 @@ public class SocialModel {
      */
     public OperationResult toggleFollowBuyer(UUID buyerId, UUID userId) {
         Buyer buyer = db.get(DataMap.BUYERS, buyerId);
+        Buyer user = db.get(DataMap.BUYERS, userId);
 
         if (buyer != null) {
             List<Like> likes = db.get(DataMap.LIKES, (like) -> like.getLikedEntityId().equals(buyerId));
@@ -182,11 +190,17 @@ public class SocialModel {
             if (likedByUser.isEmpty()) {
                 db.add(DataMap.LIKES, new Like(buyerId, userId, LikeType.Buyer));
                 db.<Buyer>update(DataMap.BUYERS, (b) -> b.setFidelityPoints(buyer.getFidelityPoints() + 5), (b) -> b.getId().equals(userId) || b.getId().equals(buyerId));
-                return new OperationResult(true, "Unfollowed. -5 fidelity points.");
+
+                String title = "New follower";
+                String content = "You are now followed by: " + user.getFirstName() + " " + user.getLastName();
+                Notification notification = new Notification(buyerId, title, content);
+                db.add(DataMap.NOTIFICATIONS, notification);
+
+                return new OperationResult(true, "Following this user. +5 fidelity points.");
             } else {
                 db.remove(DataMap.LIKES, likedByUser.get().getId());
                 db.<Buyer>update(DataMap.BUYERS, (b) -> b.setFidelityPoints(buyer.getFidelityPoints() - 5), (b) -> b.getId().equals(userId) || b.getId().equals(buyerId));
-                return new OperationResult(true, "Following this user. +5 fidelity points.");
+                return new OperationResult(true, "Unfollowed. -5 fidelity points.");
             }
         }
 
@@ -256,6 +270,12 @@ public class SocialModel {
 
         db.add(DataMap.REVIEWS, new Review(authorId, productId, content, rating, LocalDate.now()));
         updateProductRating(productId);
+
+        Product product = db.get(DataMap.PRODUCTS, productId);
+        String notificationTitle = "New review on one of your products";
+        String notificationContent = "Product: " + product.getTitle() + "\nRating: " + rating + "\nReview body: " + content;
+        Notification notification = new Notification(product.getSellerId(), notificationTitle, notificationContent);
+        db.add(DataMap.NOTIFICATIONS, notification);
 
         return new OperationResult(true, "Rating added.");
     }

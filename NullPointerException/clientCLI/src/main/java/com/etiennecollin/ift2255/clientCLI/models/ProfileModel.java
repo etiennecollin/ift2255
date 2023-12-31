@@ -51,6 +51,15 @@ public class ProfileModel {
     }
 
     /**
+     * Adds a notification to the system.
+     *
+     * @param notification The notification to be added.
+     */
+    public void addNotification(Notification notification) {
+        db.add(DataMap.NOTIFICATIONS, notification);
+    }
+
+    /**
      * Retrieves a list of all notifications in the system.
      *
      * @return A list of all notifications in the system.
