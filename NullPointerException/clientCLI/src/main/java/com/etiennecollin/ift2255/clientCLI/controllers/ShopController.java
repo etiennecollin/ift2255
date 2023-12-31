@@ -19,7 +19,6 @@ import com.etiennecollin.ift2255.clientCLI.views.productDisplay.*;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -108,17 +107,31 @@ public class ShopController {
         return shopModel.searchProducts((product) -> product.getSellerId().equals(sellerId));
     }
 
+    /**
+     * Retrieves the list of sellers associated with products in the given category.
+     *
+     * @param category The product category for which sellers are to be retrieved.
+     *
+     * @return A list of sellers associated with products in the provided category.
+     */
+    public List<Seller> getSellersOfCategory(ProductCategory category) {
+        List<Product> matchingProducts = shopModel.getProducts(category, null, null);
+        return getSellersOfProducts(matchingProducts);
+    }
+
+    /**
+     * Retrieves the list of sellers associated with the given list of products.
+     *
+     * @param products The list of products for which sellers are to be retrieved.
+     *
+     * @return A list of sellers associated with the provided products.
+     */
     public List<Seller> getSellersOfProducts(List<Product> products) {
         HashSet<UUID> sellerIds = new HashSet<>();
         for (Product product : products) {
             sellerIds.add(product.getSellerId());
         }
         return profileModel.searchSellers(seller -> sellerIds.contains(seller.getId()));
-    }
-
-    public List<Seller> getSellersOfCategory(ProductCategory category) {
-        List<Product> matchingProducts = shopModel.getProducts(category, null, null);
-        return getSellersOfProducts(matchingProducts);
     }
 
     /**
@@ -657,6 +670,12 @@ public class ShopController {
         return result;
     }
 
+    /**
+     * Sends a new product notification to buyers who follow the seller adding the product.
+     *
+     * @param title The title of the new product.
+     * @param price The price of the new product.
+     */
     private void newProductNotification(String title, int price) {
         UUID sellerId = Session.getInstance().getUserId();
         String sellerName = profileModel.getSeller(sellerId).getName();

@@ -8,12 +8,10 @@ import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
 import com.etiennecollin.ift2255.clientCLI.models.data.Buyer;
 import com.etiennecollin.ift2255.clientCLI.models.data.Seller;
-import com.etiennecollin.ift2255.clientCLI.models.data.products.Product;
 import com.etiennecollin.ift2255.clientCLI.models.data.products.ProductCategory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
@@ -34,9 +32,10 @@ public class UserFinder extends View {
     private final ShopController shopController;
 
     /**
-     * Constructs a UserFinder with the specified ProfileController.
+     * Constructs a UserFinder with the specified ProfileController and ShopController.
      *
-     * @param profileController the ProfileController used for interacting with profile-related functionalities.
+     * @param profileController The ProfileController used for interacting with profile-related functionalities.
+     * @param shopController    The ShopController used for handling shop-related actions and operations.
      */
     public UserFinder(ProfileController profileController, ShopController shopController) {
         this.profileController = profileController;
