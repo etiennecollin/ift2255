@@ -89,11 +89,6 @@ public class TicketDisplay extends View {
      * @param ticket The ticket for which actions are displayed.
      */
     public void displayBuyerActions(Ticket ticket) {
-        //        String[] options = {"Go back", "Confirm reception of replacement shipment"};
-
-        //        clearConsole();
-        //        displayTicket(ticket);
-
         ArrayList<DynamicMenuItem> options = new ArrayList<>();
 
         options.add(new DynamicMenuItem("View related orders", () -> {
@@ -120,24 +115,6 @@ public class TicketDisplay extends View {
         }, () -> ticket.getState() == TicketState.ReplacementInTransit));
 
         prettyDynamicMenu("Select action", "Go back", options, () -> displayTicket(ticket));
-
-        // Setup action menu
-        //        int answer = prettyMenu("Select action", options);
-        //        switch (answer) {
-        //            case 0 -> {
-        //                return;
-        //            }
-        //            case 1 -> {
-        //                boolean confirmation = prettyPromptBool("Do you really want to confirm the reception of the replacement shipment");
-        //                if (confirmation) {
-        //                    OperationResult result = ticketController.confirmReceptionOfReplacement(ticketId);
-        //                    System.out.println(prettify(result.message()));
-        //                } else {
-        //                    System.out.println(prettify("Action cancelled"));
-        //                    waitForKey();
-        //                }
-        //            }
-        //        }
     }
 
     /**
@@ -210,63 +187,6 @@ public class TicketDisplay extends View {
         }, () -> ticket.getState() == TicketState.ReturnReceived));
 
         prettyDynamicMenu("Select action", "Go back", options, () -> displayTicket(ticket));
-
-        //        String[] options = {"Go back", "Set suggested solution", "Confirm reception of return shipment", "Create replacement shipment"};
-
-        //        clearConsole();
-        //        displayTicket(ticket);
-        //
-        //        // Setup action menu
-        //        int answer = prettyMenu("Select action", options);
-        //        switch (answer) {
-        //            case 0 -> {
-        //                return;
-        //            }
-        //            case 1 -> {
-        //                boolean requireReturn = Utils.prettyPromptBool("Request that the buyer return the product(s)?");
-        //                boolean offerReplacement = Utils.prettyPromptBool("Offer to replace the product(s)?");
-        //                String suggestedSolution = prettyPrompt("Suggested solution", Utils::validateNotEmpty);
-        //
-        //                if (requireReturn) {
-        //                    String shippingCompany = prettyPrompt("Shipping company", Utils::validateNotEmpty);
-        //                    String trackingNumber = prettyPrompt("Tracking number of replacement shipment", Utils::validateNotEmpty);
-        //
-        //                    if (offerReplacement) {
-        //                        ticketController.changeTicketToReturnAndReplace(ticketId, suggestedSolution, shippingCompany, trackingNumber);
-        //                    }
-        //                    else {
-        //                        ticketController.changeTicketToReturnWithoutReplace(ticketId, suggestedSolution, shippingCompany, trackingNumber);
-        //                    }
-        //                }
-        //                else {
-        //                    if (offerReplacement) {
-        //                        ticketController.changeTicketToReplaceWithoutReturn(ticketId, suggestedSolution);
-        //                    }
-        //                    else {
-        //                        ticketController.changeTicketToNoReturnNoReplace(ticketId, suggestedSolution);
-        //                    }
-        //                }
-        //            }
-        //            case 2 -> {
-        //                boolean confirmation = prettyPromptBool("Do you really want to confirm the reception of the return shipment");
-        //                if (confirmation) {
-        //                    OperationResult result = ticketController.confirmReceptionOfReturn(ticketId);
-        //                    System.out.println(prettify(result.message()));
-        //                } else {
-        //                    System.out.println(prettify("Action cancelled"));
-        //                    waitForKey();
-        //                }
-        //            }
-        //            case 3 -> {
-        //                String replacementProductDescription = prettyPrompt("Replacement product description", Utils::validateNotEmpty);
-        //                String shippingCompany = prettyPrompt("Shipping company", Utils::validateNotEmpty);
-        //                String trackingNumber = prettyPrompt("Tracking number of replacement shipment", Utils::validateNotEmpty);
-        //                LocalDate expectedDeliveryDate = prettyPromptDate("Expected delivery date");
-        //
-        //                OperationResult result = ticketController.createReplacementShipment(ticketId, replacementProductDescription, trackingNumber, expectedDeliveryDate, shippingCompany);
-        //                System.out.println(prettify(result.message()));
-        //            }
-        //        }
     }
 
     /**

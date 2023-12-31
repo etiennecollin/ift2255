@@ -397,67 +397,6 @@ public class Utils {
         }
     }
 
-    //    /**
-    //     * Displays a paginated menu for a list of items, allowing the user to perform actions on the items.
-    //     *
-    //     * @param <T>           The type of elements in the menu.
-    //     * @param items         The list of items to be displayed in the menu.
-    //     * @param itemsPerPage  The number of items to display per page.
-    //     * @param actionName    The name of the action to perform on selected items.
-    //     * @param itemDisplayer A Consumer that displays an individual item.
-    //     * @param itemMenuName  A Function that returns a string representing the menu name for an individual item.
-    //     * @param action        A Function that defines the action to be performed on selected items. Return false to quit menu, true to continue in menu.
-    //     */
-    //    public static <T> void prettyPaginationMenu(List<T> items, int itemsPerPage, String actionName, Consumer<T> itemDisplayer, Function<T, String> itemMenuName, Function<T, Boolean> action) {
-    //        outerLoop:
-    //        for (int i = 0; i < items.size(); i += itemsPerPage) {
-    //            int itemsOnPage = Math.min(itemsPerPage, items.size() - i);
-    //            clearConsole();
-    //
-    //            System.out.println(prettify("Page from " + (i + 1) + " to " + (i + itemsOnPage) + ":"));
-    //
-    //            ArrayList<String> itemMenuNames = new ArrayList<>();
-    //            itemMenuNames.add("Go back");
-    //
-    //            for (int j = i; j < i + itemsOnPage; j++) {
-    //                T item = items.get(j);
-    //                itemDisplayer.accept(item);
-    //                itemMenuNames.add(itemMenuName.apply(item));
-    //            }
-    //
-    //            // Setup action menu
-    //            ArrayList<String> options = new ArrayList<>();
-    //            options.add("Go back");
-    //            options.add(actionName);
-    //            if (i + itemsOnPage < items.size()) {
-    //                options.add("See more");
-    //            }
-    //
-    //            innerLoop:
-    //            while (true) {
-    //                int answer = prettyMenu("Select action", options);
-    //                switch (answer) {
-    //                    case 0 -> {
-    //                        // Go back
-    //                        break outerLoop;
-    //                    }
-    //                    case 1 -> {
-    //                        int index = prettyMenu("Select", itemMenuNames);
-    //                        if (index == 0) break;
-    //                        boolean continueMenu = action.apply(items.get(i + index - 1));
-    //                        if (!continueMenu) {
-    //                            break outerLoop;
-    //                        }
-    //                    }
-    //                    case 2 -> {
-    //                        // See more
-    //                        break innerLoop;
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
-
     /**
      * Displays a paginated menu for a list of items, allowing the user to perform actions on the items.
      *
@@ -544,18 +483,6 @@ public class Utils {
     public static void quit() {
         scanner.close();
     }
-
-    //    protected static void quit(UniShop unishop) {
-    //        System.out.println(prettify("Saving app state..."));
-    //        unishop.saveUserList(Client.savePath);
-    //        System.out.println(prettify("Quitting UniShop"));
-    //        scanner.close();
-    //    }
-
-    //    protected static void logout(UniShop uniShop) {
-    //        System.out.println(prettify("Logging-out..."));
-    //        uniShop.setCurrentUser(null);
-    //    }
 
     /**
      * Validates a name to ensure it contains only letters and optional spaces or hyphens.

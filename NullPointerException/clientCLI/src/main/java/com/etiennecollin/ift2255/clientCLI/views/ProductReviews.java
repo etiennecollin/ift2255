@@ -71,28 +71,6 @@ public class ProductReviews extends View {
 
             ArrayList<String> reviewStrings = new ArrayList<>();
 
-            //            prettyPaginationMenu(reviewBuyerList, 3, "Select action",
-            //                    reviewBuyer -> {
-            //                        System.out.println(prettify("--------------------"));
-            //                        System.out.println(prettify(reviewBuyer.second.getFirstName() + " " + reviewBuyer.second.getLastName() + " - " + review.getRating() + "/100"));
-            //                        System.out.println(prettify(reviewBuyer.first.getComment()));
-            //                    }, reviewBuyer -> reviewBuyer.second.getFirstName() + " " + reviewBuyer.second.getLastName(),
-            //                    this::reviewActions,
-            //                    reviewBuyer -> new Tuple<>(shopController.getReview(reviewBuyer.first.getId())));
-            //            for (Review review : reviews) {
-            //                Buyer buyerAuthor = profileController.getBuyer(review.getId());
-            //                if (buyerAuthor != null) {
-            //                    reviewStrings.add(
-            //                            prettify("--------------------") + "\n" +
-            //                            prettify(buyerAuthor.getFirstName() + " " + buyerAuthor.getLastName() + " - " + review.getRating() + "/100") + "\n" +
-            //                            prettify(review.getComment())
-            //                    );
-            //                }
-            //                else {
-            //                    Seller sellerAu
-            //                }
-            //            }
-
             for (Tuple<Review, Buyer> reviewBuyerTuple : reviewBuyerList) {
                 reviewStrings.add(reviewBuyerTuple.second.getFirstName() + " " + reviewBuyerTuple.second.getLastName() + " - " + reviewBuyerTuple.first.getRating() + "/100" + "\n" + prettify(reviewBuyerTuple.first.getComment()) + "\n");
             }

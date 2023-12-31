@@ -335,20 +335,6 @@ public class TicketController {
         return ticketModel.confirmReceptionOfReturn(ticketId);
     }
 
-    //    /**
-    //     * Creates a return shipment for a ticket.
-    //     *
-    //     * @param ticketId        The UUID of the ticket for which to create a return shipment.
-    //     * @param trackingNumber  The tracking number of the return shipment.
-    //     * @param deliveryDate    The delivery date of the return shipment.
-    //     * @param shippingCompany The shipping company used for the return shipment.
-    //     *
-    //     * @return The result of the operation (success or failure).
-    //     */
-    //    public OperationResult createReturnShipment(UUID ticketId, String trackingNumber, String shippingCompany) {
-    //        return ticketModel.createReturnShipment(ticketId, trackingNumber, null, shippingCompany);
-    //    }
-
     /**
      * Creates a replacement shipment for a ticket.
      *
