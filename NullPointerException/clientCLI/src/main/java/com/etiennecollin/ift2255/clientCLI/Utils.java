@@ -670,7 +670,7 @@ public class Utils {
      * @return An OperationResult indicating whether the string is not empty, along with an error message if empty.
      */
     public static OperationResult validateNotEmpty(String string) {
-        if (string.isEmpty()) {
+        if (string.trim().isEmpty()) {
             return new OperationResult(false, "This field must not be empty.");
         } else {
             return new OperationResult(true, "");

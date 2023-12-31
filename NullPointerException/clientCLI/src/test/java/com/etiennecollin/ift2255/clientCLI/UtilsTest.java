@@ -105,7 +105,27 @@ public class UtilsTest {
      */
     @Test
     public void testValidateNotEmpty() {
-        assertEquals(new OperationResult(false, "This field must not be empty."), validateNotEmpty(""), "Failed to refuse empty string");
-        assertEquals(new OperationResult(true, ""), validateNotEmpty("Test"), "Failed to accept non-empty string");
+        assertEquals(new OperationResult(false, "This field must not be empty."), validateNotEmpty(""), "Does not accept empty string");
+        assertEquals(new OperationResult(false, "This field must not be empty."), validateNotEmpty(" "), "Does not accept string with nothing but whitespace");
+        assertEquals(new OperationResult(true, ""), validateNotEmpty("a"), "Accepts a string with a text character");
+        assertEquals(new OperationResult(true, ""), validateNotEmpty(" a "), "Accepts a string with a text character surrounded by whitespace");
+    }
+
+    /**
+     * Test the validateISBN method in the Utils class.
+     */
+    @Test
+    public void testValidateISBN() {
+        assertEquals(new OperationResult(false, "Your ISBN has a wrong format"), validateISBN("123456789"), "Does not accept ISBN with less than 10 digits");
+        assertEquals(new OperationResult(true, ""), validateISBN("1234567890"), "Accepts a valid ISBN 10");
+        assertEquals(new OperationResult(false, "Your ISBN has a wrong format"), validateISBN("123456789012"), "Does not accept ISBN with more than 10 but less than 13 digits");
+        assertEquals(new OperationResult(false, "Your ISBN has a wrong format"), validateISBN("1234567890123a"), "Does not accept ISBN with at least one letter");
+        assertEquals(new OperationResult(true, ""), validateISBN("1234567890123"), "Accepts a valid ISBN 13");
+        assertEquals(new OperationResult(false, "Your ISBN has a wrong format"), validateISBN("12345678901234"), "Failed to refuse ISBN with more than 13 digits");
+
+        assertEquals(new OperationResult(false, "Your ISBN has a wrong format"), validateISBN("12345678-9"), "Does not accept ISBN with 10 characters but less than 10 digits");
+        assertEquals(new OperationResult(true, ""), validateISBN("1-2345-6789-0"), "Accepts a valid ISBN 10 with dashes");
+        assertEquals(new OperationResult(false, "Your ISBN has a wrong format"), validateISBN("12345678-90-1"), "Does not accept ISBN with 13 characters but less than 13 digits");
+        assertEquals(new OperationResult(true, ""), validateISBN("1-23-45678-9012-3"), "Accepts a valid ISBN 13 with dashes");
     }
 }
