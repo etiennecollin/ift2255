@@ -62,10 +62,10 @@ public class BuyerActivities extends View {
         System.out.println(prettify("Recent product bought: " + metrics.numberRecentProductsBought()));
         System.out.println(prettify("Total product bought: " + metrics.numberTotalProductsBought()));
         System.out.println(prettify("Number of products liked: " + metrics.numberProductsLiked()));
-        System.out.println(prettify("Average recent reviews: " + metrics.averageRecentReviews()));
-        System.out.println(prettify("Average total reviews: " + metrics.averageTotalReviews()));
-        System.out.println(prettify("Recent reviews: " + metrics.averageRecentReviews()));
-        System.out.println(prettify("Total reviews: " + metrics.numberTotalReviews()));
+        System.out.println(prettify("Average recent review ratings: " + metrics.averageRecentReviews()));
+        System.out.println(prettify("Average total review ratings: " + metrics.averageTotalReviews()));
+        System.out.println(prettify("Recent number of reviews: " + metrics.numberRecentReviews()));
+        System.out.println(prettify("Total number of reviews: " + metrics.numberTotalReviews()));
         waitForKey();
     }
 
