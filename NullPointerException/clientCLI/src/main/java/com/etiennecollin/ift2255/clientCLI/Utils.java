@@ -544,7 +544,9 @@ public class Utils {
      * @throws RuntimeException If the validation process encounters an exception.
      */
     public static OperationResult validateISBN(String s) throws RuntimeException {
-        if (!s.matches("\\d{13}")) {
+        String formattedString = s.replaceAll("-", "");
+
+        if (!formattedString.matches("\\d{10}") && !formattedString.matches("\\d{13}")) {
             return new OperationResult(false, "Your ISBN has a wrong format");
         }
         return new OperationResult(true, "");
@@ -597,7 +599,7 @@ public class Utils {
      * @return An OperationResult indicating whether the string is not empty, along with an error message if empty.
      */
     public static OperationResult validateNotEmpty(String string) {
-        if (string.isEmpty()) {
+        if (string.trim().isEmpty()) {
             return new OperationResult(false, "This field must not be empty.");
         } else {
             return new OperationResult(true, "");

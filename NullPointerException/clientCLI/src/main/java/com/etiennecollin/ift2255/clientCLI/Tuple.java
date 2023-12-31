@@ -32,4 +32,12 @@ public class Tuple<A, B> implements Serializable {
         this.first = first;
         this.second = second;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Tuple<?,?>) {
+            return this.first.equals(((Tuple<?, ?>) obj).first) && this.second.equals(((Tuple<?, ?>) obj).second);
+        }
+        return false;
+    }
 }
