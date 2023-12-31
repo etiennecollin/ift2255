@@ -15,14 +15,19 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * The `DatabaseInitializationClient` class serves as the main entry point for pre-populating the database.
+ * This class provides a main method for initializing the UniShop database with sample data.
+ * It demonstrates the setup of sellers, products, buyers, orders, reviews, and other interactions
+ * within the UniShop system for testing purposes.
+ * <p>
+ * Note: This class is intended for testing and demonstration purposes only.
+ * It creates a set of predefined sellers, products, buyers, and performs various actions such as
+ * placing orders, leaving reviews, and interacting with the social system.
  */
 public class DatabaseInitializationClient {
-
     /**
-     * The main method that initializes the UniShop instance and renders views.
+     * The main method to initialize the UniShop database with sample data.
      *
-     * @param args The command-line arguments (not used in this application).
+     * @param args Command-line arguments (not used in this context).
      */
     public static void main(String[] args) {
         System.out.println("Initializing database");
@@ -104,7 +109,6 @@ public class DatabaseInitializationClient {
         UUID seller5Product1 = shop.getProducts(ProductCategory.LearningResource, LearningResourceType.Electronic, seller5Id).get(0).getId();
         shop.createNewLearningResource(seller5Id, 3599, 20, "French-English Dictionary", "Pocket-sized and convenient", 120, "Little Rob", "lr-dict-fe", LocalDate.of(2023, 1, 1), LearningResourceType.Printed, 1);
         UUID seller5Product2 = shop.getProducts(ProductCategory.LearningResource, LearningResourceType.Printed, seller5Id).get(0).getId();
-
 
         // Buyer 1
         String buyer1Name = "acheteur1";
@@ -191,7 +195,6 @@ public class DatabaseInitializationClient {
         Ticket ticket1 = ticketing.getTickets(t -> t.getOrderId().equals(order13.getId())).get(0);
         ticketing.changeTicketToReplacement(ticket1.getId(), "Oops. We'll replace those items if you ship the package you received to us.", true, "L37JH7433P63", "Provincial Express");
 
-
         shop.addToCart(buyer2.getId(), seller1Product3, 1, null);
         shop.addToCart(buyer2.getId(), seller2Product1, 1, null);
         shop.addToCart(buyer2.getId(), seller2Product2, 1, null);
@@ -221,7 +224,6 @@ public class DatabaseInitializationClient {
         // order25 Delivered
         shop.shipOrder(order25.getId(), "Shipping Ltd.", "S057813797191", LocalDate.of(2024, 1, 2));
         shop.confirmDelivery(order25.getId());
-
 
         ticketing.createAutoTicket(order21.getId(), order21.getProducts(), TicketCause.DefectiveProduct, null);
         Ticket ticket2 = ticketing.getTickets(t -> t.getOrderId().equals(order21.getId())).get(0);
@@ -253,7 +255,6 @@ public class DatabaseInitializationClient {
         social.toggleLikeProduct(seller1Product1, buyer6.getId());
         social.toggleLikeProduct(seller1Product1, buyer7.getId());
         social.toggleLikeProduct(seller1Product1, buyer8.getId());
-
 
         social.toggleLikeSeller(seller1Id, buyer1.getId());
         social.toggleLikeSeller(seller3Id, buyer2.getId());
