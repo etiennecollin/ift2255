@@ -619,7 +619,7 @@ public class Utils {
     public static OperationResult validateISBN(String s) throws RuntimeException {
         String formattedString = s.replaceAll("-", "");
 
-        if (!formattedString.matches("\\d{10}") || !formattedString.matches("\\d{13}")) {
+        if (!formattedString.matches("\\d{10}") && !formattedString.matches("\\d{13}")) {
             return new OperationResult(false, "Your ISBN has a wrong format");
         }
         return new OperationResult(true, "");
