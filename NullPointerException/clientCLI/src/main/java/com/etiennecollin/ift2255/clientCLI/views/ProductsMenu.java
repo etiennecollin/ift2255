@@ -54,7 +54,7 @@ public class ProductsMenu extends View {
             // Select category
             ArrayList<String> options = ProductCategory.getOptions();
             options.add("All");
-            options.add("Main menu");
+            options.add("Go back");
             int choice = prettyMenu("Categories", options);
             if (choice == options.size() - 1) break;
             if (choice != options.size() - 2) {
@@ -63,7 +63,7 @@ public class ProductsMenu extends View {
                 // Select subcategory
                 ArrayList<String> subOptions = selectedCategory.getSubOptions();
                 subOptions.add("All");
-                subOptions.add("Main menu");
+                subOptions.add("Go back");
 
                 int subChoice = prettyMenu("Sub-Categories", subOptions);
                 if (subChoice == subOptions.size() - 1) break;
@@ -77,7 +77,7 @@ public class ProductsMenu extends View {
 
             ArrayList<String> matchedProductsString = new ArrayList<>();
             matchedProductsString.add("Back to categories");
-            matchedProductsString.add("Back to main menu");
+            matchedProductsString.add("Leave catalog");
 
             for (Product product : matchedProducts) {
                 matchedProductsString.add(product.getTitle());

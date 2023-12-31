@@ -5,11 +5,15 @@
 package com.etiennecollin.ift2255.clientCLI.views;
 
 import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
+import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
 import com.etiennecollin.ift2255.clientCLI.models.data.Buyer;
 import com.etiennecollin.ift2255.clientCLI.models.data.Seller;
+import com.etiennecollin.ift2255.clientCLI.models.data.products.Product;
+import com.etiennecollin.ift2255.clientCLI.models.data.products.ProductCategory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
 
@@ -24,14 +28,19 @@ public class UserFinder extends View {
      * The ProfileController used for interacting with profile-related functionalities.
      */
     private final ProfileController profileController;
+    /**
+     * The ShopController used for interacting with shop-related actions and operations.
+     */
+    private final ShopController shopController;
 
     /**
      * Constructs a UserFinder with the specified ProfileController.
      *
      * @param profileController the ProfileController used for interacting with profile-related functionalities.
      */
-    public UserFinder(ProfileController profileController) {
+    public UserFinder(ProfileController profileController, ShopController shopController) {
         this.profileController = profileController;
+        this.shopController = shopController;
     }
 
     /**
@@ -40,7 +49,7 @@ public class UserFinder extends View {
      */
     @Override
     public void render() {
-        String[] options = {"Main menu", "Buyer", "Seller"};
+        String[] options = {"Go back", "Buyer", "Seller"};
         clearConsole();
         int answer = prettyMenu("Search for", options);
         switch (answer) {
@@ -90,7 +99,7 @@ public class UserFinder extends View {
      */
     private void findSeller() {
         clearConsole();
-        String[] searchBy = {"Go back", "Name", "Address", "Phone number", "Email", "All"};
+        String[] searchBy = {"Go back", "Name", "Address", "Phone number", "Email", "Offered product category", "All"};
         int search = prettyMenu("Search seller by", searchBy);
 
         List<Seller> matchList = new ArrayList<>();
@@ -115,6 +124,10 @@ public class UserFinder extends View {
                 matchList = profileController.searchSellerEmail(email);
             }
             case 5 -> {
+                ProductCategory category = prettyMenu("Product category", ProductCategory.class);
+                matchList = shopController.getSellersOfCategory(category);
+            }
+            case 6 -> {
                 matchList = profileController.getSellers();
             }
         }
