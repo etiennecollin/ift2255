@@ -4,6 +4,7 @@
 
 package com.etiennecollin.ift2255.clientCLI.controllers;
 
+import com.etiennecollin.ift2255.clientCLI.MockDatabase;
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
 import com.etiennecollin.ift2255.clientCLI.models.AuthenticationModel;
 import com.etiennecollin.ift2255.clientCLI.models.data.JavaSerializedDatabase;
@@ -23,7 +24,7 @@ class AuthenticationControllerTest {
     @Test
     void testLoginBuyer() {
         // MOCK DATA FOR UNIT TESTS
-        AuthenticationModel am = new AuthenticationModel(new JavaSerializedDatabase());
+        AuthenticationModel am = new AuthenticationModel(new MockDatabase());
         am.registerNewBuyer("username", "abc123", "test", "test", "test@test.com", "8888888888", "test");
 
         ViewRenderer vr = new ViewRenderer();
@@ -44,7 +45,7 @@ class AuthenticationControllerTest {
     @Test
     void testLoginSeller() {
         // MOCK DATA FOR UNIT TESTS
-        AuthenticationModel am = new AuthenticationModel(new JavaSerializedDatabase());
+        AuthenticationModel am = new AuthenticationModel(new MockDatabase());
         am.registerNewSeller("Jane Doe", "abc123", "test@test.com", "8888888888", "test");
         am.registerNewSeller("Jane Bell", "abc12", "test@test.com", "8888888888", "test");
 
