@@ -7,7 +7,6 @@ package com.etiennecollin.ift2255.clientCLI.controllers;
 import com.etiennecollin.ift2255.clientCLI.MockDatabase;
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
 import com.etiennecollin.ift2255.clientCLI.models.AuthenticationModel;
-import com.etiennecollin.ift2255.clientCLI.models.data.JavaSerializedDatabase;
 import com.etiennecollin.ift2255.clientCLI.views.ViewRenderer;
 import org.junit.jupiter.api.Test;
 

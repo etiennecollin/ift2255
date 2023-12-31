@@ -4,9 +4,9 @@
 
 package com.etiennecollin.ift2255.clientCLI.model;
 
+import com.etiennecollin.ift2255.clientCLI.MockDatabase;
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
 import com.etiennecollin.ift2255.clientCLI.models.ShopModel;
-import com.etiennecollin.ift2255.clientCLI.models.data.JavaSerializedDatabase;
 import com.etiennecollin.ift2255.clientCLI.models.data.products.BookOrManualGenre;
 import org.junit.jupiter.api.Test;
 
@@ -25,8 +25,7 @@ class ShopModelTest {
      */
     @Test
     void createNewBookOrManual() {
-        JavaSerializedDatabase db = new JavaSerializedDatabase();
-        ShopModel sm = new ShopModel(db);
+        ShopModel sm = new ShopModel(new MockDatabase());
 
         assertEquals(new OperationResult(true, "Product added."), sm.createNewBookOrManual(UUID.randomUUID(), 15, 3, "title", "description", 10, "IBSN", "Author", "editor", BookOrManualGenre.Comic, LocalDate.now(), 3, 2), "Product with valid input must be accepted");
         assertEquals(new OperationResult(true, "Product added."), sm.createNewBookOrManual(UUID.randomUUID(), 15, 3, "", "description", 10, "IBSN", "Author", "editor", BookOrManualGenre.Comic, LocalDate.now(), 3, 2), "Product without name must be accepted");
