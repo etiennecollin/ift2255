@@ -36,22 +36,24 @@
 
 | Nom                     | Matricule | Courriel                             | Temps |
 | :---------------------- | :-------: | :----------------------------------- | :---: |
-| Etienne Collin          | 20237904  | etienne.collin@umontreal.ca          |  30+  |
-| Nicholas Cooper         | 20241729  | nicholas.cooper@umontreal.ca         |  35+  |
+| Etienne Collin          | 20237904  | etienne.collin@umontreal.ca          |  40+  |
+| Nicholas Cooper         | 20241729  | nicholas.cooper@umontreal.ca         |  45+  |
 | Charlotte Locas         | 20211755  | charlotte.locas@umontreal.ca         |  10+  |
-| Aboubakre Walid Diongue | 20198446  | aboubakre.walid.diongue@umontreal.ca | 7.5+  |
+| Aboubakre Walid Diongue | 20198446  | aboubakre.walid.diongue@umontreal.ca |  10+  |
 
 ## Distribution des tâches
 
 **Soumissionaire**: Etienne Collin
 
-|      Tâches | Etienne | Charlotte | Nicholas | Walid |
-| ----------: | :------ | :-------- | :------- | :---- |
-|       Tests | 0       | 80        | 0        | 20    |
-|      README | 100     | 0         | 0        | 0     |
-|     Rapport | 100     | 0         | 0        | 0     |
-|     JavaDoc | 100     | 0         | 0        | 0     |
-| Refactoring | 5       | 0         | 95       | 0     |
+|                          Tâches | Etienne | Charlotte | Nicholas | Walid |
+| ------------------------------: | :------ | :-------- | :------- | :---- |
+|                           Tests | 30      | 30        | 30       | 10    |
+|                          README | 100     | 0         | 0        | 0     |
+|                         Rapport | 100     | 0         | 0        | 0     |
+|                         JavaDoc | 100     | 0         | 0        | 0     |
+|                   Action GitHub | 100     | 0         | 0        | 0     |
+|                     Refactoring | 5       | 0         | 95       | 0     |
+| Initialisation de la DB de test | 5       | 0         | 95       | 0     |
 
 > Il faut se fier au temps passé sur le devoir pour interpréter la charge de travail de chaque membre de l'équipe. Certaines tâches étaient plus lourdes que d'autres.
 
@@ -79,11 +81,15 @@ Voici le résultat de l'exécution de l'action GitHub _Java Maven Tests_.
 
 ## JavaDoc
 
-La javadoc est disponible à l'adresse suivante: [etiennecollin.com/ift2255](https://etiennecollin.com/ift2255). La source est disponible sur [GitHub](https://github.com/etiennecollin/ift2255/tree/main/doc).
+La javadoc est disponible à l'adresse suivante:
+[etiennecollin.com/ift2255](https://etiennecollin.com/ift2255). La source est
+disponible sur [GitHub](https://github.com/etiennecollin/ift2255/tree/main/docs).
 
 ## README
 
-Le fichier `README.md` est disponible sur la [release GitHub](https://github.com/etiennecollin/ift2255/releases/tag/v0.3.0)
+Le fichier `README.md` est disponible sur la
+[page d'accueil du _repository_](https://github.com/etiennecollin/ift2255) et
+sur [release GitHub](https://github.com/etiennecollin/ift2255/releases/tag/v0.3.0)
 
 ## Diagramme de classes UML
 
