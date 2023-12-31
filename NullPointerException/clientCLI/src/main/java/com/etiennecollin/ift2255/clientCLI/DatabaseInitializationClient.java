@@ -86,13 +86,13 @@ public class DatabaseInitializationClient {
         auth.registerNewSeller(seller4Name, "password4", "revendeur4@fakemail.com", "514-555-4444", "20 Boulevard des Commerces, Montréal, CA");
         UUID seller4Id = profile.getSeller(seller4Name).getId();
 
-        shop.createNewStationeryArticle(seller4Id, 1, 1, "a", "a", 1, "a", "a", StationeryArticleCategory.Notebook);
+        shop.createNewStationeryArticle(seller4Id, 800, 500, "Red 3-ring binder", "As bulky as you'd expect.", 40, "Stationary Stationery", "3-ring binder - red", StationeryArticleCategory.Notebook);
         UUID seller4Product1 = shop.getProducts(ProductCategory.StationeryArticle, StationeryArticleCategory.Notebook, seller4Id).get(0).getId();
-        shop.createNewStationeryArticle(seller4Id, 1, 1, "a", "a", 1, "a", "a", StationeryArticleCategory.Pencil);
+        shop.createNewStationeryArticle(seller4Id, 699, 100, "No 2 pencil, 10-pack", "Valid for all scantron tests", 25, "Stationary Stationery", "P2-10", StationeryArticleCategory.Pencil);
         UUID seller4Product2 = shop.getProducts(ProductCategory.StationeryArticle, StationeryArticleCategory.Pencil, seller4Id).get(0).getId();
-        shop.createNewStationeryArticle(seller4Id, 1, 1, "a", "a", 1, "a", "a", StationeryArticleCategory.Highlighter);
+        shop.createNewStationeryArticle(seller4Id, 149, 80, "Yellow highlight", "1-pack", 0, "Paper & Things", "highlight-y", StationeryArticleCategory.Highlighter);
         UUID seller4Product3 = shop.getProducts(ProductCategory.StationeryArticle, StationeryArticleCategory.Highlighter, seller4Id).get(0).getId();
-        shop.createNewStationeryArticle(seller4Id, 1, 1, "a", "a", 1, "a", "a", StationeryArticleCategory.Other);
+        shop.createNewStationeryArticle(seller4Id, 79, 6, "Pencil sharpener", "The small metal kind.", 0, "Stationary Stationery", "shp-sm", StationeryArticleCategory.Other);
         UUID seller4Product4 = shop.getProducts(ProductCategory.StationeryArticle, StationeryArticleCategory.Other, seller4Id).get(0).getId();
 
         // Seller 5
@@ -100,9 +100,9 @@ public class DatabaseInitializationClient {
         auth.registerNewSeller(seller5Name, "password5", "revendeur5@fakemail.com", "514-555-5555", "15 Rue Saint Laurent, Montréal, CA");
         UUID seller5Id = profile.getSeller(seller5Name).getId();
 
-        shop.createNewLearningResource(seller5Id, 1, 1, "a", "a", 1, "a", "a", LocalDate.of(2023, 1, 1), LearningResourceType.Electronic, 1);
+        shop.createNewLearningResource(seller5Id, 9999, 1000, "German Language 101", "Learn German online!", 300, "Language Soft Co", "ger1e", LocalDate.of(2023, 1, 1), LearningResourceType.Electronic, 1);
         UUID seller5Product1 = shop.getProducts(ProductCategory.LearningResource, LearningResourceType.Electronic, seller5Id).get(0).getId();
-        shop.createNewLearningResource(seller5Id, 1, 1, "a", "a", 1, "a", "a", LocalDate.of(2023, 1, 1), LearningResourceType.Printed, 1);
+        shop.createNewLearningResource(seller5Id, 3599, 20, "French-English Dictionary", "Pocket-sized and convenient", 120, "Little Rob", "lr-dict-fe", LocalDate.of(2023, 1, 1), LearningResourceType.Printed, 1);
         UUID seller5Product2 = shop.getProducts(ProductCategory.LearningResource, LearningResourceType.Printed, seller5Id).get(0).getId();
 
 
