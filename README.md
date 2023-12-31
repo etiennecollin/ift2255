@@ -1,6 +1,16 @@
-# IFT2255 - UniShop
+# IFT2255 - UniShop <!-- omit from toc -->
 
 _Par l'équipe NullPointerException._
+
+---
+
+## Table des matières
+
+- [Table des matières](#table-des-matières)
+- [Description du projet](#description-du-projet)
+- [Données de départ](#données-de-départ)
+- [Installation](#installation)
+- [Exécution](#exécution)
 
 ## Description du projet
 
@@ -12,15 +22,41 @@ transactions.
 
 ## Données de départ
 
-Acheteur :
+Acheteurs :
 
 -   Pseudo: acheteur1
--   Mot de passe: password1
+    -   Mot de passe: password1
+-   Pseudo: acheteur2
+    -   Mot de passe: password2
+-   Pseudo: acheteur3
+    -   Mot de passe: password3
+-   Pseudo: acheteur4
+    -   Mot de passe: password4
+-   Pseudo: acheteur5
+    -   Mot de passe: password5
+-   Pseudo: acheteur6
+    -   Mot de passe: password6
+-   Pseudo: acheteur7
+    -   Mot de passe: password7
+-   Pseudo: acheteur8
+    -   Mot de passe: password8
+-   Pseudo: acheteur9
+    -   Mot de passe: password9
+-   Pseudo: acheteur10
+    -   Mot de passe: password10
 
-Revendeur :
+Revendeurs :
 
 -   Nom: revendeur1
--   Mot de passe: password1
+    -   Mot de passe: password1
+-   Nom: revendeur2
+    -   Mot de passe: password2
+-   Nom: revendeur3
+    -   Mot de passe: password3
+-   Nom: revendeur4
+    -   Mot de passe: password4
+-   Nom: revendeur5
+    -   Mot de passe: password5
 
 ## Installation
 
