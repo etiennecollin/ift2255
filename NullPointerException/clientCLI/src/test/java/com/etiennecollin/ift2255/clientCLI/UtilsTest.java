@@ -29,7 +29,24 @@ public class UtilsTest {
      */
     @Test
     public void testValidatePhoneNumber() {
-        assertEquals(new OperationResult(true, ""), validatePhoneNumber("8888888888"), "8888888888 should be accepted");    // 10 digits
+        assertEquals(new OperationResult(true, ""), validatePhoneNumber("(888)8888888"), "Failed to accept valid phone number format");    // 10 digits
+        assertEquals(new OperationResult(true, ""), validatePhoneNumber("(888)888 8888"), "Failed to accept valid phone number format");    // 10 digits
+        assertEquals(new OperationResult(true, ""), validatePhoneNumber("(888) 8888888"), "Failed to accept valid phone number format");    // 10 digits
+        assertEquals(new OperationResult(true, ""), validatePhoneNumber("(888) 888 8888"), "Failed to accept valid phone number format");    // 10 digits
+        assertEquals(new OperationResult(true, ""), validatePhoneNumber("(888) 888-8888"), "Failed to accept valid phone number format");    // 10 digits
+        assertEquals(new OperationResult(true, ""), validatePhoneNumber("(888)-888 8888"), "Failed to accept valid phone number format");    // 10 digits
+        assertEquals(new OperationResult(true, ""), validatePhoneNumber("(888)-888-8888"), "Failed to accept valid phone number format");    // 10 digits
+        assertEquals(new OperationResult(true, ""), validatePhoneNumber("(888)888-8888"), "Failed to accept valid phone number format");    // 10 digits
+        assertEquals(new OperationResult(true, ""), validatePhoneNumber("(888)-8888888"), "Failed to accept valid phone number format");    // 10 digits
+        assertEquals(new OperationResult(true, ""), validatePhoneNumber("8888888888"), "Failed to accept valid phone number format");    // 10 digits
+        assertEquals(new OperationResult(true, ""), validatePhoneNumber("888888 8888"), "Failed to accept valid phone number format");    // 10 digits
+        assertEquals(new OperationResult(true, ""), validatePhoneNumber("888 8888888"), "Failed to accept valid phone number format");    // 10 digits
+        assertEquals(new OperationResult(true, ""), validatePhoneNumber("888 888 8888"), "Failed to accept valid phone number format");    // 10 digits
+        assertEquals(new OperationResult(true, ""), validatePhoneNumber("888 888-8888"), "Failed to accept valid phone number format");    // 10 digits
+        assertEquals(new OperationResult(true, ""), validatePhoneNumber("888-888 8888"), "Failed to accept valid phone number format");    // 10 digits
+        assertEquals(new OperationResult(true, ""), validatePhoneNumber("888-888-8888"), "Failed to accept valid phone number format");    // 10 digits
+        assertEquals(new OperationResult(true, ""), validatePhoneNumber("888888-8888"), "Failed to accept valid phone number format");    // 10 digits
+        assertEquals(new OperationResult(true, ""), validatePhoneNumber("888-8888888"), "Failed to accept valid phone number format");    // 10 digits
         assertEquals(new OperationResult(false, "Your phone number has a wrong format"), validatePhoneNumber("88888888889"), "Failed to refuse a phone number with too many digit");   // more digits than required
         assertEquals(new OperationResult(false, "Your phone number has a wrong format"), validatePhoneNumber("888888887"), "Failed to refuse a phone number with not enough digit");    // less digits than required
         assertEquals(new OperationResult(false, "Your phone number has a wrong format"), validatePhoneNumber("xxxxxxxxxx"), "Failed to refuse a phone number with characters instead of digits");   // char instead of numbers
@@ -53,10 +70,33 @@ public class UtilsTest {
      */
     @Test
     public void testValidateEmail() {
-        assertEquals(new OperationResult(false, "Your email has a wrong format"), validateEmail(""), "failed to refuse empty email");
-        assertEquals(new OperationResult(true, ""), validateEmail("example@example.exe"), "should accept every domain name");
-        assertEquals(new OperationResult(false, "Your email has a wrong format"), validateEmail("exampleexample.com"), "failed to refuse email without @");
-        assertEquals(new OperationResult(false, "Your email has a wrong format"), validateEmail("@example.com"), "failed to refuse email starting with @");
-        assertEquals(new OperationResult(false, "Your email has a wrong format"), validateEmail("example@.com"), "failed to refuse email with empty second email part");
+        assertEquals(new OperationResult(false, "Your email has a wrong format"), validateEmail(""), "Failed to refuse empty email");
+        assertEquals(new OperationResult(true, ""), validateEmail("example@example.exe"), "Failed to accept valid domain name");
+        assertEquals(new OperationResult(false, "Your email has a wrong format"), validateEmail("exampleexample.com"), "Failed to refuse email without @");
+        assertEquals(new OperationResult(false, "Your email has a wrong format"), validateEmail("@example.com"), "Failed to refuse email starting with @");
+        assertEquals(new OperationResult(false, "Your email has a wrong format"), validateEmail("example@.com"), "Failed to refuse email with empty second email part");
+    }
+
+    /**
+     * Tests the validateBonusFidelityPoints method in the Utils class.
+     */
+    @Test
+    public void testValidateBonusFidelityPoints() {
+        assertEquals(new OperationResult(false, "Bonus points cannot be negative."), validateBonusFidelityPoints(-10, 5000), "Failed to refuse negative bonus points");
+        assertEquals(new OperationResult(false, "A maximum of " + 950 + " bonus points are allowed based on this product's price."), validateBonusFidelityPoints(951, 5000), "Failed to refuse bonus points greater than 19 points per dollar");
+        assertEquals(new OperationResult(true, ""), validateBonusFidelityPoints(950, 5000), "Failed to accept valid bonus points");
+    }
+
+    /**
+     * Test the formatMoney method in the Utils class.
+     */
+    @Test
+    public void testFormatMoney() {
+        assertEquals("0.00$", formatMoney(0));
+        assertEquals("50.30$", formatMoney(5030));
+        assertEquals("1.00$", formatMoney(100));
+        assertEquals("1.00$", formatMoney(100));
+        assertEquals("0.01$", formatMoney(1));
+        assertEquals("0.10$", formatMoney(10));
     }
 }
