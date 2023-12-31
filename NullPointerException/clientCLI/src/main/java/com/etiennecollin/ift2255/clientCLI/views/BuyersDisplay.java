@@ -83,7 +83,6 @@ public class BuyersDisplay extends View {
 
                 int numProductsLiked = profileController.getProductLikesByBuyer(buyer.getId()).size();
                 System.out.println(prettify("Number of products liked: " + numProductsLiked));
-                //                System.out.println(prettify("Number of order bought: " + buyer.getOrders().size()));
 
                 if (profileController.isUserASeller()) {
                     waitForKey();

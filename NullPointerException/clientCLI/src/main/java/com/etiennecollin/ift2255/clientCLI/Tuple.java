@@ -35,7 +35,7 @@ public class Tuple<A, B> implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Tuple<?,?>) {
+        if (obj instanceof Tuple<?, ?>) {
             return this.first.equals(((Tuple<?, ?>) obj).first) && this.second.equals(((Tuple<?, ?>) obj).second);
         }
         return false;

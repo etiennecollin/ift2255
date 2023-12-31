@@ -51,7 +51,6 @@ public class ProductReview extends View {
             return;
         }
 
-        //        String title = prettyPrompt("Title of your review", Utils::validateNotEmpty);
         String content = prettyPrompt("Content of your review", Utils::validateNotEmpty);
         int rating = prettyPromptInt("Rating out of 100", number -> Utils.validateNumberRange(number, 0, 100));
 

@@ -14,7 +14,6 @@ import java.util.UUID;
  * An abstract class representing a product in the system.
  */
 public abstract class Product extends DatabaseObject {
-    //    private static final int MAX_PTS_PER_DOLLAR = 20;
     /**
      * The unique identifier of the seller associated with the product.
      */
@@ -103,24 +102,6 @@ public abstract class Product extends DatabaseObject {
     }
 
     /**
-     * Gets the price of the product.
-     *
-     * @return The price of the product.
-     */
-    public int getPrice() {
-        return price;
-    }
-
-    /**
-     * Sets the price of the product.
-     *
-     * @param price The price to set for the product.
-     */
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    /**
      * Gets the sub-category of the product.
      *
      * @return The sub-category of the product.
@@ -145,42 +126,6 @@ public abstract class Product extends DatabaseObject {
      */
     public void setLikes(int likes) {
         this.likes = likes;
-    }
-
-    /**
-     * Gets the discount percentage applied during a promotion.
-     *
-     * @return The discount percentage.
-     */
-    public int getPromoDiscount() {
-        return promoDiscount;
-    }
-
-    /**
-     * Sets the discount percentage for a promotion.
-     *
-     * @param promoDiscount The discount percentage to set.
-     */
-    public void setPromoDiscount(int promoDiscount) {
-        this.promoDiscount = promoDiscount;
-    }
-
-    /**
-     * Gets the fidelity points awarded during a promotion.
-     *
-     * @return The fidelity points awarded.
-     */
-    public int getPromoFidelityPoints() {
-        return promoFidelityPoints;
-    }
-
-    /**
-     * Sets the fidelity points awarded for a promotion.
-     *
-     * @param promoFidelityPoints The fidelity points to set.
-     */
-    public void setPromoFidelityPoints(int promoFidelityPoints) {
-        this.promoFidelityPoints = promoFidelityPoints;
     }
 
     /**
@@ -256,26 +201,6 @@ public abstract class Product extends DatabaseObject {
     }
 
     /**
-     * Gets the bonus fidelity points awarded for purchasing the product.
-     *
-     * @return The bonus fidelity points.
-     */
-    public int getBonusFidelityPoints() {
-        return bonusFidelityPoints;
-    }
-
-    /**
-     * Sets the bonus fidelity points awarded for purchasing the product.
-     *
-     * @param bonusFidelityPoints The bonus fidelity points to set.
-     *
-     * @throws IllegalArgumentException If the bonus fidelity points are less than 0 or exceed the allowed limit.
-     */
-    public void setBonusFidelityPoints(int bonusFidelityPoints) throws IllegalArgumentException {
-        this.bonusFidelityPoints = bonusFidelityPoints;
-    }
-
-    /**
      * Checks if this product is equal to another object.
      *
      * @param o The object to compare.
@@ -341,7 +266,44 @@ public abstract class Product extends DatabaseObject {
     }
 
     /**
+     * Gets the fidelity points earned when buying the product including the promotion.
+     *
+     * @return The total number of fidelity points earned from this product.
+     */
+    public int getTotalFidelityPoints() {
+        return getBonusFidelityPoints() + getPromoFidelityPoints() + (getTotalPrice() / 100);
+    }
+
+    /**
+     * Gets the bonus fidelity points awarded for purchasing the product.
+     *
+     * @return The bonus fidelity points.
+     */
+    public int getBonusFidelityPoints() {
+        return bonusFidelityPoints;
+    }
+
+    /**
+     * Gets the fidelity points awarded during a promotion.
+     *
+     * @return The fidelity points awarded.
+     */
+    public int getPromoFidelityPoints() {
+        return promoFidelityPoints;
+    }
+
+    /**
+     * Sets the fidelity points awarded for a promotion.
+     *
+     * @param promoFidelityPoints The fidelity points to set.
+     */
+    public void setPromoFidelityPoints(int promoFidelityPoints) {
+        this.promoFidelityPoints = promoFidelityPoints;
+    }
+
+    /**
      * Gets the price of the product including the promotional discount.
+     *
      * @return The total price of the product.
      */
     public int getTotalPrice() {
@@ -349,10 +311,49 @@ public abstract class Product extends DatabaseObject {
     }
 
     /**
-     * Gets the fidelity points earned when buying the product including the promotion.
-     * @return The total number of fidelity points earned from this product.
+     * Gets the price of the product.
+     *
+     * @return The price of the product.
      */
-    public int getTotalFidelityPoints() {
-        return getBonusFidelityPoints() + getPromoFidelityPoints() + (getTotalPrice() / 100);
+    public int getPrice() {
+        return price;
+    }
+
+    /**
+     * Sets the price of the product.
+     *
+     * @param price The price to set for the product.
+     */
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    /**
+     * Gets the discount percentage applied during a promotion.
+     *
+     * @return The discount percentage.
+     */
+    public int getPromoDiscount() {
+        return promoDiscount;
+    }
+
+    /**
+     * Sets the discount percentage for a promotion.
+     *
+     * @param promoDiscount The discount percentage to set.
+     */
+    public void setPromoDiscount(int promoDiscount) {
+        this.promoDiscount = promoDiscount;
+    }
+
+    /**
+     * Sets the bonus fidelity points awarded for purchasing the product.
+     *
+     * @param bonusFidelityPoints The bonus fidelity points to set.
+     *
+     * @throws IllegalArgumentException If the bonus fidelity points are less than 0 or exceed the allowed limit.
+     */
+    public void setBonusFidelityPoints(int bonusFidelityPoints) throws IllegalArgumentException {
+        this.bonusFidelityPoints = bonusFidelityPoints;
     }
 }

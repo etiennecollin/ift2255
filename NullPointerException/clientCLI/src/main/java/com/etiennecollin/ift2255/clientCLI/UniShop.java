@@ -192,5 +192,4 @@ public class UniShop {
     public TicketController getTicketController() {
         return ticketController;
     }
-
 }

@@ -110,15 +110,8 @@ public class ShopModel {
      * @return A list of products that match the specified criteria.
      */
     public List<Product> getProducts(ProductCategory category, Enum<?> subCategory, int minRating, int minLikes, boolean onPromo, UUID sellerId) {
-        return db.get(DataMap.PRODUCTS,
-                (product) -> (category == null || product.getCategory() == category) &&
-                        (subCategory == null || product.getSubCategory() == subCategory) &&
-                        product.getRating() >= minRating &&
-                        product.getLikes() >= minLikes &&
-                        (!onPromo || product.getPromoDiscount() != 0 || product.getPromoFidelityPoints() != 0) &&
-                        (sellerId == null || product.getSellerId().equals(sellerId)));
+        return db.get(DataMap.PRODUCTS, (product) -> (category == null || product.getCategory() == category) && (subCategory == null || product.getSubCategory() == subCategory) && product.getRating() >= minRating && product.getLikes() >= minLikes && (!onPromo || product.getPromoDiscount() != 0 || product.getPromoFidelityPoints() != 0) && (sellerId == null || product.getSellerId().equals(sellerId)));
     }
-
 
     /**
      * Searches for products based on a custom predicate.
@@ -701,11 +694,8 @@ public class ShopModel {
                 db.add(DataMap.NOTIFICATIONS, notification);
             }, orderId);
 
-            db.<Buyer>update(DataMap.BUYERS,
-                    b -> b.setFidelityPoints(b.getFidelityPoints() + order.getPaymentMethod().getFidelityPointsUsed()),
-                    order.getBuyerId()
-            );
-            // refund credit card
+            db.<Buyer>update(DataMap.BUYERS, b -> b.setFidelityPoints(b.getFidelityPoints() + order.getPaymentMethod().getFidelityPointsUsed()), order.getBuyerId());
+            // Refund credit card
             return new OperationResult(true, "Order cancelled.");
         } else {
             return new OperationResult(false, "Order cannot be marked as cancelled.");

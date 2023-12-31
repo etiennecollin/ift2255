@@ -43,11 +43,9 @@ public class MainMenu extends View {
             if (answer == 0) {
                 authController.handleLogin();
                 break;
-                //                loginForm();
             } else if (answer == 1) {
                 authController.handleAccountCreationOptions();
                 break;
-                //                createAccount();
             } else if (answer == 2) {
                 System.out.println(prettify("Quitting UniShop"));
                 authController.quitApplication();

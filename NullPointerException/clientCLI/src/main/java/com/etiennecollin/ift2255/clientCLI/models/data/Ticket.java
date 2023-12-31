@@ -36,10 +36,6 @@ public class Ticket extends DatabaseObject {
      * The return shipment associated with the ticket.
      */
     private Shipment returnShipment;
-    //    /**
-    //     * The replacement shipment associated with the ticket.
-    //     */
-    //    private Shipment replacementShipment;
     /**
      * The list of products and their quantities associated with the ticket.
      */
@@ -88,16 +84,8 @@ public class Ticket extends DatabaseObject {
         this.sellerId = sellerId;
         this.problemDescription = problemDescription;
         this.suggestedSolution = "";
-        //        this.replacementProductDescription = "";
         this.returnShipment = null;
-        //        this.replacementShipment = null;
         this.state = state;
-        //        if (LocalDate.now().isAfter(order.getOrderDate().plusDays(30))) {
-        //            this.state = TicketState.OpenAuto;
-        //        } else {
-        //            this.state = TicketState.OpenManual;
-        //        }
-
         this.creationDate = LocalDate.now();
     }
 

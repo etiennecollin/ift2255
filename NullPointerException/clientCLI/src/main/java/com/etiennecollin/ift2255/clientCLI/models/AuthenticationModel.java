@@ -85,8 +85,6 @@ public class AuthenticationModel {
      * @return An {@code OperationResult} indicating the success or failure of the registration.
      */
     public OperationResult registerNewBuyer(String username, String password, String firstName, String lastName, String email, String phoneNumber, String address) {
-        // validate parameters ?
-
         Buyer newBuyer = new Buyer(username, password.hashCode(), firstName, lastName, email, phoneNumber, address, 0);
         db.add(DataMap.BUYERS, newBuyer);
         Session.createSession(newBuyer.getId(), UserType.Buyer);
@@ -106,7 +104,6 @@ public class AuthenticationModel {
      * @return An {@code OperationResult} indicating the success or failure of the registration.
      */
     public OperationResult registerNewSeller(String name, String password, String email, String phoneNumber, String address) {
-        // validate parameters ?
         Seller newSeller = new Seller(name, password.hashCode(), email, phoneNumber, address);
         db.add(DataMap.SELLERS, newSeller);
         Session.createSession(newSeller.getId(), UserType.Seller);

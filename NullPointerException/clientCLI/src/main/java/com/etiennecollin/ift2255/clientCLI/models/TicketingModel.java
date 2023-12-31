@@ -360,8 +360,8 @@ public class TicketingModel {
         int fidelityPointsToRefund = Math.min(originalPayment.getFidelityPointsUsed(), refundAmount);
         db.<Buyer>update(DataMap.BUYERS, b -> b.setFidelityPoints(b.getFidelityPoints() + fidelityPointsToRefund - finalEarnedPointsToRemove), ticket.getBuyerId());
 
-        refundAmount -= fidelityPointsToRefund;
         // refund remaining to credit card
+        refundAmount -= fidelityPointsToRefund;
     }
 
     /**

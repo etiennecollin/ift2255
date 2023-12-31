@@ -103,7 +103,6 @@ public class ProductsMenu extends View {
             if (promoChoice == promoOptions.size() - 1) break;
             boolean onPromotionOnly = promoChoice == 1;
 
-
             // Get products that match category/subcategory
             List<Product> matchedProducts = shopController.getProducts(selectedCategory, selectedSubCategory, minRating, minNumLikes, onPromotionOnly, sellerId);
 

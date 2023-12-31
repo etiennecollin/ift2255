@@ -11,7 +11,7 @@ public class Seller extends User {
     /**
      * The unique name of the seller.
      */
-    private String name; // Unique
+    private String name;
 
     /**
      * Constructs a Seller object with the given parameters.

@@ -4,12 +4,10 @@
 
 package com.etiennecollin.ift2255.clientCLI;
 
-
 /**
  * The `Client` class serves as the main entry point for the client command-line interface (CLI).
  */
 public class Client {
-
     /**
      * The main method that initializes the UniShop instance and renders views.
      *
