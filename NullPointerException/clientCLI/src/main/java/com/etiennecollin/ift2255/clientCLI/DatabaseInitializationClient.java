@@ -113,47 +113,47 @@ public class DatabaseInitializationClient {
 
         // Buyer 2
         String buyer2Name = "acheteur2";
-        auth.registerNewBuyer(buyer2Name, "password2", ".", ".", ".", "514-555-7777", "2 Rue Principale");
+        auth.registerNewBuyer(buyer2Name, "password2", "Tom", "Hanks", "tom.hanks@gmail.com", "514-555-7777", "2 Rue Principale");
         Buyer buyer2 = profile.getBuyer(buyer2Name);
 
         // Buyer 3
         String buyer3Name = "acheteur3";
-        auth.registerNewBuyer(buyer3Name, "password3", ".", ".", ".", "514-555-8888", "3 Rue Principale");
+        auth.registerNewBuyer(buyer3Name, "password3", "Leonardo", "DiCaprio", "leonardo.dicaprio@gmail.com", "514-555-8888", "3 Rue Principale");
         Buyer buyer3 = profile.getBuyer(buyer3Name);
 
         // Buyer 4
         String buyer4Name = "acheteur4";
-        auth.registerNewBuyer(buyer4Name, "password4", ".", ".", ".", "514-555-9999", "4 Rue Principale");
+        auth.registerNewBuyer(buyer4Name, "password4", "Tom", "Cruise", "tom.cruise@gmail.com", "514-555-9999", "4 Rue Principale");
         Buyer buyer4 = profile.getBuyer(buyer4Name);
 
         // Buyer 5
         String buyer5Name = "acheteur5";
-        auth.registerNewBuyer(buyer5Name, "password5", ".", ".", ".", "514-555-0000", "5 Rue Principale");
+        auth.registerNewBuyer(buyer5Name, "password5", "Chevy", "Chase", "chevy.chase@gmail.com", "514-555-0000", "5 Rue Principale");
         Buyer buyer5 = profile.getBuyer(buyer5Name);
 
         // Buyer 6
         String buyer6Name = "acheteur6";
-        auth.registerNewBuyer(buyer6Name, "password6", ".", ".", ".", "514-555-0111", "6 Rue Principale");
+        auth.registerNewBuyer(buyer6Name, "password6", "Jack", "Black", "jack.black@gmail.com", "514-555-0111", "6 Rue Principale");
         Buyer buyer6 = profile.getBuyer(buyer6Name);
 
         // Buyer 7
         String buyer7Name = "acheteur7";
-        auth.registerNewBuyer(buyer7Name, "password7", ".", ".", ".", "514-555-0222", "7 Rue Principale");
+        auth.registerNewBuyer(buyer7Name, "password7", "Ryan", "Reynolds", "ryan.reynolds@gmail.com", "514-555-0222", "7 Rue Principale");
         Buyer buyer7 = profile.getBuyer(buyer7Name);
 
         // Buyer 8
         String buyer8Name = "acheteur8";
-        auth.registerNewBuyer(buyer8Name, "password8", ".", ".", ".", "514-555-0333", "8 Rue Principale");
+        auth.registerNewBuyer(buyer8Name, "password8", "Ryan", "Gosling", "ryan.gosling@gmail.com", "514-555-0333", "8 Rue Principale");
         Buyer buyer8 = profile.getBuyer(buyer8Name);
 
         // Buyer 9
         String buyer9Name = "acheteur9";
-        auth.registerNewBuyer(buyer9Name, "password9", ".", ".", ".", "514-555-0444", "9 Rue Principale");
+        auth.registerNewBuyer(buyer9Name, "password9", "The", "Rock", "the.rock@gmail.com", "514-555-0444", "9 Rue Principale");
         Buyer buyer9 = profile.getBuyer(buyer9Name);
 
         // Buyer 10
         String buyer10Name = "acheteur10";
-        auth.registerNewBuyer(buyer10Name, "password10", ".", ".", ".", "514-555-0555", "10 Rue Principale");
+        auth.registerNewBuyer(buyer10Name, "password10", "Tom", "Holland", "tom.holland@gmail.com", "514-555-0555", "10 Rue Principale");
         Buyer buyerX = profile.getBuyer(buyer10Name);
 
         // Orders 1-5
