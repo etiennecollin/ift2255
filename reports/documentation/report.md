@@ -12,6 +12,7 @@
 ---
 
 ## Table des matières
+
 - [Table des matières](#table-des-matières)
 - [Information générale](#information-générale)
 - [Distribution des tâches](#distribution-des-tâches)
@@ -25,7 +26,6 @@
     - [Pulse:](#pulse)
     - [Contributors](#contributors)
 
-
 ## Information générale
 
 **Nom de l'équipe:** Null Pointer Exception
@@ -36,9 +36,9 @@
 
 | Nom                     | Matricule | Courriel                             | Temps |
 | :---------------------- | :-------: | :----------------------------------- | :---: |
-| Etienne Collin          | 20237904  | etienne.collin@umontreal.ca          |  20+  |
-| Charlotte Locas         | 20211755  | nicholas.cooper@umontreal.ca         |  10+  |
-| Nicholas Cooper         | 20241729  | charlotte.locas@umontreal.ca         |  20+  |
+| Etienne Collin          | 20237904  | etienne.collin@umontreal.ca          |  30+  |
+| Nicholas Cooper         | 20241729  | nicholas.cooper@umontreal.ca         |  35+  |
+| Charlotte Locas         | 20211755  | charlotte.locas@umontreal.ca         |  10+  |
 | Aboubakre Walid Diongue | 20198446  | aboubakre.walid.diongue@umontreal.ca | 7.5+  |
 
 ## Distribution des tâches
@@ -47,11 +47,11 @@
 
 |      Tâches | Etienne | Charlotte | Nicholas | Walid |
 | ----------: | :------ | :-------- | :------- | :---- |
-|       Tests | 0       | 50        | 0        | 50    |
+|       Tests | 0       | 80        | 0        | 20    |
 |      README | 100     | 0         | 0        | 0     |
 |     Rapport | 100     | 0         | 0        | 0     |
 |     JavaDoc | 100     | 0         | 0        | 0     |
-| Refactoring | 0       | 0         | 100      | 0     |
+| Refactoring | 5       | 0         | 95       | 0     |
 
 > Il faut se fier au temps passé sur le devoir pour interpréter la charge de travail de chaque membre de l'équipe. Certaines tâches étaient plus lourdes que d'autres.
 
