@@ -54,7 +54,7 @@ public class ProfileController {
      * Displays the user finder view, allowing users to search for other users.
      */
     public void displayUserFinder() {
-        renderer.addNextView(new UserFinder(this), true);
+        renderer.addNextView(new UserFinder(this, UniShop.getInstance().getShopController()), true);
     }
 
     /**

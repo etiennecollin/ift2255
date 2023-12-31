@@ -18,6 +18,8 @@ import com.etiennecollin.ift2255.clientCLI.views.productDisplay.*;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -103,6 +105,19 @@ public class ShopController {
      */
     public List<Product> searchProductsBySeller(UUID sellerId) {
         return shopModel.searchProducts((product) -> product.getSellerId().equals(sellerId));
+    }
+
+    public List<Seller> getSellersOfProducts(List<Product> products) {
+        HashSet<UUID> sellerIds = new HashSet<>();
+        for (Product product : products) {
+            sellerIds.add(product.getSellerId());
+        }
+        return profileModel.searchSellers(seller -> sellerIds.contains(seller.getId()));
+    }
+
+    public List<Seller> getSellersOfCategory(ProductCategory category) {
+        List<Product> matchingProducts = shopModel.getProducts(category, null, null);
+        return getSellersOfProducts(matchingProducts);
     }
 
     /**
