@@ -262,7 +262,7 @@ public class DatabaseInitializationClient {
 
         social.toggleFollowBuyer(buyer3.getId(), buyer1.getId());
 
-        shop.startProductPromotion(seller4Product3, 5, 25, LocalDate.of(2024, 2, 14));
+        shop.startProductPromotion(seller2Product3, 500, 200, LocalDate.of(2024, 2, 14));
 
         System.out.println("Done!");
     }

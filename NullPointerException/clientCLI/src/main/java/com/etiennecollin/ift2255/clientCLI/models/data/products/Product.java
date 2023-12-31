@@ -339,4 +339,20 @@ public abstract class Product extends DatabaseObject {
     public void setRating(int rating) {
         this.rating = rating;
     }
+
+    /**
+     * Gets the price of the product including the promotional discount.
+     * @return The total price of the product.
+     */
+    public int getTotalPrice() {
+        return getPrice() - getPromoDiscount();
+    }
+
+    /**
+     * Gets the fidelity points earned when buying the product including the promotion.
+     * @return The total number of fidelity points earned from this product.
+     */
+    public int getTotalFidelityPoints() {
+        return getBonusFidelityPoints() + getPromoFidelityPoints() + (getTotalPrice() / 100);
+    }
 }

@@ -507,7 +507,7 @@ public class ShopModel {
             for (Tuple<Product, Integer> tuple : tuples) {
                 Product product = tuple.first;
                 int quantity = tuple.second;
-                int price = (product.getPrice() - product.getPromoDiscount()) * quantity;
+                int price = product.getTotalPrice() * quantity;
                 subTotalCost += price;
 
                 // Subtract rebate from fidelity points
@@ -520,7 +520,7 @@ public class ShopModel {
                         paidWithFidelityPoints = 0;
                     }
                 }
-                subTotalFidelityPointsEarned += (price / 100 + product.getBonusFidelityPoints()) * quantity;
+                subTotalFidelityPointsEarned += product.getTotalFidelityPoints() * quantity;
             }
 
             PaymentMethod paymentMethod = new PaymentMethod(subTotalCost, fidelityPointsUsed, 0);

@@ -177,9 +177,9 @@ public class TicketingModel {
                 Product prod = db.get(DataMap.PRODUCTS, cartProduct.getProductId());
                 productTupleList.add(new Tuple<>(prod, cartProduct.getQuantity()));
 
-                int price = (prod.getPrice() - prod.getPromoDiscount()) * cartProduct.getQuantity();
+                int price = prod.getTotalPrice() * cartProduct.getQuantity();
                 totalReplacementCost += price;
-                totalFidelityPointsEarned += (price / 100 + prod.getBonusFidelityPoints()) * cartProduct.getQuantity();
+                totalFidelityPointsEarned += prod.getTotalFidelityPoints() * cartProduct.getQuantity();
             }
 
             PaymentMethod paymentMethod = new PaymentMethod(Math.max(totalReplacementCost - totalReturnValue, 0), 0, Math.min(totalReturnValue, totalReplacementCost));
@@ -270,10 +270,10 @@ public class TicketingModel {
             int totalCost = 0;
             int fidelityPointsEarned = 0;
             for (Tuple<Product, Integer> productTuple : ticket.getProducts()) {
-                int productPrice = productTuple.first.getPrice() - productTuple.first.getPromoDiscount();
+                Product product = productTuple.first;
                 int quantity = productTuple.second;
-                totalCost += productPrice * quantity;
-                fidelityPointsEarned += (productPrice / 100 + productTuple.first.getBonusFidelityPoints()) * quantity;
+                totalCost += product.getTotalPrice() * quantity;
+                fidelityPointsEarned += product.getTotalFidelityPoints() * quantity;
             }
 
             Order originalOrder = db.get(DataMap.ORDERS, ticket.getOrderId());
@@ -290,6 +290,7 @@ public class TicketingModel {
                 String title = "New solution for one of your tickets";
                 String content = "Ticket: " + t.getProblemDescription() + "\nSolution suggested: " + solution;
                 Notification notification = new Notification(t.getBuyerId(), title, content);
+                db.add(DataMap.NOTIFICATIONS, notification);
 
                 if (requireReturn) {
                     t.setReturnShipment(new Shipment(trackingNumber, null, shippingCompany));
@@ -335,10 +336,10 @@ public class TicketingModel {
         int returnValue = 0;
         int earnedPointsToRemove = 0;
         for (Tuple<Product, Integer> productTuple : ticket.getProducts()) {
-            int productPrice = productTuple.first.getPrice() - productTuple.first.getPromoDiscount();
+            Product product = productTuple.first;
             int quantity = productTuple.second;
-            returnValue += productPrice * quantity;
-            earnedPointsToRemove += productPrice / 100 + productTuple.first.getBonusFidelityPoints();
+            returnValue += product.getTotalPrice() * quantity;
+            earnedPointsToRemove += product.getTotalFidelityPoints() * quantity;
         }
         int finalEarnedPointsToRemove = earnedPointsToRemove;
 
@@ -383,6 +384,7 @@ public class TicketingModel {
                 String title = "New solution for one of your tickets";
                 String content = "Ticket: " + t.getProblemDescription() + "\nSolution suggested: " + solution;
                 Notification notification = new Notification(t.getBuyerId(), title, content);
+                db.add(DataMap.NOTIFICATIONS, notification);
 
                 if (requireReturn) {
                     t.setReturnShipment(new Shipment(trackingNumber, null, shippingCompany));

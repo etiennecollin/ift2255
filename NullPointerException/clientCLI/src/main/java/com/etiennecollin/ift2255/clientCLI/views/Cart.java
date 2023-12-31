@@ -60,7 +60,7 @@ public class Cart extends View {
                 int quantity = tuple.first.getQuantity();
                 Product product = tuple.second;
 
-                int cost = (product.getPrice() - product.getPromoDiscount()) * quantity;
+                int cost = product.getTotalPrice() * quantity;
                 totalCost += cost;
 
                 System.out.println(prettify(product.getTitle() + " x" + quantity + " | Cost: " + Utils.formatMoney(cost)));
@@ -80,7 +80,7 @@ public class Cart extends View {
                         int quantity = tuple.first.getQuantity();
                         Product product = tuple.second;
 
-                        int cost = (product.getPrice() - product.getPromoDiscount()) * quantity;
+                        int cost = product.getTotalPrice() * quantity;
 
                         productsString.add(product.getTitle() + " x" + quantity + " | Cost: " + Utils.formatMoney(cost));
                     }
