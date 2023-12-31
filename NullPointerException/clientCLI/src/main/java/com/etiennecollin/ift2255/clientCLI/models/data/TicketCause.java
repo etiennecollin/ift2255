@@ -40,14 +40,6 @@ public enum TicketCause implements Serializable {
         this.name = name;
     }
 
-    //    public static ArrayList<String> getOptions() {
-    //        ArrayList<String> options = new ArrayList<>();
-    //        for (TicketCause option : TicketCause.values()) {
-    //            options.add(option.toString());
-    //        }
-    //        return options;
-    //    }
-
     /**
      * Gets the string representation of the ticket cause.
      *

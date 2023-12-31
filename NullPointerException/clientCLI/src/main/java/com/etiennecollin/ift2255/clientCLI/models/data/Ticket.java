@@ -152,24 +152,6 @@ public class Ticket extends DatabaseObject {
         this.returnShipment = returnShipment;
     }
 
-    //    /**
-    //     * Gets the replacement shipment associated with the ticket.
-    //     *
-    //     * @return The replacement shipment associated with the ticket.
-    //     */
-    //    public Shipment getReplacementShipment() {
-    //        return replacementShipment;
-    //    }
-    //
-    //    /**
-    //     * Sets the replacement shipment associated with the ticket.
-    //     *
-    //     * @param replacementShipment The replacement shipment associated with the ticket.
-    //     */
-    //    public void setReplacementShipment(Shipment replacementShipment) {
-    //        this.replacementShipment = replacementShipment;
-    //    }
-
     /**
      * Gets the creation date of the ticket.
      *
@@ -221,7 +203,6 @@ public class Ticket extends DatabaseObject {
      * @return The current state of the ticket.
      */
     public TicketState getState() {
-        updateState();
         return state;
     }
 
@@ -232,32 +213,6 @@ public class Ticket extends DatabaseObject {
      */
     public void setState(TicketState state) {
         this.state = state;
-    }
-
-    /**
-     * Updates the state of the ticket based on certain conditions.
-     */
-    public void updateState() {
-        //        if (state.equals(TicketState.Cancelled) || state.equals(TicketState.Closed)) {
-        //            return;
-        //        }
-        //
-        //        boolean afterDueDate = LocalDate.now().isAfter(returnShipment.getCreationDate().plusDays(MAX_RETURN_DELAY_DAYS));
-        //        if (!state.equals(TicketState.ReturnInTransit) && !state.equals(TicketState.ReturnReceived) && afterDueDate) {
-        //            this.state = TicketState.Cancelled;
-        //        } else if (state.equals(TicketState.ReturnInTransit) && returnShipment.isDeliveryConfirmed()) {
-        //            this.state = TicketState.ReturnReceived;
-        //            // Add products back to inventory if products were not malfunctioning
-        //            if (!cause.equals(TicketCause.MalfunctioningProduct)) {
-        //                for (Tuple<Product, Integer> tuple : products) {
-        //                    Product product = tuple.first;
-        //                    int quantity = tuple.second;
-        //                    product.setQuantity(product.getQuantity() + quantity);
-        //                }
-        //            }
-        //        } else if (state.equals(TicketState.ReturnReceived) && replacementShipment.isDeliveryConfirmed()) {
-        //            this.state = TicketState.Closed;
-        //        }
     }
 
     /**
@@ -277,16 +232,6 @@ public class Ticket extends DatabaseObject {
     public void setProducts(ArrayList<Tuple<Product, Integer>> products) {
         this.products = products;
     }
-
-    //    public void createReturnShipment(String trackingNumber, LocalDate deliveryDate, String shippingCompany) {
-    //        this.state = TicketState.ReturnInTransit;
-    //        this.returnShipment = new Shipment(trackingNumber, deliveryDate, shippingCompany);
-    //    }
-    //
-    //    public void createReplacementShipment(String trackingNumber, LocalDate deliveryDate, String shippingCompany) {
-    //        this.state = TicketState.ReplacementInTransit;
-    //        this.replacementShipment = new Shipment(trackingNumber, deliveryDate, shippingCompany);
-    //    }
 
     /**
      * Gets the buyer's ID associated with the ticket.

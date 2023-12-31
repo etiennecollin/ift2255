@@ -69,7 +69,7 @@ public class SocialModel {
      * @return {@code true} if the user has liked the entity, {@code false} otherwise.
      */
     public boolean isLiked(UUID likedEntity, UUID likedByUser) {
-        return db.<Like>get(DataMap.LIKES, (entry) -> entry.getLikedEntityId().equals(likedEntity) && entry.getUserId().equals(likedByUser)).size() > 0;
+        return !db.<Like>get(DataMap.LIKES, (entry) -> entry.getLikedEntityId().equals(likedEntity) && entry.getUserId().equals(likedByUser)).isEmpty();
     }
 
     /**

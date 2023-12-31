@@ -102,10 +102,6 @@ public abstract class Product extends DatabaseObject {
         this.promoFidelityPoints = 0;
     }
 
-    //    public void setReview(ArrayList<Review> reviews) {
-    //        this.reviews = reviews;
-    //    }
-
     /**
      * Gets the price of the product.
      *
@@ -123,14 +119,6 @@ public abstract class Product extends DatabaseObject {
     public void setPrice(int price) {
         this.price = price;
     }
-
-    //    public String getFormattedCost() {
-    //        return getCost() / 100 + "." + getCost() % 100 + "$";
-    //    }
-    //
-    //    public String getFormattedCost(int quantity) {
-    //        return getCost() * quantity / 100 + "." + getCost() * quantity % 100 + "$";
-    //    }
 
     /**
      * Gets the sub-category of the product.
@@ -158,14 +146,6 @@ public abstract class Product extends DatabaseObject {
     public void setLikes(int likes) {
         this.likes = likes;
     }
-
-    //    public void toggleFollowedBy(Buyer buyer) {
-    //        if (followedBy.contains(buyer)) {
-    //            followedBy.remove(buyer);
-    //        } else {
-    //            followedBy.add(buyer);
-    //        }
-    //    }
 
     /**
      * Gets the discount percentage applied during a promotion.
@@ -220,30 +200,6 @@ public abstract class Product extends DatabaseObject {
     public void setPromoEndDate(LocalDate promoEndDate) {
         this.promoEndDate = promoEndDate;
     }
-    //      public void setDiscount(int discount) throws IllegalArgumentException {
-    //        if (discount < 0 || discount > 100) {
-    //            throw new IllegalArgumentException("The discount should be a percentage between 0% and 100%");
-    //        }
-    //
-    //        this.discount = discount;
-    //
-    //        // Send notification to buyers who follow this seller
-    //        String title = "New promotion added on a product sold by followed seller";
-    //        String content = "Seller: " + this.seller.getName() + "\nProduct: " + this.getTitle() + "\nPrice: " + this.getCost() + "\nPromotion: " + this.discount + "%";
-    //        Notification notification = new Notification(title, content);
-    //
-    //        // Prevent sending duplicate of notifications
-    //        HashSet<Buyer> sendTo = new HashSet<>();
-    //        sendTo.addAll(this.seller.getFollowedBy()); // Send to buyers who follow the seller
-    //        sendTo.addAll(this.getFollowedBy()); // Send to buyers who follow the product
-    //        this.getFollowedBy().forEach(buyer -> sendTo.addAll(buyer.getFollowedBy())); // Send to buyers who follow a
-    //        // buyer who
-    //        // follows this product
-    //
-    //        for (Buyer buyer : sendTo) {
-    //            buyer.addNotification(notification);
-    //        }
-    //    }
 
     /**
      * Gets the category of the product.
@@ -253,10 +209,6 @@ public abstract class Product extends DatabaseObject {
     public ProductCategory getCategory() {
         return category;
     }
-
-    //    public ArrayList<Buyer> getFollowedBy() {
-    //        return followedBy;
-    //    }
 
     /**
      * Gets the quantity of the product available.
@@ -321,18 +273,6 @@ public abstract class Product extends DatabaseObject {
      */
     public void setBonusFidelityPoints(int bonusFidelityPoints) throws IllegalArgumentException {
         this.bonusFidelityPoints = bonusFidelityPoints;
-        //        if (bonusFidelityPoints < 0) {
-        //            this.bonusFidelityPoints = 0;
-        //            throw new IllegalArgumentException("Cannot give less than 0 bonus points for a product");
-        //        }
-        //
-        //        float bonusPointsPerDollar = (float) (bonusFidelityPoints) / ((float) this.getCost() / 100);
-        //        if (bonusPointsPerDollar > MAX_PTS_PER_DOLLAR - 1) {
-        //            this.bonusFidelityPoints = ((MAX_PTS_PER_DOLLAR - 1) * this.getCost()) / 100;
-        //            throw new IllegalArgumentException("Products cannot provide more than " + (MAX_PTS_PER_DOLLAR - 1) + " bonus points per dollar spent. Bonus points were clamped to match" + " this maximum.");
-        //        } else {
-        //            this.bonusFidelityPoints = bonusFidelityPoints;
-        //        }
     }
 
     /**
@@ -382,30 +322,6 @@ public abstract class Product extends DatabaseObject {
         return title;
     }
 
-    //    public ArrayList<Review> getReviews() {
-    //        return reviews;
-    //    }
-    //
-    //    public void addReview(Review review) {
-    //        this.reviews.add(review);
-    //        this.rating.addRating(review.getRating());
-    //        review.getAuthor().addReviewWritten(review);
-    //
-    //        String title = "New review on one of your products";
-    //        String content = "Product: " + this.getTitle() + "\nReview Title: " + review.getTitle() + "\nReview body: " + review.getContent();
-    //        Notification notification = new Notification(title, content);
-    //        this.seller.addNotification(notification);
-    //    }
-    //
-    //    public void removeReview(Review review) {
-    //        if (review.arePointsGiven()) {
-    //            review.getAuthor().removeFidelityPoints(Review.POINTS_PER_REVIEW);
-    //        }
-    //
-    //        this.reviews.remove(review);
-    //        this.rating.removeRating(review.getRating());
-    //    }
-
     /**
      * Gets the rating of the product.
      *
@@ -422,5 +338,21 @@ public abstract class Product extends DatabaseObject {
      */
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    /**
+     * Gets the price of the product including the promotional discount.
+     * @return The total price of the product.
+     */
+    public int getTotalPrice() {
+        return getPrice() - getPromoDiscount();
+    }
+
+    /**
+     * Gets the fidelity points earned when buying the product including the promotion.
+     * @return The total number of fidelity points earned from this product.
+     */
+    public int getTotalFidelityPoints() {
+        return getBonusFidelityPoints() + getPromoFidelityPoints() + (getTotalPrice() / 100);
     }
 }

@@ -177,9 +177,9 @@ public class TicketingModel {
                 Product prod = db.get(DataMap.PRODUCTS, cartProduct.getProductId());
                 productTupleList.add(new Tuple<>(prod, cartProduct.getQuantity()));
 
-                int price = (prod.getPrice() - prod.getPromoDiscount()) * cartProduct.getQuantity();
+                int price = prod.getTotalPrice() * cartProduct.getQuantity();
                 totalReplacementCost += price;
-                totalFidelityPointsEarned += (price / 100 + prod.getBonusFidelityPoints()) * cartProduct.getQuantity();
+                totalFidelityPointsEarned += prod.getTotalFidelityPoints() * cartProduct.getQuantity();
             }
 
             PaymentMethod paymentMethod = new PaymentMethod(Math.max(totalReplacementCost - totalReturnValue, 0), 0, Math.min(totalReturnValue, totalReplacementCost));
@@ -252,37 +252,6 @@ public class TicketingModel {
         return db.get(DataMap.TICKETS, ticketId);
     }
 
-    //    /**
-    //     * Creates a return shipment for the specified ticket with the given information.
-    //     *
-    //     * @param ticketId        The unique identifier of the ticket.
-    //     * @param trackingNumber  The tracking number of the return shipment.
-    //     * @param deliveryDate    The expected delivery date of the return shipment.
-    //     * @param shippingCompany The shipping company responsible for the return shipment.
-    //     * @return An {@code OperationResult} indicating the success or failure of the operation.
-    //     */
-    //    public OperationResult createReturnShipment(UUID ticketId, String solution, String trackingNumber, LocalDate deliveryDate, String shippingCompany) {
-    //        Ticket ticket = getTicket(ticketId);
-    //        if (ticket == null) {
-    //            return new OperationResult(false, "Ticket does not exist.");
-    //        }
-    //
-    //        if (ticket.getReturnShipment() != null) {
-    //            return new OperationResult(false, "Ticket already has a return shipment.");
-    //        }
-    //
-    //        boolean result = db.<Ticket>update(DataMap.TICKETS, (t) -> {
-    //            t.setState(TicketState.ReturnInTransit);
-    //            t.setSuggestedSolution(solution);
-    //            t.setReturnShipment(new Shipment(trackingNumber, deliveryDate, shippingCompany));
-    //        }, ticketId);
-    //        if (result) {
-    //            return new OperationResult(true, "Return shipment information added.");
-    //        } else {
-    //            return new OperationResult(false, "Unable to update ticket.");
-    //        }
-    //    }
-
     /**
      * Changes a ticket to indicate replacement with or without return.
      *
@@ -301,10 +270,10 @@ public class TicketingModel {
             int totalCost = 0;
             int fidelityPointsEarned = 0;
             for (Tuple<Product, Integer> productTuple : ticket.getProducts()) {
-                int productPrice = productTuple.first.getPrice() - productTuple.first.getPromoDiscount();
+                Product product = productTuple.first;
                 int quantity = productTuple.second;
-                totalCost += productPrice * quantity;
-                fidelityPointsEarned += (productPrice / 100 + productTuple.first.getBonusFidelityPoints()) * quantity;
+                totalCost += product.getTotalPrice() * quantity;
+                fidelityPointsEarned += product.getTotalFidelityPoints() * quantity;
             }
 
             Order originalOrder = db.get(DataMap.ORDERS, ticket.getOrderId());
@@ -321,6 +290,7 @@ public class TicketingModel {
                 String title = "New solution for one of your tickets";
                 String content = "Ticket: " + t.getProblemDescription() + "\nSolution suggested: " + solution;
                 Notification notification = new Notification(t.getBuyerId(), title, content);
+                db.add(DataMap.NOTIFICATIONS, notification);
 
                 if (requireReturn) {
                     t.setReturnShipment(new Shipment(trackingNumber, null, shippingCompany));
@@ -366,10 +336,10 @@ public class TicketingModel {
         int returnValue = 0;
         int earnedPointsToRemove = 0;
         for (Tuple<Product, Integer> productTuple : ticket.getProducts()) {
-            int productPrice = productTuple.first.getPrice() - productTuple.first.getPromoDiscount();
+            Product product = productTuple.first;
             int quantity = productTuple.second;
-            returnValue += productPrice * quantity;
-            earnedPointsToRemove += productPrice / 100 + productTuple.first.getBonusFidelityPoints();
+            returnValue += product.getTotalPrice() * quantity;
+            earnedPointsToRemove += product.getTotalFidelityPoints() * quantity;
         }
         int finalEarnedPointsToRemove = earnedPointsToRemove;
 
@@ -414,6 +384,7 @@ public class TicketingModel {
                 String title = "New solution for one of your tickets";
                 String content = "Ticket: " + t.getProblemDescription() + "\nSolution suggested: " + solution;
                 Notification notification = new Notification(t.getBuyerId(), title, content);
+                db.add(DataMap.NOTIFICATIONS, notification);
 
                 if (requireReturn) {
                     t.setReturnShipment(new Shipment(trackingNumber, null, shippingCompany));
