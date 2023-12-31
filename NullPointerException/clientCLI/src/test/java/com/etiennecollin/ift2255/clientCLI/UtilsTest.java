@@ -99,4 +99,13 @@ public class UtilsTest {
         assertEquals("0.01$", formatMoney(1));
         assertEquals("0.10$", formatMoney(10));
     }
+
+    /**
+     * Test the validateNotEmpty method in the Utils class.
+     */
+    @Test
+    public void testValidateNotEmpty() {
+        assertEquals(new OperationResult(false, "This field must not be empty."), validateNotEmpty(""), "Failed to refuse empty string");
+        assertEquals(new OperationResult(true, ""), validateNotEmpty("Test"), "Failed to accept non-empty string");
+    }
 }
