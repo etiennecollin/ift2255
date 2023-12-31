@@ -32,7 +32,6 @@ public class Order extends DatabaseObject {
      * The total cost of the order.
      */
     private final int totalCost;
-    //    private int numberOfProducts;
     /**
      * The amount of fidelity points earned with the order.
      */
