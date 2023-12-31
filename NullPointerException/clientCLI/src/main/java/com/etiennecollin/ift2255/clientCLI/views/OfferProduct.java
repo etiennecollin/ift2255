@@ -61,7 +61,7 @@ public class OfferProduct extends View {
                 BookOrManualGenre genre = prettyMenu("Genre", BookOrManualGenre.class);
                 int edition = prettyPromptInt("Edition number (enter 0 if not applicable)");
                 int volume = prettyPromptInt("Volume number (enter 0 if not applicable)");
-                String isbn = prettyPrompt("ISBN", Utils::validateISBN);
+                String isbn = prettyPrompt("ISBN", Utils::validateNotEmpty);
 
                 result = shopController.submitNewBookOrManual(price, quantity, title, description, fidelityPoints, isbn, author, editor, genre, releaseDate, edition, volume);
             }
@@ -78,7 +78,7 @@ public class OfferProduct extends View {
                 LocalDate releaseDate = prettyPromptDate("Release date");
                 LearningResourceType type = prettyMenu("Sub-category", LearningResourceType.class);
                 int edition = prettyPromptInt("Edition number (enter 0 if not applicable)");
-                String isbn = prettyPrompt("ISBN", Utils::validateISBN);
+                String isbn = prettyPrompt("ISBN", Utils::validateNotEmpty);
 
                 result = shopController.submitNewLearningResource(price, quantity, title, description, fidelityPoints, isbn, org, releaseDate, type, edition);
             }

@@ -14,6 +14,8 @@ import java.time.YearMonth;
 import java.util.*;
 import java.util.function.Predicate;
 
+import static com.etiennecollin.ift2255.clientCLI.Utils.formatMoney;
+
 /**
  * The {@code ShopModel} class represents the models for managing shopping-related operations in the CLI application.
  * It includes methods for retrieving products, adding products to the cart, processing orders, and handling order-related tasks.
@@ -289,7 +291,7 @@ public class ShopModel {
 
         // Send notification to buyers who follow this seller
         String title = "New promotion added on a product sold by followed seller";
-        String content = "Seller: " + seller.getName() + "\nProduct: " + product.getTitle() + "\nPrice: " + product.getPrice() + "\nPromotion: " + discount + "$\nPromotional fidelity points: " + promoPoints + "\nEnd date: " + endDate + "\n\n" + "Check it out now!";
+        String content = "Seller: " + seller.getName() + "\nProduct: " + product.getTitle() + "\nOriginal price: " + formatMoney(product.getPrice()) + "\nPromotional discount: -" + discount + "$\nPromotional fidelity points: " + promoPoints + "\nEnd date: " + endDate + "\n\n" + "Check it out now!";
 
         // Prevent sending duplicate of notifications
         HashSet<Like> sendTo = new HashSet<>();
@@ -698,6 +700,12 @@ public class ShopModel {
                 Notification notification = new Notification(o.getBuyerId(), title, content);
                 db.add(DataMap.NOTIFICATIONS, notification);
             }, orderId);
+
+            db.<Buyer>update(DataMap.BUYERS,
+                    b -> b.setFidelityPoints(b.getFidelityPoints() + order.getPaymentMethod().getFidelityPointsUsed()),
+                    order.getBuyerId()
+            );
+            // refund credit card
             return new OperationResult(true, "Order cancelled.");
         } else {
             return new OperationResult(false, "Order cannot be marked as cancelled.");

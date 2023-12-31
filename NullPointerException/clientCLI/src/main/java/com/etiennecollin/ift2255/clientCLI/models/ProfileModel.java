@@ -76,7 +76,18 @@ public class ProfileModel {
      * @return The buyer profile or {@code null} if not found.
      */
     public Buyer getBuyer(UUID userId) {
-        List<Buyer> buyers = db.get(DataMap.BUYERS, (b) -> b.getId().equals(userId));
+        return db.get(DataMap.BUYERS, userId);
+    }
+
+    /**
+     * Retrieves the buyer profile associated with the specified username.
+     *
+     * @param username The unique username of the buyer.
+     *
+     * @return The buyer profile or {@code null} if not found.
+     */
+    public Buyer getBuyer(String username) {
+        List<Buyer> buyers = db.get(DataMap.BUYERS, (b) -> b.getUsername().equalsIgnoreCase(username));
         if (!buyers.isEmpty()) {
             return buyers.get(0);
         }
@@ -145,7 +156,18 @@ public class ProfileModel {
      * @return The seller profile or {@code null} if not found.
      */
     public Seller getSeller(UUID userId) {
-        List<Seller> sellers = db.get(DataMap.SELLERS, (b) -> b.getId().equals(userId));
+        return db.get(DataMap.SELLERS, userId);
+    }
+
+    /**
+     * Retrieves the seller profile associated with the specified name.
+     *
+     * @param name The unique name of the seller.
+     *
+     * @return The seller profile or {@code null} if not found.
+     */
+    public Seller getSeller(String name) {
+        List<Seller> sellers = db.get(DataMap.SELLERS, (b) -> b.getName().equalsIgnoreCase(name));
         if (!sellers.isEmpty()) {
             return sellers.get(0);
         }

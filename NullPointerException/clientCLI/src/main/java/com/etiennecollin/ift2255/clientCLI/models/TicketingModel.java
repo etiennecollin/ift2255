@@ -252,37 +252,6 @@ public class TicketingModel {
         return db.get(DataMap.TICKETS, ticketId);
     }
 
-    //    /**
-    //     * Creates a return shipment for the specified ticket with the given information.
-    //     *
-    //     * @param ticketId        The unique identifier of the ticket.
-    //     * @param trackingNumber  The tracking number of the return shipment.
-    //     * @param deliveryDate    The expected delivery date of the return shipment.
-    //     * @param shippingCompany The shipping company responsible for the return shipment.
-    //     * @return An {@code OperationResult} indicating the success or failure of the operation.
-    //     */
-    //    public OperationResult createReturnShipment(UUID ticketId, String solution, String trackingNumber, LocalDate deliveryDate, String shippingCompany) {
-    //        Ticket ticket = getTicket(ticketId);
-    //        if (ticket == null) {
-    //            return new OperationResult(false, "Ticket does not exist.");
-    //        }
-    //
-    //        if (ticket.getReturnShipment() != null) {
-    //            return new OperationResult(false, "Ticket already has a return shipment.");
-    //        }
-    //
-    //        boolean result = db.<Ticket>update(DataMap.TICKETS, (t) -> {
-    //            t.setState(TicketState.ReturnInTransit);
-    //            t.setSuggestedSolution(solution);
-    //            t.setReturnShipment(new Shipment(trackingNumber, deliveryDate, shippingCompany));
-    //        }, ticketId);
-    //        if (result) {
-    //            return new OperationResult(true, "Return shipment information added.");
-    //        } else {
-    //            return new OperationResult(false, "Unable to update ticket.");
-    //        }
-    //    }
-
     /**
      * Changes a ticket to indicate replacement with or without return.
      *
