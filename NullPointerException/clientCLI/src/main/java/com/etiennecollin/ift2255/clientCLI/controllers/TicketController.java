@@ -127,7 +127,7 @@ public class TicketController {
      * @return A {@link Ticket} object representing the ticket associated with the specified replacement order.
      */
     public Ticket getTicketForReplacementOrder(UUID orderId) {
-        List<Ticket> matches = ticketModel.getTickets(t -> t.getReplacementOrderId().equals(orderId));
+        List<Ticket> matches = ticketModel.getTickets(t -> orderId.equals(t.getReplacementOrderId()));
         if (matches.isEmpty()) {
             return null;
         } else {
