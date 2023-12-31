@@ -10,6 +10,7 @@ import com.etiennecollin.ift2255.clientCLI.models.SocialModel;
 import com.etiennecollin.ift2255.clientCLI.models.data.Buyer;
 import com.etiennecollin.ift2255.clientCLI.models.data.UserType;
 import com.etiennecollin.ift2255.clientCLI.views.ViewRenderer;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
