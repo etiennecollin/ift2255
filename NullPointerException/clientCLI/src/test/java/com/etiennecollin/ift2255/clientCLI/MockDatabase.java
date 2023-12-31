@@ -32,7 +32,7 @@ public class MockDatabase implements Database {
         List<T> data = (List<T>) getData(dataMap);
         if (data != null) {
             List<T> matches = data.stream().filter((entry) -> entry.getId().equals(id)).collect(Collectors.toCollection(ArrayList::new));
-            if (matches.size() > 0) {
+            if (!matches.isEmpty()) {
                 return matches.get(0);
             }
         }
