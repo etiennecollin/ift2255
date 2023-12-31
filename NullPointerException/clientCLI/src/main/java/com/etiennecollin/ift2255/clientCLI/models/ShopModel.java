@@ -44,12 +44,33 @@ public class ShopModel {
      *         does not match the specified class.
      */
     public <T extends Product> T getProduct(Class<T> productClass, UUID productId) {
+        checkProductPromotion(productId);
+
         Product product = db.get(DataMap.PRODUCTS, productId);
+        if (Product.class.equals(productClass)) {
+            return (T) product;
+        }
+
         if (product.getClass().equals(productClass)) {
             return (T) product;
         }
 
         return null;
+    }
+
+    /**
+     * Checks and updates the promotion status of a product based on its promotion end date.
+     *
+     * @param productId The unique identifier of the product to check for promotion.
+     */
+    public void checkProductPromotion(UUID productId) {
+        db.<Product>update(DataMap.PRODUCTS, p -> {
+            if (p.getPromoEndDate() != null && p.getPromoEndDate().isBefore(LocalDate.now())) {
+                p.setPromoDiscount(0);
+                p.setPromoDiscount(0);
+                p.setPromoEndDate(null);
+            }
+        }, productId);
     }
 
     /**
@@ -71,8 +92,31 @@ public class ShopModel {
      * @return A list of products that match the specified criteria.
      */
     public List<Product> getProducts(ProductCategory category, Enum<?> subCategory, UUID sellerId) {
-        return db.get(DataMap.PRODUCTS, (product) -> (category == null || product.getCategory() == category) && (subCategory == null || product.getSubCategory() == subCategory) && (sellerId == null || product.getSellerId() == sellerId));
+        return db.get(DataMap.PRODUCTS, (product) -> (category == null || product.getCategory() == category) && (subCategory == null || product.getSubCategory() == subCategory) && (sellerId == null || product.getSellerId().equals(sellerId)));
     }
+
+    /**
+     * Retrieves a list of products based on specified criteria.
+     *
+     * @param category    The product category (can be {@code null}).
+     * @param subCategory The product sub-category (can be {@code null}).
+     * @param minRating   The minimum average rating of the products.
+     * @param minLikes    The minimum number of likes on the products.
+     * @param onPromo     Whether the product is having a promotion or not.
+     * @param sellerId    The unique identifier of the seller (can be {@code null}).
+     *
+     * @return A list of products that match the specified criteria.
+     */
+    public List<Product> getProducts(ProductCategory category, Enum<?> subCategory, int minRating, int minLikes, boolean onPromo, UUID sellerId) {
+        return db.get(DataMap.PRODUCTS,
+                (product) -> (category == null || product.getCategory() == category) &&
+                        (subCategory == null || product.getSubCategory() == subCategory) &&
+                        product.getRating() >= minRating &&
+                        product.getLikes() >= minLikes &&
+                        (!onPromo || product.getPromoDiscount() != 0 || product.getPromoFidelityPoints() != 0) &&
+                        (sellerId == null || product.getSellerId().equals(sellerId)));
+    }
+
 
     /**
      * Searches for products based on a custom predicate.
@@ -223,15 +267,72 @@ public class ShopModel {
     }
 
     /**
+     * Initiates a promotion for a product with the specified product ID.
+     *
+     * @param productId   The unique identifier of the product to promote.
+     * @param discount    The discount percentage to apply to the product's price.
+     * @param promoPoints The amount of promotional fidelity points to award with the purchase of this product during the promotion.
+     * @param endDate     The end date of the promotion.
+     *
+     * @return An {@code OperationResult} indicating the success or failure of the operation.
+     */
+    public OperationResult startProductPromotion(UUID productId, int discount, int promoPoints, LocalDate endDate) {
+        Product product = db.get(DataMap.PRODUCTS, productId);
+        Seller seller = db.get(DataMap.SELLERS, product.getSellerId());
+
+        int finalDiscount = Math.min(discount, product.getPrice());
+        db.<Product>update(DataMap.PRODUCTS, p -> {
+            p.setPromoDiscount(finalDiscount);
+            p.setPromoFidelityPoints(promoPoints);
+            p.setPromoEndDate(endDate);
+        }, productId);
+
+        // Send notification to buyers who follow this seller
+        String title = "New promotion added on a product sold by followed seller";
+        String content = "Seller: " + seller.getName() + "\nProduct: " + product.getTitle() + "\nPrice: " + product.getPrice() + "\nPromotion: " + discount + "$\nPromotional fidelity points: " + promoPoints + "\nEnd date: " + endDate + "\n\n" + "Check it out now!";
+
+        // Prevent sending duplicate of notifications
+        HashSet<Like> sendTo = new HashSet<>();
+
+        // Send to buyers who follow the seller
+        List<Like> sellerFollowers = db.get(DataMap.LIKES, (Like like) -> like.getLikedEntityId().equals(seller.getId()));
+        sendTo.addAll(sellerFollowers);
+
+        // Send to buyers who follow the product
+        List<Like> productFollowers = db.get(DataMap.LIKES, (Like like) -> like.getLikedEntityId().equals(product.getId()));
+        sendTo.addAll(productFollowers);
+
+        // Send to buyers who follow a buyer who follows the product
+        productFollowers.forEach((like) -> {
+            UUID userId = like.getUserId();
+            List<Like> followersOfFollowers = db.get(DataMap.LIKES, (Like like2) -> like2.getLikedEntityId().equals(userId));
+            sendTo.addAll(followersOfFollowers);
+        });
+
+        // Send notifications
+        for (Like like : sendTo) {
+            Notification notification = new Notification(like.getUserId(), title, content);
+            db.add(DataMap.NOTIFICATIONS, notification);
+        }
+
+        return new OperationResult(true, "Promotion started.");
+    }
+
+    /**
      * Adds a specified quantity of a product to the user's cart.
      *
      * @param buyerId   The unique identifier of the buyer.
      * @param productId The unique identifier of the product.
      * @param quantity  The quantity to add to the cart.
+     * @param cartDb    An optional database for manipulating the cart. If null, the normal database is used.
      *
      * @return An {@code OperationResult} indicating the success or failure of the operation.
      */
-    public OperationResult addToCart(UUID buyerId, UUID productId, int quantity) {
+    public OperationResult addToCart(UUID buyerId, UUID productId, int quantity, Database cartDb) {
+        if (cartDb == null) {
+            cartDb = this.db;
+        }
+
         Product product = db.get(DataMap.PRODUCTS, productId);
         if (product == null) {
             return new OperationResult(false, "Product discontinued.");
@@ -239,7 +340,7 @@ public class ShopModel {
 
         boolean result;
 
-        List<CartProduct> existingEntries = db.get(DataMap.CARTS, (cartProd) -> cartProd.getBuyerId() == buyerId && cartProd.getProductId() == productId);
+        List<CartProduct> existingEntries = cartDb.get(DataMap.CARTS, (cartProd) -> cartProd.getBuyerId().equals(buyerId) && cartProd.getProductId().equals(productId));
         if (!existingEntries.isEmpty()) {
             CartProduct existingEntry = existingEntries.get(0);
             int newQuantity = existingEntry.getQuantity() + quantity;
@@ -248,13 +349,13 @@ public class ShopModel {
                 return new OperationResult(false, "Insufficient inventory.");
             }
 
-            result = db.<CartProduct>update(DataMap.CARTS, (cartProd) -> cartProd.setQuantity(newQuantity), productId);
+            result = cartDb.<CartProduct>update(DataMap.CARTS, (cartProd) -> cartProd.setQuantity(newQuantity), (cartProd) -> cartProd.getProductId().equals(productId));
         } else {
             if (!validateQuantity(product, quantity).isValid()) {
                 return new OperationResult(false, "Insufficient inventory.");
             }
 
-            result = db.add(DataMap.CARTS, new CartProduct(buyerId, productId, quantity));
+            result = cartDb.add(DataMap.CARTS, new CartProduct(buyerId, productId, quantity));
         }
 
         if (result) {
@@ -295,11 +396,16 @@ public class ShopModel {
      *
      * @param cartProductId The unique identifier of the cart product.
      * @param quantity      The quantity to remove from the cart.
+     * @param cartDb        An optional database for manipulating the cart. If null, the normal database is used.
      *
      * @return An {@code OperationResult} indicating the success or failure of the operation.
      */
-    public OperationResult removeFromCart(UUID cartProductId, int quantity) {
-        CartProduct cartProduct = db.get(DataMap.CARTS, cartProductId);
+    public OperationResult removeFromCart(UUID cartProductId, int quantity, Database cartDb) {
+        if (cartDb == null) {
+            cartDb = this.db;
+        }
+
+        CartProduct cartProduct = cartDb.get(DataMap.CARTS, cartProductId);
 
         if (quantity < 0) {
             return new OperationResult(false, "Quantity to remove cannot be less than 0.");
@@ -307,14 +413,14 @@ public class ShopModel {
 
         if (cartProduct.getQuantity() > quantity) {
             int newQuantity = cartProduct.getQuantity() - quantity;
-            boolean result = db.<CartProduct>update(DataMap.CARTS, (cartProd) -> cartProd.setQuantity(newQuantity), cartProductId);
+            boolean result = cartDb.<CartProduct>update(DataMap.CARTS, (cartProd) -> cartProd.setQuantity(newQuantity), cartProductId);
             if (result) {
                 return new OperationResult(true, "Item quantity updated.");
             } else {
                 return new OperationResult(false, "Failed to update item quantity.");
             }
         } else {
-            boolean result = db.remove(DataMap.CARTS, cartProductId);
+            boolean result = cartDb.remove(DataMap.CARTS, cartProductId);
             if (result) {
                 return new OperationResult(true, "Item removed from cart.");
             } else {
@@ -393,13 +499,14 @@ public class ShopModel {
             ArrayList<Tuple<Product, Integer>> tuples = entry.getValue();
 
             int subTotalCost = 0;
-            int subTotalFidelityPoints = 0;
+            int subTotalFidelityPointsEarned = 0;
 
             // Compute the cost and fidelity points of this sub-order
             for (Tuple<Product, Integer> tuple : tuples) {
                 Product product = tuple.first;
                 int quantity = tuple.second;
-                subTotalCost += (product.getPrice() - product.getPromoDiscount()) * quantity;
+                int price = (product.getPrice() - product.getPromoDiscount()) * quantity;
+                subTotalCost += price;
 
                 // Subtract rebate from fidelity points
                 if (paidWithFidelityPoints > 0) {
@@ -411,15 +518,16 @@ public class ShopModel {
                         paidWithFidelityPoints = 0;
                     }
                 }
-                subTotalFidelityPoints += (subTotalCost / 100 + product.getBonusFidelityPoints()) * quantity;
+                subTotalFidelityPointsEarned += (price / 100 + product.getBonusFidelityPoints()) * quantity;
             }
 
             PaymentMethod paymentMethod = new PaymentMethod(subTotalCost, fidelityPointsUsed, 0);
 
             // Create the sub-order
-            Order order = new Order(tuples, subTotalCost, subTotalFidelityPoints, paymentMethod, email, phone, shippingAddress, billingAddress, creditCardName, creditCardNumber, creditCardExpiration, creditCardCVC, buyerId, sellerId);
+            Order order = new Order(tuples, subTotalCost, subTotalFidelityPointsEarned, paymentMethod, email, phone, shippingAddress, billingAddress, creditCardName, creditCardNumber, creditCardExpiration, creditCardCVC, buyerId, sellerId);
             db.add(DataMap.ORDERS, order);
-            // TODO add order products
+            int finalSubTotalFidelityPointsEarned = subTotalFidelityPointsEarned;
+            db.<Buyer>update(DataMap.BUYERS, (buyer) -> buyer.setFidelityPoints(buyer.getFidelityPoints() + finalSubTotalFidelityPointsEarned), buyerId);
 
             // Send notification
             Buyer buyer = db.get(DataMap.BUYERS, buyerId);
@@ -442,7 +550,7 @@ public class ShopModel {
      * @return A list of tuples containing cart product details and associated product information.
      */
     public List<Tuple<CartProduct, Product>> getCart(UUID buyerId) {
-        List<CartProduct> cartProductList = db.get(DataMap.CARTS, (cartProduct -> cartProduct.getBuyerId() == buyerId));
+        List<CartProduct> cartProductList = db.get(DataMap.CARTS, (cartProduct -> cartProduct.getBuyerId().equals(buyerId)));
         return cartProductList.stream().map((cartProd) -> new Tuple<CartProduct, Product>(cartProd, db.get(DataMap.PRODUCTS, cartProd.getProductId()))).toList();
     }
 
@@ -454,12 +562,23 @@ public class ShopModel {
      * @return An {@code OperationResult} indicating the success or failure of the operation.
      */
     public OperationResult emptyCart(UUID buyerId) {
-        boolean result = db.<CartProduct>remove(DataMap.CARTS, (cartProduct) -> cartProduct.getBuyerId() == buyerId);
+        boolean result = db.<CartProduct>remove(DataMap.CARTS, (cartProduct) -> cartProduct.getBuyerId().equals(buyerId));
         if (result) {
             return new OperationResult(true, "Cart emptied.");
         } else {
             return new OperationResult(false, "The cart could not be emptied.");
         }
+    }
+
+    /**
+     * Retrieves an order by its order ID.
+     *
+     * @param orderId The unique identifier of the order.
+     *
+     * @return The matching order or null.
+     */
+    public Order getOrder(UUID orderId) {
+        return db.get(DataMap.ORDERS, orderId);
     }
 
     /**
@@ -472,12 +591,12 @@ public class ShopModel {
      */
     public List<Order> getOrders(UUID buyerId, UUID sellerId) {
         return db.get(DataMap.ORDERS, (order) -> {
-            if (order.getBuyerId() == buyerId && sellerId == null) {
+            if (order.getBuyerId().equals(buyerId) && sellerId == null) {
                 return true;
-            } else if (order.getSellerId() == sellerId && buyerId == null) {
+            } else if (order.getSellerId().equals(sellerId) && buyerId == null) {
                 return true;
             } else {
-                return order.getBuyerId() == buyerId && order.getSellerId() == sellerId;
+                return order.getBuyerId().equals(buyerId) && order.getSellerId().equals(sellerId);
             }
         });
     }
@@ -513,6 +632,12 @@ public class ShopModel {
             db.<Order>update(DataMap.ORDERS, (o) -> {
                 o.setShipment(new Shipment(trackingNumber, expectedDeliveryDate, shippingCompany));
                 o.setState(OrderState.InTransit);
+
+                // Send notification
+                String title = "Your order is now shipped";
+                String content = "Order: " + o.getId() + "\nShipped by: " + shippingCompany + "\nTracking number: " + trackingNumber;
+                Notification notification = new Notification(o.getBuyerId(), title, content);
+                db.add(DataMap.NOTIFICATIONS, notification);
             }, orderId);
             return new OperationResult(true, "Order status updated");
         } else {
@@ -534,7 +659,16 @@ public class ShopModel {
         }
 
         if (order.getState() == OrderState.InTransit) {
-            db.<Order>update(DataMap.ORDERS, o -> o.setState(OrderState.Delivered), orderId);
+            db.<Order>update(DataMap.ORDERS, o -> {
+                o.setState(OrderState.Delivered);
+                o.getShipment().setReceptionDate(LocalDate.now());
+
+                // Send notification
+                String title = "Your order is now delivered";
+                String content = "Order: " + o.getId();
+                Notification notification = new Notification(o.getBuyerId(), title, content);
+                db.add(DataMap.NOTIFICATIONS, notification);
+            }, orderId);
             return new OperationResult(true, "Order successfully marked as delivered");
         } else {
             return new OperationResult(false, "Order cannot be marked as delivered.");
@@ -555,7 +689,15 @@ public class ShopModel {
         }
 
         if (order.getState() == OrderState.InProduction) {
-            db.<Order>update(DataMap.ORDERS, o -> o.setState(OrderState.Cancelled), orderId);
+            db.<Order>update(DataMap.ORDERS, o -> {
+                o.setState(OrderState.Cancelled);
+
+                // Send notification
+                String title = "Your order was cancelled";
+                String content = "Order: " + o.getId();
+                Notification notification = new Notification(o.getBuyerId(), title, content);
+                db.add(DataMap.NOTIFICATIONS, notification);
+            }, orderId);
             return new OperationResult(true, "Order cancelled.");
         } else {
             return new OperationResult(false, "Order cannot be marked as cancelled.");

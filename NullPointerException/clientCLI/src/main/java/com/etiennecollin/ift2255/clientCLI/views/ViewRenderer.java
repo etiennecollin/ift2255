@@ -63,7 +63,9 @@ public class ViewRenderer {
                 next.render();
             } else {
                 int lastIndex = viewHistory.size() - 1;
-                nextView = viewHistory.get(lastIndex - 1).first;
+                if (viewHistory.get(lastIndex - 1).second) {
+                    nextView = viewHistory.get(lastIndex - 1).first;
+                }
                 viewHistory.remove(lastIndex);
             }
         }

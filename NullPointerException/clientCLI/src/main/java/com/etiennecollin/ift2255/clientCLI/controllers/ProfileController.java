@@ -12,8 +12,10 @@ import com.etiennecollin.ift2255.clientCLI.models.SocialModel;
 import com.etiennecollin.ift2255.clientCLI.models.data.*;
 import com.etiennecollin.ift2255.clientCLI.views.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * The ProfileController class is responsible for managing user profiles, interactions, and social activities.
@@ -52,7 +54,7 @@ public class ProfileController {
      * Displays the user finder view, allowing users to search for other users.
      */
     public void displayUserFinder() {
-        renderer.addNextView(new UserFinder(this), true);
+        renderer.addNextView(new UserFinder(this, UniShop.getInstance().getShopController()), true);
     }
 
     /**
@@ -68,6 +70,7 @@ public class ProfileController {
      * @param buyers The list of buyers to display.
      */
     public void displayBuyers(List<Buyer> buyers) {
+        buyers = buyers.stream().filter(buyer -> !buyer.getId().equals(Session.getInstance().getUserId())).collect(Collectors.toCollection(ArrayList::new));
         renderer.addNextView(new BuyersDisplay(this, buyers), true);
     }
 
@@ -89,6 +92,53 @@ public class ProfileController {
      */
     public Buyer getBuyer(UUID buyerId) {
         return profileModel.getBuyer(buyerId);
+    }
+
+    /**
+     * Retrieves a list of notifications for the currently authenticated user.
+     *
+     * @return A list of notifications for the currently authenticated user.
+     */
+    public List<Notification> getNotifications() {
+        return profileModel.getNotifications(Session.getInstance().getUserId());
+    }
+
+    /**
+     * Removes a notification with the specified identifier.
+     *
+     * @param notificationId The unique identifier of the notification to be removed.
+     */
+    public void removeNotification(UUID notificationId) {
+        profileModel.removeNotification(notificationId);
+    }
+
+    /**
+     * Retrieves a list of notifications for the user with the specified identifier.
+     *
+     * @param userId The unique identifier of the user for whom notifications are retrieved.
+     *
+     * @return A list of notifications for the specified user.
+     */
+    public List<Notification> getNotifications(UUID userId) {
+        return profileModel.getNotifications(userId);
+    }
+
+    /**
+     * Retrieves a list of all buyers in the system.
+     *
+     * @return A list of {@link Buyer} objects representing all buyers.
+     */
+    public List<Buyer> getBuyers() {
+        return profileModel.searchBuyers(buyer -> true);
+    }
+
+    /**
+     * Checks if the current user is identified as a buyer.
+     *
+     * @return {@code true} if the current user is a buyer; otherwise, {@code false}.
+     */
+    public boolean isUserABuyer() {
+        return Session.getInstance().getUserType() == UserType.Buyer;
     }
 
     /**
@@ -177,6 +227,24 @@ public class ProfileController {
     }
 
     /**
+     * Retrieves a list of all sellers in the system.
+     *
+     * @return A list of {@link Seller} objects representing all sellers.
+     */
+    public List<Seller> getSellers() {
+        return profileModel.searchSellers(seller -> true);
+    }
+
+    /**
+     * Checks if the current user is identified as a seller.
+     *
+     * @return {@code true} if the current user is a seller; otherwise, {@code false}.
+     */
+    public boolean isUserASeller() {
+        return Session.getInstance().getUserType() == UserType.Seller;
+    }
+
+    /**
      * Searches for sellers based on their name.
      *
      * @param name The name to search for.
@@ -238,23 +306,23 @@ public class ProfileController {
     /**
      * Toggles the "like" status for a seller.
      *
-     * @param userId The UUID of the seller.
+     * @param sellerId The UUID of the seller.
      *
      * @return An operation result indicating the success or failure of the toggle.
      */
-    public OperationResult toggleLikeSeller(UUID userId) {
-        return socialModel.toggleLikeSeller(userId);
+    public OperationResult toggleLikeSeller(UUID sellerId) {
+        return socialModel.toggleLikeSeller(sellerId, Session.getInstance().getUserId());
     }
 
     /**
      * Toggles the "follow" status for a buyer.
      *
-     * @param userId The UUID of the buyer.
+     * @param buyerId The UUID of the buyer.
      *
      * @return An operation result indicating the success or failure of the toggle.
      */
-    public OperationResult toggleFollowBuyer(UUID userId) {
-        return socialModel.toggleFollowBuyer(userId);
+    public OperationResult toggleFollowBuyer(UUID buyerId) {
+        return socialModel.toggleFollowBuyer(buyerId, Session.getInstance().getUserId());
     }
 
     /**
@@ -320,5 +388,32 @@ public class ProfileController {
         profileModel.logout();
         renderer.clearViewHistory();
         renderer.addNextView(new MainMenu(UniShop.getInstance().getAuthController()), true);
+    }
+
+    /**
+     * Displays the seller activities view for the currently logged-in seller.
+     * The method adds the {@link SellerActivities} view to the renderer, allowing sellers to view and manage their recent and overall performance metrics,
+     * including revenue, products sold, and product ratings.
+     */
+    public void displaySellerActivities() {
+        renderer.addNextView(new SellerActivities(this, UniShop.getInstance().getShopController()), false);
+    }
+
+    /**
+     * Displays the buyer activities view for the currently logged-in buyer.
+     * The method adds the {@link BuyerActivities} view to the renderer, allowing buyers to view and manage their recent and overall performance metrics,
+     * including orders, products bought, likes, and reviews.
+     */
+    public void displayBuyerActivities() {
+        renderer.addNextView(new BuyerActivities(this, UniShop.getInstance().getShopController()), false);
+    }
+
+    /**
+     * Displays the user notifications view, allowing users to view and manage their notifications in the CLI application.
+     * It adds a {@link UserNotifications} view to the rendering queue for user interaction.
+     * Notifications are presented in a paginated manner, and users can choose to delete specific notifications.
+     */
+    public void displayNotifications() {
+        renderer.addNextView(new UserNotifications(this), false);
     }
 }

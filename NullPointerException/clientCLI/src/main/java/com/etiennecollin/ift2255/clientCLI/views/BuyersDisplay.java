@@ -65,11 +65,10 @@ public class BuyersDisplay extends View {
             int index = prettyMenu("Select buyer", matchListString);
             if (index == matchListString.size() - 1) break;
 
-            Buyer buyer = buyerList.get(index);
-
             loop:
             while (true) {
                 clearConsole();
+                Buyer buyer = profileController.getBuyer(buyerList.get(index).getId());
                 System.out.println(prettify("Username: " + buyer.getUsername()));
                 System.out.println(prettify("Full name: ") + buyer.getFirstName() + " " + buyer.getLastName());
                 System.out.println(prettify("Followed by you: " + profileController.isLiked(buyer.getId())));
@@ -85,6 +84,11 @@ public class BuyersDisplay extends View {
                 int numProductsLiked = profileController.getProductLikesByBuyer(buyer.getId()).size();
                 System.out.println(prettify("Number of products liked: " + numProductsLiked));
                 //                System.out.println(prettify("Number of order bought: " + buyer.getOrders().size()));
+
+                if (profileController.isUserASeller()) {
+                    waitForKey();
+                    break;
+                }
 
                 String[] options = {"Go back", "Toggle follow"};
                 int answer = prettyMenu("Select action", options);

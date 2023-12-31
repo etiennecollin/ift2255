@@ -71,13 +71,13 @@ public class SellersDisplay extends View {
             int index = prettyMenu("Select seller", matchListString);
             if (index == matchListString.size() - 1) break;
 
-            Seller seller = sellerList.get(index);
-            List<Product> products = shopController.searchProductsBySeller(seller.getId());
-            boolean liked = profileController.isLiked(seller.getId());
-            int numOrders = shopController.getSellerOrders(seller.getId()).size();
-
             loop:
             while (true) {
+                Seller seller = sellerList.get(index);
+                List<Product> products = shopController.searchProductsBySeller(seller.getId());
+                boolean liked = profileController.isLiked(seller.getId());
+                int numOrders = shopController.getSellerOrders(seller.getId()).size();
+
                 clearConsole();
                 System.out.println(prettify("Name: " + seller.getName()));
                 System.out.println(prettify("Email: " + seller.getEmail()));
@@ -86,6 +86,11 @@ public class SellersDisplay extends View {
                 System.out.println(prettify("Number of products offered: " + products.size()));
                 System.out.println(prettify("Number of orders sold: " + numOrders));
                 System.out.println(prettify(liked ? "You are following this seller." : "You are not following this seller."));
+
+                if (profileController.isUserASeller()) {
+                    waitForKey();
+                    break;
+                }
 
                 String[] options = {"Go back", "Toggle follow", "Display seller's products"};
                 int answer = prettyMenu("Select action", options);
@@ -98,7 +103,10 @@ public class SellersDisplay extends View {
                         System.out.println(prettify(result.message()));
                         waitForKey();
                     }
-                    case 2 -> shopController.displayProducts(seller.getId());
+                    case 2 -> {
+                        shopController.displayProducts(seller.getId());
+                        return;
+                    }
                 }
             }
         }

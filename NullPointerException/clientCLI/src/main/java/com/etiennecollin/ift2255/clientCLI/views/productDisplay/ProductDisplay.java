@@ -6,11 +6,15 @@ package com.etiennecollin.ift2255.clientCLI.views.productDisplay;
 
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
 import com.etiennecollin.ift2255.clientCLI.Utils;
+import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
+import com.etiennecollin.ift2255.clientCLI.models.data.Buyer;
 import com.etiennecollin.ift2255.clientCLI.models.data.Seller;
 import com.etiennecollin.ift2255.clientCLI.models.data.products.Product;
 import com.etiennecollin.ift2255.clientCLI.views.View;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
@@ -33,16 +37,24 @@ public abstract class ProductDisplay extends View {
      * The controller responsible for shop-related actions.
      */
     protected ShopController shopController;
+    /**
+     * The controller responsible for profile-related actions.
+     */
+    protected ProfileController profileController;
 
     /**
-     * Constructs a new {@code ProductDisplay} with the specified product ID and shop controller.
+     * Constructs a new {@code ProductDisplay} with the specified product ID, shop controller, and profile controller.
+     * This serves as the base constructor for all classes extending {@code ProductDisplay}.
+     * It initializes the unique identifier of the product, the shop controller, and the profile controller for further use.
      *
-     * @param productId      The unique identifier of the product.
-     * @param shopController The controller responsible for shop-related actions.
+     * @param productId         The unique identifier of the product.
+     * @param shopController    The controller responsible for shop-related actions.
+     * @param profileController The controller responsible for profile-related actions.
      */
-    public ProductDisplay(UUID productId, ShopController shopController) {
+    public ProductDisplay(UUID productId, ShopController shopController, ProfileController profileController) {
         this.productId = productId;
         this.shopController = shopController;
+        this.profileController = profileController;
     }
 
     /**
@@ -80,41 +92,116 @@ public abstract class ProductDisplay extends View {
 
         Seller seller = shopController.getSeller(product.getSellerId());
         System.out.println(prettify("Sold by: ") + seller.getName());
+        System.out.println(prettify("Remaining stock: " + product.getQuantity()));
 
         System.out.println(prettify("Commercialization date: ") + product.getCommercializationDate());
     }
 
     /**
      * Renders the product-specific actions menu, allowing the user to perform actions such as toggling likes, displaying reviews, and adding to the cart.
+     * This method serves as a central point for rendering actions based on the user type (Buyer or Seller) and delegates to specific methods accordingly.
      *
      * @param product The product for which to render actions.
+     *
+     * @return {@code true} if the rendering was successful and the user chose an action, {@code false} otherwise.
      */
-    public void renderProductActions(Product product) {
-        String[] options = {"Go back", "Toggle like", "Display reviews", "Add to cart"};
-        while (true) {
-            clearConsole();
-            int answer = prettyMenu("Select action", options);
-            switch (answer) {
-                case 0 -> {
-                    return;
-                }
-                case 1 -> {
-                    OperationResult result = shopController.toggleLike(product.getId());
-                    System.out.println(prettify(result.message()));
-                }
-                case 2 -> {
-                    shopController.displayReviews(product.getId());
-                }
-                case 3 -> {
-                    int qty = prettyPromptInt("Quantity", (quantity) -> shopController.validateQuantity(product.getId(), quantity));
-
-                    OperationResult result = shopController.addToCart(product.getId(), qty);
-
-                    System.out.println(prettify(result.message()));
-                }
-            }
-
-            if (!prettyPromptBool("New action?")) break;
+    public boolean renderProductActions(Product product) {
+        Buyer buyer = profileController.getBuyer();
+        if (buyer != null) {
+            return displayBuyerActions(product);
+        } else {
+            return displaySellerActions(product);
         }
+    }
+
+    /**
+     * Displays buyer-specific actions for a given product, such as toggling likes, displaying reviews, and adding to the cart.
+     *
+     * @param product The product for which to display buyer actions.
+     *
+     * @return True if the action was successfully performed; false otherwise.
+     */
+    public boolean displayBuyerActions(Product product) {
+        String[] options = {"Go back", "Toggle like", "Display reviews", "Add to cart"};
+
+        clearConsole();
+        int answer = prettyMenu("Select action", options);
+        switch (answer) {
+            case 0 -> {
+                return false;
+            }
+            case 1 -> {
+                OperationResult result = shopController.toggleLike(product.getId());
+                System.out.println(prettify(result.message()));
+                waitForKey();
+                return true;
+            }
+            case 2 -> {
+                shopController.displayReviews(product.getId());
+                return false;
+            }
+            case 3 -> {
+                int qty = prettyPromptInt("Quantity", (quantity) -> shopController.validateQuantity(product.getId(), quantity));
+
+                OperationResult result = shopController.addToCart(product.getId(), qty);
+
+                System.out.println(prettify(result.message()));
+                waitForKey();
+                return true;
+            }
+            default -> {
+                return false;
+            }
+        }
+    }
+
+    /**
+     * Displays seller-specific actions for a given product, such as displaying reviews and starting a promotion.
+     *
+     * @param product The product for which to display seller actions.
+     *
+     * @return True if the action was successfully performed; false otherwise.
+     */
+    public boolean displaySellerActions(Product product) {
+        ArrayList<DynamicMenuItem> options = new ArrayList<>();
+
+        options.add(new DynamicMenuItem("Display reviews", () -> {
+            shopController.displayReviews(product.getId());
+        }, () -> true));
+        options.add(new DynamicMenuItem("Start promotion", () -> {
+            int discount = prettyPromptCurrency("Promotional discount");
+            int promoPoints = prettyPromptInt("Promotional fidelity points", points -> validateBonusFidelityPoints(points + product.getBonusFidelityPoints(), product.getPrice()));
+            LocalDate endDate = prettyPromptDate("Promotion end date");
+            System.out.println(prettify(shopController.startProductPromotion(productId, discount, promoPoints, endDate).message()));
+            waitForKey();
+        }, () -> product.getSellerId().equals(profileController.getSeller().getId())));
+
+        prettyDynamicMenu("Select action", "Go back", options, () -> {});
+
+        return false;
+        //        String[] options = {"Go back", "Display reviews", "Start promotion"};
+        //
+        //        clearConsole();
+        //        int answer = prettyMenu("Select action", options);
+        //        switch (answer) {
+        //            case 0 -> {
+        //                return false;
+        //            }
+        //            case 1 -> {
+        //                shopController.displayReviews(product.getId());
+        //                return false;
+        //            }
+        //            case 2 -> {
+        //                int discount = prettyPromptCurrency("Promotional discount");
+        //                int promoPoints = prettyPromptInt("Promotional fidelity points", points -> validateBonusFidelityPoints(points + product.getBonusFidelityPoints(), product.getPrice()));
+        //                LocalDate endDate = prettyPromptDate("Promotion end date");
+        //                System.out.println(prettify(shopController.startProductPromotion(productId, discount, promoPoints, endDate).message()));
+        //                waitForKey();
+        //                return false;
+        //            }
+        //            default -> {
+        //                return false;
+        //            }
+        //        }
     }
 }

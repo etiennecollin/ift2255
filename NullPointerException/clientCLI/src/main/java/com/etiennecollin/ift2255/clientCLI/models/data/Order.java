@@ -118,6 +118,7 @@ public class Order extends DatabaseObject {
         this.creditCardSecretDigits = creditCardSecretDigits;
         this.buyerId = buyerId;
         this.sellerId = sellerId;
+        this.shipment = null;
 
         this.state = OrderState.InProduction;
         this.orderDate = LocalDate.now();

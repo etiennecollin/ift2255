@@ -49,18 +49,22 @@ public class SellerMenu extends View {
      */
     @Override
     public void render() {
-        String[] sellerMenu = {"Offer product", "Change order status", "Display notifications", "Display tickets", "Display activities", "Account information", "Log out"};
+        String[] sellerMenu = {"Offer product", "Change order status", "Display notifications", "Display tickets", "Display activities", "Account information", "Display my products", "Display catalog", "Search for a product", "Find user", "Log out"};
 
         clearConsole();
         int answer = prettyMenu("Main menu", sellerMenu);
         switch (answer) {
             case 0 -> shopController.displayOfferProduct();
             case 1 -> shopController.displayPendingSellerOrders();
-            //                case 2 -> displayNotifications();
+            case 2 -> profileController.displayNotifications();
             case 3 -> ticketController.displayTickets();
-            //                case 4 -> displayActivities();
+            case 4 -> profileController.displaySellerActivities();
             case 5 -> profileController.displaySellerProfile();
-            case 6 -> {
+            case 6 -> shopController.displaySellerProducts();
+            case 7 -> shopController.displayProducts(null);
+            case 8 -> shopController.displayProductSearch();
+            case 9 -> profileController.displayUserFinder();
+            case 10 -> {
                 System.out.println(prettify("Logging-out..."));
                 profileController.logout();
             }

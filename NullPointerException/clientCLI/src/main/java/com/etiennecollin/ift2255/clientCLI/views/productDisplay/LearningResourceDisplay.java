@@ -4,6 +4,7 @@
 
 package com.etiennecollin.ift2255.clientCLI.views.productDisplay;
 
+import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
 import com.etiennecollin.ift2255.clientCLI.models.data.products.LearningResource;
 
@@ -22,13 +23,16 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.waitForKey;
  */
 public class LearningResourceDisplay extends ProductDisplay {
     /**
-     * Constructs a new {@code LearningResourceDisplay} with the specified product ID and shop controller.
+     * Constructs a new {@code LearningResourceDisplay} with the specified product ID, shop controller, and profile controller.
+     * This class is responsible for displaying detailed information about a learning resource product in the CLI application.
+     * It extends the {@link ProductDisplay} class and provides specific functionality for rendering learning resource details and actions.
      *
-     * @param productId      The unique identifier of the learning resource product.
-     * @param shopController The controller responsible for shop-related actions.
+     * @param productId         The unique identifier of the learning resource product.
+     * @param shopController    The controller responsible for shop-related actions.
+     * @param profileController The controller responsible for profile-related actions.
      */
-    public LearningResourceDisplay(UUID productId, ShopController shopController) {
-        super(productId, shopController);
+    public LearningResourceDisplay(UUID productId, ShopController shopController, ProfileController profileController) {
+        super(productId, shopController, profileController);
     }
 
     /**
@@ -36,18 +40,25 @@ public class LearningResourceDisplay extends ProductDisplay {
      */
     @Override
     public void render() {
-        LearningResource lr = shopController.getProduct(LearningResource.class, productId);
+        while (true) {
+            LearningResource lr = shopController.getProduct(LearningResource.class, productId);
 
-        super.renderProductInfo(lr);
+            super.renderProductInfo(lr);
 
-        if (lr != null) {
-            System.out.println(prettify("ISBN: ") + lr.getIsbn());
-            System.out.println(prettify("Organization: ") + lr.getOrganisation());
-            System.out.println(prettify("Edition: ") + lr.getEditionNumber());
+            if (lr != null) {
+                System.out.println(prettify("ISBN: ") + lr.getIsbn());
+                System.out.println(prettify("Organization: ") + lr.getOrganisation());
+                System.out.println(prettify("Edition: ") + lr.getEditionNumber());
 
-            System.out.println(prettify("Release date: ") + lr.getReleaseDate());
+                System.out.println(prettify("Release date: ") + lr.getReleaseDate());
 
-            waitForKey();
+                waitForKey();
+
+                boolean repeat = super.renderProductActions(lr);
+                if (!repeat) {
+                    return;
+                }
+            }
         }
     }
 }

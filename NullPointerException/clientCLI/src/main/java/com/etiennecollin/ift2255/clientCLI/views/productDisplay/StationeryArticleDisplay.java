@@ -4,6 +4,7 @@
 
 package com.etiennecollin.ift2255.clientCLI.views.productDisplay;
 
+import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
 import com.etiennecollin.ift2255.clientCLI.models.data.products.StationeryArticle;
 
@@ -20,13 +21,14 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.waitForKey;
  */
 public class StationeryArticleDisplay extends ProductDisplay {
     /**
-     * Constructs a new {@code StationeryArticleDisplay} with the specified product ID and shop controller.
+     * Constructs a new {@code StationeryArticleDisplay} with the specified product ID, shop controller, and profile controller.
      *
-     * @param productId      The unique identifier of the stationery article product.
-     * @param shopController The controller responsible for shop-related actions.
+     * @param productId         The unique identifier of the stationery article product.
+     * @param shopController    The controller responsible for shop-related actions.
+     * @param profileController The controller responsible for profile-related actions.
      */
-    public StationeryArticleDisplay(UUID productId, ShopController shopController) {
-        super(productId, shopController);
+    public StationeryArticleDisplay(UUID productId, ShopController shopController, ProfileController profileController) {
+        super(productId, shopController, profileController);
     }
 
     /**
@@ -36,15 +38,22 @@ public class StationeryArticleDisplay extends ProductDisplay {
      */
     @Override
     public void render() {
-        StationeryArticle sa = shopController.getProduct(StationeryArticle.class, productId);
+        while (true) {
+            StationeryArticle sa = shopController.getProduct(StationeryArticle.class, productId);
 
-        super.renderProductInfo(sa);
+            super.renderProductInfo(sa);
 
-        if (sa != null) {
-            System.out.println(prettify("Brand: ") + sa.getBrand());
-            System.out.println(prettify("Model: ") + sa.getModel());
+            if (sa != null) {
+                System.out.println(prettify("Brand: ") + sa.getBrand());
+                System.out.println(prettify("Model: ") + sa.getModel());
 
-            waitForKey();
+                waitForKey();
+
+                boolean repeat = super.renderProductActions(sa);
+                if (!repeat) {
+                    return;
+                }
+            }
         }
     }
 }

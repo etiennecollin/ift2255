@@ -100,11 +100,13 @@ public class Cart extends View {
                             if (prettyPromptBool("Try again?")) continue;
                         }
                         System.out.println(prettify("Product successfully removed"));
+                        waitForKey();
                         break;
                     }
                 }
                 case 2 -> {
                     shopController.displayOrderPlacement();
+                    return;
                 }
                 case 3 -> {
                     OperationResult result = shopController.emptyCart();

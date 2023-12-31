@@ -4,6 +4,7 @@
 
 package com.etiennecollin.ift2255.clientCLI.views.productDisplay;
 
+import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
 import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
 import com.etiennecollin.ift2255.clientCLI.models.data.products.IT;
 
@@ -22,13 +23,16 @@ import static com.etiennecollin.ift2255.clientCLI.Utils.waitForKey;
  */
 public class ITProductDisplay extends ProductDisplay {
     /**
-     * Constructs a new {@code ITProductDisplay} with the specified product ID and shop controller.
+     * Constructs a new {@code ITProductDisplay} with the specified product ID, shop controller, and profile controller.
+     * This class is responsible for displaying detailed information about an IT product in the CLI application.
+     * It extends the {@link ProductDisplay} class and provides specific functionality for rendering IT product details and actions.
      *
-     * @param productId      The unique identifier of the IT product.
-     * @param shopController The controller responsible for shop-related actions.
+     * @param productId         The unique identifier of the IT product.
+     * @param shopController    The controller responsible for shop-related actions.
+     * @param profileController The controller responsible for profile-related actions.
      */
-    public ITProductDisplay(UUID productId, ShopController shopController) {
-        super(productId, shopController);
+    public ITProductDisplay(UUID productId, ShopController shopController, ProfileController profileController) {
+        super(productId, shopController, profileController);
     }
 
     /**
@@ -36,17 +40,24 @@ public class ITProductDisplay extends ProductDisplay {
      */
     @Override
     public void render() {
-        IT it = shopController.getProduct(IT.class, productId);
+        while (true) {
+            IT it = shopController.getProduct(IT.class, productId);
 
-        super.renderProductInfo(it);
+            super.renderProductInfo(it);
 
-        if (it != null) {
-            System.out.println(prettify("Brand: ") + it.getBrand());
-            System.out.println(prettify("Model: ") + it.getModel());
+            if (it != null) {
+                System.out.println(prettify("Brand: ") + it.getBrand());
+                System.out.println(prettify("Model: ") + it.getModel());
 
-            System.out.println(prettify("Release date: ") + it.getReleaseDate());
+                System.out.println(prettify("Release date: ") + it.getReleaseDate());
 
-            waitForKey();
+                waitForKey();
+
+                boolean repeat = super.renderProductActions(it);
+                if (!repeat) {
+                    return;
+                }
+            }
         }
     }
 }

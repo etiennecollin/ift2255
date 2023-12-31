@@ -97,6 +97,9 @@ public abstract class Product extends DatabaseObject {
         this.commercializationDate = LocalDate.now();
 
         this.rating = 0;
+        this.likes = 0;
+        this.promoDiscount = 0;
+        this.promoFidelityPoints = 0;
     }
 
     //    public void setReview(ArrayList<Review> reviews) {
@@ -317,6 +320,7 @@ public abstract class Product extends DatabaseObject {
      * @throws IllegalArgumentException If the bonus fidelity points are less than 0 or exceed the allowed limit.
      */
     public void setBonusFidelityPoints(int bonusFidelityPoints) throws IllegalArgumentException {
+        this.bonusFidelityPoints = bonusFidelityPoints;
         //        if (bonusFidelityPoints < 0) {
         //            this.bonusFidelityPoints = 0;
         //            throw new IllegalArgumentException("Cannot give less than 0 bonus points for a product");
@@ -343,7 +347,7 @@ public abstract class Product extends DatabaseObject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(getId(), product.getId()) && sellerId == product.getSellerId() && Objects.equals(getTitle(), product.getTitle());
+        return Objects.equals(getId(), product.getId()) && product.getSellerId().equals(sellerId) && Objects.equals(getTitle(), product.getTitle());
     }
 
     /**

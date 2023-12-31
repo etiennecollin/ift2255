@@ -54,7 +54,7 @@ public class ProductsMenu extends View {
             // Select category
             ArrayList<String> options = ProductCategory.getOptions();
             options.add("All");
-            options.add("Main menu");
+            options.add("Go back");
             int choice = prettyMenu("Categories", options);
             if (choice == options.size() - 1) break;
             if (choice != options.size() - 2) {
@@ -63,7 +63,7 @@ public class ProductsMenu extends View {
                 // Select subcategory
                 ArrayList<String> subOptions = selectedCategory.getSubOptions();
                 subOptions.add("All");
-                subOptions.add("Main menu");
+                subOptions.add("Go back");
 
                 int subChoice = prettyMenu("Sub-Categories", subOptions);
                 if (subChoice == subOptions.size() - 1) break;
@@ -71,13 +71,45 @@ public class ProductsMenu extends View {
                     selectedSubCategory = selectedCategory.getEnum().getEnumConstants()[subChoice];
                 }
             }
-            // Get products that match category/subcategory
 
-            List<Product> matchedProducts = shopController.getProducts(selectedCategory, selectedSubCategory, sellerId);
+            // TODO extra filtering options
+            // Select rating: All 25+ 50+ 75+ 90+
+            ArrayList<String> ratingOptions = new ArrayList<>();
+            ratingOptions.add("All");
+            ratingOptions.add("25+");
+            ratingOptions.add("50+");
+            ratingOptions.add("75+");
+            ratingOptions.add("Go back");
+            int ratingChoice = prettyMenu("Rating", ratingOptions);
+            if (ratingChoice == ratingOptions.size() - 1) break;
+            int minRating = ratingChoice * 25;
+
+            // Select popularity: All 5+ 10+
+            ArrayList<String> popularityOptions = new ArrayList<>();
+            popularityOptions.add("All");
+            popularityOptions.add("5+");
+            popularityOptions.add("10+");
+            popularityOptions.add("Go back");
+            int popularityChoice = prettyMenu("Number of likes", popularityOptions);
+            if (popularityChoice == popularityOptions.size() - 1) break;
+            int minNumLikes = popularityChoice * 5;
+
+            // Select Promotion: All Promotions only
+            ArrayList<String> promoOptions = new ArrayList<>();
+            promoOptions.add("All");
+            promoOptions.add("Promotions only");
+            promoOptions.add("Go back");
+            int promoChoice = prettyMenu("Promotion status", promoOptions);
+            if (promoChoice == promoOptions.size() - 1) break;
+            boolean onPromotionOnly = promoChoice == 1;
+
+
+            // Get products that match category/subcategory
+            List<Product> matchedProducts = shopController.getProducts(selectedCategory, selectedSubCategory, minRating, minNumLikes, onPromotionOnly, sellerId);
 
             ArrayList<String> matchedProductsString = new ArrayList<>();
             matchedProductsString.add("Back to categories");
-            matchedProductsString.add("Back to main menu");
+            matchedProductsString.add("Leave catalog");
 
             for (Product product : matchedProducts) {
                 matchedProductsString.add(product.getTitle());
@@ -103,8 +135,6 @@ public class ProductsMenu extends View {
             Product product = matchedProducts.get(answer - 2);
             shopController.displayProduct(product);
             break;
-
-            //            if (!prettyPromptBool("Keep browsing product?")) break;
         }
     }
 }

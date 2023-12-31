@@ -86,7 +86,7 @@ public class UniShop {
         this.authController = new AuthenticationController(renderer, auth);
         this.profileController = new ProfileController(renderer, profile, social);
         this.shopController = new ShopController(renderer, shop, profile, social);
-        this.ticketController = new TicketController(renderer, ticketing);
+        this.ticketController = new TicketController(renderer, ticketing, shop);
 
         this.renderer.addNextView(new MainMenu(authController), true);
     }

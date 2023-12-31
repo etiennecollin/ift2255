@@ -17,10 +17,6 @@ import java.util.UUID;
  */
 public class Ticket extends DatabaseObject {
     /**
-     * Maximum number of days allowed for return.
-     */
-    private static final int MAX_RETURN_DELAY_DAYS = 30;
-    /**
      * The buyer's ID associated with the ticket.
      */
     private final UUID buyerId;
@@ -29,33 +25,33 @@ public class Ticket extends DatabaseObject {
      */
     private final UUID sellerId;
     /**
-     * The unique identifier for the ticket.
-     */
-    private final UUID id;
-    /**
      * The date when the ticket was created.
      */
     private final LocalDate creationDate;
     /**
      * The suggested solution for the ticket.
      */
-    private final String suggestedSolution;
+    private String suggestedSolution;
     /**
      * The return shipment associated with the ticket.
      */
     private Shipment returnShipment;
-    /**
-     * The replacement shipment associated with the ticket.
-     */
-    private Shipment replacementShipment;
+    //    /**
+    //     * The replacement shipment associated with the ticket.
+    //     */
+    //    private Shipment replacementShipment;
     /**
      * The list of products and their quantities associated with the ticket.
      */
     private ArrayList<Tuple<Product, Integer>> products;
     /**
-     * The order associated with the ticket.
+     * The order ID associated with the ticket.
      */
-    private Order order;
+    private UUID orderId;
+    /**
+     * The order ID associated with the ticket.
+     */
+    private UUID replacementOrderId;
     /**
      * The description of the problem reported in the ticket.
      */
@@ -77,24 +73,24 @@ public class Ticket extends DatabaseObject {
      * Constructs a Ticket object with the given parameters.
      *
      * @param problemDescription The description of the problem reported in the ticket.
-     * @param order              The order associated with the ticket.
+     * @param orderId            The order ID associated with the ticket.
      * @param products           The list of products and their quantities associated with the ticket.
      * @param cause              The cause of the ticket.
      * @param state              The current state of the ticket.
      * @param buyerId            The buyer's ID associated with the ticket.
      * @param sellerId           The seller's ID associated with the ticket.
      */
-    public Ticket(String problemDescription, Order order, ArrayList<Tuple<Product, Integer>> products, TicketCause cause, TicketState state, UUID buyerId, UUID sellerId) {
+    public Ticket(String problemDescription, UUID orderId, ArrayList<Tuple<Product, Integer>> products, TicketCause cause, TicketState state, UUID buyerId, UUID sellerId) {
         this.products = products;
-        this.order = order;
+        this.orderId = orderId;
         this.cause = cause;
         this.buyerId = buyerId;
         this.sellerId = sellerId;
         this.problemDescription = problemDescription;
         this.suggestedSolution = "";
-        this.replacementProductDescription = "";
+        //        this.replacementProductDescription = "";
         this.returnShipment = null;
-        this.replacementShipment = null;
+        //        this.replacementShipment = null;
         this.state = state;
         //        if (LocalDate.now().isAfter(order.getOrderDate().plusDays(30))) {
         //            this.state = TicketState.OpenAuto;
@@ -102,7 +98,6 @@ public class Ticket extends DatabaseObject {
         //            this.state = TicketState.OpenManual;
         //        }
 
-        this.id = UUID.randomUUID();
         this.creationDate = LocalDate.now();
     }
 
@@ -113,7 +108,18 @@ public class Ticket extends DatabaseObject {
      */
     public TicketCause getCause() {
         return cause;
-    }    /**
+    }
+
+    /**
+     * Sets the cause of the ticket.
+     *
+     * @param cause The cause of the ticket.
+     */
+    public void setCause(TicketCause cause) {
+        this.cause = cause;
+    }
+
+    /**
      * Compares this Ticket object to another object for equality.
      *
      * @param o The object to compare.
@@ -126,22 +132,6 @@ public class Ticket extends DatabaseObject {
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
         return Objects.equals(getId(), ticket.getId());
-    }
-
-    /**
-     * Sets the cause of the ticket.
-     *
-     * @param cause The cause of the ticket.
-     */
-    public void setCause(TicketCause cause) {
-        this.cause = cause;
-    }    /**
-     * Gets the unique identifier for the ticket.
-     *
-     * @return The unique identifier for the ticket.
-     */
-    public UUID getId() {
-        return id;
     }
 
     /**
@@ -162,23 +152,23 @@ public class Ticket extends DatabaseObject {
         this.returnShipment = returnShipment;
     }
 
-    /**
-     * Gets the replacement shipment associated with the ticket.
-     *
-     * @return The replacement shipment associated with the ticket.
-     */
-    public Shipment getReplacementShipment() {
-        return replacementShipment;
-    }
-
-    /**
-     * Sets the replacement shipment associated with the ticket.
-     *
-     * @param replacementShipment The replacement shipment associated with the ticket.
-     */
-    public void setReplacementShipment(Shipment replacementShipment) {
-        this.replacementShipment = replacementShipment;
-    }
+    //    /**
+    //     * Gets the replacement shipment associated with the ticket.
+    //     *
+    //     * @return The replacement shipment associated with the ticket.
+    //     */
+    //    public Shipment getReplacementShipment() {
+    //        return replacementShipment;
+    //    }
+    //
+    //    /**
+    //     * Sets the replacement shipment associated with the ticket.
+    //     *
+    //     * @param replacementShipment The replacement shipment associated with the ticket.
+    //     */
+    //    public void setReplacementShipment(Shipment replacementShipment) {
+    //        this.replacementShipment = replacementShipment;
+    //    }
 
     /**
      * Gets the creation date of the ticket.
@@ -190,21 +180,39 @@ public class Ticket extends DatabaseObject {
     }
 
     /**
-     * Gets the order associated with the ticket.
+     * Gets the order ID associated with the ticket.
      *
-     * @return The order associated with the ticket.
+     * @return The order ID associated with the ticket.
      */
-    public Order getOrder() {
-        return order;
+    public UUID getOrderId() {
+        return orderId;
     }
 
     /**
-     * Sets the order associated with the ticket.
+     * Sets the order ID associated with the ticket.
      *
-     * @param order The order associated with the ticket.
+     * @param orderId The order ID associated with the ticket.
      */
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrderId(UUID orderId) {
+        this.orderId = orderId;
+    }
+
+    /**
+     * Gets the replacement order ID associated with the ticket.
+     *
+     * @return The replacement order ID associated with the ticket.
+     */
+    public UUID getReplacementOrderId() {
+        return replacementOrderId;
+    }
+
+    /**
+     * Sets the replacement order ID associated with the ticket.
+     *
+     * @param replacementOrderId The replacement order ID associated with the ticket.
+     */
+    public void setReplacementOrderId(UUID replacementOrderId) {
+        this.replacementOrderId = replacementOrderId;
     }
 
     /**
@@ -349,15 +357,6 @@ public class Ticket extends DatabaseObject {
      * @param suggestedSolution The suggested solution for the ticket.
      */
     public void setSuggestedSolution(String suggestedSolution) {
-        //        this.suggestedSolution = suggestedSolution;
-        //
-        //        String title = "New solution for one of your tickets";
-        //        String content = "Ticket: " + this.getProblemDescription() + "\nSolution suggested: " + this.getSuggestedSolution();
-        //        Notification notification = new Notification(title, content);
-        //        this.buyer.addNotification(notification);
+        this.suggestedSolution = suggestedSolution;
     }
-
-
-
-
 }

@@ -5,9 +5,11 @@
 package com.etiennecollin.ift2255.clientCLI.views;
 
 import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
+import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
 import com.etiennecollin.ift2255.clientCLI.controllers.TicketController;
 import com.etiennecollin.ift2255.clientCLI.models.data.Ticket;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
@@ -27,16 +29,22 @@ public class TicketsMenu extends View {
      * The profileController field represents the ProfileController used for managing user profiles in UniShop.
      */
     private final ProfileController profileController;
+    /**
+     * The ShopController instance for interacting with shop-related functionalities.
+     */
+    private final ShopController shopController;
 
     /**
      * Constructs a new TicketsMenu instance with the specified TicketController and ProfileController.
      *
      * @param ticketController  The TicketController for handling ticket-related logic.
      * @param profileController The ProfileController for managing user profiles in UniShop.
+     * @param shopController    The ShopController used for shop-related functionalities
      */
-    public TicketsMenu(TicketController ticketController, ProfileController profileController) {
+    public TicketsMenu(TicketController ticketController, ProfileController profileController, ShopController shopController) {
         this.ticketController = ticketController;
         this.profileController = profileController;
+        this.shopController = shopController;
     }
 
     /**
@@ -56,7 +64,9 @@ public class TicketsMenu extends View {
                 System.out.println(prettify("--------------------"));
                 System.out.println(prettify("Creation date: " + ticket.getCreationDate()));
                 System.out.println(prettify("State: " + ticket.getState()));
-                System.out.println(prettify("For order placed on: " + ticket.getOrder().getOrderDate()));
+
+                LocalDate orderDate = shopController.getOrder(ticket.getOrderId()).getOrderDate();
+                System.out.println(prettify("For order placed on: " + orderDate));
 
                 String buyerName = profileController.getBuyer(ticket.getBuyerId()).getUsername();
                 System.out.println(prettify("Buyer: " + buyerName));
@@ -65,7 +75,10 @@ public class TicketsMenu extends View {
                 System.out.println(prettify("Seller: " + sellerName));
 
                 System.out.println(prettify("Number of products in ticket: " + ticket.getProducts().size()));
-            }, (ticket) -> "Ticket of " + ticket.getCreationDate(), (ticket) -> ticketController.displayTicket(ticket.getId()));
+            }, (ticket) -> "Ticket of " + ticket.getCreationDate(), (ticket) -> {
+                ticketController.displayTicket(ticket.getId());
+                return false;
+            }, null);
         }
     }
 }

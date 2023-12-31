@@ -7,6 +7,7 @@ package com.etiennecollin.ift2255.clientCLI.controllers;
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
 import com.etiennecollin.ift2255.clientCLI.Tuple;
 import com.etiennecollin.ift2255.clientCLI.UniShop;
+import com.etiennecollin.ift2255.clientCLI.Utils;
 import com.etiennecollin.ift2255.clientCLI.models.ProfileModel;
 import com.etiennecollin.ift2255.clientCLI.models.Session;
 import com.etiennecollin.ift2255.clientCLI.models.ShopModel;
@@ -18,6 +19,7 @@ import com.etiennecollin.ift2255.clientCLI.views.productDisplay.*;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -84,6 +86,22 @@ public class ShopController {
     }
 
     /**
+     * Retrieves a list of products based on category, subcategory, and seller ID.
+     *
+     * @param category    The main category of the products.
+     * @param subCategory The subcategory of the products.
+     * @param minRating   The minimum average rating of the products.
+     * @param minLikes    The minimum number of likes on the products.
+     * @param onPromo     Whether the product is having a promotion or not.
+     * @param sellerId    The UUID of the seller.
+     *
+     * @return A list of products based on the specified criteria.
+     */
+    public List<Product> getProducts(ProductCategory category, Enum<?> subCategory, int minRating, int minLikes, boolean onPromo, UUID sellerId) {
+        return shopModel.getProducts(category, subCategory, minRating, minLikes, onPromo, sellerId);
+    }
+
+    /**
      * Searches for products based on title or description containing the specified search string.
      *
      * @param searchString The search string to match against product titles and descriptions.
@@ -102,7 +120,34 @@ public class ShopController {
      * @return A list of products associated with the specified seller.
      */
     public List<Product> searchProductsBySeller(UUID sellerId) {
-        return shopModel.searchProducts((product) -> product.getSellerId() == sellerId);
+        return shopModel.searchProducts((product) -> product.getSellerId().equals(sellerId));
+    }
+
+    /**
+     * Retrieves the list of sellers associated with products in the given category.
+     *
+     * @param category The product category for which sellers are to be retrieved.
+     *
+     * @return A list of sellers associated with products in the provided category.
+     */
+    public List<Seller> getSellersOfCategory(ProductCategory category) {
+        List<Product> matchingProducts = shopModel.getProducts(category, null, null);
+        return getSellersOfProducts(matchingProducts);
+    }
+
+    /**
+     * Retrieves the list of sellers associated with the given list of products.
+     *
+     * @param products The list of products for which sellers are to be retrieved.
+     *
+     * @return A list of sellers associated with the provided products.
+     */
+    public List<Seller> getSellersOfProducts(List<Product> products) {
+        HashSet<UUID> sellerIds = new HashSet<>();
+        for (Product product : products) {
+            sellerIds.add(product.getSellerId());
+        }
+        return profileModel.searchSellers(seller -> sellerIds.contains(seller.getId()));
     }
 
     /**
@@ -123,15 +168,27 @@ public class ShopController {
      */
     public void displayProduct(Product product) {
         if (product instanceof BookOrManual) {
-            renderer.addNextView(new BookOrManualDisplay(product.getId(), this), true);
+            renderer.addNextView(new BookOrManualDisplay(product.getId(), this, UniShop.getInstance().getProfileController()), true);
         } else if (product instanceof IT) {
-            renderer.addNextView(new ITProductDisplay(product.getId(), this), true);
+            renderer.addNextView(new ITProductDisplay(product.getId(), this, UniShop.getInstance().getProfileController()), true);
         } else if (product instanceof LearningResource) {
-            renderer.addNextView(new LearningResourceDisplay(product.getId(), this), true);
+            renderer.addNextView(new LearningResourceDisplay(product.getId(), this, UniShop.getInstance().getProfileController()), true);
         } else if (product instanceof OfficeEquipment) {
-            renderer.addNextView(new OfficeEquipmentDisplay(product.getId(), this), true);
+            renderer.addNextView(new OfficeEquipmentDisplay(product.getId(), this, UniShop.getInstance().getProfileController()), true);
         } else if (product instanceof StationeryArticle) {
-            renderer.addNextView(new StationeryArticleDisplay(product.getId(), this), true);
+            renderer.addNextView(new StationeryArticleDisplay(product.getId(), this, UniShop.getInstance().getProfileController()), true);
+        }
+    }
+
+    /**
+     * Displays a menu with a list of products associated with a specific seller.
+     * This method is intended for sellers to view and manage their products.
+     * The menu allows the seller to perform actions such as editing, removing, and viewing details of their products.
+     * Accessible only for users with the role of Seller.
+     */
+    public void displaySellerProducts() {
+        if (Session.getInstance().getUserType() == UserType.Seller) {
+            displayProducts(Session.getInstance().getUserId());
         }
     }
 
@@ -141,7 +198,7 @@ public class ShopController {
      * @param sellerId The UUID of the seller.
      */
     public void displayProducts(UUID sellerId) {
-        renderer.addNextView(new ProductsMenu(sellerId, this), false);
+        renderer.addNextView(new ProductsMenu(sellerId, this), true);
     }
 
     /**
@@ -187,21 +244,39 @@ public class ShopController {
      * @param productId The UUID of the product.
      */
     public void displayProductReview(UUID productId) {
-        renderer.addNextView(new ProductReview(productId, this), false);
+        renderer.addNextView(new ProductReview(productId, this), true);
     }
 
     /**
      * Displays the menu for buyer's orders.
      */
     public void displayBuyerOrdersMenu() {
-        renderer.addNextView(new BuyerOrdersMenu(this, UniShop.getInstance().getProfileController()), true);
+        renderer.addNextView(new BuyerOrdersMenu(null, this, UniShop.getInstance().getProfileController(), UniShop.getInstance().getTicketController()), true);
+    }
+
+    /**
+     * Displays the menu for buyer's orders.
+     *
+     * @param orders The specific orders to display.
+     */
+    public void displayBuyerOrdersMenu(List<Order> orders) {
+        renderer.addNextView(new BuyerOrdersMenu(orders, this, UniShop.getInstance().getProfileController(), UniShop.getInstance().getTicketController()), true);
     }
 
     /**
      * Displays pending orders for the seller.
      */
     public void displayPendingSellerOrders() {
-        renderer.addNextView(new PendingSellerOrders(this, UniShop.getInstance().getProfileController()), true);
+        renderer.addNextView(new PendingSellerOrders(null, this, UniShop.getInstance().getProfileController()), true);
+    }
+
+    /**
+     * Displays pending orders for the seller.
+     *
+     * @param orders The specific orders to display.
+     */
+    public void displayPendingSellerOrders(List<Order> orders) {
+        renderer.addNextView(new PendingSellerOrders(orders, this, UniShop.getInstance().getProfileController()), true);
     }
 
     /**
@@ -216,6 +291,29 @@ public class ShopController {
     }
 
     /**
+     * Retrieves a specific review associated with a product and author.
+     *
+     * @param productId The unique identifier of the product.
+     * @param authorId  The unique identifier of the author (buyer) of the review.
+     *
+     * @return A {@link Review} object representing the review associated with the specified product and author.
+     */
+    public Review getProductReview(UUID productId, UUID authorId) {
+        return socialModel.getReview(productId, authorId);
+    }
+
+    /**
+     * Retrieves a specific review based on its unique identifier.
+     *
+     * @param reviewId The unique identifier of the review.
+     *
+     * @return A {@link Review} object representing the review with the specified unique identifier.
+     */
+    public Review getProductReview(UUID reviewId) {
+        return socialModel.getReview(reviewId);
+    }
+
+    /**
      * Retrieves a review for a specific product written by the currently logged-in user.
      *
      * @param productId The UUID of the product.
@@ -224,6 +322,21 @@ public class ShopController {
      */
     public Review getProductReviewByUser(UUID productId) {
         return socialModel.getReview(productId, Session.getInstance().getUserId());
+    }
+
+    /**
+     * Initiates a promotion for a specific product, providing a discount, promotional points, and an end date.
+     * Sellers can use this method to start promotions for their products.
+     *
+     * @param productId   The UUID of the product to be promoted.
+     * @param discount    The discount percentage to apply during the promotion.
+     * @param promoPoints The promotional points awarded during the promotion.
+     * @param endDate     The end date of the promotion.
+     *
+     * @return The result of the operation, indicating whether the promotion was successfully started or not.
+     */
+    public OperationResult startProductPromotion(UUID productId, int discount, int promoPoints, LocalDate endDate) {
+        return shopModel.startProductPromotion(productId, discount, promoPoints, endDate);
     }
 
     /**
@@ -265,7 +378,40 @@ public class ShopController {
      * @return The result of the operation (success or failure).
      */
     public OperationResult toggleLike(UUID productId) {
-        return socialModel.toggleLikeProduct(productId);
+        return socialModel.toggleLikeProduct(productId, Session.getInstance().getUserId());
+    }
+
+    /**
+     * Retrieves a list of likes associated with a specified entity (e.g., review).
+     *
+     * @param entity The unique identifier of the entity.
+     *
+     * @return A list of {@link Like} objects representing likes associated with the specified entity.
+     */
+    public List<Like> getLikes(UUID entity) {
+        return socialModel.getLikes(entity, null, LikeType.Review);
+    }
+
+    /**
+     * Toggles the like status for a review.
+     *
+     * @param reviewId The unique identifier of the review.
+     *
+     * @return An {@link OperationResult} indicating the success or failure of the operation.
+     */
+    public OperationResult toggleLikeReview(UUID reviewId) {
+        return socialModel.toggleLikeReview(reviewId, Session.getInstance().getUserId());
+    }
+
+    /**
+     * Marks a review as inappropriate.
+     *
+     * @param reviewId The unique identifier of the review.
+     *
+     * @return An {@link OperationResult} indicating the success or failure of marking the review.
+     */
+    public OperationResult markReviewAsInappropriate(UUID reviewId) {
+        return socialModel.markReviewAsInappropriate(reviewId);
     }
 
     /**
@@ -277,7 +423,14 @@ public class ShopController {
      * @return The result of the operation (success or failure).
      */
     public OperationResult addToCart(UUID productId, int quantity) {
-        return shopModel.addToCart(Session.getInstance().getUserId(), productId, quantity);
+        Session session = Session.getInstance();
+        UUID userId = session.getUserId();
+
+        if (session.getIsInExchangeProcess() && session.getExchangeCart() != null) {
+            return shopModel.addToCart(userId, productId, quantity, session.getExchangeCart());
+        } else {
+            return shopModel.addToCart(userId, productId, quantity, null);
+        }
     }
 
     /**
@@ -289,7 +442,13 @@ public class ShopController {
      * @return The result of the operation (success or failure).
      */
     public OperationResult removeFromCart(UUID cartProductId, int quantity) {
-        return shopModel.removeFromCart(cartProductId, quantity);
+        Session session = Session.getInstance();
+
+        if (session.getIsInExchangeProcess() && session.getExchangeCart() != null) {
+            return shopModel.removeFromCart(cartProductId, quantity, session.getExchangeCart());
+        } else {
+            return shopModel.removeFromCart(cartProductId, quantity, null);
+        }
     }
 
     /**
@@ -344,6 +503,17 @@ public class ShopController {
     }
 
     /**
+     * Retrieves the order associated with the order ID.
+     *
+     * @param orderId The UUID of the order.
+     *
+     * @return The order associated with the order ID.
+     */
+    public Order getOrder(UUID orderId) {
+        return shopModel.getOrder(orderId);
+    }
+
+    /**
      * Ships an order with the specified details.
      *
      * @param orderId              The UUID of the order to ship.
@@ -386,7 +556,7 @@ public class ShopController {
      */
     public List<Order> getPendingSellerOrders() {
         UUID sellerId = Session.getInstance().getUserId();
-        return shopModel.getOrders((order) -> order.getSellerId() == sellerId && order.getState() == OrderState.InProduction);
+        return shopModel.getOrders((order) -> order.getSellerId().equals(sellerId) && order.getState() == OrderState.InProduction);
     }
 
     /**
@@ -514,6 +684,27 @@ public class ShopController {
         }
 
         return result;
+    }
+
+    /**
+     * Sends a new product notification to buyers who follow the seller adding the product.
+     *
+     * @param title The title of the new product.
+     * @param price The price of the new product.
+     */
+    private void newProductNotification(String title, int price) {
+        UUID sellerId = Session.getInstance().getUserId();
+        String sellerName = profileModel.getSeller(sellerId).getName();
+        // Send notification to buyers who follow this seller
+        String notificationTitle = "New product added by followed seller";
+        String notificationContent = "Seller: " + sellerName + "\nNew Product: " + title + "\nPrice: " + Utils.formatMoney(price);
+
+        // Get users who follow this seller
+        List<Like> followedBy = socialModel.getLikes(sellerId, null, null);
+        for (Like like : followedBy) {
+            Notification notification = new Notification(like.getUserId(), notificationTitle, notificationContent);
+            profileModel.addNotification(notification);
+        }
     }
 
     /**

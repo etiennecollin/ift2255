@@ -120,5 +120,6 @@ public class OrderPlacement extends View {
         OperationResult result = shopController.createOrder(buyer.getEmail(), buyer.getPhoneNumber(), shippingAddress, buyer.getAddress(), creditCardName, creditCardNumber, expirationDate, cvc, fidelityPointsUsed);
 
         System.out.println(prettify(result.message()));
+        waitForKey();
     }
 }

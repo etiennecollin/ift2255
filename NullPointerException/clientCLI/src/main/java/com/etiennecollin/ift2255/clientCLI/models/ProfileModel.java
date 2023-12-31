@@ -5,10 +5,7 @@
 package com.etiennecollin.ift2255.clientCLI.models;
 
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
-import com.etiennecollin.ift2255.clientCLI.models.data.Buyer;
-import com.etiennecollin.ift2255.clientCLI.models.data.DataMap;
-import com.etiennecollin.ift2255.clientCLI.models.data.Database;
-import com.etiennecollin.ift2255.clientCLI.models.data.Seller;
+import com.etiennecollin.ift2255.clientCLI.models.data.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -34,6 +31,44 @@ public class ProfileModel {
     }
 
     /**
+     * Retrieves a list of notifications associated with the specified user.
+     *
+     * @param userId The unique identifier of the user for whom notifications are retrieved.
+     *
+     * @return A list of notifications associated with the specified user.
+     */
+    public List<Notification> getNotifications(UUID userId) {
+        return db.get(DataMap.NOTIFICATIONS, (n) -> n.getUserId().equals(userId));
+    }
+
+    /**
+     * Removes a notification with the specified identifier.
+     *
+     * @param notificationId The unique identifier of the notification to be removed.
+     */
+    public void removeNotification(UUID notificationId) {
+        db.remove(DataMap.NOTIFICATIONS, (n) -> n.getId().equals(notificationId));
+    }
+
+    /**
+     * Adds a notification to the system.
+     *
+     * @param notification The notification to be added.
+     */
+    public void addNotification(Notification notification) {
+        db.add(DataMap.NOTIFICATIONS, notification);
+    }
+
+    /**
+     * Retrieves a list of all notifications in the system.
+     *
+     * @return A list of all notifications in the system.
+     */
+    public List<Notification> getAllNotifications() {
+        return db.get(DataMap.NOTIFICATIONS, (n) -> true);
+    }
+
+    /**
      * Retrieves the buyer profile associated with the specified user ID.
      *
      * @param userId The unique identifier of the buyer.
@@ -41,7 +76,7 @@ public class ProfileModel {
      * @return The buyer profile or {@code null} if not found.
      */
     public Buyer getBuyer(UUID userId) {
-        List<Buyer> buyers = db.get(DataMap.BUYERS, (b) -> b.getId() == userId);
+        List<Buyer> buyers = db.get(DataMap.BUYERS, (b) -> b.getId().equals(userId));
         if (!buyers.isEmpty()) {
             return buyers.get(0);
         }
@@ -110,7 +145,7 @@ public class ProfileModel {
      * @return The seller profile or {@code null} if not found.
      */
     public Seller getSeller(UUID userId) {
-        List<Seller> sellers = db.get(DataMap.SELLERS, (b) -> b.getId() == userId);
+        List<Seller> sellers = db.get(DataMap.SELLERS, (b) -> b.getId().equals(userId));
         if (!sellers.isEmpty()) {
             return sellers.get(0);
         }

@@ -5,14 +5,20 @@
 package com.etiennecollin.ift2255.clientCLI.views;
 
 import com.etiennecollin.ift2255.clientCLI.OperationResult;
+import com.etiennecollin.ift2255.clientCLI.Tuple;
 import com.etiennecollin.ift2255.clientCLI.Utils;
 import com.etiennecollin.ift2255.clientCLI.controllers.ProfileController;
+import com.etiennecollin.ift2255.clientCLI.controllers.ShopController;
 import com.etiennecollin.ift2255.clientCLI.controllers.TicketController;
 import com.etiennecollin.ift2255.clientCLI.models.data.Buyer;
+import com.etiennecollin.ift2255.clientCLI.models.data.Order;
 import com.etiennecollin.ift2255.clientCLI.models.data.Ticket;
 import com.etiennecollin.ift2255.clientCLI.models.data.TicketState;
+import com.etiennecollin.ift2255.clientCLI.models.data.products.Product;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static com.etiennecollin.ift2255.clientCLI.Utils.*;
@@ -34,6 +40,10 @@ public class TicketDisplay extends View {
      */
     private final ProfileController profileController;
     /**
+     * The ShopController instance for interacting with shop-related functionalities.
+     */
+    private final ShopController shopController;
+    /**
      * The unique identifier (UUID) of the ticket associated with this TicketDisplay instance.
      */
     private final UUID ticketId;
@@ -44,11 +54,13 @@ public class TicketDisplay extends View {
      * @param ticketId          the ID of the ticket to be displayed.
      * @param ticketController  the TicketController used for ticket-related functionalities.
      * @param profileController the ProfileController used for interacting with profile-related functionalities.
+     * @param shopController    the ShopController used for shop-related functionalities
      */
-    public TicketDisplay(UUID ticketId, TicketController ticketController, ProfileController profileController) {
+    public TicketDisplay(UUID ticketId, TicketController ticketController, ProfileController profileController, ShopController shopController) {
         this.ticketId = ticketId;
         this.ticketController = ticketController;
         this.profileController = profileController;
+        this.shopController = shopController;
     }
 
     /**
@@ -64,82 +76,197 @@ public class TicketDisplay extends View {
 
         Buyer buyer = profileController.getBuyer();
         if (buyer != null) {
-            String[] options = {"Go back", "Create return shipment", "Confirm reception of replacement shipment"};
-
-            loop:
-            while (true) {
-                clearConsole();
-                displayTicket(ticket);
-
-                // Setup action menu
-                int answer = prettyMenu("Select action", options);
-                switch (answer) {
-                    case 0 -> {
-                        break loop;
-                    }
-                    case 1 -> {
-                        String trackingNumber = prettyPrompt("Tracking number of return shipment", Utils::validateNotEmpty);
-                        LocalDate deliveryDate = prettyPromptDate("Expected delivery date");
-                        String shippingCompany = prettyPrompt("Shipping company", Utils::validateNotEmpty);
-
-                        OperationResult result = ticketController.createReturnShipment(ticketId, trackingNumber, deliveryDate, shippingCompany);
-                        System.out.println(prettify(result.message()));
-                    }
-                    case 2 -> {
-                        boolean confirmation = prettyPromptBool("Do you really want to confirm the reception of the replacement shipment");
-                        if (confirmation) {
-                            ticket.getReplacementShipment().confirmDelivery();
-                            ticket.updateState();
-                        } else {
-                            System.out.println(prettify("Action cancelled"));
-                            waitForKey();
-                        }
-                    }
-                }
-            }
-        } else { // the user is a seller
-            String[] options = {"Go back", "Set suggested solution", "Confirm reception of return shipment", "Set replacement product description", "Create replacement shipment"};
-
-            loop:
-            while (true) {
-                clearConsole();
-                displayTicket(ticket);
-
-                // Setup action menu
-                int answer = prettyMenu("Select action", options);
-                switch (answer) {
-                    case 0 -> {
-                        break loop;
-                    }
-                    case 1 -> {
-                        String suggestedSolution = prettyPrompt("Suggested solution", Utils::validateNotEmpty);
-                        ticket.setSuggestedSolution(suggestedSolution);
-                    }
-                    case 2 -> {
-                        boolean confirmation = prettyPromptBool("Do you really want to confirm the reception of the return shipment");
-                        if (confirmation) {
-                            ticket.getReturnShipment().confirmDelivery();
-                            ticket.updateState();
-                        } else {
-                            System.out.println(prettify("Action cancelled"));
-                            waitForKey();
-                        }
-                    }
-                    case 3 -> {
-                        String replacementProductDescription = prettyPrompt("Replacement product description", Utils::validateNotEmpty);
-                        ticket.setReplacementProductDescription(replacementProductDescription);
-                    }
-                    case 4 -> {
-                        String shippingCompany = prettyPrompt("Shipping company", Utils::validateNotEmpty);
-                        String trackingNumber = prettyPrompt("Tracking number of replacement shipment", Utils::validateNotEmpty);
-                        LocalDate expectedDeliveryDate = prettyPromptDate("Expected delivery date");
-
-                        OperationResult result = ticketController.createReplacementShipment(ticketId, trackingNumber, expectedDeliveryDate, shippingCompany);
-                        System.out.println(prettify(result.message()));
-                    }
-                }
-            }
+            displayBuyerActions(ticket);
+        } else {
+            displaySellerActions(ticket);
         }
+    }
+
+    /**
+     * Displays the available actions for a buyer related to the specified ticket.
+     * Allows the buyer to confirm the reception of a replacement shipment.
+     *
+     * @param ticket The ticket for which actions are displayed.
+     */
+    public void displayBuyerActions(Ticket ticket) {
+        //        String[] options = {"Go back", "Confirm reception of replacement shipment"};
+
+        //        clearConsole();
+        //        displayTicket(ticket);
+
+        ArrayList<DynamicMenuItem> options = new ArrayList<>();
+
+        options.add(new DynamicMenuItem("View related orders", () -> {
+            List<Order> orderList = new ArrayList<>();
+            orderList.add(shopController.getOrder(ticket.getOrderId()));
+
+            if (ticket.getReplacementOrderId() != null) {
+                orderList.add(shopController.getOrder(ticket.getReplacementOrderId()));
+                System.out.println(prettify("Problem order is first. Replacement order is second."));
+                waitForKey();
+            }
+            shopController.displayBuyerOrdersMenu(orderList);
+        }, () -> true));
+        options.add(new DynamicMenuItem("Confirm reception of replacement shipment", () -> {
+            boolean confirmation = prettyPromptBool("Do you really want to confirm the reception of the replacement shipment");
+            if (confirmation) {
+                OperationResult result = ticketController.confirmReceptionOfReplacement(ticketId);
+                System.out.println(prettify(result.message()));
+                waitForKey();
+            } else {
+                System.out.println(prettify("Action cancelled"));
+                waitForKey();
+            }
+        }, () -> ticket.getState() == TicketState.ReplacementInTransit));
+
+        prettyDynamicMenu("Select action", "Go back", options, () -> displayTicket(ticket));
+
+        // Setup action menu
+        //        int answer = prettyMenu("Select action", options);
+        //        switch (answer) {
+        //            case 0 -> {
+        //                return;
+        //            }
+        //            case 1 -> {
+        //                boolean confirmation = prettyPromptBool("Do you really want to confirm the reception of the replacement shipment");
+        //                if (confirmation) {
+        //                    OperationResult result = ticketController.confirmReceptionOfReplacement(ticketId);
+        //                    System.out.println(prettify(result.message()));
+        //                } else {
+        //                    System.out.println(prettify("Action cancelled"));
+        //                    waitForKey();
+        //                }
+        //            }
+        //        }
+    }
+
+    /**
+     * Displays the available actions for a seller related to the specified ticket.
+     * Allows the seller to set a suggested solution, confirm the reception of a return shipment,
+     * and create a replacement shipment.
+     *
+     * @param ticket The ticket for which actions are displayed.
+     */
+    public void displaySellerActions(Ticket ticket) {
+        ArrayList<DynamicMenuItem> options = new ArrayList<>();
+
+        options.add(new DynamicMenuItem("View related orders", () -> {
+            List<Order> orderList = new ArrayList<>();
+            orderList.add(shopController.getOrder(ticket.getOrderId()));
+
+            if (ticket.getReplacementOrderId() != null) {
+                orderList.add(shopController.getOrder(ticket.getReplacementOrderId()));
+                System.out.println(prettify("Problem order is first. Replacement order is second."));
+                waitForKey();
+            }
+            shopController.displayPendingSellerOrders(orderList);
+        }, () -> true));
+
+        options.add(new DynamicMenuItem("Set suggested solution", () -> {
+            boolean requireReturn = Utils.prettyPromptBool("Request that the buyer return the product(s)?");
+            boolean offerReplacement = Utils.prettyPromptBool("Offer to replace the product(s)?");
+            String suggestedSolution = prettyPrompt("Suggested solution", Utils::validateNotEmpty);
+
+            if (requireReturn) {
+                String shippingCompany = prettyPrompt("Shipping company", Utils::validateNotEmpty);
+                String trackingNumber = prettyPrompt("Tracking number of replacement shipment", Utils::validateNotEmpty);
+
+                if (offerReplacement) {
+                    System.out.println(prettify(ticketController.changeTicketToReturnAndReplace(ticketId, suggestedSolution, shippingCompany, trackingNumber).message()));
+                } else {
+                    System.out.println(prettify(ticketController.changeTicketToReturnWithoutReplace(ticketId, suggestedSolution, shippingCompany, trackingNumber).message()));
+                }
+            } else {
+                if (offerReplacement) {
+                    System.out.println(prettify(ticketController.changeTicketToReplaceWithoutReturn(ticketId, suggestedSolution).message()));
+                } else {
+                    System.out.println(prettify(ticketController.changeTicketToNoReturnNoReplace(ticketId, suggestedSolution).message()));
+                }
+            }
+            waitForKey();
+        }, () -> ticket.getState() == TicketState.OpenManual));
+
+        options.add(new DynamicMenuItem("Confirm reception of return shipment", () -> {
+            boolean confirmation = prettyPromptBool("Do you really want to confirm the reception of the return shipment");
+            if (confirmation) {
+                OperationResult result = ticketController.confirmReceptionOfReturn(ticketId);
+                System.out.println(prettify(result.message()));
+                waitForKey();
+            } else {
+                System.out.println(prettify("Action cancelled"));
+                waitForKey();
+            }
+        }, () -> ticket.getState() == TicketState.ReturnInTransit));
+
+        options.add(new DynamicMenuItem("Create replacement shipment", () -> {
+            String replacementProductDescription = prettyPrompt("Replacement product description", Utils::validateNotEmpty);
+            String shippingCompany = prettyPrompt("Shipping company", Utils::validateNotEmpty);
+            String trackingNumber = prettyPrompt("Tracking number of replacement shipment", Utils::validateNotEmpty);
+            LocalDate expectedDeliveryDate = prettyPromptDate("Expected delivery date");
+
+            OperationResult result = ticketController.createReplacementShipment(ticketId, replacementProductDescription, trackingNumber, expectedDeliveryDate, shippingCompany);
+            System.out.println(prettify(result.message()));
+            waitForKey();
+        }, () -> ticket.getState() == TicketState.ReturnReceived));
+
+        prettyDynamicMenu("Select action", "Go back", options, () -> displayTicket(ticket));
+
+        //        String[] options = {"Go back", "Set suggested solution", "Confirm reception of return shipment", "Create replacement shipment"};
+
+        //        clearConsole();
+        //        displayTicket(ticket);
+        //
+        //        // Setup action menu
+        //        int answer = prettyMenu("Select action", options);
+        //        switch (answer) {
+        //            case 0 -> {
+        //                return;
+        //            }
+        //            case 1 -> {
+        //                boolean requireReturn = Utils.prettyPromptBool("Request that the buyer return the product(s)?");
+        //                boolean offerReplacement = Utils.prettyPromptBool("Offer to replace the product(s)?");
+        //                String suggestedSolution = prettyPrompt("Suggested solution", Utils::validateNotEmpty);
+        //
+        //                if (requireReturn) {
+        //                    String shippingCompany = prettyPrompt("Shipping company", Utils::validateNotEmpty);
+        //                    String trackingNumber = prettyPrompt("Tracking number of replacement shipment", Utils::validateNotEmpty);
+        //
+        //                    if (offerReplacement) {
+        //                        ticketController.changeTicketToReturnAndReplace(ticketId, suggestedSolution, shippingCompany, trackingNumber);
+        //                    }
+        //                    else {
+        //                        ticketController.changeTicketToReturnWithoutReplace(ticketId, suggestedSolution, shippingCompany, trackingNumber);
+        //                    }
+        //                }
+        //                else {
+        //                    if (offerReplacement) {
+        //                        ticketController.changeTicketToReplaceWithoutReturn(ticketId, suggestedSolution);
+        //                    }
+        //                    else {
+        //                        ticketController.changeTicketToNoReturnNoReplace(ticketId, suggestedSolution);
+        //                    }
+        //                }
+        //            }
+        //            case 2 -> {
+        //                boolean confirmation = prettyPromptBool("Do you really want to confirm the reception of the return shipment");
+        //                if (confirmation) {
+        //                    OperationResult result = ticketController.confirmReceptionOfReturn(ticketId);
+        //                    System.out.println(prettify(result.message()));
+        //                } else {
+        //                    System.out.println(prettify("Action cancelled"));
+        //                    waitForKey();
+        //                }
+        //            }
+        //            case 3 -> {
+        //                String replacementProductDescription = prettyPrompt("Replacement product description", Utils::validateNotEmpty);
+        //                String shippingCompany = prettyPrompt("Shipping company", Utils::validateNotEmpty);
+        //                String trackingNumber = prettyPrompt("Tracking number of replacement shipment", Utils::validateNotEmpty);
+        //                LocalDate expectedDeliveryDate = prettyPromptDate("Expected delivery date");
+        //
+        //                OperationResult result = ticketController.createReplacementShipment(ticketId, replacementProductDescription, trackingNumber, expectedDeliveryDate, shippingCompany);
+        //                System.out.println(prettify(result.message()));
+        //            }
+        //        }
     }
 
     /**
@@ -151,7 +278,8 @@ public class TicketDisplay extends View {
         clearConsole();
         System.out.println(prettify("Creation date: " + ticket.getCreationDate()));
         System.out.println(prettify("State: " + ticket.getState()));
-        System.out.println(prettify("For order placed on: " + ticket.getOrder().getOrderDate()));
+        LocalDate orderDate = shopController.getOrder(ticket.getOrderId()).getOrderDate();
+        System.out.println(prettify("For order placed on: " + orderDate));
         String buyerName = profileController.getBuyer(ticket.getBuyerId()).getUsername();
         System.out.println(prettify("Buyer: " + buyerName));
         String sellerName = profileController.getSeller(ticket.getSellerId()).getName();
@@ -162,13 +290,27 @@ public class TicketDisplay extends View {
         System.out.println(prettify("Suggested solution: " + ticket.getSuggestedSolution()));
         System.out.println(prettify("Replacement product description: " + ticket.getReplacementProductDescription()));
 
+        Order replacementOrder = shopController.getOrder(ticket.getReplacementOrderId());
+        if (replacementOrder != null) {
+            System.out.println(prettify("Replacement products: "));
+            for (Tuple<Product, Integer> productTuple : replacementOrder.getProducts()) {
+                System.out.println(prettify(productTuple.second + "x " + productTuple.first.getTitle()));
+            }
+
+            if (ticket.getState().equals(TicketState.ReplacementInTransit)) {
+                System.out.println(prettify("Replacement shipment creation date: " + replacementOrder.getShipment().getCreationDate()));
+                System.out.println(prettify("Replacement shipment expected delivery date: " + replacementOrder.getShipment().getExpectedDeliveryDate()));
+                System.out.println(prettify("Replacement shipment company: " + replacementOrder.getShipment().getShippingCompany()));
+                System.out.println(prettify("Replacement shipment tracking number: " + replacementOrder.getShipment().getTrackingNumber()));
+            }
+        }
+
         if (ticket.getState().equals(TicketState.ReturnInTransit)) {
             System.out.println(prettify("Return shipment creation date: " + ticket.getReturnShipment().getCreationDate()));
+            System.out.println(prettify("Return shipment company: " + ticket.getReturnShipment().getShippingCompany()));
             System.out.println(prettify("Return shipment tracking number: " + ticket.getReturnShipment().getTrackingNumber()));
-        } else if (ticket.getState().equals(TicketState.ReplacementInTransit)) {
-            System.out.println(prettify("Replacement shipment creation date: " + ticket.getReplacementShipment().getCreationDate()));
-            System.out.println(prettify("Replacement shipment tracking number: " + ticket.getReplacementShipment().getTrackingNumber()));
         }
+
         waitForKey();
     }
 }

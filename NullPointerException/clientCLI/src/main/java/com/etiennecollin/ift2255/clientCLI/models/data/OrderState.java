@@ -24,6 +24,10 @@ public enum OrderState implements Serializable {
      */
     Delivered("Delivered"),
     /**
+     * The order is waiting on a ticket.
+     */
+    PendingTicket("Pending Ticket"),
+    /**
      * The order has been cancelled.
      */
     Cancelled("Cancelled");

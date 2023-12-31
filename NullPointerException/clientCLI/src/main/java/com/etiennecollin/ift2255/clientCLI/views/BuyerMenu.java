@@ -50,7 +50,7 @@ public class BuyerMenu extends View {
      */
     @Override
     public void render() {
-        String[] buyerMenu = {"Display catalog", "Search a product", "Display cart", "Find user", "Display orders", "Display notifications", "Display tickets", "Display activities", "Account information", "Log out"};
+        String[] buyerMenu = {"Display catalog", "Search for a product", "Display cart", "Find user", "Display orders", "Display notifications", "Display tickets", "Display activities", "Account information", "Log out"};
 
         clearConsole();
         int buyerAnswer = prettyMenu("Main menu", buyerMenu);
@@ -60,9 +60,9 @@ public class BuyerMenu extends View {
             case 2 -> shopController.displayCart();
             case 3 -> profileController.displayUserFinder();
             case 4 -> shopController.displayBuyerOrdersMenu();
-            //            case 5 -> displayNotifications();
+            case 5 -> profileController.displayNotifications();
             case 6 -> ticketController.displayTickets();
-            //            case 7 -> displayActivities();
+            case 7 -> profileController.displayBuyerActivities();
             case 8 -> profileController.displayBuyerProfile();
             case 9 -> {
                 System.out.println(prettify("Logging-out..."));
