@@ -97,6 +97,9 @@ public abstract class Product extends DatabaseObject {
         this.commercializationDate = LocalDate.now();
 
         this.rating = 0;
+        this.likes = 0;
+        this.promoDiscount = 0;
+        this.promoFidelityPoints = 0;
     }
 
     //    public void setReview(ArrayList<Review> reviews) {

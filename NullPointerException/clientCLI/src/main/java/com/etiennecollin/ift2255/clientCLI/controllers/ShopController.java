@@ -86,6 +86,22 @@ public class ShopController {
     }
 
     /**
+     * Retrieves a list of products based on category, subcategory, and seller ID.
+     *
+     * @param category    The main category of the products.
+     * @param subCategory The subcategory of the products.
+     * @param minRating   The minimum average rating of the products.
+     * @param minLikes    The minimum number of likes on the products.
+     * @param onPromo     Whether the product is having a promotion or not.
+     * @param sellerId    The UUID of the seller.
+     *
+     * @return A list of products based on the specified criteria.
+     */
+    public List<Product> getProducts(ProductCategory category, Enum<?> subCategory, int minRating, int minLikes, boolean onPromo, UUID sellerId) {
+        return shopModel.getProducts(category, subCategory, minRating, minLikes, onPromo, sellerId);
+    }
+
+    /**
      * Searches for products based on title or description containing the specified search string.
      *
      * @param searchString The search string to match against product titles and descriptions.

@@ -96,6 +96,29 @@ public class ShopModel {
     }
 
     /**
+     * Retrieves a list of products based on specified criteria.
+     *
+     * @param category    The product category (can be {@code null}).
+     * @param subCategory The product sub-category (can be {@code null}).
+     * @param minRating   The minimum average rating of the products.
+     * @param minLikes    The minimum number of likes on the products.
+     * @param onPromo     Whether the product is having a promotion or not.
+     * @param sellerId    The unique identifier of the seller (can be {@code null}).
+     *
+     * @return A list of products that match the specified criteria.
+     */
+    public List<Product> getProducts(ProductCategory category, Enum<?> subCategory, int minRating, int minLikes, boolean onPromo, UUID sellerId) {
+        return db.get(DataMap.PRODUCTS,
+                (product) -> (category == null || product.getCategory() == category) &&
+                        (subCategory == null || product.getSubCategory() == subCategory) &&
+                        product.getRating() >= minRating &&
+                        product.getLikes() >= minLikes &&
+                        (!onPromo || product.getPromoDiscount() != 0 || product.getPromoFidelityPoints() != 0) &&
+                        (sellerId == null || product.getSellerId().equals(sellerId)));
+    }
+
+
+    /**
      * Searches for products based on a custom predicate.
      *
      * @param predicate The predicate used to filter products.
