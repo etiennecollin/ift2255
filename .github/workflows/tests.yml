@@ -15,4 +15,4 @@ jobs:
 
       - name: Test with Maven
         working-directory: ./NullPointerException/clientCLI
-        run: mvn --batch-mode --update-snapshots test
+        run: mvn clean --batch-mode --update-snapshots test -X
