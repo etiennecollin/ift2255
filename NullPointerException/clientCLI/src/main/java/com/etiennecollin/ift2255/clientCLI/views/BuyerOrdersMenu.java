@@ -82,12 +82,12 @@ public class BuyerOrdersMenu extends View {
 
         prettyPaginationMenu(orders.get(), 3, "Display order", order -> {
             System.out.println(prettify("--------------------"));
-            System.out.println(prettify("Order date: " + order.getOrderDate()));
+            System.out.println(prettify("Order: " + order.getOrderDate() + " " + order.getId()));
             System.out.println(prettify("State: " + order.getState()));
             System.out.println(prettify("Cost: " + Utils.formatMoney(order.getTotalCost())));
             System.out.println(prettify("Fidelity points earned: " + order.getFidelityPointsEarned()));
             System.out.println(prettify("Number of products: " + order.getProducts().size()));
-        }, order -> "Order of " + order.getOrderDate(), order -> {
+        }, order -> "Order of " + order.getOrderDate() + " " + order.getId(), order -> {
             displayBuyerOrderActions(order);
             return false;
         }, order -> shopController.getOrder(order.getId()));
@@ -149,14 +149,14 @@ public class BuyerOrdersMenu extends View {
             } else {
                 System.out.println(prettify("Action cancelled"));
             }
-        }, () -> !orderTicketExists && !order.getState().equals(OrderState.Cancelled) && (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getReceptionDate().plusDays(30)))));
+        }, () -> !orderTicketExists && !order.getState().equals(OrderState.Cancelled) && (order.getShipment() == null || order.getShipment().getReceptionDate() == null || LocalDate.now().isBefore(order.getShipment().getReceptionDate().plusDays(30)))));
         options.add(new DynamicMenuItem("Exchange items", () -> {
             if (prettyPromptBool("Do you really want to exchange items from this order?")) {
                 ticketController.displayProductExchangeCreation(order.getId());
             } else {
                 System.out.println(prettify("Action cancelled"));
             }
-        }, () -> !orderTicketExists && !order.getState().equals(OrderState.Cancelled) && (order.getShipment() == null || LocalDate.now().isBefore(order.getShipment().getReceptionDate().plusDays(30)))));
+        }, () -> !orderTicketExists && !order.getState().equals(OrderState.Cancelled) && (order.getShipment() == null || order.getShipment().getReceptionDate() == null || LocalDate.now().isBefore(order.getShipment().getReceptionDate().plusDays(30)))));
         options.add(new DynamicMenuItem("Cancel order", () -> {
             if (prettyPromptBool("Do you really want to cancel this order?")) {
                 OperationResult result = shopController.cancelOrder(order.getId());
