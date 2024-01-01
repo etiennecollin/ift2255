@@ -26,24 +26,24 @@ Acheteurs :
 
 -   Pseudo: acheteur1
     -   Mot de passe: password1
-    -   Commandes fait: 5
+    -   Commandes passées: 5
         -   États des commandes: Delivered, Cancelled, In Transit, In Production
     -   Tickets:
         -   Ticket normal où le revendeur à proposé de remplacer les produits
-            - État: Return In Transit
-            -   Commande de remplacement: 1 commande en état PendingTicket (sera changé à En production une fois le retour est reçu par le revendeur)
-    -   Reviews: 2 évaluations de produits de revendeur1 dont une liké par acheteur2
+            -   État: Return In Transit
+            -   Commande de remplacement: Une commande en état PendingTicket (sera changé à EnProduction une fois le retour est reçu par le revendeur)
+    -   Reviews: 2 évaluations de produits du revendeur1 dont une likée par acheteur2
     -   Suiveur de: acheteur3
 -   Pseudo: acheteur2
     -   Mot de passe: password2
-    -   Commandes fait: 5
+    -   Commandes passées: 5
         -   États des commandes: Livré, En livraison
     -   Tickets:
         -   Demande de retour en moins de 30 jours
             -   État: Closed
         -   Demande d'échange en moins de 30 jours
             -   État: Replacement In Transit
-            -   Commande de remplacement: 1 commande en état In Transit
+            -   Commande de remplacement: Une commande en état In Transit
 -   Pseudo: acheteur3
     -   Mot de passe: password3
 -   Pseudo: acheteur4
@@ -67,21 +67,21 @@ Revendeurs :
     -   Mot de passe: password1
     -   Produits: 5 de BookOrManual
     -   Tickets: un ticket de acheteur2 - Closed
-    -   Likes: 1 produit liké 6 fois ou autre liké une fois
+    -   Likes: Un produit liké 6 fois et un autre liké une fois
 -   Nom: revendeur2
     -   Mot de passe: password2
-    -   Produits: 4 de OfficeEquipment
-    -   Tickets: un ticket de acheteur2 - Replacement In Transit
+    -   Produits: 4 OfficeEquipment
+    -   Tickets: Un ticket de acheteur2 - Replacement In Transit
 -   Nom: revendeur3
     -   Mot de passe: password3
-    -   Produits: 5 de IT
-    -   Tickets: un ticket de acheteur1
+    -   Produits: 5 IT
+    -   Tickets: Un ticket de acheteur1
 -   Nom: revendeur4
     -   Mot de passe: password4
-    -   Produits: 4 de StationeryArticle
+    -   Produits: 4 StationeryArticle
 -   Nom: revendeur5
     -   Mot de passe: password5
-    -   Produits: 2 de LearningResource
+    -   Produits: 2 LearningResource
 
 Notez: 3 produits sont en promotion
 
