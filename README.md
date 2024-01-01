@@ -83,7 +83,7 @@ Revendeurs :
     -   Mot de passe: password5
     -   Produits: 2 LearningResource
 
-Notez: 3 produits sont en promotion
+> Notez: 3 produits sont en promotion
 
 ## Installation
 
@@ -105,6 +105,8 @@ d'entrée principal.
 
 ```bash
 > pwd
-<...>/ift2255/NullPointerException/clientCLI
+.../ift2255/NullPointerException/clientCLI
 > java -jar target/clientCLI-<VERSION>.jar
 ```
+
+> Le point d'entré du programme (sa méthode `main`) est contenue dans la classe `Client.java`.
