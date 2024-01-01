@@ -96,6 +96,7 @@ Notez: 3 produits sont en promotion
 4. Naviguez vers le répertoire du projet dans le terminal.
     - `cd <...>/ift2255/NullPointerException/clientCLI`
 5. Exécutez la commande `mvn clean install` pour compiler et construire le projet.
+6. Afin d'utiliser les données de départ, veuillez extraire le zip `default-database.zip` et placer tous les fichiers `.txt` dans le même dossier que le `.jar` généré.
 
 ## Exécution
 
