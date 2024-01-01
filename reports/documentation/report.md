@@ -23,7 +23,7 @@
 - [README](#readme)
 - [Diagramme de classes UML](#diagramme-de-classes-uml)
 - [GitHub Insights](#github-insights)
-    - [Pulse:](#pulse)
+    - [Pulse](#pulse)
     - [Contributors](#contributors)
 
 ## Information générale
@@ -101,7 +101,7 @@ Voici notre diagramme de classes UML.
 
 ## GitHub Insights
 
-### Pulse:
+### Pulse
 
 ![Pulse](assets/pulse.png)
 
