@@ -654,6 +654,11 @@ public class ShopModel {
         }
 
         if (order.getState() == OrderState.InTransit) {
+            List<Ticket> ticketIfReplacement = db.<Ticket>get(DataMap.TICKETS, t -> orderId.equals(t.getReplacementOrderId()));
+            if (!ticketIfReplacement.isEmpty()) {
+                db.<Ticket>update(DataMap.TICKETS, t -> t.setState(TicketState.Closed), ticketIfReplacement.get(0).getId());
+            }
+
             db.<Order>update(DataMap.ORDERS, o -> {
                 o.setState(OrderState.Delivered);
                 o.getShipment().setReceptionDate(LocalDate.now());

@@ -286,11 +286,7 @@ public class TicketingModel {
 
             db.<Ticket>update(DataMap.TICKETS, t -> {
                 t.setSuggestedSolution(solution);
-
-                String title = "New solution for one of your tickets";
-                String content = "Ticket: " + t.getProblemDescription() + "\nSolution suggested: " + solution;
-                Notification notification = new Notification(t.getBuyerId(), title, content);
-                db.add(DataMap.NOTIFICATIONS, notification);
+                t.setReplacementOrderId(replacementOrder.getId());
 
                 if (requireReturn) {
                     t.setReturnShipment(new Shipment(trackingNumber, null, shippingCompany));
@@ -300,6 +296,11 @@ public class TicketingModel {
                     refundOrChargeBuyer(ticketId);
                 }
             }, ticketId);
+
+            String title = "New solution for one of your tickets";
+            String content = "Ticket: " + ticket.getProblemDescription() + "\nSolution suggested: " + solution;
+            Notification notification = new Notification(ticket.getBuyerId(), title, content);
+            db.add(DataMap.NOTIFICATIONS, notification);
 
             return new OperationResult(true, "Ticket closed.");
         }
@@ -381,11 +382,6 @@ public class TicketingModel {
             db.<Ticket>update(DataMap.TICKETS, t -> {
                 t.setSuggestedSolution(solution);
 
-                String title = "New solution for one of your tickets";
-                String content = "Ticket: " + t.getProblemDescription() + "\nSolution suggested: " + solution;
-                Notification notification = new Notification(t.getBuyerId(), title, content);
-                db.add(DataMap.NOTIFICATIONS, notification);
-
                 if (requireReturn) {
                     t.setReturnShipment(new Shipment(trackingNumber, null, shippingCompany));
                     t.setState(TicketState.ReturnInTransit);
@@ -394,6 +390,11 @@ public class TicketingModel {
                     refundOrChargeBuyer(ticketId);
                 }
             }, ticketId);
+
+            String title = "New solution for one of your tickets";
+            String content = "Ticket: " + ticket.getProblemDescription() + "\nSolution suggested: " + solution;
+            Notification notification = new Notification(ticket.getBuyerId(), title, content);
+            db.add(DataMap.NOTIFICATIONS, notification);
 
             return new OperationResult(true, "Ticket closed.");
         }
