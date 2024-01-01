@@ -82,14 +82,14 @@ Voici le résultat de l'exécution de l'action GitHub _Java Maven Tests_.
 ## JavaDoc
 
 La javadoc est disponible à l'adresse suivante:
-[etiennecollin.com/ift2255](https://etiennecollin.com/ift2255). La source est
+[https://etiennecollin.com/ift2255](https://etiennecollin.com/ift2255). La source est
 disponible sur [GitHub](https://github.com/etiennecollin/ift2255/tree/main/docs).
 
 ## README
 
 Le fichier `README.md` est disponible sur la
 [page d'accueil du _repository_](https://github.com/etiennecollin/ift2255) et
-sur [release GitHub](https://github.com/etiennecollin/ift2255/releases/tag/v0.3.0)
+sur la [release GitHub](https://github.com/etiennecollin/ift2255/releases/tag/v0.3.0)
 
 ## Diagramme de classes UML
 
